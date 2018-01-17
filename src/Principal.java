@@ -20,8 +20,6 @@ public class Principal extends Application {
     
     //TelaInicial.show(palco);//Chamando Tela do Programa
     
-    System.out.println("adsfsdf");
-
 //    try {
 //      //palco.getIcons().add(Imagem.getIcone());//Adicionando Icone ao Programa
 //    } catch (Exception e) {
@@ -47,7 +45,7 @@ public class Principal extends Application {
 
   public static void main(String[] args) {
     //Application.launch(args);
-    System.out.println("asdfasdf");
+    System.out.println("Cássio");
     
     System.exit(0);
   }
