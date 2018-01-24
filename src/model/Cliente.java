@@ -10,5 +10,5 @@ package model;
  * @author pedro
  */
 public class Cliente {
-    
+     private Long _id;
 }
