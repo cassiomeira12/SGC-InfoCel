@@ -9,6 +9,6 @@ package model;
  *
  * @author pedro
  */
-public class TesteCommit {
+public class ProdutosInformatica {
     
 }
