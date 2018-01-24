@@ -9,6 +9,6 @@ package model;
  *
  * @author pedro
  */
-public class Produtos {
+public class Produto {
      private Long _id;
 }
