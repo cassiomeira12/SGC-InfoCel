@@ -18,7 +18,7 @@ import javafx.stage.Stage;
 public class Painel extends Application {
     
     private Stage palco;
-   
+    
     private PainelController painelController;
     
     @Override

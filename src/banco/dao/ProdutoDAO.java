@@ -3,12 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package controller;
+package banco.dao;
 
 /**
  *
  * @author pedro
  */
-public class ClienteController {
+public class ProdutoDAO {
     
 }

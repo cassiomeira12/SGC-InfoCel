@@ -5,11 +5,14 @@
  */
 package app;
 
+import controller.LoginController;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.MenuBar;
+import javafx.scene.layout.AnchorPane;
 
 /**
  * FXML Controller class
@@ -18,17 +21,29 @@ import javafx.fxml.Initializable;
  */
 public class PainelController implements Initializable {
 
+    @FXML
+    private MenuBar barraMenu;
+    @FXML
+    private AnchorPane painelInterno;
+
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-    }    
-
-    @FXML
-    private void teste(ActionEvent event) {
-        System.out.println("Teste");
+        
+        this.barraMenu.setVisible(false);
+        
+        LoginController telaLogin = new LoginController(painelInterno);
+        
+        this.adicionarPainelInterno(telaLogin);
+        
     }
     
+    private void adicionarPainelInterno(AnchorPane novaTela) {
+        this.painelInterno.getChildren().clear();
+        this.painelInterno.getChildren().add(novaTela);
+    }
+
 }
