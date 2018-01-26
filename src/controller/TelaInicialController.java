@@ -6,13 +6,8 @@
 package controller;
 
 import java.io.IOException;
-import java.net.URL;
-import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 
 /**
@@ -43,6 +38,36 @@ public class TelaInicialController extends AnchorPane {
     public void initialize() {
         // TODO
     }
+    
+    private void adicionarPainelInterno(AnchorPane novaTela) {
+        this.painelInterno.getChildren().clear();
+        this.painelInterno.getChildren().add(novaTela);
+    }
+    
+    @FXML
+    private void chamarTelaAdicionarManutencao() {
+        TelaManutencaoController telaAdicionarManutencao = new TelaManutencaoController(painelInterno);
+        this.adicionarPainelInterno(telaAdicionarManutencao);
+    }
+    
+    @FXML
+    private void chamarTelaAdicionarReceita() {
+        TelaReceitaController telaAdicionarReceita = new TelaReceitaController(painelInterno);
+        this.adicionarPainelInterno(telaAdicionarReceita);
+    }
+    
+    @FXML
+    private void chamarTelaAdicionarSaida() {
+        TelaSaidaController telaAdicionarSaida = new TelaSaidaController(painelInterno);
+        this.adicionarPainelInterno(telaAdicionarSaida);
+    }
+    
+    @FXML
+    private void chamarTelaAdicionarVenda() {
+        TelaVendaController telaAdicionarVenda = new TelaVendaController(painelInterno);
+        this.adicionarPainelInterno(telaAdicionarVenda);
+    }
+    
     
     
     

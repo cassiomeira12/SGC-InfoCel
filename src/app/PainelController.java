@@ -36,7 +36,7 @@ public class PainelController implements Initializable {
         this.barraMenu.setVisible(false);
         
         LoginController telaLogin = new LoginController(painelInterno);
-        
+        telaLogin.setMenuBar(barraMenu);
         this.adicionarPainelInterno(telaLogin);
         
     }

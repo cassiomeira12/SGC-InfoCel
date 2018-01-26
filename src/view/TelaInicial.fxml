@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
-
 
 <fx:root id="AnchorPane" prefHeight="650.0" prefWidth="1200.0" type="AnchorPane" xmlns="http://javafx.com/javafx/9" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <Button layoutX="369.0" layoutY="239.0" mnemonicParsing="false" text="Button" />
+      <Label layoutX="582.0" layoutY="64.0" text="Tela Inicial" />
+      <Button layoutX="178.0" layoutY="148.0" mnemonicParsing="false" onAction="#chamarTelaAdicionarVenda" prefHeight="56.0" prefWidth="134.0" text="Adicionar Venda" />
+      <Button layoutX="380.0" layoutY="151.0" mnemonicParsing="false" onAction="#chamarTelaAdicionarManutencao" prefHeight="56.0" prefWidth="178.0" text="Adicionar Manutenção" />
+      <Button layoutX="657.0" layoutY="147.0" mnemonicParsing="false" onAction="#chamarTelaAdicionarReceita" prefHeight="56.0" prefWidth="134.0" text="Adicionar Receita" />
+      <Button layoutX="923.0" layoutY="151.0" mnemonicParsing="false" onAction="#chamarTelaAdicionarSaida" prefHeight="56.0" prefWidth="134.0" text="Adicionar Saída" />
    </children>
 </fx:root>
