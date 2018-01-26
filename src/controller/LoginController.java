@@ -6,6 +6,8 @@
 package controller;
 
 import app.PainelController;
+import banco.ControleDAO;
+import banco.dao.DAO;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -55,9 +57,14 @@ public class LoginController extends AnchorPane {
     
     @FXML
     private void logar() {
-        TelaInicialController telaInicial = new TelaInicialController(painelInterno);
-        this.adicionarPainelInterno(telaInicial);
-        this.painelInterno.getTop().setVisible(true);//Deixando a Barra de menu visivel
+       // TelaInicialController telaInicial = new TelaInicialController(painelInterno);
+       // this.adicionarPainelInterno(telaInicial);
+      //  this.painelInterno.getTop().setVisible(true);//Deixando a Barra de menu visivel
+      
+      //teste do banco de dados
+       ControleDAO dao = new ControleDAO();
+      boolean logou = dao.getLoginDAO().autenticarLogin("pedro");
+      System.out.println("Logou = " + logou);
     }
     
     private void adicionarPainelInterno(AnchorPane novaTela) {
