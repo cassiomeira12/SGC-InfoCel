@@ -13,28 +13,14 @@ public class ControleDAO {
 
     private static ControleDAO banco = new ControleDAO();
     
-    private CelularDAO celularDAO = new CelularDAO();
-    private ClienteDAO clienteDAO = new ClienteDAO();
-    private ProdutoDAO produtoDAO = new ProdutoDAO();
-    
-    
+   private LoginDAO loginDAO = new LoginDAO();
     
     public static ControleDAO getBanco() {
         return banco;
     }
 
-    public CelularDAO getCelularDAO() {
-        return celularDAO;
+    public LoginDAO getLoginDAO() {
+        return loginDAO;
     }
-
-    public ClienteDAO getClienteDAO() {
-        return clienteDAO;
-    }
-    
-    public ProdutoDAO getProdutoDAO() {
-        return produtoDAO;
-    }
-    
-
-
+  
 }//Fim class
