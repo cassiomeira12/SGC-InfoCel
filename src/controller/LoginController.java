@@ -57,12 +57,12 @@ public class LoginController extends AnchorPane {
     
     @FXML
     private void logar() {
-       // TelaInicialController telaInicial = new TelaInicialController(painelInterno);
-       // this.adicionarPainelInterno(telaInicial);
-      //  this.painelInterno.getTop().setVisible(true);//Deixando a Barra de menu visivel
+        TelaInicialController telaInicial = new TelaInicialController(painelInterno);
+        this.adicionarPainelInterno(telaInicial);
+        this.painelInterno.getTop().setVisible(true);//Deixando a Barra de menu visivel
       
       //teste do banco de dados
-       ControleDAO dao = new ControleDAO();
+      ControleDAO dao = new ControleDAO();
       boolean logou = dao.getLoginDAO().autenticarLogin("pedro");
       System.out.println("Logou = " + logou);
     }
