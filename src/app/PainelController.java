@@ -8,11 +8,11 @@ package app;
 import controller.LoginController;
 import java.net.URL;
 import java.util.ResourceBundle;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.MenuBar;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
 
 /**
  * FXML Controller class
@@ -24,7 +24,7 @@ public class PainelController implements Initializable {
     @FXML
     private MenuBar barraMenu;
     @FXML
-    private AnchorPane painelInterno;
+    private BorderPane painelInterno;
 
     /**
      * Initializes the controller class.
@@ -33,17 +33,17 @@ public class PainelController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
         
-        this.barraMenu.setVisible(false);
+        this.barraMenu.setVisible(false);//Deixando a Barra de Menu invisivel
         
         LoginController telaLogin = new LoginController(painelInterno);
-        telaLogin.setMenuBar(barraMenu);
         this.adicionarPainelInterno(telaLogin);
+        
+       
         
     }
     
     private void adicionarPainelInterno(AnchorPane novaTela) {
-        this.painelInterno.getChildren().clear();
-        this.painelInterno.getChildren().add(novaTela);
+        painelInterno.setCenter(novaTela);
     }
 
 }

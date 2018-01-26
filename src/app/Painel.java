@@ -28,10 +28,8 @@ public class Painel extends Application {
         this.palco = palco;
         
         BorderPane painel = FXMLLoader.load(getClass().getResource("Painel.fxml"));
-        //this.painelController = loader.getController();
         
         Scene scene = new Scene(painel);
-        //palco.setResizable(false);
         palco.setScene(scene);
         palco.centerOnScreen();
         palco.setTitle("Sistema de Gerenciamento Comercial - InfoCel");

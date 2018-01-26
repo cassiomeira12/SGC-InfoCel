@@ -9,6 +9,7 @@ import java.io.IOException;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
 
 /**
  * FXML Controller class
@@ -17,10 +18,10 @@ import javafx.scene.layout.AnchorPane;
  */
 public class TelaInicialController extends AnchorPane {
     
-    private AnchorPane painelInterno;
+    private BorderPane painelInterno;
 
   
-    public TelaInicialController(AnchorPane painelInterno) {
+    public TelaInicialController(BorderPane painelInterno) {
         this.painelInterno = painelInterno;
         
         try {
@@ -40,8 +41,7 @@ public class TelaInicialController extends AnchorPane {
     }
     
     private void adicionarPainelInterno(AnchorPane novaTela) {
-        this.painelInterno.getChildren().clear();
-        this.painelInterno.getChildren().add(novaTela);
+        this.painelInterno.setCenter(novaTela);
     }
     
     @FXML

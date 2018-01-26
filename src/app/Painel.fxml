@@ -3,10 +3,9 @@
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
-<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="680.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/9" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.PainelController">
+<BorderPane fx:id="painelInterno" minHeight="-Infinity" minWidth="-Infinity" prefHeight="680.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/9" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.PainelController">
    <top>
       <MenuBar fx:id="barraMenu" prefHeight="30.0" BorderPane.alignment="CENTER">
         <menus>
@@ -25,7 +24,4 @@
         </menus>
       </MenuBar>
    </top>
-   <center>
-      <AnchorPane fx:id="painelInterno" BorderPane.alignment="CENTER" />
-   </center>
 </BorderPane>

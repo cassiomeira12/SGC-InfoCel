@@ -16,6 +16,7 @@ import javafx.scene.control.MenuBar;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
 
 /**
  * FXML Controller class
@@ -24,17 +25,15 @@ import javafx.scene.layout.AnchorPane;
  */
 public class LoginController extends AnchorPane {
     
-    private AnchorPane painelInterno;
+    private BorderPane painelInterno;
     
     @FXML
     private TextField usuarioText;
     @FXML
     private PasswordField senhaPassword;
     
-    private MenuBar barraMenu;
     
-    
-    public LoginController(AnchorPane painelInterno) {
+    public LoginController(BorderPane painelInterno) {
         
         this.painelInterno = painelInterno;
         
@@ -58,15 +57,11 @@ public class LoginController extends AnchorPane {
     private void logar() {
         TelaInicialController telaInicial = new TelaInicialController(painelInterno);
         this.adicionarPainelInterno(telaInicial);
-        this.barraMenu.setVisible(true);
+        this.painelInterno.getTop().setVisible(true);//Deixando a Barra de menu visivel
     }
     
     private void adicionarPainelInterno(AnchorPane novaTela) {
-        this.painelInterno.getChildren().clear();
-        this.painelInterno.getChildren().add(novaTela);
+        this.painelInterno.setCenter(novaTela);
     }
-    
-    public void setMenuBar(MenuBar menuBar) {
-        this.barraMenu = menuBar;
-    }
+
 }
