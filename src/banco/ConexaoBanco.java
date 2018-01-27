@@ -1,11 +1,9 @@
-/***********************************************************************
-* Autor: Cassio Meira Silva
-* Nome: Classe
-* Funcao: 
-***********************************************************************/
-
+/** *********************************************************************
+ * Autor: Cassio Meira Silva
+ * Nome: Classe
+ * Funcao:
+ ********************************************************************** */
 package banco;
-
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -32,7 +30,8 @@ public class ConexaoBanco {
 
     /**
      * Sigleton para conexão com a base de dados
-     * @return 
+     *
+     * @return
      */
     public static ConexaoBanco instancia() {
         if (instancia == null) {
@@ -43,7 +42,8 @@ public class ConexaoBanco {
 
     /**
      * Obter a conexão com a base de dados
-     * @return 
+     *
+     * @return
      */
     public Connection getConnection() {
         return connection;
