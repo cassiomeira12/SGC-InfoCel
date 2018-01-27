@@ -24,6 +24,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 import javax.swing.SwingWorker;
 import model.Administrador;
+import util.Alerta;
 
 /**
  * FXML Controller class
@@ -54,7 +55,7 @@ public class LoginController extends AnchorPane {
             fxml.setController(this);
             fxml.load();
         } catch (IOException ex) {
-            System.out.println("[ERRO] : Erro na tela de Login");
+            this.chamarAlerta("Erro", "[ERRO]: Erro ao abrir tela de Login");
             System.out.println(ex.toString());
         }
     }
@@ -80,26 +81,29 @@ public class LoginController extends AnchorPane {
         SwingWorker<Boolean, Boolean> worker = new SwingWorker<Boolean, Boolean>() {
             @Override
             protected Boolean doInBackground() throws Exception {
-                dao = new ControleDAO();
-                return dao.getLoginDAO().autenticarLogin(login);
+                //dao = new ControleDAO();
+                return ControleDAO.getBanco().getLoginDAO().autenticarLogin(login);
+                //return dao.getLoginDAO().autenticarLogin(login);
             }
 
             //Método chamado após terminar a execução numa Thread searada
             @Override
             protected void done() {
+                indicator.setVisible(false);
                 super.done(); //To change body of generated methods, choose Tools | Templates.
                 try {
                     //se autenticou login
                     if (get()) {
                         autenticarSenha(login, senha);
                     } else {
+                        chamarAlerta("Erro", "Usuário não encontrado");
                         System.out.println("Login não encontrado");
                     }
                 } catch (Exception e) {
-                    System.out.println("Login não encontrado");
+                    chamarAlerta("Erro", "Usuário não encontrado");
+                    System.out.println("[ERRO]: " + e.toString());
                 }
             }
-
         };
 
         worker.execute();
@@ -110,12 +114,18 @@ public class LoginController extends AnchorPane {
         SwingWorker<Boolean, Boolean> worker = new SwingWorker<Boolean, Boolean>() {
             @Override
             protected Boolean doInBackground() throws Exception {
-                if (dao.getLoginDAO().autenticarSenha(login, senha)) {
-                    admLogado = dao.getLoginDAO().administradorLogado(login);
+                if (ControleDAO.getBanco().getLoginDAO().autenticarSenha(login, senha)) {
+                    admLogado = ControleDAO.getBanco().getLoginDAO().administradorLogado(login);
                     return true;
                 } else {
                     return false;
                 }
+//                if (dao.getLoginDAO().autenticarSenha(login, senha)) {
+//                    admLogado = dao.getLoginDAO().administradorLogado(login);
+//                    return true;
+//                } else {
+//                    return false;
+//                }
             }
 
             //Método chamado após terminar a execução numa Thread searada
@@ -128,10 +138,11 @@ public class LoginController extends AnchorPane {
                     if (get()) {
                         abrirTelaInicial();
                     } else {
-                        System.out.println("Senha incorreta");
+                        chamarAlerta("Erro", "Senha incorreta");
                     }
                 } catch (Exception e) {
-                    System.out.println("Ocorreu um erro: " + e);
+                    chamarAlerta("Erro", "Ocorreu um erro ao realizar o Login");
+                    System.out.println("[ERRO]: " + e);
                 }
             }
 
@@ -155,5 +166,14 @@ public class LoginController extends AnchorPane {
     private void adicionarPainelInterno(AnchorPane novaTela) {
         this.painelInterno.setCenter(novaTela);
     }
-
+    
+    private void chamarAlerta(String titulo, String mensagem) {
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                Alerta.erro(titulo, mensagem);
+            }
+        });
+    }
+    
 }
