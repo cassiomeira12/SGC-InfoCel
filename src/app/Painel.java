@@ -23,10 +23,10 @@ public class Painel extends Application {
     
     @Override
     public void start(Stage palco) throws Exception {
-        
-        this.painelController = new PainelController();
         this.palco = palco;
-        
+        this.painelController = new PainelController();
+        this.painelController.setStage(palco);
+
         BorderPane painel = FXMLLoader.load(getClass().getResource("Painel.fxml"));
         
         Scene scene = new Scene(painel);

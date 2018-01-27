@@ -11,16 +11,34 @@
         <menus>
           <Menu mnemonicParsing="false" text="Arquivo">
             <items>
-              <MenuItem mnemonicParsing="false" text="Close" />
+              <MenuItem mnemonicParsing="false" onAction="#sair" text="Sair" />
+                  <MenuItem mnemonicParsing="false" onAction="#fecharPrograma" text="Fechar" />
             </items>
           </Menu>
-          <Menu mnemonicParsing="false" text="Vendas" />
-          <Menu mnemonicParsing="false" text="Produtos" />
-            <Menu mnemonicParsing="false" text="Manutenções" />
-            <Menu mnemonicParsing="false" text="Clientes" />
+          <Menu mnemonicParsing="false" text="Vendas">
+               <items>
+                  <MenuItem mnemonicParsing="false" onAction="#chamarTelaAdicionarVenda" text="Adicionar Vendas" />
+               </items></Menu>
+          <Menu mnemonicParsing="false" text="Produtos">
+               <items>
+                  <MenuItem mnemonicParsing="false" text="Adicionar Produto" />
+                  <MenuItem mnemonicParsing="false" text="Consultar Produtos" />
+               </items></Menu>
+            <Menu mnemonicParsing="false" text="Manutenções">
+               <items>
+                  <MenuItem mnemonicParsing="false" onAction="#chamarTelaAdicionarManutencao" text="Adicionar Manutenção" />
+                  <MenuItem mnemonicParsing="false" text="Consultar Manutenções" />
+               </items></Menu>
+            <Menu mnemonicParsing="false" text="Clientes">
+               <items>
+                  <MenuItem mnemonicParsing="false" text="Consultar Clientes" />
+               </items></Menu>
             <Menu mnemonicParsing="false" text="Relatórios" />
             <Menu mnemonicParsing="false" text="Usuários" />
-            <Menu mnemonicParsing="false" text="Ajuda" />
+            <Menu mnemonicParsing="false" text="Ajuda">
+               <items>
+                  <MenuItem mnemonicParsing="false" text="Sobre" />
+               </items></Menu>
         </menus>
       </MenuBar>
    </top>

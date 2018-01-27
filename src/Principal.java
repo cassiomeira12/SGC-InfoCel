@@ -24,7 +24,7 @@ public class Principal extends Application {
         }
 
         /*********************************************
-        * Metodo: setOnCloseRequest 
+        * Metodo: setOnCloseRequest
         * Funcao: Finaliza o programa por completo ao Fechar 
         * Parametros: EventHandler Retorno: void
         *********************************************/
@@ -42,7 +42,6 @@ public class Principal extends Application {
 
     public static void main(String[] args) {
         Application.launch(args);
-        System.exit(0);
     }
 
 }//Fim class
