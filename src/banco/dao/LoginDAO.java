@@ -1,6 +1,7 @@
 package banco.dao;
 
 import java.sql.SQLException;
+import model.Administrador;
 
 /**
  * DAO responsável pela ações realizadas na base de dados referentes as login do usuário
@@ -43,27 +44,28 @@ public class LoginDAO extends DAO {
     /**
      * Autenticar e validar senha do usuário informada
      */
-   /* public boolean autenticarSenha(String nome, String senha) {
+    public boolean autenticarSenha(String nome, String senha) {
 
-        String chave = Criptografia.converter(senha);
+      //  String chave = Criptografia.converter(senha);
 
         try {
-            String sql = "SELECT login, senha FROM tb_usuario WHERE login=? AND senha=? ";
+            String sql = "SELECT login, senha FROM administrador WHERE login=? AND senha=? ";
 
             stm = conector.prepareStatement(sql);
             stm.setString(1, nome);
-            stm.setString(2, chave);
+            stm.setString(2, senha);
             rs = stm.executeQuery();
 
             while (rs.next()) {
-                return rs.getString(1).equals(nome) && rs.getString(2).equals(chave);
+                return rs.getString(1).equals(nome) && rs.getString(2).equals(senha);
             }
 
             stm.close();
             rs.close();
 
         } catch (SQLException ex) {
-            Mensagem.erro("Erro ao autenticar senha usuário na base de dados! \n" + ex);
+           // Mensagem.erro("Erro ao autenticar senha usuário na base de dados! \n" + ex);
+            System.out.println("Erro ao autenticar senha usuário na base de dados! \n" + ex);
         }
 
         return false;
@@ -72,9 +74,9 @@ public class LoginDAO extends DAO {
     /**
      * Consultar informações do usuário logado na base de dados
      */
-  /*  public Usuario usuarioLogado(String login) {
+    public Administrador administradorLogado(String login) {
 
-        Usuario user = null;
+        Administrador admin = null;
 
         try {
             String sql = "SELECT usuario.id_usuario, usuario.nome, usuario.login, usuario.senha, usuario.email, usuario.status, usuario.data_criacao, usuario.descricao, tipo.id_tipo_usuario, tipo.nome "
@@ -87,18 +89,17 @@ public class LoginDAO extends DAO {
             rs = stm.executeQuery();
 
             while (rs.next()) {
-                TipoUsuario tipo = new TipoUsuario(rs.getInt(9), rs.getString(10));
-                user = new Usuario(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getInt(6) == 1 ? true : false, null, rs.getString(8), tipo);
-                user.setDataCriacao(Tempo.toDate(rs.getTimestamp(7)));
+                admin = new Administrador(rs.getLong(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getInt(5));
             }
             stm.close();
             rs.close();
 
         } catch (SQLException ex) {
-            Mensagem.erro("Erro ao consultar usuário logado na base de dados! \n" + ex);
+           // Mensagem.erro("Erro ao consultar usuário logado na base de dados! \n" + ex);
+           System.out.println("Erro ao consultar usuário logado na base de dados! \n" + ex);
         }
 
-        return user;
-    }*/
+        return admin;
+    }
     
 }
