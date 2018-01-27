@@ -19,6 +19,8 @@ import javafx.scene.control.MenuBar;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
@@ -55,7 +57,7 @@ public class LoginController extends AnchorPane {
             fxml.setController(this);
             fxml.load();
         } catch (IOException ex) {
-            this.chamarAlerta("Erro", "[ERRO]: Erro ao abrir tela de Login");
+            this.chamarAlerta("Erro - Tela de Login", "Ocorreu um erro ao abrir a tela de Login");
             System.out.println(ex.toString());
         }
     }
@@ -65,6 +67,12 @@ public class LoginController extends AnchorPane {
         // TODO
         stackPane.getChildren().add(indicator);
         indicator.setVisible(false);
+        
+        senhaPassword.setOnKeyReleased((KeyEvent key) -> {
+            if (key.getCode() == KeyCode.ENTER) {
+                logar();
+            }
+        });
     }
 
     @FXML
@@ -81,9 +89,7 @@ public class LoginController extends AnchorPane {
         SwingWorker<Boolean, Boolean> worker = new SwingWorker<Boolean, Boolean>() {
             @Override
             protected Boolean doInBackground() throws Exception {
-                //dao = new ControleDAO();
                 return ControleDAO.getBanco().getLoginDAO().autenticarLogin(login);
-                //return dao.getLoginDAO().autenticarLogin(login);
             }
 
             //Método chamado após terminar a execução numa Thread searada
@@ -98,11 +104,16 @@ public class LoginController extends AnchorPane {
                     } else {
                         chamarAlerta("Erro", "Usuário não encontrado");
                         System.out.println("Login não encontrado");
+                        limparLogin();//Apaga o texto que esta no TextField de Login
+                        limparSenha();//Apaga o texto que esta no TextField de Login
                     }
                 } catch (Exception e) {
                     chamarAlerta("Erro", "Usuário não encontrado");
                     System.out.println("[ERRO]: " + e.toString());
+                    limparLogin();//Apaga o texto que esta no TextField de Login
+                    limparSenha();//Apaga o texto que esta no TextField de Login
                 }
+                
             }
         };
 
@@ -120,12 +131,6 @@ public class LoginController extends AnchorPane {
                 } else {
                     return false;
                 }
-//                if (dao.getLoginDAO().autenticarSenha(login, senha)) {
-//                    admLogado = dao.getLoginDAO().administradorLogado(login);
-//                    return true;
-//                } else {
-//                    return false;
-//                }
             }
 
             //Método chamado após terminar a execução numa Thread searada
@@ -139,11 +144,14 @@ public class LoginController extends AnchorPane {
                         abrirTelaInicial();
                     } else {
                         chamarAlerta("Erro", "Senha incorreta");
+                        limparSenha();//Apaga o texto que esta no TextField de Login
                     }
                 } catch (Exception e) {
                     chamarAlerta("Erro", "Ocorreu um erro ao realizar o Login");
                     System.out.println("[ERRO]: " + e);
+                    limparSenha();//Apaga o texto que esta no TextField de Login
                 }
+                
             }
 
         };
@@ -176,4 +184,21 @@ public class LoginController extends AnchorPane {
         });
     }
     
+    private void limparLogin() {
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                usuarioText.clear();
+            }
+        });
+    }
+    
+    private void limparSenha() {
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                senhaPassword.clear();
+            }
+        });
+    }
 }
