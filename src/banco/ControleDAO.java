@@ -1,20 +1,18 @@
-/***********************************************************************
-* Autor: Cassio Meira Silva
-* Nome: Classe
-* Funcao: 
-***********************************************************************/
-
+/** *********************************************************************
+ * Autor: Cassio Meira Silva
+ * Nome: Classe
+ * Funcao:
+ ********************************************************************** */
 package banco;
 
 import banco.dao.*;
 
-
 public class ControleDAO {
 
     private static ControleDAO banco = new ControleDAO();
-    
-   private LoginDAO loginDAO = new LoginDAO();
-    
+
+    private LoginDAO loginDAO = new LoginDAO();
+
     public static ControleDAO getBanco() {
         return banco;
     }
@@ -22,5 +20,5 @@ public class ControleDAO {
     public LoginDAO getLoginDAO() {
         return loginDAO;
     }
-  
+
 }//Fim class

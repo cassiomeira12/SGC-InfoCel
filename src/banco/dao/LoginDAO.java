@@ -4,7 +4,8 @@ import java.sql.SQLException;
 import model.Administrador;
 
 /**
- * DAO responsável pela ações realizadas na base de dados referentes as login do usuário
+ * DAO responsável pela ações realizadas na base de dados referentes as login do
+ * usuário
  */
 public class LoginDAO extends DAO {
 
@@ -32,9 +33,9 @@ public class LoginDAO extends DAO {
             rs.close();
 
         } catch (SQLException ex) {
-           // Mensagem.erro("Erro ao autenticar nome usuário na base de dados! \n" + ex);
-           System.out.println("Erro ao autenticar nome usuário na base de dados!");
-        }catch(Exception e){
+            // Mensagem.erro("Erro ao autenticar nome usuário na base de dados! \n" + ex);
+            System.out.println("Erro ao autenticar nome usuário na base de dados!");
+        } catch (Exception e) {
             System.out.println("Erro ao autenticar nome usuário na base de dados!\n" + e);
         }
 
@@ -46,8 +47,7 @@ public class LoginDAO extends DAO {
      */
     public boolean autenticarSenha(String nome, String senha) {
 
-      //  String chave = Criptografia.converter(senha);
-
+        //  String chave = Criptografia.converter(senha);
         try {
             String sql = "SELECT login, senha FROM administrador WHERE login=? AND senha=? ";
 
@@ -64,7 +64,7 @@ public class LoginDAO extends DAO {
             rs.close();
 
         } catch (SQLException ex) {
-           // Mensagem.erro("Erro ao autenticar senha usuário na base de dados! \n" + ex);
+            // Mensagem.erro("Erro ao autenticar senha usuário na base de dados! \n" + ex);
             System.out.println("Erro ao autenticar senha usuário na base de dados! \n" + ex);
         }
 
@@ -92,11 +92,11 @@ public class LoginDAO extends DAO {
             rs.close();
 
         } catch (SQLException ex) {
-           // Mensagem.erro("Erro ao consultar usuário logado na base de dados! \n" + ex);
-           System.out.println("Erro ao consultar usuário logado na base de dados! \n" + ex);
+            // Mensagem.erro("Erro ao consultar usuário logado na base de dados! \n" + ex);
+            System.out.println("Erro ao consultar usuário logado na base de dados! \n" + ex);
         }
 
         return admin;
     }
-    
+
 }
