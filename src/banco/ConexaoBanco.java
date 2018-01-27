@@ -1,8 +1,8 @@
-/** *********************************************************************
+/***********************************************************************
  * Autor: Cassio Meira Silva
- * Nome: Classe
- * Funcao:
- ********************************************************************** */
+ * Nome: Conexao Banco
+ * Funcao: Classe pra realizar a conexao com o Banco de Dados
+ ***********************************************************************/
 package banco;
 
 import java.sql.Connection;
@@ -12,17 +12,23 @@ import java.sql.SQLException;
 /**
  * Informações dos dados para conexão com a base de dados
  *
- * @author Angelica Leite/ Editado por Pedro Cordeiro
+ * @author Angelica Leite/ Editado por Pedro Cordeiro / Editado por Cassio Meira
  */
 public class ConexaoBanco {
-
+    
+    private static final String URL = "jdbc:mysql://neolig.com:3306/";
+    private static final String DATABASE = "neoli831_teste";
+    private static final String DRIVER = "com.mysql.jdbc.Driver";
+    private static final String USERNAME = "neoli831_teste";
+    private static final String PASSWORD = "teste";
+    
     private static ConexaoBanco instancia = new ConexaoBanco();
     private Connection connection;
 
     private ConexaoBanco() {
         try {
-            Class.forName("com.mysql.jdbc.Driver").newInstance();
-            connection = DriverManager.getConnection("jdbc:mysql://neolig.com:3306/neoli831_teste", "neoli831_teste", "teste");
+            Class.forName(DRIVER).newInstance();
+            connection = DriverManager.getConnection(URL + DATABASE, USERNAME, PASSWORD);
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | SQLException ex) {
             System.out.println("Erro ao conectar-se com a base de dados\n" + ex);
         }
