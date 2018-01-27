@@ -79,10 +79,7 @@ public class LoginDAO extends DAO {
         Administrador admin = null;
 
         try {
-            String sql = "SELECT usuario.id_usuario, usuario.nome, usuario.login, usuario.senha, usuario.email, usuario.status, usuario.data_criacao, usuario.descricao, tipo.id_tipo_usuario, tipo.nome "
-                    + "FROM tb_usuario AS usuario , tb_tipo_usuario AS tipo "
-                    + "WHERE usuario.login=? "
-                    + "AND tipo.id_tipo_usuario = usuario.fk_tipo_usuario";
+            String sql = "SELECT id, nome, login, senha, status FROM administrador WHERE login = ?";
 
             stm = conector.prepareStatement(sql);
             stm.setString(1, login);

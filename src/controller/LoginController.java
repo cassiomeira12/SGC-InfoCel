@@ -19,6 +19,7 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import model.Administrador;
 
 /**
  * FXML Controller class
@@ -57,14 +58,30 @@ public class LoginController extends AnchorPane {
     
     @FXML
     private void logar() {
-        TelaInicialController telaInicial = new TelaInicialController(painelInterno);
-        this.adicionarPainelInterno(telaInicial);
-        this.painelInterno.getTop().setVisible(true);//Deixando a Barra de menu visivel
-      
-      //teste do banco de dados
+        String login = usuarioText.getText();
+         String senha = senhaPassword.getText();
+        
       ControleDAO dao = new ControleDAO();
-      boolean logou = dao.getLoginDAO().autenticarLogin("pedro");
-      System.out.println("Logou = " + logou);
+      
+       //Veifica se o login está no BD
+      boolean encontrouLogin = dao.getLoginDAO().autenticarLogin(login);
+      if(!encontrouLogin){
+        System.out.println("Login não encontrado");
+        return;
+      }
+      
+        //Veifica se a senha está correta
+      boolean autenticouSenha = dao.getLoginDAO().autenticarSenha(login, senha);
+      if(!autenticouSenha){
+        System.out.println("Senha incorreta");
+        return;
+      }
+      
+      Administrador admLogado = dao.getLoginDAO().administradorLogado(login);
+      
+      TelaInicialController telaInicial = new TelaInicialController(painelInterno);
+      this.adicionarPainelInterno(telaInicial);
+      this.painelInterno.getTop().setVisible(true);//Deixando a Barra de menu visivel
     }
     
     private void adicionarPainelInterno(AnchorPane novaTela) {

@@ -7,16 +7,16 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 
-<fx:root id="AnchorPane" prefHeight="650.0" prefWidth="1200.0" type="AnchorPane" xmlns="http://javafx.com/javafx/9" xmlns:fx="http://javafx.com/fxml/1">
+<fx:root id="AnchorPane" prefHeight="650.0" prefWidth="1200.0" type="AnchorPane" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <VBox alignment="CENTER" layoutX="407.0" layoutY="168.0" prefHeight="650.0" prefWidth="1200.0" spacing="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <TextField fx:id="usuarioText" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="40.0" prefWidth="330.0" promptText="Nome Usuário">
+            <TextField fx:id="usuarioText" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="40.0" prefWidth="330.0" promptText="Nome Usuário" text="infocel">
                <VBox.margin>
                   <Insets />
                </VBox.margin>
             </TextField>
-            <PasswordField fx:id="senhaPassword" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="40.0" prefWidth="330.0" promptText="Senha" />
+            <PasswordField fx:id="senhaPassword" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="40.0" prefWidth="330.0" promptText="Senha" text="infocel" />
             <Button mnemonicParsing="false" onAction="#logar" prefHeight="35.0" prefWidth="330.0" text="Entrar" />
          </children>
          <padding>
