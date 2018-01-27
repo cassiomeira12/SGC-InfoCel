@@ -30,7 +30,7 @@ public class ConexaoBanco {
             Class.forName(DRIVER).newInstance();
             connection = DriverManager.getConnection(URL + DATABASE, USERNAME, PASSWORD);
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | SQLException ex) {
-            System.out.println("Erro ao conectar-se com a base de dados\n" + ex);
+            System.out.println("[ERRO]: Erro ao conectar-se com a base de dados\n" + ex.toString());
         }
     }
 
