@@ -24,7 +24,7 @@ public class ConexaoBanco {
     private ConexaoBanco() {
         try {
             Class.forName("com.mysql.jdbc.Driver").newInstance();
-            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/infocel", "root", "root");
+            connection = DriverManager.getConnection("jdbc:mysql://neolig.com:3306/neoli831_teste", "neoli831_teste", "teste");
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | SQLException ex) {
             System.out.println("Erro ao conectar-se com a base de dados\n" + ex);
         }
