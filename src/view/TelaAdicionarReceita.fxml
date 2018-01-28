@@ -6,57 +6,145 @@
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<fx:root id="AnchorPane" prefHeight="650.0" prefWidth="1200.0" type="AnchorPane" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1">
+<fx:root prefHeight="650.0" prefWidth="1200.0" type="AnchorPane" xmlns="http://javafx.com/javafx/9" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <Label layoutX="563.0" layoutY="72.0" text="Adicionar Receita" />
-      <VBox layoutX="65.0" layoutY="131.0" spacing="20.0">
-         <children>
-            <HBox prefHeight="100.0" prefWidth="1044.0">
+      <BorderPane layoutX="270.0" layoutY="182.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
+         <top>
+            <Label text="Adicionar Receita" BorderPane.alignment="CENTER">
+               <font>
+                  <Font size="27.0" />
+               </font>
+               <BorderPane.margin>
+                  <Insets bottom="10.0" />
+               </BorderPane.margin>
+            </Label>
+         </top>
+         <bottom>
+            <HBox alignment="CENTER" prefWidth="1200.0" BorderPane.alignment="CENTER">
                <children>
-                  <VBox prefHeight="51.0" prefWidth="419.0" spacing="20.0">
+                  <HBox alignment="CENTER" prefWidth="600.0">
                      <children>
-                        <Label text="Pessoa" />
-                        <TextField />
+                        <Button alignment="CENTER" focusTraversable="false" mnemonicParsing="false" onAction="#cancelarOperacao" prefHeight="44.0" prefWidth="96.0" text="Cancelar" />
                      </children>
-                  </VBox>
-                  <VBox prefHeight="100.0" prefWidth="209.0" spacing="20.0">
+                  </HBox>
+                  <HBox alignment="CENTER" prefHeight="44.0" prefWidth="600.0">
                      <children>
-                        <Label text="Valor">
-                           <VBox.margin>
-                              <Insets />
-                           </VBox.margin>
-                        </Label>
-                        <TextField />
+                        <Button alignment="CENTER" focusTraversable="false" mnemonicParsing="false" onAction="#cancelarOperacao" prefHeight="44.0" prefWidth="96.0" text="Finalizar" />
                      </children>
-                     <padding>
-                        <Insets left="40.0" />
-                     </padding>
-                  </VBox>
-               </children>
-            </HBox>
-            <VBox prefHeight="200.0" prefWidth="1062.0" spacing="20.0">
-               <children>
-                  <Label text="Descrição" />
-                  <TextArea prefHeight="194.0" prefWidth="1062.0" />
-               </children>
-            </VBox>
-            <HBox spacing="870.0">
-               <children>
-                  <Button mnemonicParsing="false" onAction="#cancelarOperacao" prefHeight="44.0" prefWidth="96.0" text="Cancelar">
                      <HBox.margin>
-                        <Insets top="40.0" />
+                        <Insets />
                      </HBox.margin>
-                  </Button>
-                  <Button mnemonicParsing="false" onAction="#cancelarOperacao" prefHeight="44.0" prefWidth="96.0" text="Adicionar" />
+                  </HBox>
                </children>
-               <VBox.margin>
-                  <Insets top="40.0" />
-               </VBox.margin>
+               <BorderPane.margin>
+                  <Insets top="10.0" />
+               </BorderPane.margin>
             </HBox>
-         </children>
-      </VBox>
+         </bottom>
+         <center>
+            <VBox alignment="TOP_CENTER" spacing="50.0" BorderPane.alignment="CENTER">
+               <children>
+                  <VBox spacing="10.0">
+                     <children>
+                        <VBox>
+                           <children>
+                              <Label text="Pesquisar Cliente" />
+                              <TextField fx:id="pesquisaText" prefHeight="30.0" prefWidth="400.0" />
+                           </children>
+                           <padding>
+                              <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                           </padding>
+                        </VBox>
+                        <VBox alignment="TOP_RIGHT" prefWidth="1000.0" spacing="30.0" style="-fx-background-color: #808080;">
+                           <children>
+                              <HBox alignment="CENTER_LEFT" spacing="50.0">
+                                 <children>
+                                    <VBox>
+                                       <children>
+                                          <Label text="Nome Completo" />
+                                          <TextField fx:id="nomeText" prefHeight="30.0" prefWidth="800.0" />
+                                       </children>
+                                    </VBox>
+                                    <VBox>
+                                       <children>
+                                          <Label text="Telefone" />
+                                          <TextField fx:id="telefoneText" prefHeight="30.0" prefWidth="150.0" promptText="(77) 9 0000-0000">
+                                             <font>
+                                                <Font size="14.0" />
+                                             </font>
+                                          </TextField>
+                                       </children>
+                                       <HBox.margin>
+                                          <Insets />
+                                       </HBox.margin>
+                                    </VBox>
+                                 </children>
+                                 <VBox.margin>
+                                    <Insets />
+                                 </VBox.margin>
+                              </HBox>
+                              <HBox spacing="50.0">
+                                 <children>
+                                    <VBox>
+                                       <children>
+                                          <Label text="CPF" />
+                                          <TextField fx:id="cpfText" prefHeight="30.0" prefWidth="120.0" promptText="000.000.000-00" />
+                                       </children>
+                                    </VBox>
+                                    <VBox>
+                                       <children>
+                                          <Label text="RG" />
+                                          <TextField fx:id="rgText" prefHeight="30.0" prefWidth="100.0" promptText="1490765689" />
+                                       </children>
+                                    </VBox>
+                                    <VBox layoutX="250.0" layoutY="10.0">
+                                       <children>
+                                          <Label text="Cidade" />
+                                          <TextField fx:id="cidadeText" prefHeight="30.0" prefWidth="200.0" />
+                                       </children>
+                                    </VBox>
+                                    <VBox layoutX="232.0" layoutY="10.0">
+                                       <children>
+                                          <Label text="Endereço" />
+                                          <TextField fx:id="enderecoText" prefHeight="30.0" prefWidth="400.0" />
+                                       </children>
+                                    </VBox>
+                                 </children>
+                              </HBox>
+                           </children>
+                           <padding>
+                              <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                           </padding>
+                        </VBox>
+                     </children>
+                  </VBox>
+                  <VBox spacing="10.0">
+                     <children>
+                        <VBox alignment="TOP_RIGHT" fillWidth="false">
+                           <children>
+                              <VBox>
+                                 <children>
+                                    <Label text="Valor R$" />
+                                    <TextField />
+                                 </children>
+                              </VBox>
+                           </children>
+                        </VBox>
+                        <VBox>
+                           <children>
+                              <Label text="Descrição" />
+                              <TextArea prefHeight="194.0" prefWidth="1062.0" />
+                           </children>
+                        </VBox>
+                     </children>
+                  </VBox>
+               </children></VBox>
+         </center>
+      </BorderPane>
    </children>
 </fx:root>

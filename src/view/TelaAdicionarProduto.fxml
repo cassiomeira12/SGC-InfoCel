@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<fx:root id="AnchorPane" prefHeight="650.0" prefWidth="1200.0" type="AnchorPane" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1">
+<fx:root id="AnchorPane" prefHeight="650.0" prefWidth="1200.0" type="AnchorPane" xmlns="http://javafx.com/javafx/9" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <Label layoutX="563.0" layoutY="72.0" text="Adicionar Produto" />
       <HBox layoutX="41.0" layoutY="145.0" prefHeight="360.0" prefWidth="1119.0" spacing="50.0" style="-fx-background-color: #808080;" AnchorPane.leftAnchor="41.0">
@@ -87,10 +87,10 @@
             <Insets left="40.0" top="20.0" />
          </padding>
       </HBox>
-      <HBox layoutX="69.0" layoutY="577.0" spacing="870.0">
+      <HBox alignment="CENTER" layoutX="7.0" layoutY="597.0" prefWidth="1200.0" spacing="500.0">
          <children>
-            <Button mnemonicParsing="false" onAction="#cancelarOperacao" prefHeight="44.0" prefWidth="96.0" text="Cancelar" />
-            <Button mnemonicParsing="false" onAction="#cancelarOperacao" prefHeight="44.0" prefWidth="96.0" text="Finalizar" />
+            <Button alignment="CENTER" mnemonicParsing="false" onAction="#cancelarOperacao" prefHeight="44.0" prefWidth="96.0" text="Cancelar" />
+            <Button alignment="CENTER" mnemonicParsing="false" onAction="#cancelarOperacao" prefHeight="44.0" prefWidth="96.0" text="Finalizar" />
          </children>
       </HBox>
    </children>

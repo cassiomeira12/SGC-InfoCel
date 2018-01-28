@@ -5,17 +5,11 @@
  */
 package controller;
 
-import app.PainelController;
 import banco.ControleDAO;
-import banco.dao.DAO;
 import java.io.IOException;
-import java.net.URL;
-import java.util.ResourceBundle;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
-import javafx.scene.control.MenuBar;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.TextField;
@@ -35,7 +29,7 @@ import util.Alerta;
  */
 public class LoginController extends AnchorPane {
 
-    private BorderPane painelInterno;
+    private BorderPane painelPrincipal;
     private ControleDAO dao;
     private Administrador admLogado;
 
@@ -47,9 +41,9 @@ public class LoginController extends AnchorPane {
     private StackPane stackPane;
     private ProgressIndicator indicator = new ProgressIndicator();
 
-    public LoginController(BorderPane painelInterno) {
+    public LoginController(BorderPane painelPrincipal) {
 
-        this.painelInterno = painelInterno;
+        this.painelPrincipal = painelPrincipal;
 
         try {
             FXMLLoader fxml = new FXMLLoader(getClass().getResource("/view/Login.fxml"));
@@ -164,15 +158,15 @@ public class LoginController extends AnchorPane {
         Platform.runLater(new Runnable() {
             @Override
             public void run() {
-                TelaInicialController telaInicial = new TelaInicialController(painelInterno);
+                TelaInicialController telaInicial = new TelaInicialController(painelPrincipal);
                 adicionarPainelInterno(telaInicial);
-                painelInterno.getTop().setVisible(true);//Deixando a Barra de menu visivel
+                painelPrincipal.getTop().setVisible(true);//Deixando a Barra de menu visivel
             }
         });
     }
 
     private void adicionarPainelInterno(AnchorPane novaTela) {
-        this.painelInterno.setCenter(novaTela);
+        this.painelPrincipal.setCenter(novaTela);
     }
     
     private void chamarAlerta(String titulo, String mensagem) {

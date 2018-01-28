@@ -18,11 +18,11 @@ import javafx.scene.layout.BorderPane;
  */
 public class TelaReceitaController extends AnchorPane {
     
-    private BorderPane painelInterno;
+    private BorderPane painelPrincipal;
 
   
-    public TelaReceitaController(BorderPane painelInterno) {
-        this.painelInterno = painelInterno;
+    public TelaReceitaController(BorderPane painelPrincipal) {
+        this.painelPrincipal = painelPrincipal;
         
         try {
             FXMLLoader fxml = new FXMLLoader(getClass().getResource("/view/TelaAdicionarReceita.fxml"));
@@ -41,12 +41,12 @@ public class TelaReceitaController extends AnchorPane {
     }
     
     private void adicionarPainelInterno(AnchorPane novaTela) {
-        this.painelInterno.setCenter(novaTela);
+        this.painelPrincipal.setCenter(novaTela);
     }
     
     @FXML
     private void cancelarOperacao() {
-        TelaInicialController telaInicial = new TelaInicialController(painelInterno);
+        TelaInicialController telaInicial = new TelaInicialController(painelPrincipal);
         this.adicionarPainelInterno(telaInicial);
     }
     

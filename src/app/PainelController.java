@@ -31,7 +31,7 @@ public class PainelController implements Initializable {
     @FXML
     private MenuBar barraMenu;
     @FXML
-    private BorderPane painelInterno;
+    private BorderPane painelPrincipal;
 
     /**
      * Initializes the controller class.
@@ -39,7 +39,7 @@ public class PainelController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         this.barraMenu.setVisible(false);//Deixando a Barra de Menu invisivel
-        LoginController telaLogin = new LoginController(painelInterno);
+        LoginController telaLogin = new LoginController(painelPrincipal);
         this.adicionarPainelInterno(telaLogin);
     }
     
@@ -48,7 +48,7 @@ public class PainelController implements Initializable {
     }
     
     private void adicionarPainelInterno(AnchorPane novaTela) {
-        painelInterno.setCenter(novaTela);
+        painelPrincipal.setCenter(novaTela);
     }
     
     @FXML
@@ -59,19 +59,19 @@ public class PainelController implements Initializable {
     @FXML
     private void sair() {
         this.barraMenu.setVisible(false);//Deixando a Barra de Menu invisivel
-        LoginController telaLogin = new LoginController(painelInterno);
+        LoginController telaLogin = new LoginController(painelPrincipal);
         this.adicionarPainelInterno(telaLogin);
     }
     
     @FXML
     private void chamarTelaAdicionarManutencao() {
-        TelaManutencaoController telaAdicionarManutencao = new TelaManutencaoController(painelInterno);
+        TelaManutencaoController telaAdicionarManutencao = new TelaManutencaoController(painelPrincipal);
         this.adicionarPainelInterno(telaAdicionarManutencao);
     }
     
     @FXML
     private void chamarTelaAdicionarVenda() {
-        TelaVendaController telaAdicionarVenda = new TelaVendaController(painelInterno);
+        TelaVendaController telaAdicionarVenda = new TelaVendaController(painelPrincipal);
         this.adicionarPainelInterno(telaAdicionarVenda);
     }
 

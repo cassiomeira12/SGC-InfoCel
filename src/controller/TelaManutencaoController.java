@@ -18,11 +18,11 @@ import javafx.scene.layout.BorderPane;
  */
 public class TelaManutencaoController extends AnchorPane {
     
-    private BorderPane painelInterno;
+    private BorderPane painelPrincipal;
 
   
-    public TelaManutencaoController(BorderPane painelInterno) {
-        this.painelInterno = painelInterno;
+    public TelaManutencaoController(BorderPane painelPrincipal) {
+        this.painelPrincipal = painelPrincipal;
         
         try {
             FXMLLoader fxml = new FXMLLoader(getClass().getResource("/view/TelaAdicionarManutencao.fxml"));
@@ -41,12 +41,12 @@ public class TelaManutencaoController extends AnchorPane {
     }
     
     private void adicionarPainelInterno(AnchorPane novaTela) {
-        this.painelInterno.setCenter(novaTela);
+        this.painelPrincipal.setCenter(novaTela);
     }
     
     @FXML
     private void cancelarOperacao() {
-        TelaInicialController telaInicial = new TelaInicialController(painelInterno);
+        TelaInicialController telaInicial = new TelaInicialController(painelPrincipal);
         this.adicionarPainelInterno(telaInicial);
     }
     

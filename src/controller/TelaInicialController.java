@@ -18,11 +18,11 @@ import javafx.scene.layout.BorderPane;
  */
 public class TelaInicialController extends AnchorPane {
     
-    private BorderPane painelInterno;
+    private BorderPane painelPrincipal;
 
   
-    public TelaInicialController(BorderPane painelInterno) {
-        this.painelInterno = painelInterno;
+    public TelaInicialController(BorderPane painelPrincipal) {
+        this.painelPrincipal = painelPrincipal;
         
         try {
             FXMLLoader fxml = new FXMLLoader(getClass().getResource("/view/TelaInicial.fxml"));
@@ -41,30 +41,31 @@ public class TelaInicialController extends AnchorPane {
     }
     
     private void adicionarPainelInterno(AnchorPane novaTela) {
-        this.painelInterno.setCenter(novaTela);
+        this.painelPrincipal.getCenter().setVisible(true);
+        this.painelPrincipal.setCenter(novaTela);
     }
     
     @FXML
     private void chamarTelaAdicionarManutencao() {
-        TelaManutencaoController telaAdicionarManutencao = new TelaManutencaoController(painelInterno);
+        TelaManutencaoController telaAdicionarManutencao = new TelaManutencaoController(painelPrincipal);
         this.adicionarPainelInterno(telaAdicionarManutencao);
     }
     
     @FXML
     private void chamarTelaAdicionarReceita() {
-        TelaReceitaController telaAdicionarReceita = new TelaReceitaController(painelInterno);
+        TelaReceitaController telaAdicionarReceita = new TelaReceitaController(painelPrincipal);
         this.adicionarPainelInterno(telaAdicionarReceita);
     }
     
     @FXML
     private void chamarTelaAdicionarSaida() {
-        TelaSaidaController telaAdicionarSaida = new TelaSaidaController(painelInterno);
+        TelaSaidaController telaAdicionarSaida = new TelaSaidaController(painelPrincipal);
         this.adicionarPainelInterno(telaAdicionarSaida);
     }
     
     @FXML
     private void chamarTelaAdicionarVenda() {
-        TelaVendaController telaAdicionarVenda = new TelaVendaController(painelInterno);
+        TelaVendaController telaAdicionarVenda = new TelaVendaController(painelPrincipal);
         this.adicionarPainelInterno(telaAdicionarVenda);
     }
     
