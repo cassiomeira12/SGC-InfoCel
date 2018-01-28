@@ -73,9 +73,19 @@ public class LoginController extends AnchorPane {
     private void logar() {
         String login = usuarioText.getText();
         String senha = senhaPassword.getText();
-
-        indicator.setVisible(true);
-        autenticarLogin(login, senha);
+        
+        if (login.isEmpty() || senha.isEmpty()) {
+            if (login.isEmpty() && senha.isEmpty()) {
+                Alerta.erro("Erro no Login", "Os campos de Login e Senha estão vazios");
+            } else if (login.isEmpty()) {
+                Alerta.erro("Erro no Login", "Campo de Login está vazio");
+            } else {
+                Alerta.erro("Erro na Senha", "Compo de Senha está vazio");
+            }
+        } else {
+            indicator.setVisible(true);
+            autenticarLogin(login, senha);
+        }
     }
 
     private void autenticarLogin(String login, String senha) {
