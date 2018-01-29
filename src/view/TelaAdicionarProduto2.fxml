@@ -2,7 +2,10 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Spinner?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
@@ -45,7 +48,86 @@
             </HBox>
          </bottom>
          <center>
-            <VBox alignment="TOP_CENTER" spacing="50.0" BorderPane.alignment="CENTER" />
+            <VBox alignment="TOP_CENTER" spacing="50.0" BorderPane.alignment="CENTER">
+               <children>
+                  <HBox alignment="CENTER">
+                     <children>
+                        <HBox alignment="CENTER" prefWidth="600.0">
+                           <children>
+                              <VBox>
+                                 <children>
+                                    <Label text="Categoria" />
+                                    <ComboBox prefWidth="150.0" />
+                                 </children>
+                              </VBox>
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER" prefWidth="600.0">
+                           <children>
+                              <VBox>
+                                 <children>
+                                    <Label text="Nova Categoria de Produtos" />
+                                    <HBox>
+                                       <children>
+                                          <TextField />
+                                          <Button mnemonicParsing="false" text="+" />
+                                       </children>
+                                    </HBox>
+                                 </children>
+                              </VBox>
+                           </children>
+                        </HBox>
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER">
+                     <children>
+                        <HBox alignment="CENTER" prefWidth="600.0">
+                           <children>
+                              <VBox>
+                                 <children>
+                                    <Label text="Descrição" />
+                                    <TextField />
+                                 </children>
+                              </VBox>
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER" prefWidth="600.0">
+                           <children>
+                              <VBox>
+                                 <children>
+                                    <Label text="Marca" />
+                                    <ComboBox prefWidth="150.0" />
+                                 </children>
+                              </VBox>
+                           </children>
+                        </HBox>
+                     </children>
+                  </HBox>
+                  <HBox>
+                     <children>
+                        <HBox alignment="CENTER" prefWidth="600.0">
+                           <children>
+                              <VBox>
+                                 <children>
+                                    <Label text="Preço R$" />
+                                    <TextField />
+                                 </children>
+                              </VBox>
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER" prefWidth="600.0">
+                           <children>
+                              <VBox>
+                                 <children>
+                                    <Label text="Quantidade" />
+                                    <Spinner />
+                                 </children>
+                              </VBox>
+                           </children>
+                        </HBox>
+                     </children>
+                  </HBox>
+               </children></VBox>
          </center>
       </BorderPane>
    </children>
