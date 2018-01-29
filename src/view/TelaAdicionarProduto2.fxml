@@ -13,7 +13,7 @@
    <children>
       <BorderPane layoutX="270.0" layoutY="182.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
          <top>
-            <Label text="Relatório Mensal" BorderPane.alignment="CENTER">
+            <Label text="Adicionar Produto" BorderPane.alignment="CENTER">
                <font>
                   <Font size="27.0" />
                </font>

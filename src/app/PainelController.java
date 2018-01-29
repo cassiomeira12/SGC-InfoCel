@@ -6,12 +6,16 @@
 package app;
 
 import controller.LoginController;
+import controller.TelaConsultarClientesController;
+import controller.TelaConsultarManutencoesController;
+import controller.TelaConsultarProdutosController;
 import controller.TelaManutencaoController;
-import controller.TelaReceitaController;
-import controller.TelaSaidaController;
+import controller.TelaRelatorioMensalController;
+import controller.TelaSobreController;
 import controller.TelaVendaController;
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.MenuBar;
@@ -73,6 +77,36 @@ public class PainelController implements Initializable {
     private void chamarTelaAdicionarVenda() {
         TelaVendaController telaAdicionarVenda = new TelaVendaController(painelPrincipal);
         this.adicionarPainelInterno(telaAdicionarVenda);
+    }
+
+    @FXML
+    private void chamarTelaConsultarProdutos(ActionEvent event) {
+        TelaConsultarProdutosController telaConsultarProdutos = new TelaConsultarProdutosController(painelPrincipal);
+        this.adicionarPainelInterno(telaConsultarProdutos);
+    }
+
+    @FXML
+    private void chamarTelaConsultarManutencoes(ActionEvent event) {
+        TelaConsultarManutencoesController telaConsultarManutencoes = new TelaConsultarManutencoesController(painelPrincipal);
+        this.adicionarPainelInterno(telaConsultarManutencoes);
+    }
+
+    @FXML
+    private void chamarTelaConsultarClientes(ActionEvent event) {
+        TelaConsultarClientesController telaConsultarClientes = new TelaConsultarClientesController(painelPrincipal);
+        this.adicionarPainelInterno(telaConsultarClientes);
+    }
+
+    @FXML
+    private void chamarTelaRelatorioMensal(ActionEvent event) {
+        TelaRelatorioMensalController telaRelatorioMensal = new TelaRelatorioMensalController(painelPrincipal);
+        this.adicionarPainelInterno(telaRelatorioMensal);
+    }
+
+    @FXML
+    private void chamarTelaSobre(ActionEvent event) {
+        TelaSobreController telaSobre = new TelaSobreController(painelPrincipal);
+        this.adicionarPainelInterno(telaSobre);
     }
 
 }

@@ -32,6 +32,7 @@ public class Painel extends Application {
         Scene scene = new Scene(painel);
         palco.setScene(scene);
         palco.centerOnScreen();
+        palco.setMaximized(true);//Deixando a tela Maximizada
         palco.setTitle("Sistema de Gerenciamento Comercial - InfoCel");
         palco.show();
         
