@@ -3,82 +3,79 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
-<VBox spacing="10.0" xmlns="http://javafx.com/javafx/9" xmlns:fx="http://javafx.com/fxml/1">
+<VBox prefHeight="200.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/9" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <VBox>
+      <GridPane hgap="10.0" prefHeight="250.0">
+         <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="120.0" minWidth="10.0" prefWidth="120.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="120.0" minWidth="0.0" prefWidth="120.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="204.33331298828125" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="458.0" minWidth="10.0" prefWidth="320.66668701171875" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="150.0" minWidth="10.0" prefWidth="150.0" />
+         </columnConstraints>
+         <rowConstraints>
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints prefHeight="2.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+         </rowConstraints>
          <children>
-            <Label text="Pesquisar Cliente" />
-            <TextField fx:id="pesquisaText" prefHeight="30.0" prefWidth="400.0" />
-         </children>
-         <padding>
-            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-         </padding>
-      </VBox>
-      <VBox alignment="TOP_RIGHT" prefWidth="1000.0" spacing="30.0" style="-fx-background-color: #808080;">
-         <children>
-            <HBox alignment="CENTER_LEFT" spacing="50.0">
+            <VBox GridPane.columnSpan="5">
                <children>
-                  <VBox>
-                     <children>
-                        <Label text="Nome Completo" />
-                        <TextField fx:id="nomeText" prefHeight="30.0" prefWidth="800.0" />
-                     </children>
-                  </VBox>
-                  <VBox>
-                     <children>
-                        <Label text="Telefone" />
-                        <TextField fx:id="telefoneText" prefHeight="30.0" prefWidth="150.0" promptText="(77) 9 0000-0000">
-                           <font>
-                              <Font size="14.0" />
-                           </font>
-                        </TextField>
-                     </children>
-                     <HBox.margin>
-                        <Insets />
-                     </HBox.margin>
-                  </VBox>
+                  <Label text="Pesquisar Cliente" />
+                  <TextField fx:id="pesquisaText" />
                </children>
-               <VBox.margin>
-                  <Insets />
-               </VBox.margin>
-            </HBox>
-            <HBox spacing="50.0">
+            </VBox>
+            <VBox GridPane.columnSpan="4" GridPane.rowIndex="2">
                <children>
-                  <VBox>
-                     <children>
-                        <Label text="CPF" />
-                        <TextField fx:id="cpfText" prefHeight="30.0" prefWidth="120.0" promptText="000.000.000-00" />
-                     </children>
-                  </VBox>
-                  <VBox>
-                     <children>
-                        <Label text="RG" />
-                        <TextField fx:id="rgText" prefHeight="30.0" prefWidth="100.0" promptText="1490765689" />
-                     </children>
-                  </VBox>
-                  <VBox layoutX="250.0" layoutY="10.0">
-                     <children>
-                        <Label text="Cidade" />
-                        <TextField fx:id="cidadeText" prefHeight="30.0" prefWidth="200.0" />
-                     </children>
-                  </VBox>
-                  <VBox layoutX="232.0" layoutY="10.0">
-                     <children>
-                        <Label text="Endereço" />
-                        <TextField fx:id="enderecoText" prefHeight="30.0" prefWidth="400.0" />
-                     </children>
-                  </VBox>
+                  <Label text="Nome Completo" />
+                  <TextField fx:id="nomeText1" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" />
                </children>
-            </HBox>
+            </VBox>
+            <VBox GridPane.columnIndex="4" GridPane.rowIndex="2">
+               <children>
+                  <Label text="Telefone" />
+                  <TextField fx:id="telefoneText1" promptText="(77) 9 0000-0000">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </TextField>
+               </children>
+            </VBox>
+            <VBox GridPane.rowIndex="3">
+               <children>
+                  <Label text="CPF" />
+                  <TextField fx:id="cpfText1" promptText="000.000.000-00" />
+               </children>
+            </VBox>
+            <VBox GridPane.columnIndex="1" GridPane.rowIndex="3">
+               <children>
+                  <Label text="RG" />
+                  <TextField fx:id="rgText1" promptText="1490765689" />
+               </children>
+            </VBox>
+            <VBox GridPane.columnIndex="2" GridPane.rowIndex="3">
+               <children>
+                  <Label text="Cidade" />
+                  <TextField fx:id="cidadeText" />
+               </children>
+            </VBox>
+            <VBox GridPane.columnIndex="3" GridPane.columnSpan="2" GridPane.rowIndex="3">
+               <children>
+                  <Label text="Endereço" />
+                  <TextField fx:id="enderecoText1" />
+               </children>
+            </VBox>
          </children>
-         <padding>
+         <VBox.margin>
             <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-         </padding>
-      </VBox>
+         </VBox.margin>
+      </GridPane>
    </children>
 </VBox>
