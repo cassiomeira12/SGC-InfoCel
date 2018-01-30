@@ -24,10 +24,10 @@ public class ConexaoBanco {
     private static final String USERNAME = "neoli831_teste";
     private static final String PASSWORD = "teste";
 
-    private static ConexaoBanco instancia = new ConexaoBanco();
-    private Connection connection;
+    public static ConexaoBanco instancia = new ConexaoBanco();
+    private static Connection connection;
 
-    private ConexaoBanco() {
+    public ConexaoBanco() {
         try {
             Class.forName(DRIVER).newInstance();
             connection = DriverManager.getConnection(URL + DATABASE, USERNAME, PASSWORD);

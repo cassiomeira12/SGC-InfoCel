@@ -23,7 +23,7 @@ public class ClienteDAO extends DAO {
         try {
             String sql = "INSERT INTO cliente ( nome ) VALUES (?)";
 
-            stm = conector.prepareStatement(sql);
+            stm = getConector().prepareStatement(sql);
 
             stm.setString(1, cliente.getNome());
 
@@ -42,7 +42,7 @@ public class ClienteDAO extends DAO {
         try {
             String sql = "UPDATE cliente SET nome =? WHERE id =?";
 
-            stm = conector.prepareStatement(sql);
+            stm = getConector().prepareStatement(sql);
 
             stm.setString(1, cliente.getNome());
 
@@ -63,7 +63,7 @@ public class ClienteDAO extends DAO {
         try {
             String sql = "DELETE FROM cliente WHERE id=?";
 
-            stm = conector.prepareStatement(sql);
+            stm = getConector().prepareStatement(sql);
 
             stm.setInt(1, id);
             stm.execute();
@@ -84,7 +84,7 @@ public class ClienteDAO extends DAO {
         try {
             String sql = "SELECT cliente.* FROM cliente";
 
-            stm = conector.prepareStatement(sql);
+            stm = getConector().prepareStatement(sql);
             rs = stm.executeQuery(sql);
 
             while (rs.next()) {

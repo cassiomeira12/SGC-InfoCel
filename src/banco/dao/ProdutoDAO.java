@@ -23,7 +23,7 @@ public class ProdutoDAO extends DAO {
         try {
             String sql = "INSERT INTO produto ( descricao ) VALUES (?)";
 
-            stm = conector.prepareStatement(sql);
+            stm = getConector().prepareStatement(sql);
 
             stm.setString(1, produto.getDescricao());
 
@@ -42,7 +42,7 @@ public class ProdutoDAO extends DAO {
         try {
             String sql = "UPDATE produto SET descricao =? WHERE id =?";
 
-            stm = conector.prepareStatement(sql);
+            stm = getConector().prepareStatement(sql);
 
             stm.setString(1, produto.getDescricao());
 
@@ -63,7 +63,7 @@ public class ProdutoDAO extends DAO {
         try {
             String sql = "DELETE FROM produto WHERE id=?";
 
-            stm = conector.prepareStatement(sql);
+            stm = getConector().prepareStatement(sql);
 
             stm.setInt(1, id);
             stm.execute();
@@ -84,7 +84,7 @@ public class ProdutoDAO extends DAO {
         try {
             String sql = "SELECT produto.* FROM produto";
 
-            stm = conector.prepareStatement(sql);
+            stm = getConector().prepareStatement(sql);
             rs = stm.executeQuery(sql);
 
             while (rs.next()) {

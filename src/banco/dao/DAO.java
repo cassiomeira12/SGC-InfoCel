@@ -12,17 +12,26 @@ import util.Alerta;
  * dados, através do conector que indicará de qual classe serão chamadas as
  * consultas.
  *
- * @author Angelica Leite, Editado por PEdro Cordeiro
+ * @author Angelica Leite, Editado por Pedro Cordeiro
  */
 public class DAO {
 
-    protected Connection conector = ConexaoBanco.instancia().getConnection();
+    private Connection conector = ConexaoBanco.instancia().getConnection();
     protected ResultSet rs;
     protected PreparedStatement stm;
 
     public DAO() {
     }
-    
+
+    public Connection getConector() {
+        if (conector == null) {
+            ConexaoBanco.instancia = new ConexaoBanco();
+            conector = ConexaoBanco.instancia().getConnection();
+        }
+
+        return conector;
+    }
+
     public void chamarAlertaErro(String titulo, String mensagem) {
         Platform.runLater(new Runnable() {
             @Override

@@ -21,7 +21,7 @@ public class LoginDAO extends DAO {
         try {
             String sql = "SELECT login FROM administrador WHERE login=? AND status = 1 ";
 
-            stm = conector.prepareStatement(sql);
+            stm = getConector().prepareStatement(sql);
             stm.setString(1, nome);
             rs = stm.executeQuery();
 
@@ -50,7 +50,7 @@ public class LoginDAO extends DAO {
         try {
             String sql = "SELECT login, senha FROM administrador WHERE login=? AND senha=? ";
 
-            stm = conector.prepareStatement(sql);
+            stm = getConector().prepareStatement(sql);
             stm.setString(1, nome);
             stm.setString(2, senha);
             rs = stm.executeQuery();
@@ -79,7 +79,7 @@ public class LoginDAO extends DAO {
         try {
             String sql = "SELECT id, nome, login, senha, status FROM administrador WHERE login = ?";
 
-            stm = conector.prepareStatement(sql);
+            stm = getConector().prepareStatement(sql);
             stm.setString(1, login);
             rs = stm.executeQuery();
 

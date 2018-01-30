@@ -22,7 +22,7 @@ public class CelularDAO extends DAO {
         try {
             String sql = "INSERT INTO celular ( descricao ) VALUES (?)";
 
-            stm = conector.prepareStatement(sql);
+            stm = getConector().prepareStatement(sql);
 
             stm.setString(1, celular.getDescricao());
 
@@ -41,7 +41,7 @@ public class CelularDAO extends DAO {
         try {
             String sql = "UPDATE celular SET descricao =? WHERE id =?";
 
-            stm = conector.prepareStatement(sql);
+            stm = getConector().prepareStatement(sql);
 
             stm.setString(1, celular.getDescricao());
 
@@ -62,7 +62,7 @@ public class CelularDAO extends DAO {
         try {
             String sql = "DELETE FROM celular WHERE id=?";
 
-            stm = conector.prepareStatement(sql);
+            stm = getConector().prepareStatement(sql);
 
             stm.setInt(1, id);
             stm.execute();
@@ -83,7 +83,7 @@ public class CelularDAO extends DAO {
         try {
             String sql = "SELECT celular.* FROM celular";
 
-            stm = conector.prepareStatement(sql);
+            stm = getConector().prepareStatement(sql);
             rs = stm.executeQuery(sql);
 
             while (rs.next()) {

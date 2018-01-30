@@ -25,7 +25,7 @@ public class AdministradorDAO extends DAO {
         try {
             String sql = "INSERT INTO administrador ( nome, login, senha, status) VALUES (?, ?, ?, ?)";
 
-            stm = conector.prepareStatement(sql);
+            stm = getConector().prepareStatement(sql);
 
             stm.setString(1, adm.getNome());
             stm.setString(2, adm.getLogin());
@@ -47,7 +47,7 @@ public class AdministradorDAO extends DAO {
         try {
             String sql = "UPDATE administrador SET nome =?, login =?, senha =?, status =?, WHERE id =?";
 
-            stm = conector.prepareStatement(sql);
+            stm = getConector().prepareStatement(sql);
 
             stm.setString(1, adm.getNome());
             stm.setString(2, adm.getLogin());
@@ -71,7 +71,7 @@ public class AdministradorDAO extends DAO {
         try {
             String sql = "DELETE FROM administrador WHERE id=?";
 
-            stm = conector.prepareStatement(sql);
+            stm = getConector().prepareStatement(sql);
 
             stm.setInt(1, id);
             stm.execute();
@@ -92,7 +92,7 @@ public class AdministradorDAO extends DAO {
         try {
             String sql = "SELECT administrador.* FROM administrador";
 
-            stm = conector.prepareStatement(sql);
+            stm = getConector().prepareStatement(sql);
             rs = stm.executeQuery(sql);
 
             while (rs.next()) {

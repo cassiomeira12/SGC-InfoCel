@@ -23,7 +23,7 @@ public class MarcaDAO extends DAO {
         try {
             String sql = "INSERT INTO marca ( descricao ) VALUES (?)";
 
-            stm = conector.prepareStatement(sql);
+            stm = getConector().prepareStatement(sql);
 
             stm.setString(1, marca.getDescricao());
 
@@ -42,7 +42,7 @@ public class MarcaDAO extends DAO {
         try {
             String sql = "UPDATE marca SET descricao =? WHERE id =?";
 
-            stm = conector.prepareStatement(sql);
+            stm = getConector().prepareStatement(sql);
 
             stm.setString(1, marca.getDescricao());
 
@@ -63,7 +63,7 @@ public class MarcaDAO extends DAO {
         try {
             String sql = "DELETE FROM marca WHERE id=?";
 
-            stm = conector.prepareStatement(sql);
+            stm = getConector().prepareStatement(sql);
 
             stm.setInt(1, id);
             stm.execute();
@@ -84,7 +84,7 @@ public class MarcaDAO extends DAO {
         try {
             String sql = "SELECT marca.* FROM marca";
 
-            stm = conector.prepareStatement(sql);
+            stm = getConector().prepareStatement(sql);
             rs = stm.executeQuery(sql);
 
             while (rs.next()) {
