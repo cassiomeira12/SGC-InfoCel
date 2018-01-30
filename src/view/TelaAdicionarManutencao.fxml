@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<fx:root prefHeight="650.0" prefWidth="1200.0" type="AnchorPane" xmlns="http://javafx.com/javafx/9" xmlns:fx="http://javafx.com/fxml/1">
+<fx:root prefHeight="650.0" prefWidth="1200.0" type="AnchorPane" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <BorderPane layoutX="270.0" layoutY="182.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
          <top>
@@ -129,13 +129,13 @@
                               <VBox>
                                  <children>
                                     <Label text="Descrição da Manutenção" />
-                                    <TextField prefHeight="30.0" prefWidth="675.0" />
+                                    <TextField fx:id="descricaoText" prefHeight="30.0" prefWidth="675.0" />
                                  </children>
                               </VBox>
                               <VBox>
                                  <children>
                                     <Label text="Preço" />
-                                    <TextField prefHeight="30.0" prefWidth="150.0" />
+                                    <TextField fx:id="precoText" prefHeight="30.0" prefWidth="150.0" />
                                  </children>
                               </VBox>
                            </children>
@@ -145,19 +145,19 @@
                               <VBox>
                                  <children>
                                     <Label text="Marca" />
-                                    <TextField prefHeight="30.0" prefWidth="200.0" />
+                                    <TextField fx:id="marcaText" prefHeight="30.0" prefWidth="200.0" />
                                  </children>
                               </VBox>
                               <VBox>
                                  <children>
                                     <Label text="Modelo" />
-                                    <TextField prefHeight="30.0" prefWidth="261.0" />
+                                    <TextField fx:id="modeloText" prefHeight="30.0" prefWidth="261.0" />
                                  </children>
                               </VBox>
                               <VBox layoutX="212.0" layoutY="10.0">
                                  <children>
                                     <Label text="IMEI" />
-                                    <TextField prefHeight="30.0" prefWidth="261.0" />
+                                    <TextField fx:id="imeiText" prefHeight="30.0" prefWidth="261.0" />
                                  </children>
                               </VBox>
                            </children>
