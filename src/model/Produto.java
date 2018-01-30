@@ -10,5 +10,29 @@ package model;
  * @author pedro
  */
 public class Produto {
-     private Long _id;
+
+    private Long _id;
+    private String descricao;
+
+    public Produto(Long _id, String descricao) {
+        this._id = _id;
+        this.descricao = descricao;
+    }
+
+    public Long getId() {
+        return _id;
+    }
+
+    public void setId(Long _id) {
+        this._id = _id;
+    }
+
+    public String getDescricao() {
+        return descricao;
+    }
+
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
+    }
+
 }
