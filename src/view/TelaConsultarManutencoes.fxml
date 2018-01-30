@@ -58,8 +58,8 @@
                   <VBox alignment="TOP_RIGHT">
                      <children>
                         <Label prefHeight="21.0" prefWidth="151.0" text="Mês" />
-                        <ComboBox prefWidth="150.0" />
-                        <TableView prefHeight="383.0" prefWidth="1160.0">
+                        <ComboBox fx:id="mesComboBox" prefWidth="150.0" />
+                        <TableView fx:id="manutencoesTable" prefHeight="383.0" prefWidth="1160.0">
                            <columns>
                               <TableColumn prefWidth="75.0" text="C1" />
                               <TableColumn prefWidth="75.0" text="C2" />

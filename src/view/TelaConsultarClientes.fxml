@@ -59,7 +59,7 @@
                      <children>
                         <Label text="Pesquisar Cliente" />
                         <TextField fx:id="pesquisaText" prefHeight="30.0" prefWidth="400.0" />
-                        <TableView prefHeight="383.0" prefWidth="1160.0">
+                        <TableView fx:id="clientesTable" prefHeight="383.0" prefWidth="1160.0">
                           <columns>
                             <TableColumn prefWidth="75.0" text="C1" />
                             <TableColumn prefWidth="75.0" text="C2" />
