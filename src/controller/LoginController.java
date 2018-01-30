@@ -61,7 +61,7 @@ public class LoginController extends AnchorPane {
         // TODO
         stackPane.getChildren().add(indicator);
         indicator.setVisible(false);
-        
+
         senhaPassword.setOnKeyReleased((KeyEvent key) -> {
             if (key.getCode() == KeyCode.ENTER) {
                 logar();
@@ -73,7 +73,7 @@ public class LoginController extends AnchorPane {
     private void logar() {
         String login = usuarioText.getText();
         String senha = senhaPassword.getText();
-        
+
         if (login.isEmpty() || senha.isEmpty()) {
             if (login.isEmpty() && senha.isEmpty()) {
                 Alerta.erro("Erro no Login", "Os campos de Login e Senha estão vazios");
@@ -93,6 +93,7 @@ public class LoginController extends AnchorPane {
         SwingWorker<Boolean, Boolean> worker = new SwingWorker<Boolean, Boolean>() {
             @Override
             protected Boolean doInBackground() throws Exception {
+                ControleDAO.getBanco().getAdministradorDAO().excluir(2);
                 return ControleDAO.getBanco().getLoginDAO().autenticarLogin(login);
             }
 
@@ -117,7 +118,7 @@ public class LoginController extends AnchorPane {
                     limparLogin();//Apaga o texto que esta no TextField de Login
                     limparSenha();//Apaga o texto que esta no TextField de Login
                 }
-                
+
             }
         };
 
@@ -155,7 +156,7 @@ public class LoginController extends AnchorPane {
                     System.out.println("[ERRO]: " + e);
                     limparSenha();//Apaga o texto que esta no TextField de Login
                 }
-                
+
             }
 
         };
@@ -178,7 +179,7 @@ public class LoginController extends AnchorPane {
     private void adicionarPainelInterno(AnchorPane novaTela) {
         this.painelPrincipal.setCenter(novaTela);
     }
-    
+
     private void chamarAlerta(String titulo, String mensagem) {
         Platform.runLater(new Runnable() {
             @Override
@@ -187,7 +188,7 @@ public class LoginController extends AnchorPane {
             }
         });
     }
-    
+
     private void limparLogin() {
         Platform.runLater(new Runnable() {
             @Override
@@ -196,7 +197,7 @@ public class LoginController extends AnchorPane {
             }
         });
     }
-    
+
     private void limparSenha() {
         Platform.runLater(new Runnable() {
             @Override

@@ -4,6 +4,8 @@ import banco.ConexaoBanco;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import javafx.application.Platform;
+import util.Alerta;
 
 /**
  * Possui objetos necessários para implementar os CRUDs a partir da base de
@@ -19,5 +21,14 @@ public class DAO {
     protected PreparedStatement stm;
 
     public DAO() {
+    }
+    
+    public void chamarAlertaErro(String titulo, String mensagem) {
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                Alerta.erro(titulo, mensagem);
+            }
+        });
     }
 }
