@@ -4,9 +4,8 @@ import java.sql.SQLException;
 import model.Administrador;
 
 /**
- * Criado por Pedro Cordeiro
- * DAO responsável pela ações realizadas na base de dados referentes as login do
- * usuário
+ * Criado por Pedro Cordeiro DAO responsável pela ações realizadas na base de
+ * dados referentes as login do usuário
  */
 public class LoginDAO extends DAO {
 
@@ -34,7 +33,7 @@ public class LoginDAO extends DAO {
             rs.close();
 
         } catch (SQLException ex) {
-           chamarAlertaErro("Erro ao autenticar nome usuário na base de dados!", ex.toString());
+            chamarAlertaErro("Erro ao autenticar nome usuário na base de dados!", ex.toString());
         } catch (Exception e) {
             chamarAlertaErro("Ocorreu um erro", e.toString());
         }
@@ -91,7 +90,7 @@ public class LoginDAO extends DAO {
             rs.close();
 
         } catch (SQLException ex) {
-              chamarAlertaErro("Erro ao consultar usuário logado na base de dados!", ex.toString());
+            chamarAlertaErro("Erro ao consultar usuário logado na base de dados!", ex.toString());
         }
 
         return admin;

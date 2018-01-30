@@ -93,7 +93,6 @@ public class LoginController extends AnchorPane {
         SwingWorker<Boolean, Boolean> worker = new SwingWorker<Boolean, Boolean>() {
             @Override
             protected Boolean doInBackground() throws Exception {
-                ControleDAO.getBanco().getAdministradorDAO().excluir(2);
                 return ControleDAO.getBanco().getLoginDAO().autenticarLogin(login);
             }
 
