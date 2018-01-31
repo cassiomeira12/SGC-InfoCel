@@ -8,8 +8,11 @@ package controller;
 import java.io.IOException;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 /**
  * FXML Controller class
@@ -50,4 +53,22 @@ public class TelaVendaController extends AnchorPane {
         this.adicionarPainelInterno(telaInicial);
     }
     
+    @FXML
+    private void finalizarCompra() {
+        
+    }
+    
+    @FXML
+    private void adicionarProduto() {
+        Stage palco = new Stage();
+        palco.initStyle(StageStyle.UNDECORATED);
+        Scene cena = new Scene(new TelaSelecionarProdutoController(palco));
+        palco.setScene(cena);
+        palco.showAndWait();
+    }
+    
+    @FXML
+    private void removerProduto() {
+        
+    }
 }

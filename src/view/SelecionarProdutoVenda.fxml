@@ -6,17 +6,18 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<fx:root prefHeight="650.0" prefWidth="1200.0" type="AnchorPane" xmlns="http://javafx.com/javafx/9" xmlns:fx="http://javafx.com/fxml/1">
+<fx:root prefHeight="550.0" prefWidth="800.0" type="AnchorPane" xmlns="http://javafx.com/javafx/9" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <BorderPane layoutX="270.0" layoutY="182.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
          <top>
-            <Label text="Consultar Manutenções" BorderPane.alignment="CENTER">
+            <Label text="Selecione o Produto" BorderPane.alignment="CENTER">
                <font>
                   <Font size="27.0" />
                </font>
@@ -30,17 +31,12 @@
                <children>
                   <HBox alignment="CENTER" prefWidth="600.0">
                      <children>
-                        <Button alignment="CENTER" focusTraversable="false" mnemonicParsing="false" onAction="#cancelarOperacao" prefHeight="44.0" prefWidth="96.0" text="Editar" />
-                        <Button alignment="CENTER" focusTraversable="false" mnemonicParsing="false" onAction="#cancelarOperacao" prefHeight="44.0" prefWidth="96.0" text="Excluir">
-                           <HBox.margin>
-                              <Insets left="100.0" />
-                           </HBox.margin>
-                        </Button>
+                        <Button alignment="CENTER" focusTraversable="false" mnemonicParsing="false" onAction="#cancelarOperacao" prefHeight="44.0" text="Cancelar" />
                      </children>
                   </HBox>
                   <HBox alignment="CENTER" prefHeight="44.0" prefWidth="600.0">
                      <children>
-                        <Button alignment="CENTER" focusTraversable="false" mnemonicParsing="false" prefHeight="44.0" prefWidth="96.0" text="Finalizar" />
+                        <Button alignment="CENTER" focusTraversable="false" mnemonicParsing="false" onAction="#adicionarProduto" prefHeight="44.0" text="Adicionar Produto" />
                      </children>
                      <HBox.margin>
                         <Insets />
@@ -53,27 +49,33 @@
             </HBox>
          </bottom>
          <center>
-            <VBox alignment="TOP_CENTER" BorderPane.alignment="CENTER">
+            <VBox alignment="TOP_CENTER" spacing="20.0" BorderPane.alignment="CENTER">
                <children>
-                  <VBox alignment="TOP_RIGHT" spacing="20.0">
+                  <VBox>
                      <children>
-                        <VBox alignment="TOP_RIGHT">
-                           <children>
-                              <Label prefHeight="21.0" prefWidth="151.0" text="Mês" />
-                              <ComboBox fx:id="mesComboBox" prefWidth="150.0" promptText="Dezembro" />
-                           </children>
-                        </VBox>
-                        <TableView fx:id="manutencoesTable" prefHeight="450.0">
-                           <columns>
-                              <TableColumn prefWidth="75.0" text="C1" />
-                              <TableColumn prefWidth="75.0" text="C2" />
-                           </columns>
-                           <VBox.margin>
-                              <Insets />
-                           </VBox.margin>
-                        </TableView>
+                        <Label text="Pesquisar Produto" />
+                        <TextField />
                      </children>
                   </VBox>
+                  <TableView>
+                    <columns>
+                      <TableColumn prefWidth="75.0" text="C1" />
+                      <TableColumn prefWidth="75.0" text="C2" />
+                    </columns>
+                  </TableView>
+                  <HBox alignment="CENTER_RIGHT">
+                     <children>
+                        <VBox>
+                           <children>
+                              <Label text="Quantidade" />
+                              <ComboBox prefWidth="150.0" />
+                           </children>
+                        </VBox>
+                     </children>
+                     <VBox.margin>
+                        <Insets bottom="20.0" />
+                     </VBox.margin>
+                  </HBox>
                </children></VBox>
          </center>
       </BorderPane>

@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<fx:root prefHeight="650.0" prefWidth="1200.0" type="AnchorPane" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1">
+<fx:root prefHeight="650.0" prefWidth="1200.0" type="AnchorPane" xmlns="http://javafx.com/javafx/9" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <BorderPane layoutX="270.0" layoutY="182.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
          <top>
@@ -50,30 +50,38 @@
          <center>
             <VBox alignment="CENTER" spacing="50.0" BorderPane.alignment="CENTER">
                <children>
-                  <HBox alignment="CENTER" spacing="200.0">
+                  <HBox alignment="CENTER">
                      <children>
-                        <VBox>
+                        <HBox alignment="CENTER" prefWidth="600.0">
                            <children>
-                              <Label text="Valor R$" />
-                              <TextField fx:id="valorText" />
+                              <VBox prefWidth="200.0">
+                                 <children>
+                                    <Label prefHeight="21.0" prefWidth="155.0" text="Categoria">
+                                       <VBox.margin>
+                                          <Insets />
+                                       </VBox.margin>
+                                    </Label>
+                                    <ComboBox fx:id="categoriaComboBox" prefWidth="200.0" promptText="Despesas" />
+                                 </children>
+                              </VBox>
                            </children>
-                        </VBox>
-                        <VBox alignment="TOP_CENTER">
+                        </HBox>
+                        <HBox alignment="CENTER" prefWidth="600.0">
                            <children>
-                              <Label prefHeight="21.0" prefWidth="155.0" text="Categoria">
-                                 <VBox.margin>
-                                    <Insets />
-                                 </VBox.margin>
-                              </Label>
-                              <ComboBox fx:id="categoriaComboBox" prefWidth="150.0" />
+                              <VBox>
+                                 <children>
+                                    <Label text="Valor R$" />
+                                    <TextField fx:id="valorText" />
+                                 </children>
+                              </VBox>
                            </children>
-                        </VBox>
+                        </HBox>
                      </children>
                   </HBox>
                   <VBox>
                      <children>
                         <Label text="Descrição" />
-                        <TextArea fx:id="descricaoText" prefHeight="300.0" />
+                        <TextArea fx:id="descricaoText" prefHeight="300.0" promptText="Descreva nesse compo qualquer informação a respeito dessa nova saída." />
                      </children>
                      <VBox.margin>
                         <Insets left="20.0" right="20.0" />
