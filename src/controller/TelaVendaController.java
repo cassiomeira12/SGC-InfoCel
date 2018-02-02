@@ -51,7 +51,6 @@ public class TelaVendaController extends AnchorPane {
 
     @FXML
     public void initialize() {
-        
         Formatter.mascaraCPF(cpfText);
         Formatter.mascaraRG(rgText);
         Formatter.mascaraTelefone(telefoneText);
