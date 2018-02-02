@@ -35,7 +35,7 @@
                   </HBox>
                   <HBox alignment="CENTER" prefHeight="44.0" prefWidth="600.0">
                      <children>
-                        <Button alignment="CENTER" focusTraversable="false" mnemonicParsing="false" onAction="#cancelarOperacao" prefHeight="44.0" prefWidth="96.0" text="Finalizar" />
+                        <Button alignment="CENTER" disable="true" focusTraversable="false" mnemonicParsing="false" prefHeight="44.0" prefWidth="96.0" text="Finalizar" />
                      </children>
                      <HBox.margin>
                         <Insets />

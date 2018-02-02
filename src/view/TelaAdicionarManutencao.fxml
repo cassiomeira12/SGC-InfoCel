@@ -4,6 +4,7 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
@@ -37,7 +38,7 @@
                   </HBox>
                   <HBox alignment="CENTER" prefHeight="44.0" prefWidth="600.0">
                      <children>
-                        <Button alignment="CENTER" focusTraversable="false" mnemonicParsing="false" onAction="#cancelarOperacao" prefHeight="44.0" prefWidth="96.0" text="Finalizar" />
+                        <Button alignment="CENTER" disable="true" focusTraversable="false" mnemonicParsing="false" prefHeight="44.0" prefWidth="96.0" text="Finalizar" />
                      </children>
                      <HBox.margin>
                         <Insets />
@@ -52,7 +53,7 @@
          <center>
             <VBox alignment="TOP_CENTER" spacing="50.0" BorderPane.alignment="CENTER">
                <children>
-                  <GridPane hgap="10.0" prefHeight="150.0" prefWidth="1000.0">
+                  <GridPane hgap="10.0" prefHeight="200.0" prefWidth="1000.0" vgap="10.0">
                      <columnConstraints>
                         <ColumnConstraints hgrow="SOMETIMES" maxWidth="120.0" minWidth="10.0" prefWidth="120.0" />
                         <ColumnConstraints hgrow="SOMETIMES" maxWidth="120.0" minWidth="0.0" prefWidth="120.0" />
@@ -115,24 +116,23 @@
                         </VBox>
                      </children>
                   </GridPane>
-                  <GridPane hgap="10.0" prefHeight="200.0" vgap="10.0">
+                  <GridPane hgap="10.0" prefHeight="400.0" vgap="10.0">
                     <columnConstraints>
-                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                      <ColumnConstraints hgrow="SOMETIMES" prefWidth="100.0" />
+                      <ColumnConstraints hgrow="SOMETIMES" prefWidth="100.0" />
                         <ColumnConstraints hgrow="SOMETIMES" maxWidth="150.0" minWidth="150.0" prefWidth="150.0" />
                     </columnConstraints>
                     <rowConstraints>
-                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                      <RowConstraints maxHeight="100.0" minHeight="40.0" prefHeight="40.0" vgrow="SOMETIMES" />
+                        <RowConstraints maxHeight="40.0" minHeight="40.0" prefHeight="40.0" vgrow="SOMETIMES" />
+                      <RowConstraints maxHeight="40.0" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints maxHeight="40.0" minHeight="40.0" prefHeight="40.0" vgrow="SOMETIMES" />
                     </rowConstraints>
                      <children>
                         <VBox GridPane.columnSpan="2">
                            <children>
                               <Label text="Descrição da Manutenção" />
-                              <TextField fx:id="descricaoText" />
+                              <TextArea fx:id="descricaoArea" prefHeight="200.0" prefWidth="200.0" />
                            </children>
                         </VBox>
                         <VBox GridPane.columnIndex="2">
@@ -164,7 +164,7 @@
                               <Font size="15.0" />
                            </font>
                         </Label>
-                        <VBox GridPane.rowIndex="4">
+                        <VBox GridPane.rowIndex="3">
                            <children>
                               <Label text="Estado da Manutenção" />
                               <ComboBox prefWidth="150.0" promptText="Aberto" />

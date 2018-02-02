@@ -11,6 +11,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
@@ -60,8 +61,11 @@ public class TelaVendaController extends AnchorPane {
     
     @FXML
     private void adicionarProduto() {
+
         Stage palco = new Stage();
-        palco.initStyle(StageStyle.UNDECORATED);
+        palco.initModality(Modality.APPLICATION_MODAL);//Impede de clicar na tela em plano de fundo
+        palco.centerOnScreen();
+        palco.initStyle(StageStyle.UNDECORATED);//Remove a barra de menu
         Scene cena = new Scene(new TelaSelecionarProdutoController(palco));
         palco.setScene(cena);
         palco.showAndWait();

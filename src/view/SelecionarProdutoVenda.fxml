@@ -13,7 +13,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<fx:root prefHeight="550.0" prefWidth="800.0" type="AnchorPane" xmlns="http://javafx.com/javafx/9" xmlns:fx="http://javafx.com/fxml/1">
+<fx:root prefHeight="500.0" prefWidth="700.0" style="-fx-background-color: #bdc3c7;" type="AnchorPane" xmlns="http://javafx.com/javafx/9" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <BorderPane layoutX="270.0" layoutY="182.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
          <top>
@@ -49,7 +49,7 @@
             </HBox>
          </bottom>
          <center>
-            <VBox alignment="TOP_CENTER" spacing="20.0" BorderPane.alignment="CENTER">
+            <VBox alignment="TOP_CENTER" spacing="10.0" BorderPane.alignment="CENTER">
                <children>
                   <VBox>
                      <children>
@@ -73,7 +73,7 @@
                         </VBox>
                      </children>
                      <VBox.margin>
-                        <Insets bottom="20.0" />
+                        <Insets bottom="10.0" />
                      </VBox.margin>
                   </HBox>
                </children></VBox>
