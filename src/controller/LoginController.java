@@ -13,6 +13,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TextFormatter;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
@@ -21,6 +22,7 @@ import javafx.scene.layout.StackPane;
 import javax.swing.SwingWorker;
 import model.Administrador;
 import util.Alerta;
+import util.Formatter;
 
 /**
  * FXML Controller class
@@ -42,7 +44,7 @@ public class LoginController extends AnchorPane {
     private ProgressIndicator indicator = new ProgressIndicator();
 
     public LoginController(BorderPane painelPrincipal) {
-
+       
         this.painelPrincipal = painelPrincipal;
 
         try {
@@ -58,10 +60,13 @@ public class LoginController extends AnchorPane {
 
     @FXML
     public void initialize() {
+
+        usuarioText.setTextFormatter(Formatter.ALFA_NUMERICO());
+
         // TODO
         stackPane.getChildren().add(indicator);
         indicator.setVisible(false);
-
+        
         senhaPassword.setOnKeyReleased((KeyEvent key) -> {
             if (key.getCode() == KeyCode.ENTER) {
                 logar();

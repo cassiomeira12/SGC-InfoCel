@@ -16,21 +16,21 @@ import javafx.scene.layout.BorderPane;
  *
  * @author cassio
  */
-public class TelaConsultarClientesController extends AnchorPane {
+public class TelaClienteController extends AnchorPane {
     
     private BorderPane painelPrincipal;
 
   
-    public TelaConsultarClientesController(BorderPane painelPrincipal) {
+    public TelaClienteController(BorderPane painelPrincipal) {
         this.painelPrincipal = painelPrincipal;
         
         try {
-            FXMLLoader fxml = new FXMLLoader(getClass().getResource("/view/TelaConsultarClientes.fxml"));
+            FXMLLoader fxml = new FXMLLoader(getClass().getResource("/view/TelaCliente.fxml"));
             fxml.setRoot(this);
             fxml.setController(this);
             fxml.load();
         } catch (IOException ex) {
-            System.out.println("[ERRO] : Erro na tela Consultar Clientes");
+            System.out.println("[ERRO] : Erro na tela Cliente");
             System.out.println(ex.toString());
         }
     }
@@ -46,19 +46,8 @@ public class TelaConsultarClientesController extends AnchorPane {
     
     @FXML
     private void cancelarOperacao() {
-        TelaInicialController telaInicial = new TelaInicialController(painelPrincipal);
-        this.adicionarPainelInterno(telaInicial);
-    }
-    
-    @FXML
-    private void editarCliente() {
-        TelaClienteController telaCliente = new TelaClienteController(painelPrincipal);
-        this.adicionarPainelInterno(telaCliente);
-    }
-    
-    @FXML
-    private void excluirCliente() {
-        
+        TelaConsultarClientesController telaConsultarClientes = new TelaConsultarClientesController(painelPrincipal);
+        this.adicionarPainelInterno(telaConsultarClientes);
     }
     
 }
