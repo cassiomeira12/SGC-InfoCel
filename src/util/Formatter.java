@@ -7,6 +7,8 @@ package util;
 
 import javafx.beans.value.ObservableValue;
 import javafx.scene.control.DatePicker;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
 import javafx.scene.input.KeyEvent;
@@ -50,6 +52,48 @@ public class Formatter {
         });
     }
     
+    
+    /**
+     * Não permitir que campos de textos com valores nulos
+     */
+    public static boolean isEmpty(TextField... field) {
+        boolean vazio = false;
+        for (TextField campo : field) {
+            if (campo.getText().trim().isEmpty()) {
+                //erro(campo, "Verificar valor vazio!");
+                vazio = true;
+            }
+        }
+        return vazio;
+    }
+    
+    /**
+     * Limpar textos dos campos informados
+     */
+    public static void limpar(TextField... no) {
+        for (TextField campo : no) {
+            campo.setText("");
+        }
+    }
+
+    /**
+     * Limpar textos dos labels informados
+     */
+    public static void limpar(Label... no) {
+        for (Label campo : no) {
+            campo.setText("");
+        }
+    }
+
+    /**
+     * Limpar textos dos TextArea informado
+     */
+    public static void limpar(TextArea... no) {
+        for (TextArea campo : no) {
+            campo.setText("");
+        }
+    }
+    
 
     public static void mascaraNumeroInteiro(TextField textField){
 
@@ -77,6 +121,18 @@ public class Formatter {
 
     } 
 
+    public static void decimal(TextField campo) {
+        campo.lengthProperty().addListener((ObservableValue<? extends Number> obs, Number old, Number novo) -> {
+            if (novo.intValue() > old.intValue()) {
+                char ch = campo.getText().charAt(old.intValue());
+                if (!(ch >= '0' && ch <= '9' || ch == '.')) {
+                    campo.setText(campo.getText().substring(0, campo.getText().length() - 1));
+                    //Campo.erro(campo, null);
+                }
+            }
+        });
+    }
+    
     public static void mascaraCEP(TextField textField){
 
         String val = "";

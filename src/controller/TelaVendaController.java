@@ -26,7 +26,8 @@ public class TelaVendaController extends AnchorPane {
     
     private BorderPane painelPrincipal;
     
-    
+    @FXML
+    private TextField nomeText;
     @FXML
     private TextField cpfText;
     @FXML

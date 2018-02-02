@@ -13,7 +13,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.TextField;
-import javafx.scene.control.TextFormatter;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
@@ -23,6 +22,7 @@ import javax.swing.SwingWorker;
 import model.Administrador;
 import util.Alerta;
 import util.Formatter;
+import util.alerta.Mensagem;
 
 /**
  * FXML Controller class
@@ -60,7 +60,7 @@ public class LoginController extends AnchorPane {
 
     @FXML
     public void initialize() {
-
+        
         usuarioText.setTextFormatter(Formatter.ALFA_NUMERICO());
 
         // TODO
@@ -76,17 +76,14 @@ public class LoginController extends AnchorPane {
 
     @FXML
     private void logar() {
+
+        boolean vazio = Formatter.isEmpty(usuarioText, senhaPassword);
+        
         String login = usuarioText.getText();
         String senha = senhaPassword.getText();
 
-        if (login.isEmpty() || senha.isEmpty()) {
-            if (login.isEmpty() && senha.isEmpty()) {
-                Alerta.erro("Erro no Login", "Os campos de Login e Senha estão vazios");
-            } else if (login.isEmpty()) {
-                Alerta.erro("Erro no Login", "Campo de Login está vazio");
-            } else {
-                Alerta.erro("Erro na Senha", "Compo de Senha está vazio");
-            }
+        if (vazio) {
+            Mensagem.alerta("Preencha os campos vazios", "Campos vazios");
         } else {
             indicator.setVisible(true);
             autenticarLogin(login, senha);
