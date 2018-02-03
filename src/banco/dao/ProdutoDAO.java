@@ -24,11 +24,16 @@ public class ProdutoDAO extends DAO {
      */
     public void inserir(Produto produto) {
         try {
-            String sql = "INSERT INTO produto ( descricao ) VALUES (?)";
+            String sql = "INSERT INTO produto ( descricao_produto, id_categoria, id_marca, preco_compra, preco_venda, estoque ) VALUES (?, ?, ?, ?, ?, ?)";
 
             stm = getConector().prepareStatement(sql);
 
             stm.setString(1, produto.getDescricao());
+            stm.setInt(3, produto.getCategoria().getId().intValue());
+            stm.setInt(3, produto.getMarca().getId().intValue());
+            stm.setFloat(4, produto.getPrecoCompra());
+            stm.setFloat(5, produto.getPrecoVenda());
+            stm.setFloat(6, produto.getEstoque());
 
             stm.executeUpdate();
             stm.close();
@@ -43,12 +48,16 @@ public class ProdutoDAO extends DAO {
      */
     public void editar(Produto produto) {
         try {
-            String sql = "UPDATE produto SET descricao =? WHERE id =?";
+            String sql = "UPDATE produto SET  descricao_produto =?, id_categoria =?, id_marca =?, preco_compra =?, preco_venda =?, estoque =? WHERE id_produto =?";
 
             stm = getConector().prepareStatement(sql);
 
             stm.setString(1, produto.getDescricao());
-
+            stm.setInt(3, produto.getCategoria().getId().intValue());
+            stm.setInt(3, produto.getMarca().getId().intValue());
+            stm.setFloat(4, produto.getPrecoCompra());
+            stm.setFloat(5, produto.getPrecoVenda());
+            stm.setFloat(6, produto.getEstoque());
             stm.setInt(2, produto.getId().intValue());
 
             stm.executeUpdate();

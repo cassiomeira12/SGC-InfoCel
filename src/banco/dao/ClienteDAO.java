@@ -3,7 +3,6 @@ package banco.dao;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import model.Celular;
 import model.Cliente;
 
 /**
@@ -21,11 +20,18 @@ public class ClienteDAO extends DAO {
      */
     public void inserir(Cliente cliente) {
         try {
-            String sql = "INSERT INTO cliente ( nome ) VALUES (?)";
+            String sql = "INSERT INTO cliente ( nome, endereco, cpf, rg, telefone, email, data_cadastro, status ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
             stm = getConector().prepareStatement(sql);
 
             stm.setString(1, cliente.getNome());
+            stm.setString(2, cliente.getEndereco());
+            stm.setString(3, cliente.getCpf());
+            stm.setString(4, cliente.getRg());
+            stm.setString(5, cliente.getTelefone());
+            stm.setString(6, cliente.getEmail());
+            stm.setLong(7, System.currentTimeMillis());
+            stm.setInt(8, cliente.getStatus());
 
             stm.executeUpdate();
             stm.close();
@@ -40,13 +46,20 @@ public class ClienteDAO extends DAO {
      */
     public void editar(Cliente cliente) {
         try {
-            String sql = "UPDATE cliente SET nome =? WHERE id =?";
+            String sql = "UPDATE cliente SET nome =?, endereco =?, cpf =?, rg =?, telefone =?, email =?, data_cadastro =?, status =? WHERE id_cliente =?";
 
             stm = getConector().prepareStatement(sql);
 
             stm.setString(1, cliente.getNome());
+            stm.setString(2, cliente.getEndereco());
+            stm.setString(3, cliente.getCpf());
+            stm.setString(4, cliente.getRg());
+            stm.setString(5, cliente.getTelefone());
+            stm.setString(6, cliente.getEmail());
+            stm.setLong(7, System.currentTimeMillis());
+            stm.setInt(8, cliente.getStatus());
 
-            stm.setInt(2, cliente.getId().intValue());
+            stm.setInt(9, cliente.getId().intValue());
 
             stm.executeUpdate();
             stm.close();
@@ -61,7 +74,7 @@ public class ClienteDAO extends DAO {
      */
     public void excluir(int id) {
         try {
-            String sql = "DELETE FROM cliente WHERE id=?";
+            String sql = "DELETE FROM cliente WHERE id_cliente=?";
 
             stm = getConector().prepareStatement(sql);
 

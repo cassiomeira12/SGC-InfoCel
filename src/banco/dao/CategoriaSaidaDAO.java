@@ -4,23 +4,24 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import model.CategoriaProduto;
+import model.CategoriaSaida;
 
 /**
  * DAO responsável pela ações realizadas na base de dados referentes as
  * categoria
  */
-public class CategoriaProdutoDAO extends DAO {
+public class CategoriaSaidaDAO extends DAO {
 
-    public CategoriaProdutoDAO() {
+    public CategoriaSaidaDAO() {
         super();
     }
 
     /**
      * Inserir categoria na base de dados
      */
-    public void inserir(CategoriaProduto categoria) {
+    public void inserir(CategoriaSaida categoria) {
         try {
-            String sql = "INSERT INTO categoria_produto ( descricao_categoria ) VALUES (?)";
+            String sql = "INSERT INTO categoria_saida ( descricao_categoria ) VALUES (?)";
 
             stm = getConector().prepareStatement(sql);
 
@@ -39,7 +40,7 @@ public class CategoriaProdutoDAO extends DAO {
      */
     public void editar(CategoriaProduto categoria) {
         try {
-            String sql = "UPDATE categoria_produto SET descricao_categoria =? WHERE id =?";
+            String sql = "UPDATE categoria_saida SET descricao_categoria =? WHERE id_categoria =?";
 
             stm = getConector().prepareStatement(sql);
 
@@ -60,7 +61,7 @@ public class CategoriaProdutoDAO extends DAO {
      */
     public void excluir(int id) {
         try {
-            String sql = "DELETE FROM categoria_produto WHERE id=?";
+            String sql = "DELETE FROM categoria_saida WHERE id=?";
 
             stm = getConector().prepareStatement(sql);
 
@@ -76,18 +77,18 @@ public class CategoriaProdutoDAO extends DAO {
     /**
      * Consultar todas categoria cadastradas na base de dados
      */
-    public List<CategoriaProduto> listar() {
+    public List<CategoriaSaida> listar() {
 
-        List<CategoriaProduto> categorias = new ArrayList<>();
+        List<CategoriaSaida> categorias = new ArrayList<>();
 
         try {
-            String sql = "SELECT categoria_produto.* FROM categoria_produto";
+            String sql = "SELECT categoria_saida.* FROM categoria_saida";
 
             stm = getConector().prepareStatement(sql);
             rs = stm.executeQuery(sql);
 
             while (rs.next()) {
-                CategoriaProduto categoria = new CategoriaProduto((long) rs.getInt(1), rs.getString(2));
+                CategoriaSaida categoria = new CategoriaSaida((long) rs.getInt(1), rs.getString(2));
 
                 categorias.add(categoria);
             }

@@ -23,14 +23,18 @@ public class AdministradorDAO extends DAO {
      */
     public void inserir(Administrador adm) {
         try {
-            String sql = "INSERT INTO administrador ( nome, login, senha, status) VALUES (?, ?, ?, ?)";
+            String sql = "INSERT INTO administrador ( nome, login, senha, endereco, email, cpf, rg, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
             stm = getConector().prepareStatement(sql);
 
             stm.setString(1, adm.getNome());
             stm.setString(2, adm.getLogin());
             stm.setString(3, adm.getSenha());
-            stm.setInt(4, adm.getStatus());
+            stm.setString(4, adm.getSenha());
+            stm.setString(5, adm.getSenha());
+            stm.setString(6, adm.getSenha());
+            stm.setString(7, adm.getSenha());
+            stm.setInt(8, adm.getStatus());
 
             stm.executeUpdate();
             stm.close();
@@ -45,16 +49,20 @@ public class AdministradorDAO extends DAO {
      */
     public void editar(Administrador adm) {
         try {
-            String sql = "UPDATE administrador SET nome =?, login =?, senha =?, status =?, WHERE id =?";
+            String sql = "UPDATE administrador SET nome =?, login =?, senha =?, endereco = ?, email =?, cpf =?, rg =?, status =?, WHERE id_administrador =?";
 
             stm = getConector().prepareStatement(sql);
 
             stm.setString(1, adm.getNome());
             stm.setString(2, adm.getLogin());
             stm.setString(3, adm.getSenha());
-            stm.setInt(4, adm.getStatus());
+            stm.setString(4, adm.getEndereco());
+            stm.setString(5, adm.getEmail());
+            stm.setString(6, adm.getCpf());
+            stm.setString(7, adm.getRg());
+            stm.setInt(8, adm.getStatus());
 
-            stm.setInt(5, adm.getId().intValue());
+            stm.setInt(9, adm.getId().intValue());
 
             stm.executeUpdate();
             stm.close();
@@ -69,7 +77,7 @@ public class AdministradorDAO extends DAO {
      */
     public void excluir(int id) {
         try {
-            String sql = "DELETE FROM administrador WHERE id=?";
+            String sql = "DELETE FROM administrador WHERE id_administrador=?";
 
             stm = getConector().prepareStatement(sql);
 
@@ -78,7 +86,7 @@ public class AdministradorDAO extends DAO {
 
             stm.close();
         } catch (SQLException ex) {
-            chamarAlertaErro("Erro ao excluir usuário na base de dados!", ex.toString());
+            chamarAlertaErro("Erro ao excluir administrador na base de dados!", ex.toString());
         }
     }
 

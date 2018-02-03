@@ -23,11 +23,19 @@ public class CelularDAO extends DAO {
      */
     public void inserir(Celular celular) {
         try {
-            String sql = "INSERT INTO celular ( descricao ) VALUES (?)";
+            String sql = "INSERT INTO produto ( descricao_produto, id_categoria, id_marca, preco_compra, preco_venda, estoque, modelo, imei, cor ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
             
             stm = getConector().prepareStatement(sql);
             
             stm.setString(1, celular.getDescricao());
+            stm.setInt(3, celular.getCategoria().getId().intValue());
+            stm.setInt(3, celular.getMarca().getId().intValue());
+            stm.setFloat(4, celular.getPrecoCompra());
+            stm.setFloat(5, celular.getPrecoVenda());
+            stm.setFloat(6, celular.getEstoque());
+            stm.setString(7, celular.getModelo());
+            stm.setString(8, celular.getImei());
+            stm.setString(9, celular.getCor());
             
             stm.executeUpdate();
             stm.close();
@@ -42,13 +50,21 @@ public class CelularDAO extends DAO {
      */
     public void editar(Celular celular) {
         try {
-            String sql = "UPDATE celular SET descricao =? WHERE id =?";
+            String sql = "UPDATE produto SET  descricao_produto =?, id_categoria =?, id_marca =?, preco_compra =?, preco_venda =?, estoque =?, modelo =?, imei =?, cor =? WHERE id_produto =?";
             
             stm = getConector().prepareStatement(sql);
             
             stm.setString(1, celular.getDescricao());
+            stm.setInt(3, celular.getCategoria().getId().intValue());
+            stm.setInt(3, celular.getMarca().getId().intValue());
+            stm.setFloat(4, celular.getPrecoCompra());
+            stm.setFloat(5, celular.getPrecoVenda());
+            stm.setFloat(6, celular.getEstoque());
+            stm.setString(7, celular.getModelo());
+            stm.setString(8, celular.getImei());
+            stm.setString(9, celular.getCor());
             
-            stm.setInt(2, celular.getId().intValue());
+            stm.setInt(10, celular.getId().intValue());
             
             stm.executeUpdate();
             stm.close();
@@ -63,7 +79,7 @@ public class CelularDAO extends DAO {
      */
     public void excluir(int id) {
         try {
-            String sql = "DELETE FROM celular WHERE id=?";
+            String sql = "DELETE FROM produto WHERE id_produto=?";
             
             stm = getConector().prepareStatement(sql);
             
@@ -84,7 +100,7 @@ public class CelularDAO extends DAO {
         List<Celular> celulares = new ArrayList<>();
         
         try {
-            String sql = "SELECT celular.* FROM celular";
+            String sql = "SELECT produto.* FROM produto WHERE produto.descricao_categoria = 'CELULAR'";
             
             stm = getConector().prepareStatement(sql);
             rs = stm.executeQuery(sql);
