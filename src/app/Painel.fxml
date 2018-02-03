@@ -21,7 +21,7 @@
                </items></Menu>
           <Menu mnemonicParsing="false" text="Produtos">
                <items>
-                  <MenuItem mnemonicParsing="false" text="Adicionar Produto" />
+                  <MenuItem mnemonicParsing="false" onAction="#chamarTelaAdicionarProduto" text="Adicionar Produto" />
                   <MenuItem mnemonicParsing="false" onAction="#chamarTelaConsultarProdutos" text="Consultar Produtos" />
                </items></Menu>
             <Menu mnemonicParsing="false" text="Manutenções">

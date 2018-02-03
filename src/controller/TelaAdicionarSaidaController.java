@@ -16,21 +16,21 @@ import javafx.scene.layout.BorderPane;
  *
  * @author cassio
  */
-public class TelaManutencaoController extends AnchorPane {
+public class TelaAdicionarSaidaController extends AnchorPane {
     
     private BorderPane painelPrincipal;
 
   
-    public TelaManutencaoController(BorderPane painelPrincipal) {
+    public TelaAdicionarSaidaController(BorderPane painelPrincipal) {
         this.painelPrincipal = painelPrincipal;
         
         try {
-            FXMLLoader fxml = new FXMLLoader(getClass().getResource("/view/TelaAdicionarManutencao.fxml"));
+            FXMLLoader fxml = new FXMLLoader(getClass().getResource("/view/TelaAdicionarSaida.fxml"));
             fxml.setRoot(this);
             fxml.setController(this);
             fxml.load();
         } catch (IOException ex) {
-            System.out.println("[ERRO] : Erro na tela Adicionar Manutencao");
+            System.out.println("[ERRO] : Erro na tela Adicionar Saida");
             System.out.println(ex.toString());
         }
     }

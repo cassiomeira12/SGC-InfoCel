@@ -61,10 +61,11 @@
                         <TextField fx:id="pesquisaText" />
                      </children>
                   </VBox>
-                  <TableView fx:id="clientesTable" prefHeight="450.0">
+                  <TableView fx:id="clientesTable">
                     <columns>
-                      <TableColumn prefWidth="75.0" text="C1" />
-                      <TableColumn prefWidth="75.0" text="C2" />
+                      <TableColumn maxWidth="1.7976931348623157E308" minWidth="-1.0" prefWidth="400.0" resizable="false" text="Nome" />
+                        <TableColumn maxWidth="1.7976931348623157E308" minWidth="-1.0" prefWidth="579.0" resizable="false" text="Endereço" />
+                      <TableColumn maxWidth="1.7976931348623157E308" minWidth="-1.0" prefWidth="200.0" resizable="false" text="Telefone" />
                     </columns>
                      <VBox.margin>
                         <Insets />

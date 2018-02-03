@@ -16,12 +16,12 @@ import javafx.scene.layout.BorderPane;
  *
  * @author cassio
  */
-public class TelaReceitaController extends AnchorPane {
+public class TelaAdicionarReceitaController extends AnchorPane {
     
     private BorderPane painelPrincipal;
 
   
-    public TelaReceitaController(BorderPane painelPrincipal) {
+    public TelaAdicionarReceitaController(BorderPane painelPrincipal) {
         this.painelPrincipal = painelPrincipal;
         
         try {

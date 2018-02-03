@@ -4,11 +4,13 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.Spinner?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
@@ -35,7 +37,7 @@
                   </HBox>
                   <HBox alignment="CENTER" prefHeight="44.0" prefWidth="600.0">
                      <children>
-                        <Button alignment="CENTER" focusTraversable="false" mnemonicParsing="false" prefHeight="44.0" prefWidth="96.0" text="Finalizar" />
+                        <Button alignment="CENTER" focusTraversable="false" mnemonicParsing="false" prefHeight="44.0" prefWidth="96.0" text="Adicionar" />
                      </children>
                      <HBox.margin>
                         <Insets />
@@ -48,86 +50,111 @@
             </HBox>
          </bottom>
          <center>
-            <VBox alignment="TOP_CENTER" spacing="50.0" BorderPane.alignment="CENTER">
+            <VBox alignment="TOP_CENTER" focusTraversable="true" spacing="50.0" BorderPane.alignment="CENTER">
                <children>
-                  <HBox alignment="CENTER">
+                  <GridPane focusTraversable="true" hgap="20.0" prefHeight="200.0" vgap="10.0">
+                    <columnConstraints>
+                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="150.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="50.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="150.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="150.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="-Infinity" prefWidth="50.0" />
+                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="210.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                    </rowConstraints>
                      <children>
-                        <HBox alignment="CENTER" prefWidth="600.0">
+                        <VBox focusTraversable="true" prefHeight="42.0" prefWidth="735.0" GridPane.columnSpan="4">
                            <children>
-                              <VBox>
+                              <Label text="Descrição do Produto" />
+                              <TextField fx:id="descricaoText" focusTraversable="false" prefHeight="26.0" prefWidth="759.0" />
+                           </children>
+                        </VBox>
+                        <VBox fx:id="categoriaBox" focusTraversable="true" GridPane.columnIndex="4">
+                           <children>
+                              <Label text="Categoria" />
+                              <HBox spacing="10.0">
                                  <children>
-                                    <Label text="Categoria" />
-                                    <ComboBox prefWidth="150.0" />
+                                    <ComboBox fx:id="categoriaComboBox" focusTraversable="false" prefWidth="150.0" />
+                                    <Button focusTraversable="false" mnemonicParsing="false" onAction="#adicionarNovaCategoria" text="+" />
                                  </children>
-                              </VBox>
+                              </HBox>
+                           </children>
+                        </VBox>
+                        <VBox fx:id="novaCategoriaBox" focusTraversable="true" GridPane.columnIndex="5">
+                           <children>
+                              <Label text="Nova Categoria" />
+                              <HBox focusTraversable="true" spacing="10.0">
+                                 <children>
+                                    <TextField fx:id="novaCategoriaText" focusTraversable="false" />
+                                    <Button focusTraversable="false" mnemonicParsing="false" onAction="#salvarNovaCategoria" text="+" />
+                                 </children>
+                              </HBox>
+                           </children>
+                        </VBox>
+                        <VBox fx:id="marcaBox" focusTraversable="true" GridPane.columnSpan="2" GridPane.rowIndex="1">
+                           <children>
+                              <Label text="Marca" />
+                              <HBox focusTraversable="true" spacing="10.0">
+                                 <children>
+                                    <ComboBox fx:id="marcaComboBox" focusTraversable="false" prefWidth="170.0" />
+                                    <Button focusTraversable="false" mnemonicParsing="false" onAction="#adicionarNovaMarca" text="+" />
+                                 </children>
+                              </HBox>
+                           </children>
+                        </VBox>
+                        <VBox fx:id="novaMarcaBox" focusTraversable="true" GridPane.columnIndex="5" GridPane.columnSpan="2" GridPane.rowIndex="1">
+                           <children>
+                              <Label text="Nova Marca" />
+                              <HBox focusTraversable="true" spacing="10.0">
+                                 <children>
+                                    <TextField fx:id="novaMarcaText" focusTraversable="false" />
+                                    <Button focusTraversable="false" mnemonicParsing="false" onAction="#salvarNovaMarca" text="+" />
+                                 </children>
+                              </HBox>
+                           </children>
+                        </VBox>
+                        <VBox focusTraversable="true" prefHeight="42.0" prefWidth="182.0" GridPane.columnIndex="2" GridPane.rowIndex="1">
+                           <children>
+                              <Label text="Custo do Produto R$" />
+                              <TextField focusTraversable="false" />
+                           </children>
+                        </VBox>
+                        <VBox focusTraversable="true" prefHeight="42.0" prefWidth="182.0" GridPane.columnIndex="3" GridPane.rowIndex="1">
+                           <children>
+                              <Label text="Valor para Venda R$" />
+                              <TextField focusTraversable="false" />
+                           </children>
+                        </VBox>
+                        <HBox alignment="CENTER" focusTraversable="true" spacing="10.0" GridPane.columnIndex="4" GridPane.rowIndex="1">
+                           <children>
+                              <Label text="Percentual de Lucro:">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </Label>
+                              <Label text="0.0%">
+                                 <font>
+                                    <Font size="20.0" />
+                                 </font>
+                              </Label>
                            </children>
                         </HBox>
-                        <HBox alignment="CENTER" prefWidth="600.0">
+                        <VBox focusTraversable="true" GridPane.rowIndex="2">
                            <children>
-                              <VBox>
-                                 <children>
-                                    <Label text="Nova Categoria de Produtos" />
-                                    <HBox>
-                                       <children>
-                                          <TextField />
-                                          <Button mnemonicParsing="false" text="+" />
-                                       </children>
-                                    </HBox>
-                                 </children>
-                              </VBox>
+                              <Label text="Quantidade" />
+                              <TextField focusTraversable="false" />
                            </children>
-                        </HBox>
+                        </VBox>
                      </children>
-                  </HBox>
-                  <HBox alignment="CENTER">
-                     <children>
-                        <HBox alignment="CENTER" prefWidth="600.0">
-                           <children>
-                              <VBox>
-                                 <children>
-                                    <Label text="Descrição" />
-                                    <TextField />
-                                 </children>
-                              </VBox>
-                           </children>
-                        </HBox>
-                        <HBox alignment="CENTER" prefWidth="600.0">
-                           <children>
-                              <VBox>
-                                 <children>
-                                    <Label text="Marca" />
-                                    <ComboBox prefWidth="150.0" />
-                                 </children>
-                              </VBox>
-                           </children>
-                        </HBox>
-                     </children>
-                  </HBox>
-                  <HBox>
-                     <children>
-                        <HBox alignment="CENTER" prefWidth="600.0">
-                           <children>
-                              <VBox>
-                                 <children>
-                                    <Label text="Preço R$" />
-                                    <TextField />
-                                 </children>
-                              </VBox>
-                           </children>
-                        </HBox>
-                        <HBox alignment="CENTER" prefWidth="600.0">
-                           <children>
-                              <VBox>
-                                 <children>
-                                    <Label text="Quantidade" />
-                                    <Spinner />
-                                 </children>
-                              </VBox>
-                           </children>
-                        </HBox>
-                     </children>
-                  </HBox>
-               </children></VBox>
+                  </GridPane>
+               </children>
+               <BorderPane.margin>
+                  <Insets top="80.0" />
+               </BorderPane.margin></VBox>
          </center>
       </BorderPane>
    </children>

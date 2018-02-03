@@ -6,13 +6,14 @@
 package app;
 
 import controller.LoginController;
+import controller.TelaAdicionarProdutoController;
 import controller.TelaConsultarClientesController;
 import controller.TelaConsultarManutencoesController;
 import controller.TelaConsultarProdutosController;
-import controller.TelaManutencaoController;
+import controller.TelaAdicionarManutencaoController;
 import controller.TelaRelatorioMensalController;
 import controller.TelaSobreController;
-import controller.TelaVendaController;
+import controller.TelaAdicionarVendaController;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
@@ -69,13 +70,13 @@ public class PainelController implements Initializable {
     
     @FXML
     private void chamarTelaAdicionarManutencao() {
-        TelaManutencaoController telaAdicionarManutencao = new TelaManutencaoController(painelPrincipal);
+        TelaAdicionarManutencaoController telaAdicionarManutencao = new TelaAdicionarManutencaoController(painelPrincipal);
         this.adicionarPainelInterno(telaAdicionarManutencao);
     }
     
     @FXML
     private void chamarTelaAdicionarVenda() {
-        TelaVendaController telaAdicionarVenda = new TelaVendaController(painelPrincipal);
+        TelaAdicionarVendaController telaAdicionarVenda = new TelaAdicionarVendaController(painelPrincipal);
         this.adicionarPainelInterno(telaAdicionarVenda);
     }
 
@@ -107,6 +108,12 @@ public class PainelController implements Initializable {
     private void chamarTelaSobre(ActionEvent event) {
         TelaSobreController telaSobre = new TelaSobreController(painelPrincipal);
         this.adicionarPainelInterno(telaSobre);
+    }
+
+    @FXML
+    private void chamarTelaAdicionarProduto(ActionEvent event) {
+        TelaAdicionarProdutoController telaAdicionarProduto = new TelaAdicionarProdutoController(painelPrincipal);
+        this.adicionarPainelInterno(telaAdicionarProduto);
     }
 
 }

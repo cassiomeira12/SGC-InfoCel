@@ -5,6 +5,7 @@
  */
 package controller;
 
+import banco.ControleDAO;
 import java.io.IOException;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -15,28 +16,37 @@ import javafx.scene.layout.BorderPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import model.Cliente;
 import util.Formatter;
+import util.alerta.Alerta;
 
 /**
  * FXML Controller class
  *
  * @author cassio
  */
-public class TelaVendaController extends AnchorPane {
+public class TelaAdicionarVendaController extends AnchorPane {
     
     private BorderPane painelPrincipal;
     
+    
+    @FXML
+    private TextField pesquisaText;
     @FXML
     private TextField nomeText;
     @FXML
-    private TextField cpfText;
-    @FXML
     private TextField telefoneText;
     @FXML
+    private TextField cpfText;
+    @FXML
     private TextField rgText;
+    @FXML
+    private TextField cidadeText;
+    @FXML
+    private TextField enderecoText;
 
   
-    public TelaVendaController(BorderPane painelPrincipal) {
+    public TelaAdicionarVendaController(BorderPane painelPrincipal) {
         this.painelPrincipal = painelPrincipal;
         
         try {
@@ -55,22 +65,36 @@ public class TelaVendaController extends AnchorPane {
         Formatter.mascaraCPF(cpfText);
         Formatter.mascaraRG(rgText);
         Formatter.mascaraTelefone(telefoneText);
-        // TODO
     }
     
     private void adicionarPainelInterno(AnchorPane novaTela) {
         this.painelPrincipal.setCenter(novaTela);
     }
     
+    
+    private void criarCliente() {
+        boolean vazio = Formatter.isEmpty(nomeText, telefoneText, cpfText, rgText, cidadeText, enderecoText);
+        
+        String nome = nomeText.getText();
+        String telefone = telefoneText.getText();
+        String cpf = cpfText.getText();
+        String rg = rgText.getText();
+        String cidade = cidadeText.getText();
+        String endereco = enderecoText.getText();
+        
+        if (vazio) {
+            Alerta.alerta("Dados do cliente insuficientes", "Preencha as informações do Cliente");
+        } else {
+            //Cliente cliente = new Cliente(null, nome, endereco, cpf, rg, telefone, cidade, null, 0);
+            //ControleDAO.getBanco().getClienteDAO().inserir(cliente);
+        }
+       
+    }
+    
     @FXML
     private void cancelarOperacao() {
         TelaInicialController telaInicial = new TelaInicialController(painelPrincipal);
         this.adicionarPainelInterno(telaInicial);
-    }
-    
-    @FXML
-    private void finalizarCompra() {
-        
     }
     
     @FXML
@@ -98,5 +122,10 @@ public class TelaVendaController extends AnchorPane {
     @FXML
     private void removerProduto() {
         
+    }
+    
+    @FXML
+    private void finalizarCompra() {
+        this.criarCliente();
     }
 }

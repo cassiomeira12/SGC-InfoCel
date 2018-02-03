@@ -47,25 +47,25 @@ public class TelaInicialController extends AnchorPane {
     
     @FXML
     private void chamarTelaAdicionarManutencao() {
-        TelaManutencaoController telaAdicionarManutencao = new TelaManutencaoController(painelPrincipal);
+        TelaAdicionarManutencaoController telaAdicionarManutencao = new TelaAdicionarManutencaoController(painelPrincipal);
         this.adicionarPainelInterno(telaAdicionarManutencao);
     }
     
     @FXML
     private void chamarTelaAdicionarReceita() {
-        TelaReceitaController telaAdicionarReceita = new TelaReceitaController(painelPrincipal);
+        TelaAdicionarReceitaController telaAdicionarReceita = new TelaAdicionarReceitaController(painelPrincipal);
         this.adicionarPainelInterno(telaAdicionarReceita);
     }
     
     @FXML
     private void chamarTelaAdicionarSaida() {
-        TelaSaidaController telaAdicionarSaida = new TelaSaidaController(painelPrincipal);
+        TelaAdicionarSaidaController telaAdicionarSaida = new TelaAdicionarSaidaController(painelPrincipal);
         this.adicionarPainelInterno(telaAdicionarSaida);
     }
     
     @FXML
     private void chamarTelaAdicionarVenda() {
-        TelaVendaController telaAdicionarVenda = new TelaVendaController(painelPrincipal);
+        TelaAdicionarVendaController telaAdicionarVenda = new TelaAdicionarVendaController(painelPrincipal);
         this.adicionarPainelInterno(telaAdicionarVenda);
     }
     
