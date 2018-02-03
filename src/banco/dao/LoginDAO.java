@@ -77,14 +77,14 @@ public class LoginDAO extends DAO {
         Administrador admin = null;
 
         try {
-            String sql = "SELECT id, nome, login, senha, status FROM administrador WHERE login = ?";
+            String sql = "SELECT administrador.* FROM administrador WHERE login = ?";
 
             stm = getConector().prepareStatement(sql);
             stm.setString(1, login);
             rs = stm.executeQuery();
 
             while (rs.next()) {
-                admin = new Administrador((long) rs.getInt(1), rs.getNString(2), rs.getNString(3), rs.getNString(4), rs.getNString(5), rs.getNString(6), rs.getNString(7), rs.getLong(8), rs.getInt(9));
+                admin = new Administrador((long) rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7), rs.getString(8), rs.getLong(9), rs.getInt(10));
             }
             stm.close();
             rs.close();

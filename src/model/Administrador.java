@@ -9,10 +9,11 @@ public class Administrador {
     private String endereco;
     private String email;
     private String cpf;
+    private String rg;
     private Long dataCadastro;
     private int status;
 
-    public Administrador(Long id, String nome, String login, String senha, String endereco, String email, String cpf, Long dataCadastro, int status) {
+    public Administrador(Long id, String nome, String login, String senha, String endereco, String email, String cpf, String rg, Long dataCadastro, int status) {
         this.id = id;
         this.nome = nome;
         this.login = login;
@@ -20,6 +21,7 @@ public class Administrador {
         this.endereco = endereco;
         this.email = email;
         this.cpf = cpf;
+        this.rg = rg;
         this.dataCadastro = dataCadastro;
         this.status = status;
     }
@@ -95,4 +97,13 @@ public class Administrador {
     public void setStatus(int status) {
         this.status = status;
     }
+
+    public String getRg() {
+        return rg;
+    }
+
+    public void setRg(String rg) {
+        this.rg = rg;
+    }
+
 }
