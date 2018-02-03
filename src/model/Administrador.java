@@ -1,35 +1,35 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package model;
 
-/**
- *
- * @author pedro
- */
 public class Administrador {
-     private Long _id;
-     private String nome;
-     private String login;
-     private String senha;
-     private int status;
 
-    public Administrador(Long _id, String nome, String login, String senha, int status) {
-        this._id = _id;
+    private Long id;
+    private String nome;
+    private String login;
+    private String senha;
+    private String endereco;
+    private String email;
+    private String cpf;
+    private Long dataCadastro;
+    private int status;
+
+    public Administrador(Long id, String nome, String login, String senha, String endereco, String email, String cpf, Long dataCadastro, int status) {
+        this.id = id;
         this.nome = nome;
         this.login = login;
         this.senha = senha;
+        this.endereco = endereco;
+        this.email = email;
+        this.cpf = cpf;
+        this.dataCadastro = dataCadastro;
         this.status = status;
     }
-     
+
     public Long getId() {
-        return _id;
+        return id;
     }
 
-    public void setId(Long _id) {
-        this._id = _id;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getNome() {
@@ -56,6 +56,38 @@ public class Administrador {
         this.senha = senha;
     }
 
+    public String getEndereco() {
+        return endereco;
+    }
+
+    public void setEndereco(String endereco) {
+        this.endereco = endereco;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getCpf() {
+        return cpf;
+    }
+
+    public void setCpf(String cpf) {
+        this.cpf = cpf;
+    }
+
+    public Long getDataCadastro() {
+        return dataCadastro;
+    }
+
+    public void setDataCadastro(Long dataCadastro) {
+        this.dataCadastro = dataCadastro;
+    }
+
     public int getStatus() {
         return status;
     }
@@ -63,6 +95,4 @@ public class Administrador {
     public void setStatus(int status) {
         this.status = status;
     }
-     
-     
 }

@@ -1,30 +1,35 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package model;
 
-/**
- *
- * @author pedro
- */
 public class Cliente {
 
-    private Long _id;
+    private Long id;
     private String nome;
+    private String endereco;
+    private String cpf;
+    private String rg;
+    private String telefone;
+    private String email;
+    private Long dataCadastro;
+    private int status;
 
-    public Cliente(Long _id, String nome) {
-        this._id = _id;
+    public Cliente(Long id, String nome, String endereco, String cpf, String rg, String telefone, String email, Long dataCadastro, int status) {
+        this.id = id;
         this.nome = nome;
+        this.endereco = endereco;
+        this.cpf = cpf;
+        this.rg = rg;
+        this.telefone = telefone;
+        this.email = email;
+        this.dataCadastro = dataCadastro;
+        this.status = status;
     }
 
     public Long getId() {
-        return _id;
+        return id;
     }
 
-    public void setId(Long _id) {
-        this._id = _id;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getNome() {
@@ -33,6 +38,62 @@ public class Cliente {
 
     public void setNome(String nome) {
         this.nome = nome;
+    }
+
+    public String getEndereco() {
+        return endereco;
+    }
+
+    public void setEndereco(String endereco) {
+        this.endereco = endereco;
+    }
+
+    public String getCpf() {
+        return cpf;
+    }
+
+    public void setCpf(String cpf) {
+        this.cpf = cpf;
+    }
+
+    public String getRg() {
+        return rg;
+    }
+
+    public void setRg(String rg) {
+        this.rg = rg;
+    }
+
+    public String getTelefone() {
+        return telefone;
+    }
+
+    public void setTelefone(String telefone) {
+        this.telefone = telefone;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public Long getDataCadastro() {
+        return dataCadastro;
+    }
+
+    public void setDataCadastro(Long dataCadastro) {
+        this.dataCadastro = dataCadastro;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
     }
 
 }

@@ -1,15 +1,13 @@
 package model;
 
-public class Marca {
+public class CategoriaSaida {
 
     private Long id;
     private String descricao;
-    private Long dataCadastro;
 
-    public Marca(Long id, String descricao, Long dataCadastro) {
+    public CategoriaSaida(Long id, String descricao) {
         this.id = id;
         this.descricao = descricao;
-        this.dataCadastro = dataCadastro;
     }
 
     public Long getId() {
@@ -28,12 +26,6 @@ public class Marca {
         this.descricao = descricao;
     }
 
-    public Long getDataCadastro() {
-        return dataCadastro;
-    }
-
-    public void setDataCadastro(Long dataCadastro) {
-        this.dataCadastro = dataCadastro;
-    }
-
+    
+    
 }

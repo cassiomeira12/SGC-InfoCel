@@ -16,6 +16,8 @@ public class ControleDAO {
     private CelularDAO celularDAO = new CelularDAO();
     private ClienteDAO clienteDAO = new ClienteDAO();
     private ProdutoDAO produtoDAO = new ProdutoDAO();
+    private MarcaDAO marcaDAO = new MarcaDAO();
+    private CategoriaProdutoDAO categoriaProdutoDAO = new CategoriaProdutoDAO();
 
     public static ControleDAO getBanco() {
         return banco;
@@ -39,6 +41,14 @@ public class ControleDAO {
 
     public ProdutoDAO getProdutoDAO() {
         return produtoDAO;
+    }
+
+    public MarcaDAO getMarcaDAO() {
+        return marcaDAO;
+    }
+
+    public CategoriaProdutoDAO getCategoriaProdutoDAO() {
+        return categoriaProdutoDAO;
     }
 
 }//Fim class

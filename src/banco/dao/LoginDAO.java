@@ -84,7 +84,7 @@ public class LoginDAO extends DAO {
             rs = stm.executeQuery();
 
             while (rs.next()) {
-                admin = new Administrador(rs.getLong(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getInt(5));
+                admin = new Administrador((long) rs.getInt(1), rs.getNString(2), rs.getNString(3), rs.getNString(4), rs.getNString(5), rs.getNString(6), rs.getNString(7), rs.getLong(8), rs.getInt(9));
             }
             stm.close();
             rs.close();

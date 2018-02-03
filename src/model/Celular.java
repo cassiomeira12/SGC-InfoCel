@@ -1,30 +1,37 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package model;
 
-/**
- *
- * @author pedro
- */
-public class Celular {
+public class Celular extends Produto {
 
-    private Long _id;
-    private String descricao;
+    private String modelo;
+    private String imei;
+    private String cor;
 
-    public Celular(Long _id, String descricao) {
-        this._id = _id;
-        this.descricao = descricao;
+    public Celular(Long id, Marca marca, String descricao, CategoriaProduto categoria, float precoCompra, float precoVenda, float estoque) {
+        super(id, marca, descricao, categoria, precoCompra, precoVenda, estoque);
     }
 
-    public Long getId() {
-        return _id;
+    public String getModelo() {
+        return modelo;
     }
 
-    public String getDescricao() {
-        return descricao;
+    public void setModelo(String modelo) {
+        this.modelo = modelo;
+    }
+
+    public String getImei() {
+        return imei;
+    }
+
+    public void setImei(String imei) {
+        this.imei = imei;
+    }
+
+    public String getCor() {
+        return cor;
+    }
+
+    public void setCor(String cor) {
+        this.cor = cor;
     }
 
 }

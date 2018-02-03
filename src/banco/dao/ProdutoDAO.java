@@ -1,9 +1,12 @@
 package banco.dao;
 
+import banco.ControleDAO;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import model.CategoriaProduto;
 import model.Celular;
+import model.Marca;
 import model.Produto;
 
 /**
@@ -88,7 +91,10 @@ public class ProdutoDAO extends DAO {
             rs = stm.executeQuery(sql);
 
             while (rs.next()) {
-                Produto produto = new Produto((long) rs.getInt(1), rs.getString(2));
+                Marca marca = ControleDAO.getBanco().getMarcaDAO().buscarPorId(rs.getInt(2));
+                CategoriaProduto categoria = ControleDAO.getBanco().getCategoriaProdutoDAO().buscarPorId(rs.getInt(4));
+
+                Produto produto = new Produto((long) rs.getInt(1), marca, rs.getString(3), categoria, rs.getFloat(5), rs.getFloat(6), rs.getFloat(7));
 
                 produtos.add(produto);
             }
