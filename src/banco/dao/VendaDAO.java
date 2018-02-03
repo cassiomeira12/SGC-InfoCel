@@ -88,7 +88,7 @@ public class VendaDAO extends DAO {
             rs = stm.executeQuery(sql);
 
             while (rs.next()) {
-                Marca marca = new Marca((long) rs.getInt(1), rs.getString(2), rs.getLong(3));
+                Marca marca = new Marca((long) rs.getInt(1), rs.getString(2));
 
                 marcas.add(marca);
             }

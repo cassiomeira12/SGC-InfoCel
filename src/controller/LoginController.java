@@ -7,6 +7,7 @@ package controller;
 
 import banco.ControleDAO;
 import java.io.IOException;
+import java.util.List;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -20,6 +21,10 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 import javax.swing.SwingWorker;
 import model.Administrador;
+import model.CategoriaProduto;
+import model.CategoriaSaida;
+import model.Celular;
+import model.Marca;
 import util.Formatter;
 import util.alerta.Alerta;
 
@@ -43,7 +48,7 @@ public class LoginController extends AnchorPane {
     private ProgressIndicator indicator = new ProgressIndicator();
 
     public LoginController(BorderPane painelPrincipal) {
-       
+
         this.painelPrincipal = painelPrincipal;
 
         try {
@@ -59,25 +64,26 @@ public class LoginController extends AnchorPane {
 
     @FXML
     public void initialize() {
-        
+
         usuarioText.setTextFormatter(Formatter.ALFA_NUMERICO());
 
         // TODO
         stackPane.getChildren().add(indicator);
         indicator.setVisible(false);
-        
+
         senhaPassword.setOnKeyReleased((KeyEvent key) -> {
             if (key.getCode() == KeyCode.ENTER) {
                 logar();
             }
         });
+
     }
 
     @FXML
     private void logar() {
-        
+
         boolean vazio = Formatter.isEmpty(usuarioText, senhaPassword);
-        
+
         String login = usuarioText.getText();
         String senha = senhaPassword.getText();
 

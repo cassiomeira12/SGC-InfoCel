@@ -61,7 +61,7 @@ public class CategoriaSaidaDAO extends DAO {
      */
     public void excluir(int id) {
         try {
-            String sql = "DELETE FROM categoria_saida WHERE id=?";
+            String sql = "DELETE FROM categoria_saida WHERE id_categoria=?";
 
             stm = getConector().prepareStatement(sql);
 

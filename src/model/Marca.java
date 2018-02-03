@@ -4,12 +4,10 @@ public class Marca {
 
     private Long id;
     private String descricao;
-    private Long dataCadastro;
 
-    public Marca(Long id, String descricao, Long dataCadastro) {
+    public Marca(Long id, String descricao) {
         this.id = id;
         this.descricao = descricao;
-        this.dataCadastro = dataCadastro;
     }
 
     public Long getId() {
@@ -26,14 +24,6 @@ public class Marca {
 
     public void setDescricao(String descricao) {
         this.descricao = descricao;
-    }
-
-    public Long getDataCadastro() {
-        return dataCadastro;
-    }
-
-    public void setDataCadastro(Long dataCadastro) {
-        this.dataCadastro = dataCadastro;
     }
 
 }

@@ -23,18 +23,19 @@ public class AdministradorDAO extends DAO {
      */
     public void inserir(Administrador adm) {
         try {
-            String sql = "INSERT INTO administrador ( nome, login, senha, endereco, email, cpf, rg, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+            String sql = "INSERT INTO administrador ( nome, login, senha, endereco, email, cpf, rg, data_cadastro, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
             stm = getConector().prepareStatement(sql);
 
             stm.setString(1, adm.getNome());
             stm.setString(2, adm.getLogin());
             stm.setString(3, adm.getSenha());
-            stm.setString(4, adm.getSenha());
-            stm.setString(5, adm.getSenha());
-            stm.setString(6, adm.getSenha());
-            stm.setString(7, adm.getSenha());
-            stm.setInt(8, adm.getStatus());
+            stm.setString(4, adm.getEndereco());
+            stm.setString(5, adm.getEmail());
+            stm.setString(6, adm.getCpf());
+            stm.setString(7, adm.getRg());
+            stm.setLong(8, System.currentTimeMillis());
+            stm.setInt(9, adm.getStatus());
 
             stm.executeUpdate();
             stm.close();
@@ -93,7 +94,7 @@ public class AdministradorDAO extends DAO {
     /**
      * Consultar todos administrador cadastrados na base de dados
      */
-    private List<Administrador> listar() {
+    public List<Administrador> listar() {
 
         List<Administrador> administradores = new ArrayList<>();
 

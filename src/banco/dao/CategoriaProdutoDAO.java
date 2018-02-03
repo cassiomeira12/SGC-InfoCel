@@ -39,7 +39,7 @@ public class CategoriaProdutoDAO extends DAO {
      */
     public void editar(CategoriaProduto categoria) {
         try {
-            String sql = "UPDATE categoria_produto SET descricao_categoria =? WHERE id =?";
+            String sql = "UPDATE categoria_produto SET descricao_categoria =? WHERE id_categoria =?";
 
             stm = getConector().prepareStatement(sql);
 
@@ -60,7 +60,7 @@ public class CategoriaProdutoDAO extends DAO {
      */
     public void excluir(int id) {
         try {
-            String sql = "DELETE FROM categoria_produto WHERE id=?";
+            String sql = "DELETE FROM categoria_produto WHERE id_categoria=?";
 
             stm = getConector().prepareStatement(sql);
 

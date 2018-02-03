@@ -90,7 +90,7 @@ public class ClienteDAO extends DAO {
     /**
      * Consultar todos clientes cadastrados na base de dados
      */
-    private List<Cliente> listar() {
+    public List<Cliente> listar() {
 
         List<Cliente> clientes = new ArrayList<>();
 

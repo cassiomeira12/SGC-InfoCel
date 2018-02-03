@@ -36,7 +36,7 @@ public class DAO {
         Platform.runLater(new Runnable() {
             @Override
             public void run() {
-                Alerta.erro(titulo, mensagem);
+                Alerta.erro(mensagem, titulo);
             }
         });
     }

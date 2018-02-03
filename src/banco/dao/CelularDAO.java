@@ -13,7 +13,7 @@ import model.Marca;
  * DAO responsável pela ações realizadas na base de dados referentes a celulares
  */
 public class CelularDAO extends DAO {
-    
+
     public CelularDAO() {
         super();
     }
@@ -24,11 +24,11 @@ public class CelularDAO extends DAO {
     public void inserir(Celular celular) {
         try {
             String sql = "INSERT INTO produto ( descricao_produto, id_categoria, id_marca, preco_compra, preco_venda, estoque, modelo, imei, cor ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
-            
+
             stm = getConector().prepareStatement(sql);
-            
+
             stm.setString(1, celular.getDescricao());
-            stm.setInt(3, celular.getCategoria().getId().intValue());
+            stm.setInt(2, celular.getCategoria().getId().intValue());
             stm.setInt(3, celular.getMarca().getId().intValue());
             stm.setFloat(4, celular.getPrecoCompra());
             stm.setFloat(5, celular.getPrecoVenda());
@@ -36,10 +36,10 @@ public class CelularDAO extends DAO {
             stm.setString(7, celular.getModelo());
             stm.setString(8, celular.getImei());
             stm.setString(9, celular.getCor());
-            
+
             stm.executeUpdate();
             stm.close();
-            
+
         } catch (SQLException ex) {
             chamarAlertaErro("Erro ao inserir celular na base de dados", ex.toString());
         }
@@ -51,9 +51,9 @@ public class CelularDAO extends DAO {
     public void editar(Celular celular) {
         try {
             String sql = "UPDATE produto SET  descricao_produto =?, id_categoria =?, id_marca =?, preco_compra =?, preco_venda =?, estoque =?, modelo =?, imei =?, cor =? WHERE id_produto =?";
-            
+
             stm = getConector().prepareStatement(sql);
-            
+
             stm.setString(1, celular.getDescricao());
             stm.setInt(3, celular.getCategoria().getId().intValue());
             stm.setInt(3, celular.getMarca().getId().intValue());
@@ -63,12 +63,12 @@ public class CelularDAO extends DAO {
             stm.setString(7, celular.getModelo());
             stm.setString(8, celular.getImei());
             stm.setString(9, celular.getCor());
-            
+
             stm.setInt(10, celular.getId().intValue());
-            
+
             stm.executeUpdate();
             stm.close();
-            
+
         } catch (SQLException ex) {
             chamarAlertaErro("Erro ao atualizar celular na base de dados!", ex.toString());
         }
@@ -80,12 +80,12 @@ public class CelularDAO extends DAO {
     public void excluir(int id) {
         try {
             String sql = "DELETE FROM produto WHERE id_produto=?";
-            
+
             stm = getConector().prepareStatement(sql);
-            
+
             stm.setInt(1, id);
             stm.execute();
-            
+
             stm.close();
         } catch (SQLException ex) {
             chamarAlertaErro("Erro ao excluir celular na base de dados!", ex.toString());
@@ -96,35 +96,35 @@ public class CelularDAO extends DAO {
      * Consultar todos celulares cadastrados na base de dados
      */
     private List<Celular> listar() {
-        
+
         List<Celular> celulares = new ArrayList<>();
-        
+
         try {
             String sql = "SELECT produto.* FROM produto WHERE produto.descricao_categoria = 'CELULAR'";
-            
+
             stm = getConector().prepareStatement(sql);
             rs = stm.executeQuery(sql);
-            
+
             while (rs.next()) {
                 Marca marca = ControleDAO.getBanco().getMarcaDAO().buscarPorId(rs.getInt(2));
                 CategoriaProduto categoria = ControleDAO.getBanco().getCategoriaProdutoDAO().buscarPorId(rs.getInt(4));
-                
+
                 Celular celular = new Celular((long) rs.getInt(1), marca, rs.getString(3), categoria, rs.getFloat(5), rs.getFloat(6), rs.getFloat(7));
                 celular.setModelo(rs.getString(8));
                 celular.setImei(rs.getString(9));
                 celular.setCor(rs.getString(10));
-                
+
                 celulares.add(celular);
             }
-            
+
             stm.close();
             rs.close();
-            
+
         } catch (SQLException ex) {
             chamarAlertaErro("Erro ao consultar celulares na base de dados!", ex.toString());
         }
-        
+
         return celulares;
     }
-    
+
 }
