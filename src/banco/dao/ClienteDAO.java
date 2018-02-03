@@ -20,7 +20,7 @@ public class ClienteDAO extends DAO {
      */
     public void inserir(Cliente cliente) {
         try {
-            String sql = "INSERT INTO cliente ( nome, endereco, cpf, rg, telefone, email, data_cadastro, status ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+            String sql = "INSERT INTO cliente ( nome, endereco, cpf, rg, telefone, cidade, data_cadastro, status ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
             stm = getConector().prepareStatement(sql);
 
@@ -29,7 +29,7 @@ public class ClienteDAO extends DAO {
             stm.setString(3, cliente.getCpf());
             stm.setString(4, cliente.getRg());
             stm.setString(5, cliente.getTelefone());
-            stm.setString(6, cliente.getEmail());
+            stm.setString(6, cliente.getCidade());
             stm.setLong(7, System.currentTimeMillis());
             stm.setInt(8, cliente.getStatus());
 
@@ -46,7 +46,7 @@ public class ClienteDAO extends DAO {
      */
     public void editar(Cliente cliente) {
         try {
-            String sql = "UPDATE cliente SET nome =?, endereco =?, cpf =?, rg =?, telefone =?, email =?, data_cadastro =?, status =? WHERE id_cliente =?";
+            String sql = "UPDATE cliente SET nome =?, endereco =?, cpf =?, rg =?, telefone =?, cidade =?, data_cadastro =?, status =? WHERE id_cliente =?";
 
             stm = getConector().prepareStatement(sql);
 
@@ -55,7 +55,7 @@ public class ClienteDAO extends DAO {
             stm.setString(3, cliente.getCpf());
             stm.setString(4, cliente.getRg());
             stm.setString(5, cliente.getTelefone());
-            stm.setString(6, cliente.getEmail());
+            stm.setString(6, cliente.getCidade());
             stm.setLong(7, System.currentTimeMillis());
             stm.setInt(8, cliente.getStatus());
 
@@ -90,7 +90,7 @@ public class ClienteDAO extends DAO {
     /**
      * Consultar todos clientes cadastrados na base de dados
      */
-    public List<Cliente> listar() {
+    private List<Cliente> listar() {
 
         List<Cliente> clientes = new ArrayList<>();
 

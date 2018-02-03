@@ -85,7 +85,7 @@ public class SaidaDAO extends DAO {
     /**
      * Consultar todas saidas cadastradas na base de dados
      */
-    public List<Saida> listar() {
+    private List<Saida> listar() {
 
         List<Saida> saidas = new ArrayList<>();
 

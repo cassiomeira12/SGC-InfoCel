@@ -19,7 +19,7 @@ public class VendaDAO extends DAO {
     /**
      * Inserir marca na base de dados
      */
-    public void inserir(Marca marca) {
+    private void inserir(Marca marca) {
         try {
             String sql = "INSERT INTO marca ( descricao_marca ) VALUES (?)";
 
@@ -38,7 +38,7 @@ public class VendaDAO extends DAO {
     /**
      * Atualizar dados marca na base de dados
      */
-    public void editar(Marca marca) {
+    private void editar(Marca marca) {
         try {
             String sql = "UPDATE marca SET descricao_marca =? WHERE id_marca =?";
 
@@ -59,7 +59,7 @@ public class VendaDAO extends DAO {
     /**
      * Excluir marca na base de dados
      */
-    public void excluir(int id) {
+    private void excluir(int id) {
         try {
             String sql = "DELETE FROM marca WHERE id_marca=?";
 
@@ -77,7 +77,7 @@ public class VendaDAO extends DAO {
     /**
      * Consultar todas marcas cadastradas na base de dados
      */
-    public List<Marca> listar() {
+    private List<Marca> listar() {
 
         List<Marca> marcas = new ArrayList<>();
 
@@ -103,7 +103,7 @@ public class VendaDAO extends DAO {
         return marcas;
     }
 
-    Marca buscarPorId(int aInt) {
+    private Marca buscarPorId(int aInt) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

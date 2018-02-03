@@ -8,7 +8,7 @@ public class Cliente {
     private String cpf;
     private String rg;
     private String telefone;
-    private String email;
+    private String cidade;
     private Long dataCadastro;
     private int status;
 
@@ -19,7 +19,7 @@ public class Cliente {
         this.cpf = cpf;
         this.rg = rg;
         this.telefone = telefone;
-        this.email = email;
+        this.cidade = email;
         this.dataCadastro = dataCadastro;
         this.status = status;
     }
@@ -72,12 +72,12 @@ public class Cliente {
         this.telefone = telefone;
     }
 
-    public String getEmail() {
-        return email;
+    public String getCidade() {
+        return cidade;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setCidade(String cidade) {
+        this.cidade = cidade;
     }
 
     public Long getDataCadastro() {

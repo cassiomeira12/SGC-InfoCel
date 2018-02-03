@@ -89,7 +89,7 @@ public class ProdutoDAO extends DAO {
     /**
      * Consultar todos produtos cadastrados na base de dados
      */
-    public List<Produto> listar() {
+    private List<Produto> listar() {
 
         List<Produto> produtos = new ArrayList<>();
 

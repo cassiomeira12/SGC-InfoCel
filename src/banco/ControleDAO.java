@@ -18,6 +18,11 @@ public class ControleDAO {
     private ProdutoDAO produtoDAO = new ProdutoDAO();
     private MarcaDAO marcaDAO = new MarcaDAO();
     private CategoriaProdutoDAO categoriaProdutoDAO = new CategoriaProdutoDAO();
+    private CategoriaSaidaDAO categoriaSaidaDAO = new CategoriaSaidaDAO();
+    private ManutencaoDAO manutencaoDAO = new ManutencaoDAO();
+    private ReceitaDAO receitaDAO = new ReceitaDAO();
+    private SaidaDAO saidaDAO = new SaidaDAO();
+    private VendaDAO vendaDAO = new VendaDAO();
 
     public static ControleDAO getBanco() {
         return banco;
@@ -49,6 +54,26 @@ public class ControleDAO {
 
     public CategoriaProdutoDAO getCategoriaProdutoDAO() {
         return categoriaProdutoDAO;
+    }
+
+    public CategoriaSaidaDAO getCategoriaSaidaDAO() {
+        return categoriaSaidaDAO;
+    }
+
+    public ManutencaoDAO getManutencaoDAO() {
+        return manutencaoDAO;
+    }
+
+    public ReceitaDAO getReceitaDAO() {
+        return receitaDAO;
+    }
+
+    public SaidaDAO getSaidaDAO() {
+        return saidaDAO;
+    }
+
+    public VendaDAO getVendaDAO() {
+        return vendaDAO;
     }
 
 }//Fim class

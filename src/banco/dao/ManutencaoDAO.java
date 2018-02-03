@@ -92,7 +92,7 @@ public class ManutencaoDAO extends DAO {
     /**
      * Consultar todas Manutencao cadastradas na base de dados
      */
-    public List<Manuntencao> listar() {
+    private List<Manuntencao> listar() {
 
         List<Manuntencao> manuntencoes = new ArrayList<>();
 

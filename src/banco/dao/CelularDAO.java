@@ -95,7 +95,7 @@ public class CelularDAO extends DAO {
     /**
      * Consultar todos celulares cadastrados na base de dados
      */
-    public List<Celular> listar() {
+    private List<Celular> listar() {
         
         List<Celular> celulares = new ArrayList<>();
         

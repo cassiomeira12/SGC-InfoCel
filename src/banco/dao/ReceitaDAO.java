@@ -85,7 +85,7 @@ public class ReceitaDAO extends DAO {
     /**
      * Consultar todas receita cadastradas na base de dados
      */
-    public List<Receita> listar() {
+    private List<Receita> listar() {
 
         List<Receita> receitas = new ArrayList<>();
 

@@ -93,7 +93,7 @@ public class AdministradorDAO extends DAO {
     /**
      * Consultar todos administrador cadastrados na base de dados
      */
-    public List<Administrador> listar() {
+    private List<Administrador> listar() {
 
         List<Administrador> administradores = new ArrayList<>();
 
