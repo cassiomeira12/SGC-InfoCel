@@ -23,6 +23,7 @@ public class Dialogo {
     private static Resposta resposta = Resposta.CANCEL;
 
     private Dialogo() {
+        
     }
 
     /**
