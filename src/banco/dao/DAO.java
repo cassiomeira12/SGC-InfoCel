@@ -5,7 +5,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import javafx.application.Platform;
-import util.Alerta;
+import util.alerta.Alerta;
 
 /**
  * Possui objetos necessários para implementar os CRUDs a partir da base de

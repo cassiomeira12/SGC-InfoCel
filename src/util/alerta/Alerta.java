@@ -5,9 +5,10 @@ import util.alerta.Dialogo.Resposta;
 /**
  * Criação de mensagem apartir do classe de dialogo
  */
-public class Mensagem {
+public class Alerta {
 
-    private Mensagem() {
+    private Alerta() {
+        
     }
 
     public static void info(String mensagem) {

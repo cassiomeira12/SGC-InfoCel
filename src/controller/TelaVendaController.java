@@ -80,9 +80,19 @@ public class TelaVendaController extends AnchorPane {
         palco.initModality(Modality.APPLICATION_MODAL);//Impede de clicar na tela em plano de fundo
         palco.centerOnScreen();
         palco.initStyle(StageStyle.UNDECORATED);//Remove a barra de menu
-        Scene cena = new Scene(new TelaSelecionarProdutoController(palco));
-        palco.setScene(cena);
+
+        TelaSelecionarProdutoController telaSelecionarProduto = new TelaSelecionarProdutoController(palco);
+        
+        palco.setScene(new Scene(telaSelecionarProduto));
         palco.showAndWait();
+        
+        
+        if (telaSelecionarProduto.RESULTADO) {//Selecionou Produto
+            System.out.println("Adicionou");
+        } else {//Nao selecionou Produto
+            System.out.println("Cancelou");
+        }
+        
     }
     
     @FXML

@@ -20,9 +20,8 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 import javax.swing.SwingWorker;
 import model.Administrador;
-import util.Alerta;
 import util.Formatter;
-import util.alerta.Mensagem;
+import util.alerta.Alerta;
 
 /**
  * FXML Controller class
@@ -76,14 +75,14 @@ public class LoginController extends AnchorPane {
 
     @FXML
     private void logar() {
-
+        
         boolean vazio = Formatter.isEmpty(usuarioText, senhaPassword);
         
         String login = usuarioText.getText();
         String senha = senhaPassword.getText();
 
         if (vazio) {
-            Mensagem.alerta("Preencha os campos vazios", "Campos vazios");
+            Alerta.alerta("Preencha os campos vazios", "Campos vazios");
         } else {
             indicator.setVisible(true);
             autenticarLogin(login, senha);

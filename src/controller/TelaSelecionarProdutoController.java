@@ -9,7 +9,6 @@ import java.io.IOException;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
 /**
@@ -20,7 +19,7 @@ import javafx.stage.Stage;
 public class TelaSelecionarProdutoController extends AnchorPane {
     
     private Stage palco;
-
+    public boolean RESULTADO = false;
   
     public TelaSelecionarProdutoController(Stage palco) {
         this.palco = palco;
@@ -43,12 +42,14 @@ public class TelaSelecionarProdutoController extends AnchorPane {
     
     @FXML
     private void adicionarProduto() {
-        
+        this.RESULTADO = true;
+        this.palco.close();
     }
 
     @FXML
     private void cancelarOperacao() {
-        palco.close();
+        this.RESULTADO = false;
+        this.palco.close();
     }
     
 }
