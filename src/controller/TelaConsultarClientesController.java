@@ -8,6 +8,9 @@ package controller;
 import java.io.IOException;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 
@@ -20,6 +23,18 @@ public class TelaConsultarClientesController extends AnchorPane {
     
     private BorderPane painelPrincipal;
 
+    
+    @FXML
+    private TextField pesquisaText;
+    @FXML
+    private TableView clientesTable;
+    @FXML
+    private TableColumn nomeColumn;
+    @FXML
+    private TableColumn enderecoColumn;
+    @FXML
+    private TableColumn telefoneColumn;
+    
   
     public TelaConsultarClientesController(BorderPane painelPrincipal) {
         this.painelPrincipal = painelPrincipal;
@@ -37,7 +52,7 @@ public class TelaConsultarClientesController extends AnchorPane {
 
     @FXML
     public void initialize() {
-        // TODO
+        
     }
     
     private void adicionarPainelInterno(AnchorPane novaTela) {
