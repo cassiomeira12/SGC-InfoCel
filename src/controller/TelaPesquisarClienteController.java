@@ -12,11 +12,14 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import model.Cliente;
@@ -62,8 +65,21 @@ public class TelaPesquisarClienteController extends AnchorPane {
         
         selecionarButton.disableProperty().bind(clientesListView.getSelectionModel().selectedItemProperty().isNull());
         
+        
         pesquisaText.textProperty().addListener((obs, old, novo) -> {
             filtro(novo, listaClientes);
+        });
+        
+        
+        clientesListView.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                if(mouseEvent.getButton().equals(MouseButton.PRIMARY)){
+                    if(mouseEvent.getClickCount() == 2){
+                        selecionarCliente();
+                    }
+                }
+            }
         });
     }
     
@@ -101,7 +117,7 @@ public class TelaPesquisarClienteController extends AnchorPane {
         SortedList dadosOrdenados = new SortedList(dadosFiltrados);
         this.clientesListView.setItems(dadosOrdenados);
     }
-    
+
     private void atualizarListView() {
         //Transforma a lista em uma Lista Observavel
         ObservableList data = FXCollections.observableArrayList(listaClientes);
