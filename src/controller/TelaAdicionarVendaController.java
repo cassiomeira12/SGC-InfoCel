@@ -30,7 +30,7 @@ public class TelaAdicionarVendaController extends AnchorPane {
     
     private BorderPane painelPrincipal;
     
-    private List<String> listaClientes;
+    private Cliente cliente;
     
     @FXML
     private TextField pesquisaText;
@@ -103,7 +103,20 @@ public class TelaAdicionarVendaController extends AnchorPane {
     
     @FXML
     private void removerProduto() {
+        Stage palco = new Stage();
+        palco.initModality(Modality.APPLICATION_MODAL);//Impede de clicar na tela em plano de fundo
+        palco.centerOnScreen();
+        palco.initStyle(StageStyle.UNDECORATED);//Remove a barra de menu
+
+        TelaPesquisarClienteController telaPesquisarCliente = new TelaPesquisarClienteController(palco);
         
+        palco.setScene(new Scene(telaPesquisarCliente));
+        palco.showAndWait();
+        
+        if (telaPesquisarCliente.RESULTADO) {//Selecionou Produto
+            this.cliente = telaPesquisarCliente.getCliente();
+            this.adicionarDadosCliente(cliente);
+        }
     }
     
     @FXML
@@ -122,7 +135,7 @@ public class TelaAdicionarVendaController extends AnchorPane {
         String endereco = enderecoText.getText();
         
         if (vazio) {
-            Alerta.alerta("Dados do cliente insuficientes", "Preencha as informações do Cliente");
+            Alerta.erro("Dados do cliente insuficientes", "Preencha as informações do Cliente");
         } else {
             Cliente cliente = new Cliente(null, nome, endereco, cpf, rg, telefone, cidade, null, 0);
             ControleDAO.getBanco().getClienteDAO().inserir(cliente);
@@ -131,7 +144,13 @@ public class TelaAdicionarVendaController extends AnchorPane {
        
     }
     
-    private void sincronizarBancoDados() {
-        //this.listaClientes = ControleDAO.getBanco().getClienteDAO().listar();
+    private void adicionarDadosCliente(Cliente cliente) {
+        this.nomeText.setText(cliente.getNome());
+        this.telefoneText.setText(cliente.getTelefone());
+        this.cpfText.setText(cliente.getCpf());
+        this.rgText.setText(cliente.getRg());
+        this.cidadeText.setText(cliente.getCidade());
+        this.enderecoText.setText(cliente.getEndereco());
     }
+
 }

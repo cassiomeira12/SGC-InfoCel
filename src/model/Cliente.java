@@ -95,5 +95,10 @@ public class Cliente {
     public void setStatus(int status) {
         this.status = status;
     }
+    
+    @Override
+    public String toString() {
+        return nome;
+    }
 
 }
