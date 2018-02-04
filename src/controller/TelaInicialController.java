@@ -6,8 +6,12 @@
 package controller;
 
 import java.io.IOException;
+import java.sql.Date;
+import java.text.SimpleDateFormat;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.control.Label;
+import javafx.scene.control.TableView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 
@@ -20,6 +24,14 @@ public class TelaInicialController extends AnchorPane {
     
     private BorderPane painelPrincipal;
 
+   
+    @FXML
+    private TableView relatorioTableView;
+    @FXML
+    private Label dataLabel;
+    @FXML
+    private Label dinheiroLabel;
+    
   
     public TelaInicialController(BorderPane painelPrincipal) {
         this.painelPrincipal = painelPrincipal;
@@ -37,7 +49,7 @@ public class TelaInicialController extends AnchorPane {
 
     @FXML
     public void initialize() {
-        // TODO
+        dataLabel.setText(new SimpleDateFormat("dd/MM/yyyy").format(new Date(System.currentTimeMillis())));
     }
     
     private void adicionarPainelInterno(AnchorPane novaTela) {

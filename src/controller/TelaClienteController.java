@@ -5,13 +5,18 @@
  */
 package controller;
 
+import banco.ControleDAO;
 import java.io.IOException;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import model.Cliente;
+import util.Formatter;
+import util.alerta.Alerta;
+import util.alerta.Dialogo;
 
 /**
  * FXML Controller class
@@ -24,7 +29,7 @@ public class TelaClienteController extends AnchorPane {
     private Cliente cliente;
 
     @FXML
-    private TextField pesquisaText;
+    private CheckBox editarClienteCheckBox;
     @FXML
     private TextField nomeText;
     @FXML
@@ -56,16 +61,24 @@ public class TelaClienteController extends AnchorPane {
 
     @FXML
     public void initialize() {
+        this.adicionarDadosCliente();
+
+        //Campos ficam desativados enquanto CheckBox esta desativado
+        nomeText.disableProperty().bind(editarClienteCheckBox.selectedProperty().not());
+        telefoneText.disableProperty().bind(editarClienteCheckBox.selectedProperty().not());
+        cpfText.disableProperty().bind(editarClienteCheckBox.selectedProperty().not());
+        rgText.disableProperty().bind(editarClienteCheckBox.selectedProperty().not());
+        cidadeText.disableProperty().bind(editarClienteCheckBox.selectedProperty().not());
+        enderecoText.disableProperty().bind(editarClienteCheckBox.selectedProperty().not());
+    }
+    
+    public void adicionarDadosCliente() {
         this.nomeText.setText(cliente.getNome());
         this.telefoneText.setText(cliente.getTelefone());
         this.cpfText.setText(cliente.getCpf());
         this.rgText.setText(cliente.getRg());
         this.cidadeText.setText(cliente.getCidade());
         this.enderecoText.setText(cliente.getEndereco());
-    }
-    
-    public void setCliente(Cliente cliente) {
-        this.cliente = cliente;
     }
     
     private void adicionarPainelInterno(AnchorPane novaTela) {
@@ -76,6 +89,45 @@ public class TelaClienteController extends AnchorPane {
     private void cancelarOperacao() {
         TelaConsultarClientesController telaConsultarClientes = new TelaConsultarClientesController(painelPrincipal);
         this.adicionarPainelInterno(telaConsultarClientes);
+    }
+    
+    @FXML
+    private void salvarCliente() {
+        try {
+            boolean vazio = Formatter.isEmpty(nomeText, telefoneText, cpfText, rgText, cidadeText, enderecoText);
+            
+            String nome = nomeText.getText();
+            String telefone = telefoneText.getText();
+            String cpf = cpfText.getText();
+            String rg = rgText.getText();
+            String cidade = cidadeText.getText();
+            String endereco = enderecoText.getText();
+            
+            if (vazio) {
+                Alerta.alerta("Prencha todos os compos do Cliente");
+            } else {
+                Dialogo.Resposta resposta = Alerta.confirmar("Deseja salvar as modificações do cliente " + cliente.getNome() + " ?");
+            
+                if (resposta == Dialogo.Resposta.YES) {
+                    
+                    cliente.setNome(nome);
+                    cliente.setTelefone(telefone);
+                    cliente.setCpf(cpf);
+                    cliente.setRg(rg);
+                    cliente.setCidade(cidade);
+                    cliente.setEndereco(endereco);
+                    
+                    ControleDAO.getBanco().getClienteDAO().editar(cliente);
+                    
+                    Alerta.info("Cliente editado com sucesso");
+                    this.cancelarOperacao();
+                }
+            
+            }
+
+        } catch (NullPointerException ex) {
+            Alerta.erro("Erro ao salvar as informações do Cliente");
+        }
     }
     
 }

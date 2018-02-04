@@ -7,6 +7,7 @@ package controller;
 
 import banco.ControleDAO;
 import java.io.IOException;
+import java.util.List;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -29,6 +30,7 @@ public class TelaAdicionarVendaController extends AnchorPane {
     
     private BorderPane painelPrincipal;
     
+    private List<String> listaClientes;
     
     @FXML
     private TextField pesquisaText;
@@ -71,27 +73,6 @@ public class TelaAdicionarVendaController extends AnchorPane {
         this.painelPrincipal.setCenter(novaTela);
     }
     
-    
-    private void criarCliente() {
-        boolean vazio = Formatter.isEmpty(nomeText, telefoneText, cpfText, rgText, cidadeText, enderecoText);
-        
-        String nome = nomeText.getText();
-        String telefone = telefoneText.getText();
-        String cpf = cpfText.getText();
-        String rg = rgText.getText();
-        String cidade = cidadeText.getText();
-        String endereco = enderecoText.getText();
-        
-        if (vazio) {
-            Alerta.alerta("Dados do cliente insuficientes", "Preencha as informações do Cliente");
-        } else {
-            Cliente cliente = new Cliente(null, nome, endereco, cpf, rg, telefone, cidade, null, 0);
-            ControleDAO.getBanco().getClienteDAO().inserir(cliente);
-            Alerta.info("Cadastro", "Cliente cadastrado com sucesso");
-        }
-       
-    }
-    
     @FXML
     private void cancelarOperacao() {
         TelaInicialController telaInicial = new TelaInicialController(painelPrincipal);
@@ -128,5 +109,29 @@ public class TelaAdicionarVendaController extends AnchorPane {
     @FXML
     private void finalizarCompra() {
         this.criarCliente();
+    }
+    
+    private void criarCliente() {
+        boolean vazio = Formatter.isEmpty(nomeText, telefoneText, cpfText, rgText, cidadeText, enderecoText);
+        
+        String nome = nomeText.getText();
+        String telefone = telefoneText.getText();
+        String cpf = cpfText.getText();
+        String rg = rgText.getText();
+        String cidade = cidadeText.getText();
+        String endereco = enderecoText.getText();
+        
+        if (vazio) {
+            Alerta.alerta("Dados do cliente insuficientes", "Preencha as informações do Cliente");
+        } else {
+            Cliente cliente = new Cliente(null, nome, endereco, cpf, rg, telefone, cidade, null, 0);
+            ControleDAO.getBanco().getClienteDAO().inserir(cliente);
+            Alerta.info("Cadastro", "Cliente cadastrado com sucesso");
+        }
+       
+    }
+    
+    private void sincronizarBancoDados() {
+        //this.listaClientes = ControleDAO.getBanco().getClienteDAO().listar();
     }
 }

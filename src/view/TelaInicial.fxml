@@ -1,34 +1,105 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<fx:root id="AnchorPane" prefHeight="650.0" prefWidth="1200.0" type="AnchorPane" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1">
+<fx:root prefHeight="650.0" prefWidth="1200.0" type="AnchorPane" xmlns="http://javafx.com/javafx/9" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <VBox alignment="TOP_CENTER" spacing="20.0" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="20.0">
-         <children>
-            <Label text="Tela Inicial" />
-            <HBox alignment="CENTER" spacing="50.0">
+      <BorderPane layoutX="270.0" layoutY="182.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
+         <top>
+            <Label text="Tela Inicial" BorderPane.alignment="CENTER">
+               <font>
+                  <Font size="27.0" />
+               </font>
+               <BorderPane.margin>
+                  <Insets bottom="10.0" />
+               </BorderPane.margin>
+            </Label>
+         </top>
+         <center>
+            <VBox alignment="TOP_CENTER" spacing="20.0" BorderPane.alignment="CENTER">
                <children>
-                  <Button alignment="CENTER" focusTraversable="false" mnemonicParsing="false" onAction="#chamarTelaAdicionarVenda" prefHeight="56.0" prefWidth="134.0" text="Adicionar Venda" />
-                  <Button alignment="CENTER" focusTraversable="false" mnemonicParsing="false" onAction="#chamarTelaAdicionarManutencao" prefHeight="56.0" prefWidth="178.0" text="Adicionar Manutenção" />
-                  <Button alignment="CENTER" focusTraversable="false" mnemonicParsing="false" onAction="#chamarTelaAdicionarReceita" prefHeight="56.0" prefWidth="134.0" text="Adicionar Receita" />
-                  <Button alignment="CENTER" focusTraversable="false" mnemonicParsing="false" onAction="#chamarTelaAdicionarSaida" prefHeight="56.0" prefWidth="134.0" text="Adicionar Saída" />
+                  <HBox alignment="CENTER" spacing="50.0">
+                     <children>
+                        <Button alignment="CENTER" focusTraversable="false" mnemonicParsing="false" onAction="#chamarTelaAdicionarVenda" prefHeight="56.0" prefWidth="134.0" text="Adicionar Venda" />
+                        <Button alignment="CENTER" focusTraversable="false" mnemonicParsing="false" onAction="#chamarTelaAdicionarManutencao" prefHeight="56.0" prefWidth="178.0" text="Adicionar Manutenção" />
+                        <Button alignment="CENTER" focusTraversable="false" mnemonicParsing="false" onAction="#chamarTelaAdicionarReceita" prefHeight="56.0" prefWidth="134.0" text="Adicionar Receita" />
+                        <Button alignment="CENTER" focusTraversable="false" mnemonicParsing="false" onAction="#chamarTelaAdicionarSaida" prefHeight="56.0" prefWidth="134.0" text="Adicionar Saída" />
+                     </children>
+                  </HBox>
+                  <VBox VBox.vgrow="ALWAYS">
+                     <children>
+                        <HBox>
+                           <children>
+                              <HBox alignment="CENTER_LEFT" prefWidth="600.0">
+                                 <children>
+                                    <Label text="Relatório Diário">
+                                       <font>
+                                          <Font size="20.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                              </HBox>
+                              <HBox alignment="CENTER_RIGHT" prefWidth="600.0" HBox.hgrow="ALWAYS">
+                                 <children>
+                                    <Label fx:id="dataLabel" text="01/01/18">
+                                       <font>
+                                          <Font size="20.0" />
+                                       </font>
+                                       <HBox.margin>
+                                          <Insets right="10.0" />
+                                       </HBox.margin>
+                                    </Label>
+                                 </children>
+                              </HBox>
+                           </children>
+                        </HBox>
+                        <TableView fx:id="relatorioTableView" focusTraversable="false" VBox.vgrow="ALWAYS">
+                          <columns>
+                            <TableColumn maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefWidth="200.0" resizable="false" text="Categoria" />
+                            <TableColumn maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefWidth="150.0" resizable="false" text="Cliente" />
+                            <TableColumn maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefWidth="150.0" resizable="false" text="Descrição" />
+                            <TableColumn maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefWidth="200.0" resizable="false" text="Funcionário" />
+                            <TableColumn maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefWidth="150.0" resizable="false" text="Valor R$" />
+                          </columns>
+                        </TableView>
+                     </children>
+                  </VBox>
+               </children></VBox>
+         </center>
+         <bottom>
+            <HBox alignment="CENTER_RIGHT" spacing="10.0" BorderPane.alignment="CENTER">
+               <children>
+                  <Label text="Total R$:">
+                     <font>
+                        <Font size="30.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="dinheiroLabel" text="0.0">
+                     <font>
+                        <Font size="30.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin>
+                     <padding>
+                        <Insets right="20.0" />
+                     </padding>
+                  </Label>
                </children>
+               <BorderPane.margin>
+                  <Insets bottom="20.0" />
+               </BorderPane.margin>
             </HBox>
-            <Label alignment="CENTER" text="Relatório Diário" />
-            <TableView focusTraversable="false" prefHeight="461.0" prefWidth="1160.0">
-              <columns>
-                <TableColumn prefWidth="75.0" text="C1" />
-                <TableColumn prefWidth="75.0" text="C2" />
-              </columns>
-            </TableView>
-         </children>
-      </VBox>
+         </bottom>
+      </BorderPane>
    </children>
 </fx:root>

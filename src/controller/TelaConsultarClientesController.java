@@ -10,6 +10,8 @@ import java.io.IOException;
 import java.util.List;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
@@ -20,6 +22,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import model.Cliente;
+import util.Formatter;
 import util.alerta.Alerta;
 import util.alerta.Dialogo;
 
@@ -32,6 +35,7 @@ public class TelaConsultarClientesController extends AnchorPane {
     
     private BorderPane painelPrincipal;
 
+    private List<Cliente> listaClientes;
     
     @FXML
     private TextField pesquisaText;
@@ -65,11 +69,18 @@ public class TelaConsultarClientesController extends AnchorPane {
 
     @FXML
     public void initialize() {
+        //Desativa os Botoes de Editar e Excluir quando nenhum item na tabela esta selecionado
         editarButton.disableProperty().bind(clientesTable.getSelectionModel().selectedItemProperty().isNull());
         excluirButton.disableProperty().bind(clientesTable.getSelectionModel().selectedItemProperty().isNull());
-        atualizarTabela();
+        
+        this.sincronizarBancoDados();
+        this.atualizarTabela();
+        
+        pesquisaText.textProperty().addListener((obs, old, novo) -> {
+            filtro(novo, listaClientes, clientesTable);
+        });
     }
-    
+
     private void adicionarPainelInterno(AnchorPane novaTela) {
         this.painelPrincipal.setCenter(novaTela);
     }
@@ -86,7 +97,6 @@ public class TelaConsultarClientesController extends AnchorPane {
             Cliente cliente = clientesTable.getSelectionModel().getSelectedItem();
             
             TelaClienteController telaCliente = new TelaClienteController(painelPrincipal, cliente);
-            //telaCliente.setCliente(cliente);
             this.adicionarPainelInterno(telaCliente);
             
         } catch (NullPointerException e) {
@@ -114,15 +124,41 @@ public class TelaConsultarClientesController extends AnchorPane {
         }
     }
     
+    private void filtro(String texto, List lista, TableView tabela) {
+        ObservableList data = FXCollections.observableArrayList(lista);
+        
+        FilteredList<Cliente> dadosFiltrados = new FilteredList(data, filtro -> true);
+        
+        dadosFiltrados.setPredicate(filtro -> {
+            if (texto == null || texto.isEmpty()) {
+                return true;
+            }
+            //Coloque aqui as verificacoes da Pesquisa
+            if (filtro.getNome().toLowerCase().contains(texto.toLowerCase())) {
+                return true;
+            }
+            
+            return false;
+        });
+        
+        SortedList dadosOrdenados = new SortedList(dadosFiltrados);
+        dadosOrdenados.comparatorProperty().bind(tabela.comparatorProperty());
+        tabela.setItems(dadosOrdenados);
+    }
+    
     private void atualizarTabela() {
-        List<Cliente> clienteList = ControleDAO.getBanco().getClienteDAO().listar();
-        ObservableList data = FXCollections.observableArrayList(clienteList);
+        //Transforma a lista em uma Lista Observavel
+        ObservableList data = FXCollections.observableArrayList(listaClientes);
         
-        this.nomeColumn.setCellValueFactory(new PropertyValueFactory<>("nome"));
-        this.enderecoColumn.setCellValueFactory(new PropertyValueFactory<>("endereco"));
-        this.telefoneColumn.setCellValueFactory(new PropertyValueFactory<>("telefone"));
+        this.nomeColumn.setCellValueFactory(new PropertyValueFactory<>("nome"));//Adiciona o valor da variavel Nome
+        this.enderecoColumn.setCellValueFactory(new PropertyValueFactory<>("endereco"));//Adiciona o valor da variavel Endereco
+        this.telefoneColumn.setCellValueFactory(new PropertyValueFactory<>("telefone"));//Adiciona o valor da variavel Telefone
         
-        this.clientesTable.setItems(data);
+        this.clientesTable.setItems(data);//Adiciona a lista de clientes na Tabela
+    }
+    
+    private void sincronizarBancoDados() {
+        this.listaClientes = ControleDAO.getBanco().getClienteDAO().listar();
     }
     
 }
