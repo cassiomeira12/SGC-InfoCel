@@ -30,8 +30,8 @@
                <children>
                   <HBox alignment="CENTER" prefWidth="600.0">
                      <children>
-                        <Button alignment="CENTER" focusTraversable="false" mnemonicParsing="false" onAction="#editarCliente" prefHeight="44.0" prefWidth="96.0" text="Editar" />
-                        <Button alignment="CENTER" focusTraversable="false" mnemonicParsing="false" onAction="#excluirCliente" prefHeight="44.0" prefWidth="96.0" text="Excluir">
+                        <Button fx:id="editarButton" alignment="CENTER" focusTraversable="false" mnemonicParsing="false" onAction="#editarCliente" prefHeight="44.0" prefWidth="96.0" text="Editar" />
+                        <Button fx:id="excluirButton" alignment="CENTER" focusTraversable="false" mnemonicParsing="false" onAction="#excluirCliente" prefHeight="44.0" prefWidth="96.0" text="Excluir">
                            <HBox.margin>
                               <Insets left="100.0" />
                            </HBox.margin>

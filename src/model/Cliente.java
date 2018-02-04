@@ -12,14 +12,14 @@ public class Cliente {
     private Long dataCadastro;
     private int status;
 
-    public Cliente(Long id, String nome, String endereco, String cpf, String rg, String telefone, String email, Long dataCadastro, int status) {
+    public Cliente(Long id, String nome, String endereco, String cpf, String rg, String telefone, String cidade, Long dataCadastro, int status) {
         this.id = id;
         this.nome = nome;
         this.endereco = endereco;
         this.cpf = cpf;
         this.rg = rg;
         this.telefone = telefone;
-        this.cidade = email;
+        this.cidade = cidade;
         this.dataCadastro = dataCadastro;
         this.status = status;
     }

@@ -77,7 +77,7 @@ public class ClienteDAO extends DAO {
             String sql = "DELETE FROM cliente WHERE id_cliente=?";
 
             stm = getConector().prepareStatement(sql);
-
+            
             stm.setInt(1, id);
             stm.execute();
 

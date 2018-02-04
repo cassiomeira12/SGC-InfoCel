@@ -85,8 +85,9 @@ public class TelaAdicionarVendaController extends AnchorPane {
         if (vazio) {
             Alerta.alerta("Dados do cliente insuficientes", "Preencha as informações do Cliente");
         } else {
-            //Cliente cliente = new Cliente(null, nome, endereco, cpf, rg, telefone, cidade, null, 0);
-            //ControleDAO.getBanco().getClienteDAO().inserir(cliente);
+            Cliente cliente = new Cliente(null, nome, endereco, cpf, rg, telefone, cidade, null, 0);
+            ControleDAO.getBanco().getClienteDAO().inserir(cliente);
+            Alerta.info("Cadastro", "Cliente cadastrado com sucesso");
         }
        
     }
