@@ -1,5 +1,6 @@
 package banco.dao;
 
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,11 +19,11 @@ public class ClienteDAO extends DAO {
     /**
      * Inserir cliente na base de dados
      */
-    public boolean inserir(Cliente cliente) {
+    public Long inserir(Cliente cliente) {
         try {
             String sql = "INSERT INTO cliente ( nome, endereco, cpf, rg, telefone, cidade, data_cadastro, status ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
-            stm = getConector().prepareStatement(sql);
+            stm = getConector().prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
 
             stm.setString(1, cliente.getNome());
             stm.setString(2, cliente.getEndereco());
@@ -33,15 +34,12 @@ public class ClienteDAO extends DAO {
             stm.setLong(7, System.currentTimeMillis());
             stm.setInt(8, cliente.getStatus());
 
-            stm.executeUpdate();
-            stm.close();
-
-        } catch (SQLException ex) {
+            return super.inserir(sql);
+        } catch (Exception ex) {
             chamarAlertaErro("Erro ao inserir cliente na base de dados", ex.toString());
-            return false;
         }
 
-        return true;
+        return null;
     }
 
     /**

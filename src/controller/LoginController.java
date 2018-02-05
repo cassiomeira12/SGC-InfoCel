@@ -76,7 +76,6 @@ public class LoginController extends AnchorPane {
                 logar();
             }
         });
-
     }
 
     @FXML

@@ -4,6 +4,7 @@ import banco.ConexaoBanco;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import javafx.application.Platform;
 import util.alerta.Alerta;
 
@@ -30,6 +31,19 @@ public class DAO {
         }
 
         return conector;
+    }
+
+    protected Long inserir(String sql) throws Exception {
+        Long id;
+
+        stm.executeUpdate();
+
+        ResultSet resultado = stm.getGeneratedKeys();
+        resultado.next();
+        id = (long) resultado.getInt(1);
+        resultado.close();
+
+        return id;
     }
 
     public void chamarAlertaErro(String titulo, String mensagem) {

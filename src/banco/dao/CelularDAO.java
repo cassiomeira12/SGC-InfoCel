@@ -1,6 +1,7 @@
 package banco.dao;
 
 import banco.ControleDAO;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,11 +22,11 @@ public class CelularDAO extends DAO {
     /**
      * Inserir celular na base de dados
      */
-    public boolean inserir(Celular celular) {
+    public Long inserir(Celular celular) {
         try {
             String sql = "INSERT INTO produto ( descricao_produto, id_categoria, id_marca, preco_compra, preco_venda, estoque, modelo, imei, cor ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
-            stm = getConector().prepareStatement(sql);
+            stm = getConector().prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
 
             stm.setString(1, celular.getDescricao());
             stm.setInt(2, celular.getCategoria().getId().intValue());
@@ -37,15 +38,12 @@ public class CelularDAO extends DAO {
             stm.setString(8, celular.getImei());
             stm.setString(9, celular.getCor());
 
-            stm.executeUpdate();
-            stm.close();
-
-        } catch (SQLException ex) {
+            return super.inserir(sql);
+        } catch (Exception ex) {
             chamarAlertaErro("Erro ao inserir celular na base de dados", ex.toString());
-            return false;
         }
 
-        return true;
+        return null;
     }
 
     /**

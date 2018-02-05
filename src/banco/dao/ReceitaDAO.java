@@ -1,5 +1,6 @@
 package banco.dao;
 
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,11 +21,11 @@ public class ReceitaDAO extends DAO {
     /**
      * Inserir marca na base de dados
      */
-    public boolean inserir(Receita receita) {
+    public Long inserir(Receita receita) {
         try {
             String sql = "INSERT INTO receita ( id_cliente, id_administrador, descricao_receita, data, valor ) VALUES (?, ?, ?, ?, ?)";
 
-            stm = getConector().prepareStatement(sql);
+            stm = getConector().prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
 
             stm.setInt(1, receita.getCliente().getId().intValue());
             stm.setInt(2, receita.getAdministrador().getId().intValue());
@@ -32,15 +33,12 @@ public class ReceitaDAO extends DAO {
             stm.setLong(4, System.currentTimeMillis());
             stm.setFloat(5, receita.getValor());
 
-            stm.executeUpdate();
-            stm.close();
-
-        } catch (SQLException ex) {
+            return super.inserir(sql);
+        } catch (Exception ex) {
             chamarAlertaErro("Erro ao inserir marca na base de dados", ex.toString());
-            return false;
         }
 
-        return true;
+        return null;
     }
 
     /**

@@ -1,6 +1,7 @@
 package banco.dao;
 
 import banco.ControleDAO;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,11 +23,11 @@ public class ProdutoDAO extends DAO {
     /**
      * Inserir produto na base de dados
      */
-    public boolean inserir(Produto produto) {
+    public Long inserir(Produto produto) {
         try {
             String sql = "INSERT INTO produto ( descricao_produto, id_categoria, id_marca, preco_compra, preco_venda, estoque ) VALUES (?, ?, ?, ?, ?, ?)";
 
-            stm = getConector().prepareStatement(sql);
+            stm = getConector().prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
 
             stm.setString(1, produto.getDescricao());
             stm.setInt(3, produto.getCategoria().getId().intValue());
@@ -35,15 +36,12 @@ public class ProdutoDAO extends DAO {
             stm.setFloat(5, produto.getPrecoVenda());
             stm.setFloat(6, produto.getEstoque());
 
-            stm.executeUpdate();
-            stm.close();
-
-        } catch (SQLException ex) {
+            return super.inserir(sql);
+        } catch (Exception ex) {
             chamarAlertaErro("Erro ao inserir produto na base de dados", ex.toString());
-            return false;
         }
 
-        return true;
+        return null;
     }
 
     /**

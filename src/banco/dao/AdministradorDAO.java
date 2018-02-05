@@ -1,5 +1,7 @@
 package banco.dao;
 
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,11 +23,11 @@ public class AdministradorDAO extends DAO {
     /**
      * Inserir usuário na base de dados
      */
-    public boolean inserir(Administrador adm) {
+    public Long inserir(Administrador adm) {
         try {
             String sql = "INSERT INTO administrador ( nome, login, senha, endereco, email, cpf, rg, data_cadastro, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
-            stm = getConector().prepareStatement(sql);
+            stm = getConector().prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
 
             stm.setString(1, adm.getNome());
             stm.setString(2, adm.getLogin());
@@ -37,15 +39,12 @@ public class AdministradorDAO extends DAO {
             stm.setLong(8, System.currentTimeMillis());
             stm.setInt(9, adm.getStatus());
 
-            stm.executeUpdate();
-            stm.close();
-
-        } catch (SQLException ex) {
+            return super.inserir(sql);
+        } catch (Exception ex) {
             chamarAlertaErro("Erro ao inserir administrador na base de dados", ex.toString());
-            return false;
         }
 
-        return true;
+        return null;
     }
 
     /**

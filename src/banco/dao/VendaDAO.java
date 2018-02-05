@@ -1,14 +1,17 @@
 package banco.dao;
 
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import model.Celular;
 import model.Marca;
 import model.Produto;
+import model.Venda;
 
 /**
- * DAO responsável pela ações realizadas na base de dados referentes as marcas
+ * DAO responsável pela ações realizadas na base de dados referentes as vendas
+ * (Venda e VendaProduto)
  */
 public class VendaDAO extends DAO {
 
@@ -17,25 +20,22 @@ public class VendaDAO extends DAO {
     }
 
     /**
-     * Inserir marca na base de dados
+     * Inserir venda na base de dados
      */
-    private boolean inserir(Marca marca) {
+    private Long inserir(Venda venda) {
         try {
             String sql = "INSERT INTO marca ( descricao_marca ) VALUES (?)";
 
-            stm = getConector().prepareStatement(sql);
+            stm = getConector().prepareStatement(sql,  PreparedStatement.RETURN_GENERATED_KEYS);
 
-            stm.setString(1, marca.getDescricao());
+           // stm.setString(1, marca.getDescricao());
 
-            stm.executeUpdate();
-            stm.close();
-
-        } catch (SQLException ex) {
+            return super.inserir(sql);
+        } catch (Exception ex) {
             chamarAlertaErro("Erro ao inserir marca na base de dados", ex.toString());
-            return false;
         }
 
-        return true;
+        return null;
     }
 
     /**

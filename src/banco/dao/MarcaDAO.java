@@ -1,5 +1,7 @@
 package banco.dao;
 
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,23 +21,20 @@ public class MarcaDAO extends DAO {
     /**
      * Inserir marca na base de dados
      */
-    public boolean inserir(Marca marca) {
+    public Long inserir(Marca marca) {
         try {
             String sql = "INSERT INTO marca ( descricao_marca ) VALUES (?)";
 
-            stm = getConector().prepareStatement(sql);
+            stm = getConector().prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
 
             stm.setString(1, marca.getDescricao());
 
-            stm.executeUpdate();
-            stm.close();
-
-        } catch (SQLException ex) {
+            return super.inserir(sql);
+        } catch (Exception ex) {
             chamarAlertaErro("Erro ao inserir marca na base de dados", ex.toString());
-            return false;
         }
 
-        return true;
+        return null;
     }
 
     /**

@@ -1,5 +1,6 @@
 package banco.dao;
 
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,11 +20,11 @@ public class ManutencaoDAO extends DAO {
     /**
      * Inserir marca na base de dados
      */
-    public boolean inserir(Manuntencao manutencao) {
+    public Long inserir(Manuntencao manutencao) {
         try {
             String sql = "INSERT INTO manutencao ( id_cliente, id_produto, id_administrador, descricao_manutencao, data_cadastro, data_previsao, data_entrega, preco, finalizado ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
-            stm = getConector().prepareStatement(sql);
+            stm = getConector().prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
 
             stm.setInt(1, manutencao.getCliente().getId().intValue());
             stm.setInt(2, manutencao.getCelular().getId().intValue());
@@ -35,15 +36,12 @@ public class ManutencaoDAO extends DAO {
             stm.setFloat(8, manutencao.getPreco());
             stm.setBoolean(9, manutencao.isFinalizado());
 
-            stm.executeUpdate();
-            stm.close();
-
-        } catch (SQLException ex) {
+            return super.inserir(sql);
+        } catch (Exception ex) {
             chamarAlertaErro("Erro ao inserir manutencao na base de dados", ex.toString());
-            return false;
         }
 
-        return true;
+        return null;
     }
 
     /**

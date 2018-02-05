@@ -1,5 +1,7 @@
 package banco.dao;
 
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,23 +20,20 @@ public class CategoriaProdutoDAO extends DAO {
     /**
      * Inserir categoria na base de dados
      */
-    public boolean inserir(CategoriaProduto categoria) {
+    public Long inserir(CategoriaProduto categoria) {
         try {
             String sql = "INSERT INTO categoria_produto ( descricao_categoria ) VALUES (?)";
 
-            stm = getConector().prepareStatement(sql);
+            stm = getConector().prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
 
             stm.setString(1, categoria.getDescricao());
 
-            stm.executeUpdate();
-            stm.close();
-
-        } catch (SQLException ex) {
+            return super.inserir(sql);
+        } catch (Exception ex) {
             chamarAlertaErro("Erro ao inserir categoria na base de dados", ex.toString());
-            return false;
         }
 
-        return true;
+        return null;
     }
 
     /**

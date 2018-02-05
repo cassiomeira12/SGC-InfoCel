@@ -1,5 +1,6 @@
 package banco.dao;
 
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,13 +19,13 @@ public class SaidaDAO extends DAO {
     }
 
     /**
-     * Inserir marca na base de dados
+     * Inserir saida na base de dados
      */
-    public boolean inserir(Saida saida) {
+    public Long inserir(Saida saida) {
         try {
             String sql = "INSERT INTO saida ( id_categoria, id_administrador, descricao_saida, data, valor ) VALUES (?, ?, ?, ?, ?)";
 
-            stm = getConector().prepareStatement(sql);
+            stm = getConector().prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
 
             stm.setInt(1, saida.getCategoria().getId().intValue());
             stm.setInt(2, saida.getAdministrador().getId().intValue());
@@ -32,15 +33,12 @@ public class SaidaDAO extends DAO {
             stm.setLong(4, System.currentTimeMillis());
             stm.setFloat(5, saida.getValor());
 
-            stm.executeUpdate();
-            stm.close();
-
-        } catch (SQLException ex) {
+            return super.inserir(sql);
+        } catch (Exception ex) {
             chamarAlertaErro("Erro ao inserir saida na base de dados", ex.toString());
-            return false;
         }
 
-        return true;
+        return null;
     }
 
     /**
