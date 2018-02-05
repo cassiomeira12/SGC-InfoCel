@@ -20,7 +20,7 @@ public class SaidaDAO extends DAO {
     /**
      * Inserir marca na base de dados
      */
-    public void inserir(Saida saida) {
+    public boolean inserir(Saida saida) {
         try {
             String sql = "INSERT INTO saida ( id_categoria, id_administrador, descricao_saida, data, valor ) VALUES (?, ?, ?, ?, ?)";
 
@@ -37,13 +37,16 @@ public class SaidaDAO extends DAO {
 
         } catch (SQLException ex) {
             chamarAlertaErro("Erro ao inserir saida na base de dados", ex.toString());
+            return false;
         }
+
+        return true;
     }
 
     /**
      * Atualizar dados saida na base de dados
      */
-    public void editar(Saida saida) {
+    public boolean editar(Saida saida) {
         try {
             String sql = "UPDATE saida SET id_categoria =?, id_administrador =?, descricao_saida =?, valor =? WHERE id_saida =?";
 
@@ -61,13 +64,16 @@ public class SaidaDAO extends DAO {
 
         } catch (SQLException ex) {
             chamarAlertaErro("Erro ao atualizar saida na base de dados!", ex.toString());
+            return false;
         }
+
+        return true;
     }
 
     /**
      * Excluir saida na base de dados
      */
-    public void excluir(int id) {
+    public boolean excluir(int id) {
         try {
             String sql = "DELETE FROM saida WHERE id_saida=?";
 
@@ -79,7 +85,10 @@ public class SaidaDAO extends DAO {
             stm.close();
         } catch (SQLException ex) {
             chamarAlertaErro("Erro ao excluir saida na base de dados!", ex.toString());
+            return false;
         }
+
+        return true;
     }
 
     /**

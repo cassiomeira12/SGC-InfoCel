@@ -19,7 +19,7 @@ public class ManutencaoDAO extends DAO {
     /**
      * Inserir marca na base de dados
      */
-    public void inserir(Manuntencao manutencao) {
+    public boolean inserir(Manuntencao manutencao) {
         try {
             String sql = "INSERT INTO manutencao ( id_cliente, id_produto, id_administrador, descricao_manutencao, data_cadastro, data_previsao, data_entrega, preco, finalizado ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
@@ -40,13 +40,16 @@ public class ManutencaoDAO extends DAO {
 
         } catch (SQLException ex) {
             chamarAlertaErro("Erro ao inserir manutencao na base de dados", ex.toString());
+            return false;
         }
+
+        return true;
     }
 
     /**
      * Atualizar dados marca na base de dados
      */
-    public void editar(Manuntencao manutencao) {
+    public boolean editar(Manuntencao manutencao) {
         try {
             String sql = "UPDATE manutencao SET  id_cliente =?, id_produto =?, id_administrador =?, descricao_manutencao =?, data_previsao =?, data_entrega =?, preco =?, finalizado =? WHERE id_manutencao =?";
 
@@ -68,13 +71,16 @@ public class ManutencaoDAO extends DAO {
 
         } catch (SQLException ex) {
             chamarAlertaErro("Erro ao atualizar manutencao na base de dados!", ex.toString());
+            return false;
         }
+
+        return true;
     }
 
     /**
      * Excluir marca na base de dados
      */
-    public void excluir(int id) {
+    public boolean excluir(int id) {
         try {
             String sql = "DELETE FROM manutencao WHERE id_manutencao=?";
 
@@ -86,7 +92,10 @@ public class ManutencaoDAO extends DAO {
             stm.close();
         } catch (SQLException ex) {
             chamarAlertaErro("Erro ao excluir manutencao na base de dados!", ex.toString());
+            return false;
         }
+
+        return true;
     }
 
     /**

@@ -20,7 +20,7 @@ public class ReceitaDAO extends DAO {
     /**
      * Inserir marca na base de dados
      */
-    public void inserir(Receita receita) {
+    public boolean inserir(Receita receita) {
         try {
             String sql = "INSERT INTO receita ( id_cliente, id_administrador, descricao_receita, data, valor ) VALUES (?, ?, ?, ?, ?)";
 
@@ -37,13 +37,16 @@ public class ReceitaDAO extends DAO {
 
         } catch (SQLException ex) {
             chamarAlertaErro("Erro ao inserir marca na base de dados", ex.toString());
+            return false;
         }
+
+        return true;
     }
 
     /**
      * Atualizar dados receita na base de dados
      */
-    public void editar(Receita receita) {
+    public boolean editar(Receita receita) {
         try {
             String sql = "UPDATE receita SET id_cliente =?, id_administrador =?, descricao_receita =?, valor =? WHERE id_receita =?";
 
@@ -61,13 +64,16 @@ public class ReceitaDAO extends DAO {
 
         } catch (SQLException ex) {
             chamarAlertaErro("Erro ao atualizar receita na base de dados!", ex.toString());
+            return false;
         }
+
+        return true;
     }
 
     /**
      * Excluir marca na base de dados
      */
-    public void excluir(int id) {
+    public boolean excluir(int id) {
         try {
             String sql = "DELETE FROM receita WHERE id_receita=?";
 
@@ -79,7 +85,10 @@ public class ReceitaDAO extends DAO {
             stm.close();
         } catch (SQLException ex) {
             chamarAlertaErro("Erro ao excluir receita na base de dados!", ex.toString());
+            return false;
         }
+
+        return true;
     }
 
     /**

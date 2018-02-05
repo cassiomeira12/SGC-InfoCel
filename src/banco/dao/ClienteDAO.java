@@ -18,7 +18,7 @@ public class ClienteDAO extends DAO {
     /**
      * Inserir cliente na base de dados
      */
-    public void inserir(Cliente cliente) {
+    public boolean inserir(Cliente cliente) {
         try {
             String sql = "INSERT INTO cliente ( nome, endereco, cpf, rg, telefone, cidade, data_cadastro, status ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
@@ -38,15 +38,18 @@ public class ClienteDAO extends DAO {
 
         } catch (SQLException ex) {
             chamarAlertaErro("Erro ao inserir cliente na base de dados", ex.toString());
+            return false;
         }
+
+        return true;
     }
 
     /**
      * Atualizar dados cliente na base de dados
      */
-    public void editar(Cliente cliente) {
+    public boolean editar(Cliente cliente) {
         try {
-            String sql = "UPDATE cliente SET nome =?, endereco =?, cpf =?, rg =?, telefone =?, cidade =?, data_cadastro =?, status =? WHERE id_cliente =?";
+            String sql = "UPDATE cliente SET nome =?, endereco =?, cpf =?, rg =?, telefone =?, cidade =?, status =? WHERE id_cliente =?";
 
             stm = getConector().prepareStatement(sql);
 
@@ -56,35 +59,40 @@ public class ClienteDAO extends DAO {
             stm.setString(4, cliente.getRg());
             stm.setString(5, cliente.getTelefone());
             stm.setString(6, cliente.getCidade());
-            stm.setLong(7, System.currentTimeMillis());
-            stm.setInt(8, cliente.getStatus());
+            stm.setInt(7, cliente.getStatus());
 
-            stm.setInt(9, cliente.getId().intValue());
+            stm.setInt(8, cliente.getId().intValue());
 
             stm.executeUpdate();
             stm.close();
 
         } catch (SQLException ex) {
             chamarAlertaErro("Erro ao atualizar cliente na base de dados!", ex.toString());
+            return false;
         }
+
+        return true;
     }
 
     /**
      * Excluir cliente na base de dados
      */
-    public void excluir(int id) {
+    public boolean excluir(int id) {
         try {
             String sql = "DELETE FROM cliente WHERE id_cliente=?";
 
             stm = getConector().prepareStatement(sql);
-            
+
             stm.setInt(1, id);
             stm.execute();
 
             stm.close();
         } catch (SQLException ex) {
             chamarAlertaErro("Erro ao excluir cliente na base de dados!", ex.toString());
+            return false;
         }
+
+        return true;
     }
 
     /**

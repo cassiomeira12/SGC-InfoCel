@@ -21,7 +21,7 @@ public class AdministradorDAO extends DAO {
     /**
      * Inserir usuário na base de dados
      */
-    public void inserir(Administrador adm) {
+    public boolean inserir(Administrador adm) {
         try {
             String sql = "INSERT INTO administrador ( nome, login, senha, endereco, email, cpf, rg, data_cadastro, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
@@ -42,13 +42,16 @@ public class AdministradorDAO extends DAO {
 
         } catch (SQLException ex) {
             chamarAlertaErro("Erro ao inserir administrador na base de dados", ex.toString());
+            return false;
         }
+
+        return true;
     }
 
     /**
      * Atualizar dados administrador na base de dados
      */
-    public void editar(Administrador adm) {
+    public boolean editar(Administrador adm) {
         try {
             String sql = "UPDATE administrador SET nome =?, login =?, senha =?, endereco = ?, email =?, cpf =?, rg =?, status =?, WHERE id_administrador =?";
 
@@ -70,13 +73,16 @@ public class AdministradorDAO extends DAO {
 
         } catch (SQLException ex) {
             chamarAlertaErro("Erro ao atualizar administrador na base de dados!", ex.toString());
+            return false;
         }
+
+        return true;
     }
 
     /**
      * Excluir administrador na base de dados
      */
-    public void excluir(int id) {
+    public boolean excluir(int id) {
         try {
             String sql = "DELETE FROM administrador WHERE id_administrador=?";
 
@@ -88,7 +94,10 @@ public class AdministradorDAO extends DAO {
             stm.close();
         } catch (SQLException ex) {
             chamarAlertaErro("Erro ao excluir administrador na base de dados!", ex.toString());
+            return false;
         }
+
+        return true;
     }
 
     /**

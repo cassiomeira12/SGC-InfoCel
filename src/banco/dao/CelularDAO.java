@@ -21,7 +21,7 @@ public class CelularDAO extends DAO {
     /**
      * Inserir celular na base de dados
      */
-    public void inserir(Celular celular) {
+    public boolean inserir(Celular celular) {
         try {
             String sql = "INSERT INTO produto ( descricao_produto, id_categoria, id_marca, preco_compra, preco_venda, estoque, modelo, imei, cor ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
@@ -42,13 +42,16 @@ public class CelularDAO extends DAO {
 
         } catch (SQLException ex) {
             chamarAlertaErro("Erro ao inserir celular na base de dados", ex.toString());
+            return false;
         }
+
+        return true;
     }
 
     /**
      * Atualizar dados celular na base de dados
      */
-    public void editar(Celular celular) {
+    public boolean editar(Celular celular) {
         try {
             String sql = "UPDATE produto SET  descricao_produto =?, id_categoria =?, id_marca =?, preco_compra =?, preco_venda =?, estoque =?, modelo =?, imei =?, cor =? WHERE id_produto =?";
 
@@ -71,13 +74,16 @@ public class CelularDAO extends DAO {
 
         } catch (SQLException ex) {
             chamarAlertaErro("Erro ao atualizar celular na base de dados!", ex.toString());
+            return false;
         }
+
+        return true;
     }
 
     /**
      * Excluir celular na base de dados
      */
-    public void excluir(int id) {
+    public boolean excluir(int id) {
         try {
             String sql = "DELETE FROM produto WHERE id_produto=?";
 
@@ -89,7 +95,10 @@ public class CelularDAO extends DAO {
             stm.close();
         } catch (SQLException ex) {
             chamarAlertaErro("Erro ao excluir celular na base de dados!", ex.toString());
+            return false;
         }
+
+        return true;
     }
 
     /**

@@ -22,7 +22,7 @@ public class ProdutoDAO extends DAO {
     /**
      * Inserir produto na base de dados
      */
-    public void inserir(Produto produto) {
+    public boolean inserir(Produto produto) {
         try {
             String sql = "INSERT INTO produto ( descricao_produto, id_categoria, id_marca, preco_compra, preco_venda, estoque ) VALUES (?, ?, ?, ?, ?, ?)";
 
@@ -40,13 +40,16 @@ public class ProdutoDAO extends DAO {
 
         } catch (SQLException ex) {
             chamarAlertaErro("Erro ao inserir produto na base de dados", ex.toString());
+            return false;
         }
+
+        return true;
     }
 
     /**
      * Atualizar dados produto na base de dados
      */
-    public void editar(Produto produto) {
+    public boolean editar(Produto produto) {
         try {
             String sql = "UPDATE produto SET  descricao_produto =?, id_categoria =?, id_marca =?, preco_compra =?, preco_venda =?, estoque =? WHERE id_produto =?";
 
@@ -65,13 +68,16 @@ public class ProdutoDAO extends DAO {
 
         } catch (SQLException ex) {
             chamarAlertaErro("Erro ao atualizar produto na base de dados!", ex.toString());
+            return false;
         }
+
+        return true;
     }
 
     /**
      * Excluir produto na base de dados
      */
-    public void excluir(int id) {
+    public boolean excluir(int id) {
         try {
             String sql = "DELETE FROM produto WHERE id=?";
 
@@ -83,7 +89,10 @@ public class ProdutoDAO extends DAO {
             stm.close();
         } catch (SQLException ex) {
             chamarAlertaErro("Erro ao excluir produto na base de dados!", ex.toString());
+            return false;
         }
+
+        return true;
     }
 
     /**

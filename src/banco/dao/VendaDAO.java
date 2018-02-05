@@ -19,7 +19,7 @@ public class VendaDAO extends DAO {
     /**
      * Inserir marca na base de dados
      */
-    private void inserir(Marca marca) {
+    private boolean inserir(Marca marca) {
         try {
             String sql = "INSERT INTO marca ( descricao_marca ) VALUES (?)";
 
@@ -32,13 +32,16 @@ public class VendaDAO extends DAO {
 
         } catch (SQLException ex) {
             chamarAlertaErro("Erro ao inserir marca na base de dados", ex.toString());
+            return false;
         }
+
+        return true;
     }
 
     /**
      * Atualizar dados marca na base de dados
      */
-    private void editar(Marca marca) {
+    private boolean editar(Marca marca) {
         try {
             String sql = "UPDATE marca SET descricao_marca =? WHERE id_marca =?";
 
@@ -53,13 +56,16 @@ public class VendaDAO extends DAO {
 
         } catch (SQLException ex) {
             chamarAlertaErro("Erro ao atualizar marca na base de dados!", ex.toString());
+            return false;
         }
+
+        return true;
     }
 
     /**
      * Excluir marca na base de dados
      */
-    private void excluir(int id) {
+    private boolean excluir(int id) {
         try {
             String sql = "DELETE FROM marca WHERE id_marca=?";
 
@@ -71,7 +77,10 @@ public class VendaDAO extends DAO {
             stm.close();
         } catch (SQLException ex) {
             chamarAlertaErro("Erro ao excluir marca na base de dados!", ex.toString());
+            return false;
         }
+
+        return true;
     }
 
     /**

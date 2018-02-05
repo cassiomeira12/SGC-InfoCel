@@ -18,7 +18,7 @@ public class CategoriaProdutoDAO extends DAO {
     /**
      * Inserir categoria na base de dados
      */
-    public void inserir(CategoriaProduto categoria) {
+    public boolean inserir(CategoriaProduto categoria) {
         try {
             String sql = "INSERT INTO categoria_produto ( descricao_categoria ) VALUES (?)";
 
@@ -31,13 +31,16 @@ public class CategoriaProdutoDAO extends DAO {
 
         } catch (SQLException ex) {
             chamarAlertaErro("Erro ao inserir categoria na base de dados", ex.toString());
+            return false;
         }
+
+        return true;
     }
 
     /**
      * Atualizar dados categoria na base de dados
      */
-    public void editar(CategoriaProduto categoria) {
+    public boolean editar(CategoriaProduto categoria) {
         try {
             String sql = "UPDATE categoria_produto SET descricao_categoria =? WHERE id_categoria =?";
 
@@ -52,13 +55,16 @@ public class CategoriaProdutoDAO extends DAO {
 
         } catch (SQLException ex) {
             chamarAlertaErro("Erro ao atualizar categoria na base de dados!", ex.toString());
+            return false;
         }
+
+        return true;
     }
 
     /**
      * Excluir categoria na base de dados
      */
-    public void excluir(int id) {
+    public boolean excluir(int id) {
         try {
             String sql = "DELETE FROM categoria_produto WHERE id_categoria=?";
 
@@ -70,7 +76,10 @@ public class CategoriaProdutoDAO extends DAO {
             stm.close();
         } catch (SQLException ex) {
             chamarAlertaErro("Erro ao excluir categoria na base de dados!", ex.toString());
+            return false;
         }
+
+        return true;
     }
 
     /**

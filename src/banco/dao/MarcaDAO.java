@@ -19,7 +19,7 @@ public class MarcaDAO extends DAO {
     /**
      * Inserir marca na base de dados
      */
-    public void inserir(Marca marca) {
+    public boolean inserir(Marca marca) {
         try {
             String sql = "INSERT INTO marca ( descricao_marca ) VALUES (?)";
 
@@ -32,13 +32,16 @@ public class MarcaDAO extends DAO {
 
         } catch (SQLException ex) {
             chamarAlertaErro("Erro ao inserir marca na base de dados", ex.toString());
+            return false;
         }
+
+        return true;
     }
 
     /**
      * Atualizar dados marca na base de dados
      */
-    public void editar(Marca marca) {
+    public boolean editar(Marca marca) {
         try {
             String sql = "UPDATE marca SET descricao_marca =? WHERE id_marca =?";
 
@@ -53,13 +56,16 @@ public class MarcaDAO extends DAO {
 
         } catch (SQLException ex) {
             chamarAlertaErro("Erro ao atualizar marca na base de dados!", ex.toString());
+            return false;
         }
+
+        return true;
     }
 
     /**
      * Excluir marca na base de dados
      */
-    public void excluir(int id) {
+    public boolean excluir(int id) {
         try {
             String sql = "DELETE FROM marca WHERE id_marca=?";
 
@@ -71,7 +77,10 @@ public class MarcaDAO extends DAO {
             stm.close();
         } catch (SQLException ex) {
             chamarAlertaErro("Erro ao excluir marca na base de dados!", ex.toString());
+            return false;
         }
+
+        return true;
     }
 
     /**
