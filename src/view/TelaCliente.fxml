@@ -121,12 +121,19 @@
                               <Font size="18.0" />
                            </font>
                         </Label>
-                        <TableView focusTraversable="false" VBox.vgrow="ALWAYS">
-                          <columns>
-                            <TableColumn prefWidth="75.0" text="C1" />
-                            <TableColumn prefWidth="75.0" text="C2" />
-                          </columns>
-                        </TableView>
+                        <TableView  VBox.vgrow="ALWAYS">
+                                    <columnResizePolicy>
+                                        <!-- falando sobre erro: https://netbeans.org/bugzilla/show_bug.cgi?id=256522-->
+                                        <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                                    </columnResizePolicy>
+                                    <columns>
+                                        <TableColumn prefWidth="75.0" text="C1" />
+                                        <TableColumn prefWidth="75.0" text="C2" />
+                                    </columns>
+                                    <VBox.margin>
+                                        <Insets />
+                                    </VBox.margin>
+                   </TableView>
                      </children>
                   </VBox>
                </children></VBox>
