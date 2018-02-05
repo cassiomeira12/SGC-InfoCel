@@ -82,9 +82,6 @@ public class LoginController extends AnchorPane {
                 logar();
             }
         });
-        
-        List<Manuntencao> p = ControleDAO.getBanco().getManutencaoDAO().buscarFinalizadas();
-        p.size();
     }
 
     @FXML
