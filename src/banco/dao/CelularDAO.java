@@ -38,7 +38,7 @@ public class CelularDAO extends DAO {
             stm.setString(8, celular.getImei());
             stm.setString(9, celular.getCor());
 
-            return super.inserir(sql);
+            return super.inserir();
         } catch (Exception ex) {
             chamarAlertaErro("Erro ao inserir celular na base de dados", ex.toString());
         }
@@ -56,7 +56,7 @@ public class CelularDAO extends DAO {
             stm = getConector().prepareStatement(sql);
 
             stm.setString(1, celular.getDescricao());
-            stm.setInt(3, celular.getCategoria().getId().intValue());
+            stm.setInt(2, celular.getCategoria().getId().intValue());
             stm.setInt(3, celular.getMarca().getId().intValue());
             stm.setFloat(4, celular.getPrecoCompra());
             stm.setFloat(5, celular.getPrecoVenda());

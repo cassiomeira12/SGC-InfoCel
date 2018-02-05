@@ -33,7 +33,7 @@ public class SaidaDAO extends DAO {
             stm.setLong(4, System.currentTimeMillis());
             stm.setFloat(5, saida.getValor());
 
-            return super.inserir(sql);
+            return super.inserir();
         } catch (Exception ex) {
             chamarAlertaErro("Erro ao inserir saida na base de dados", ex.toString());
         }

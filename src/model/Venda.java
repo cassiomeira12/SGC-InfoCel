@@ -2,6 +2,9 @@ package model;
 
 import java.util.List;
 
+/*
+*forma de pagamento 1 = dinheiro, 2 = cartão de crédito
+ */
 public class Venda {
 
     private Long id;
@@ -12,12 +15,12 @@ public class Venda {
     private int formaPagamento;
     private Long data;
 
-    public Venda(Long id, Administrador administrador, Cliente cliente, List<VendaProduto> vendaProdutos, float precoTotal, int formaPagamento, Long data) {
+    public Venda(Long id, Administrador administrador, Cliente cliente, List<VendaProduto> vendaProdutos, int formaPagamento, Long data) {
         this.id = id;
         this.administrador = administrador;
         this.cliente = cliente;
         this.vendaProdutos = vendaProdutos;
-        this.precoTotal = precoTotal;
+        this.precoTotal = calcularPrecoTotal();
         this.formaPagamento = formaPagamento;
         this.data = data;
     }
@@ -52,6 +55,7 @@ public class Venda {
 
     public void setVendaProdutos(List<VendaProduto> vendaProdutos) {
         this.vendaProdutos = vendaProdutos;
+        precoTotal = calcularPrecoTotal();
     }
 
     public float getPrecoTotal() {
@@ -76,6 +80,19 @@ public class Venda {
 
     public void setData(Long data) {
         this.data = data;
+    }
+
+    private float calcularPrecoTotal() {
+        float preco = 0.0f;
+        if (vendaProdutos == null) {
+            return preco;
+        }
+
+        for (VendaProduto vp : vendaProdutos) {
+            preco = preco + vp.getPrecoTotal();
+        }
+
+        return preco;
     }
 
 }

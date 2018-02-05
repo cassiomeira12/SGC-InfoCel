@@ -7,11 +7,14 @@ public class VendaProduto {
     private Venda venda;
     private Produto produto;
 
-    public VendaProduto(float quantidade, float precoTotal, Venda venda, Produto produto) {
+    public VendaProduto(float quantidade, Venda venda, Produto produto) {
         this.quantidade = quantidade;
-        this.precoTotal = precoTotal;
         this.venda = venda;
         this.produto = produto;
+
+        if (produto != null) {
+            this.precoTotal = produto.getPrecoVenda() * quantidade;
+        }
     }
 
     public float getQuantidade() {
@@ -20,6 +23,7 @@ public class VendaProduto {
 
     public void setQuantidade(float quantidade) {
         this.quantidade = quantidade;
+        precoTotal = quantidade * getProduto().getPrecoVenda();
     }
 
     public float getPrecoTotal() {

@@ -29,7 +29,7 @@ public class MarcaDAO extends DAO {
 
             stm.setString(1, marca.getDescricao());
 
-            return super.inserir(sql);
+            return super.inserir();
         } catch (Exception ex) {
             chamarAlertaErro("Erro ao inserir marca na base de dados", ex.toString());
         }

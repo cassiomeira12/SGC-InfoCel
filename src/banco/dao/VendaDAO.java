@@ -1,11 +1,14 @@
 package banco.dao;
 
+import banco.ControleDAO;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import model.Marca;
+import model.Produto;
 import model.Venda;
+import model.VendaProduto;
 
 /**
  * DAO responsável pela ações realizadas na base de dados referentes as vendas
@@ -20,19 +23,43 @@ public class VendaDAO extends DAO {
     /**
      * Inserir venda na base de dados
      */
-    private Long inserir(Venda venda) {
+    public Long inserir(Venda venda) {
+        Long idVenda = null;
+
         try {
-            String sql = "INSERT INTO marca ( descricao_marca ) VALUES (?)";
+            String sql = "INSERT INTO venda ( id_administrador, id_cliente, preco_total, forma_pagamento, data ) VALUES (?, ?, ?, ?, ?)";
 
             stm = getConector().prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
 
-            // stm.setString(1, marca.getDescricao());
-            return super.inserir(sql);
+            stm.setInt(1, venda.getAdministrador().getId().intValue());
+            stm.setInt(2, venda.getCliente().getId().intValue());
+            stm.setFloat(3, venda.getPrecoTotal());
+            stm.setInt(4, venda.getFormaPagamento());
+            stm.setLong(5, System.currentTimeMillis());
+
+            idVenda = super.inserir();
+
+            //cadastrar vendaProduto
+            sql = "INSERT INTO venda_produto ( id_produto, id_venda, quantidade, preco_total ) VALUES";
+            for (VendaProduto vp : venda.getVendaProdutos()) {
+                sql = sql + "\n(" + vp.getProduto().getId() + "," + idVenda + "," + vp.getQuantidade() + "," + vp.getPrecoTotal() + "),";
+            }
+            sql = sql.substring(0, sql.length() - 1);   //remove última vírgula
+            stm = getConector().prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
+
+            super.inserir();
+
+            //atualiza estoque
+            for (VendaProduto vp : venda.getVendaProdutos()) {
+                Produto produto = vp.getProduto();
+                produto.setEstoque(produto.getEstoque() - vp.getQuantidade());
+                ControleDAO.getBanco().getProdutoDAO().editar(produto);
+            }
         } catch (Exception ex) {
-            chamarAlertaErro("Erro ao inserir marca na base de dados", ex.toString());
+            chamarAlertaErro("Erro ao inserir venda na base de dados", ex.toString());
         }
 
-        return null;
+        return idVenda;
     }
 
     /**

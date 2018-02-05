@@ -39,7 +39,7 @@ public class AdministradorDAO extends DAO {
             stm.setLong(8, System.currentTimeMillis());
             stm.setInt(9, adm.getStatus());
 
-            return super.inserir(sql);
+            return super.inserir();
         } catch (Exception ex) {
             chamarAlertaErro("Erro ao inserir administrador na base de dados", ex.toString());
         }

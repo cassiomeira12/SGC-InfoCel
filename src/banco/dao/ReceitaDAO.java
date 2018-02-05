@@ -33,7 +33,7 @@ public class ReceitaDAO extends DAO {
             stm.setLong(4, System.currentTimeMillis());
             stm.setFloat(5, receita.getValor());
 
-            return super.inserir(sql);
+            return super.inserir();
         } catch (Exception ex) {
             chamarAlertaErro("Erro ao inserir marca na base de dados", ex.toString());
         }

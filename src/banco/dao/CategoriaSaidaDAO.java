@@ -29,7 +29,7 @@ public class CategoriaSaidaDAO extends DAO {
 
             stm.setString(1, categoria.getDescricao());
 
-            return super.inserir(sql);
+            return super.inserir();
         } catch (Exception ex) {
             chamarAlertaErro("Erro ao inserir categoria na base de dados", ex.toString());
         }

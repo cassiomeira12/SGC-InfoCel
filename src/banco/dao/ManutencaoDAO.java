@@ -36,7 +36,7 @@ public class ManutencaoDAO extends DAO {
             stm.setFloat(8, manutencao.getPreco());
             stm.setBoolean(9, manutencao.isFinalizado());
 
-            return super.inserir(sql);
+            return super.inserir();
         } catch (Exception ex) {
             chamarAlertaErro("Erro ao inserir manutencao na base de dados", ex.toString());
         }

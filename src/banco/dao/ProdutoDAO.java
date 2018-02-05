@@ -30,13 +30,13 @@ public class ProdutoDAO extends DAO {
             stm = getConector().prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
 
             stm.setString(1, produto.getDescricao());
-            stm.setInt(3, produto.getCategoria().getId().intValue());
+            stm.setInt(2, produto.getCategoria().getId().intValue());
             stm.setInt(3, produto.getMarca().getId().intValue());
             stm.setFloat(4, produto.getPrecoCompra());
             stm.setFloat(5, produto.getPrecoVenda());
             stm.setFloat(6, produto.getEstoque());
 
-            return super.inserir(sql);
+            return super.inserir();
         } catch (Exception ex) {
             chamarAlertaErro("Erro ao inserir produto na base de dados", ex.toString());
         }
@@ -54,12 +54,13 @@ public class ProdutoDAO extends DAO {
             stm = getConector().prepareStatement(sql);
 
             stm.setString(1, produto.getDescricao());
-            stm.setInt(3, produto.getCategoria().getId().intValue());
+            stm.setInt(2, produto.getCategoria().getId().intValue());
             stm.setInt(3, produto.getMarca().getId().intValue());
             stm.setFloat(4, produto.getPrecoCompra());
             stm.setFloat(5, produto.getPrecoVenda());
             stm.setFloat(6, produto.getEstoque());
-            stm.setInt(2, produto.getId().intValue());
+
+            stm.setInt(7, produto.getId().intValue());
 
             stm.executeUpdate();
             stm.close();
@@ -77,7 +78,7 @@ public class ProdutoDAO extends DAO {
      */
     public boolean excluir(int id) {
         try {
-            String sql = "DELETE FROM produto WHERE id=?";
+            String sql = "DELETE FROM produto WHERE id_produto=?";
 
             stm = getConector().prepareStatement(sql);
 

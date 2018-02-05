@@ -33,7 +33,7 @@ public class DAO {
         return conector;
     }
 
-    protected Long inserir(String sql) throws Exception {
+    protected Long inserir() throws Exception {
         Long id;
 
         stm.executeUpdate();

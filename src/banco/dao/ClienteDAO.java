@@ -34,7 +34,7 @@ public class ClienteDAO extends DAO {
             stm.setLong(7, System.currentTimeMillis());
             stm.setInt(8, cliente.getStatus());
 
-            return super.inserir(sql);
+            return super.inserir();
         } catch (Exception ex) {
             chamarAlertaErro("Erro ao inserir cliente na base de dados", ex.toString());
         }

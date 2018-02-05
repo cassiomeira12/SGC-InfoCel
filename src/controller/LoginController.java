@@ -7,6 +7,7 @@ package controller;
 
 import banco.ControleDAO;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -24,7 +25,11 @@ import model.Administrador;
 import model.CategoriaProduto;
 import model.CategoriaSaida;
 import model.Celular;
+import model.Cliente;
 import model.Marca;
+import model.Produto;
+import model.Venda;
+import model.VendaProduto;
 import util.Formatter;
 import util.alerta.Alerta;
 
