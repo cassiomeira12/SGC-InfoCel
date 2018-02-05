@@ -25,7 +25,7 @@ public class AdministradorDAO extends DAO {
      */
     public Long inserir(Administrador adm) {
         try {
-            String sql = "INSERT INTO administrador ( nome, login, senha, endereco, email, cpf, rg, data_cadastro, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            String sql = "INSERT INTO administrador ( nome_administrador, login, senha, endereco_administrador, email_administrador, cpf_administrador, rg_administrador, data_cadastro_administrador, status_administrador) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
             stm = getConector().prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
 
@@ -52,7 +52,7 @@ public class AdministradorDAO extends DAO {
      */
     public boolean editar(Administrador adm) {
         try {
-            String sql = "UPDATE administrador SET nome =?, login =?, senha =?, endereco = ?, email =?, cpf =?, rg =?, status =?, WHERE id_administrador =?";
+            String sql = "UPDATE administrador SET nome_administrador =?, login =?, senha =?, endereco_administrador = ?, email_administrador =?, cpf_administrador =?, rg_administrador =?, status_administrador =?, WHERE id_administrador =?";
 
             stm = getConector().prepareStatement(sql);
 

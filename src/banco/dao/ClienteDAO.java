@@ -21,7 +21,7 @@ public class ClienteDAO extends DAO {
      */
     public Long inserir(Cliente cliente) {
         try {
-            String sql = "INSERT INTO cliente ( nome, endereco, cpf, rg, telefone, cidade, data_cadastro, status ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+            String sql = "INSERT INTO cliente ( nome_cliente, endereco_cliente, cpf_cliente, rg_cliente, telefone_cliente, cidade_cliente, data_cadastro_cliente, status_cliente ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
             stm = getConector().prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
 
@@ -102,6 +102,32 @@ public class ClienteDAO extends DAO {
 
         try {
             String sql = "SELECT cliente.* FROM cliente";
+
+            stm = getConector().prepareStatement(sql);
+            rs = stm.executeQuery(sql);
+
+            while (rs.next()) {
+                Cliente cliente = new Cliente((long) rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7), rs.getLong(8), rs.getInt(9));
+
+                clientes.add(cliente);
+            }
+
+            stm.close();
+            rs.close();
+
+        } catch (SQLException ex) {
+            chamarAlertaErro("Erro ao consultar clientes na base de dados!", ex.toString());
+        }
+
+        return clientes;
+    }
+    
+     public List<Cliente> buscarPorNome(String busca) {
+
+        List<Cliente> clientes = new ArrayList<>();
+
+        try {
+            String sql = "SELECT cliente.* FROM cliente WHERE nome LIKE '%" + busca + "%'";
 
             stm = getConector().prepareStatement(sql);
             rs = stm.executeQuery(sql);

@@ -97,33 +97,133 @@ public class ProdutoDAO extends DAO {
     /**
      * Consultar todos produtos cadastrados na base de dados
      */
-    private List<Produto> listar() {
+    public List<Produto> listar() {
 
         List<Produto> produtos = new ArrayList<>();
 
         try {
-            String sql = "SELECT produto.* FROM produto";
+            String sql = "SELECT produto.*, marca.descricao_marca, categoria_produto.descricao_categoria "
+                    + "FROM produto"
+                    + "\nINNER JOIN marca marca ON produto.id_marca = marca.id_marca"
+                    + "\nINNER JOIN categoria_produto categoria_produto ON produto.id_categoria = categoria_produto.id_categoria";
 
+            System.out.println(sql);
             stm = getConector().prepareStatement(sql);
             rs = stm.executeQuery(sql);
 
             while (rs.next()) {
-                Marca marca = ControleDAO.getBanco().getMarcaDAO().buscarPorId(rs.getInt(2));
-                CategoriaProduto categoria = ControleDAO.getBanco().getCategoriaProdutoDAO().buscarPorId(rs.getInt(4));
+                CategoriaProduto categoria = new CategoriaProduto(rs.getLong("id_categoria"), rs.getString("descricao_categoria"));
+                Marca marca = new Marca(rs.getLong("id_marca"), rs.getString("descricao_marca"));
 
-                Produto produto = new Produto((long) rs.getInt(1), marca, rs.getString(3), categoria, rs.getFloat(5), rs.getFloat(6), rs.getFloat(7));
-
-                produtos.add(produto);
+                produtos.add(new Produto(rs.getLong("id_produto"), marca, rs.getString("descricao_produto"), categoria, rs.getFloat("preco_compra"), rs.getFloat("preco_venda"), rs.getFloat("estoque")));
             }
 
             stm.close();
             rs.close();
 
-        } catch (SQLException ex) {
+            return produtos;
+        } catch (Exception ex) {
             chamarAlertaErro("Erro ao consultar produtos na base de dados!", ex.toString());
         }
 
         return produtos;
+    }
+
+    public List<Produto> buscarPorDescricaoModelo(String busca) {
+
+        List<Produto> produtos = new ArrayList<>();
+
+        try {
+            String sql = "SELECT produto.*, marca.descricao_marca, categoria_produto.descricao_categoria "
+                    + "FROM produto"
+                    + "\nINNER JOIN marca marca ON produto.id_marca = marca.id_marca"
+                    + "\nINNER JOIN categoria_produto categoria_produto ON produto.id_categoria = categoria_produto.id_categoria"
+                    + "\nWHERE produto.descricao_produto LIKE '%" + busca + "%'"
+                    + "\n OR produto.modelo LIKE '%" + busca + "%'";
+
+            System.out.println(sql);
+            stm = getConector().prepareStatement(sql);
+            rs = stm.executeQuery(sql);
+
+            while (rs.next()) {
+                CategoriaProduto categoria = new CategoriaProduto(rs.getLong("id_categoria"), rs.getString("descricao_categoria"));
+                Marca marca = new Marca(rs.getLong("id_marca"), rs.getString("descricao_marca"));
+
+                produtos.add(new Produto(rs.getLong("id_produto"), marca, rs.getString("descricao_produto"), categoria, rs.getFloat("preco_compra"), rs.getFloat("preco_venda"), rs.getFloat("estoque")));
+            }
+
+            stm.close();
+            rs.close();
+
+            return produtos;
+        } catch (Exception ex) {
+            chamarAlertaErro("Erro ao consultar produtos na base de dados!", ex.toString());
+        }
+
+        return produtos;
+    }
+
+    public List<Produto> buscarPorCategoria(CategoriaProduto categoria) {
+
+        List<Produto> produtos = new ArrayList<>();
+
+        try {
+            String sql = "SELECT produto.*, marca.descricao_marca, categoria_produto.descricao_categoria "
+                    + "FROM produto"
+                    + "\nINNER JOIN marca marca ON produto.id_marca = marca.id_marca"
+                    + "\nINNER JOIN categoria_produto categoria_produto ON produto.id_categoria = categoria_produto.id_categoria"
+                    + "\nWHERE categoria_produto.descricao_categoria LIKE '%" + categoria.getDescricao() + "%'";
+
+            System.out.println(sql);
+            stm = getConector().prepareStatement(sql);
+            rs = stm.executeQuery(sql);
+
+            while (rs.next()) {
+                Marca marca = new Marca(rs.getLong("id_marca"), rs.getString("descricao_marca"));
+
+                produtos.add(new Produto(rs.getLong("id_produto"), marca, rs.getString("descricao_produto"), categoria, rs.getFloat("preco_compra"), rs.getFloat("preco_venda"), rs.getFloat("estoque")));
+            }
+
+            stm.close();
+            rs.close();
+
+            return produtos;
+        } catch (Exception ex) {
+            chamarAlertaErro("Erro ao consultar produtos na base de dados!", ex.toString());
+        }
+
+        return produtos;
+    }
+
+    public Produto buscarPorId(Long id) {
+        Produto produto = null;
+        try {
+            String sql = "SELECT produto.*, marca.descricao_marca, categoria_produto.descricao_categoria "
+                    + "FROM produto"
+                    + "\nINNER JOIN marca marca ON produto.id_marca = marca.id_marca"
+                    + "\nINNER JOIN categoria_produto categoria_produto ON produto.id_categoria = categoria_produto.id_categoria"
+                    + "\nWHERE produto.id_produto = " + id;
+
+            System.out.println(sql);
+            stm = getConector().prepareStatement(sql);
+            rs = stm.executeQuery(sql);
+
+            while (rs.next()) {
+                CategoriaProduto categoria = new CategoriaProduto(rs.getLong("id_categoria"), rs.getString("descricao_categoria"));
+                Marca marca = new Marca(rs.getLong("id_marca"), rs.getString("descricao_marca"));
+
+                produto = new Produto(id, marca, rs.getString("descricao_produto"), categoria, rs.getFloat("preco_compra"), rs.getFloat("preco_venda"), rs.getFloat("estoque"));
+            }
+
+            stm.close();
+            rs.close();
+
+            return produto;
+        } catch (Exception ex) {
+            chamarAlertaErro("Erro ao consultar produtos na base de dados!", ex.toString());
+        }
+
+        return null;
     }
 
 }

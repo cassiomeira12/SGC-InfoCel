@@ -25,14 +25,20 @@ public class VendaDAO extends DAO {
      */
     public Long inserir(Venda venda) {
         Long idVenda = null;
+        Long idCliente = venda.getCliente().getId();
 
         try {
+            if (idCliente == null) //null = cliente não cadastrado
+            {
+                idCliente = ControleDAO.getBanco().getClienteDAO().inserir(venda.getCliente());
+            }
+
             String sql = "INSERT INTO venda ( id_administrador, id_cliente, preco_total, forma_pagamento, data ) VALUES (?, ?, ?, ?, ?)";
 
             stm = getConector().prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
 
             stm.setInt(1, venda.getAdministrador().getId().intValue());
-            stm.setInt(2, venda.getCliente().getId().intValue());
+            stm.setInt(2, idCliente.intValue());
             stm.setFloat(3, venda.getPrecoTotal());
             stm.setInt(4, venda.getFormaPagamento());
             stm.setLong(5, System.currentTimeMillis());
@@ -51,7 +57,7 @@ public class VendaDAO extends DAO {
 
             //atualiza estoque
             for (VendaProduto vp : venda.getVendaProdutos()) {
-                Produto produto = vp.getProduto();
+                Produto produto = ControleDAO.getBanco().getProdutoDAO().buscarPorId(vp.getProduto().getId());
                 produto.setEstoque(produto.getEstoque() - vp.getQuantidade());
                 ControleDAO.getBanco().getProdutoDAO().editar(produto);
             }

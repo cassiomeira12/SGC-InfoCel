@@ -4,8 +4,12 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import model.Administrador;
+import model.Celular;
+import model.Cliente;
 import model.Manuntencao;
 import model.Marca;
+import model.Produto;
 
 /**
  * DAO responsável pela ações realizadas na base de dados referentes as
@@ -76,7 +80,7 @@ public class ManutencaoDAO extends DAO {
     }
 
     /**
-     * Excluir marca na base de dados
+     * Excluir manutencao na base de dados
      */
     public boolean excluir(int id) {
         try {
@@ -99,34 +103,155 @@ public class ManutencaoDAO extends DAO {
     /**
      * Consultar todas Manutencao cadastradas na base de dados
      */
-    private List<Manuntencao> listar() {
+    public List<Manuntencao> listar() {
 
         List<Manuntencao> manuntencoes = new ArrayList<>();
 
         try {
-            String sql = "SELECT manutencao.* FROM manutencao";
+            String sql = "SELECT manutencao.*, administrador.*, cliente.*, produto.*, marca.*"
+                    + "\nFROM manutencao"
+                    + "\nINNER JOIN administrador administrador ON manutencao.id_administrador = administrador.id_administrador"
+                    + "\nINNER JOIN cliente cliente ON manutencao.id_cliente = cliente.id_cliente"
+                    + "\nINNER JOIN produto produto ON manutencao.id_produto = produto.id_produto"
+                    + "\nINNER JOIN marca ON produto.id_marca = marca.id_marca";
 
+            System.out.println(sql);
             stm = getConector().prepareStatement(sql);
             rs = stm.executeQuery(sql);
 
             while (rs.next()) {
-                Manuntencao manuntencao = new Manuntencao(rs.getLong(1), rs.getString(2), null, null, null, null, null, null, 0, true);
+                Administrador adm = new Administrador(rs.getLong("id_administrador"), rs.getString("nome_administrador"), "", "", rs.getString("endereco_administrador"), rs.getString("email_administrador"), rs.getString("cpf_administrador"), rs.getString("rg_administrador"), null, rs.getInt("status_administrador"));
+                Cliente cliente = new Cliente(rs.getLong("id_cliente"), rs.getString("nome_cliente"), rs.getString("endereco_cliente"), rs.getString("cpf_cliente"), rs.getString("rg_cliente"), rs.getString("telefone_cliente"), rs.getString("cidade_cliente"), null, rs.getInt("status_cliente"));
+                Celular celular = new Celular(rs.getLong("id_produto"), new Marca(null, rs.getString("descricao_marca")), rs.getString("descricao_produto"), null, 0, 0, 0);
+                celular.setCor(rs.getString("cor"));
+                celular.setImei(rs.getString("imei"));
+                celular.setModelo(rs.getString("modelo"));
 
-                manuntencoes.add(manuntencao);
+                manuntencoes.add(new Manuntencao(rs.getLong("id_manutencao"), rs.getString("descricao_manutencao"), cliente, adm, celular, rs.getLong("data_cadastro_manutencao"), rs.getLong("data_previsao"), rs.getLong("data_entrega"), rs.getFloat("preco"), rs.getBoolean("finalizado")));
             }
 
             stm.close();
             rs.close();
 
-        } catch (SQLException ex) {
-            chamarAlertaErro("Erro ao consultar marcas na base de dados!", ex.toString());
+        } catch (Exception ex) {
+            chamarAlertaErro("Erro ao consultar manutencoes na base de dados!", ex.toString());
         }
 
         return manuntencoes;
     }
 
-    Marca buscarPorId(int aInt) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public List<Manuntencao> buscarPorCliente(Cliente c) {
+
+        List<Manuntencao> manuntencoes = new ArrayList<>();
+
+        try {
+            String sql = "SELECT manutencao.*, administrador.*, cliente.*, produto.*, marca.*"
+                    + "\nFROM manutencao"
+                    + "\nINNER JOIN administrador administrador ON manutencao.id_administrador = administrador.id_administrador"
+                    + "\nINNER JOIN cliente cliente ON manutencao.id_cliente = cliente.id_cliente"
+                    + "\nINNER JOIN produto produto ON manutencao.id_produto = produto.id_produto"
+                    + "\nINNER JOIN marca ON produto.id_marca = marca.id_marca"
+                    + "\nWHERE manutencao.id_cliente = " + c.getId();
+
+            System.out.println(sql);
+            stm = getConector().prepareStatement(sql);
+            rs = stm.executeQuery(sql);
+
+            while (rs.next()) {
+                Administrador adm = new Administrador(rs.getLong("id_administrador"), rs.getString("nome_administrador"), "", "", rs.getString("endereco_administrador"), rs.getString("email_administrador"), rs.getString("cpf_administrador"), rs.getString("rg_administrador"), null, rs.getInt("status_administrador"));
+                Cliente cliente = new Cliente(rs.getLong("id_cliente"), rs.getString("nome_cliente"), rs.getString("endereco_cliente"), rs.getString("cpf_cliente"), rs.getString("rg_cliente"), rs.getString("telefone_cliente"), rs.getString("cidade_cliente"), null, rs.getInt("status_cliente"));
+                Celular celular = new Celular(rs.getLong("id_produto"), new Marca(null, rs.getString("descricao_marca")), rs.getString("descricao_produto"), null, 0, 0, 0);
+                celular.setCor(rs.getString("cor"));
+                celular.setImei(rs.getString("imei"));
+                celular.setModelo(rs.getString("modelo"));
+
+                manuntencoes.add(new Manuntencao(rs.getLong("id_manutencao"), rs.getString("descricao_manutencao"), cliente, adm, celular, rs.getLong("data_cadastro_manutencao"), rs.getLong("data_previsao"), rs.getLong("data_entrega"), rs.getFloat("preco"), rs.getBoolean("finalizado")));
+            }
+
+            stm.close();
+            rs.close();
+
+        } catch (Exception ex) {
+            chamarAlertaErro("Erro ao consultar manutencoes na base de dados!", ex.toString());
+        }
+
+        return manuntencoes;
+    }
+
+    public List<Manuntencao> buscarFinalizadas() {
+
+        List<Manuntencao> manuntencoes = new ArrayList<>();
+
+        try {
+            String sql = "SELECT manutencao.*, administrador.*, cliente.*, produto.*, marca.*"
+                    + "\nFROM manutencao"
+                    + "\nINNER JOIN administrador administrador ON manutencao.id_administrador = administrador.id_administrador"
+                    + "\nINNER JOIN cliente cliente ON manutencao.id_cliente = cliente.id_cliente"
+                    + "\nINNER JOIN produto produto ON manutencao.id_produto = produto.id_produto"
+                    + "\nINNER JOIN marca ON produto.id_marca = marca.id_marca"
+                    + "\nWHERE manutencao.finalizado = true";
+
+            System.out.println(sql);
+            stm = getConector().prepareStatement(sql);
+            rs = stm.executeQuery(sql);
+
+            while (rs.next()) {
+                Administrador adm = new Administrador(rs.getLong("id_administrador"), rs.getString("nome_administrador"), "", "", rs.getString("endereco_administrador"), rs.getString("email_administrador"), rs.getString("cpf_administrador"), rs.getString("rg_administrador"), null, rs.getInt("status_administrador"));
+                Cliente cliente = new Cliente(rs.getLong("id_cliente"), rs.getString("nome_cliente"), rs.getString("endereco_cliente"), rs.getString("cpf_cliente"), rs.getString("rg_cliente"), rs.getString("telefone_cliente"), rs.getString("cidade_cliente"), null, rs.getInt("status_cliente"));
+                Celular celular = new Celular(rs.getLong("id_produto"), new Marca(null, rs.getString("descricao_marca")), rs.getString("descricao_produto"), null, 0, 0, 0);
+                celular.setCor(rs.getString("cor"));
+                celular.setImei(rs.getString("imei"));
+                celular.setModelo(rs.getString("modelo"));
+
+                manuntencoes.add(new Manuntencao(rs.getLong("id_manutencao"), rs.getString("descricao_manutencao"), cliente, adm, celular, rs.getLong("data_cadastro_manutencao"), rs.getLong("data_previsao"), rs.getLong("data_entrega"), rs.getFloat("preco"), rs.getBoolean("finalizado")));
+            }
+
+            stm.close();
+            rs.close();
+
+        } catch (Exception ex) {
+            chamarAlertaErro("Erro ao consultar manutencoes na base de dados!", ex.toString());
+        }
+
+        return manuntencoes;
+    }
+
+    public List<Manuntencao> buscarPendentes() {
+
+        List<Manuntencao> manuntencoes = new ArrayList<>();
+
+        try {
+            String sql = "SELECT manutencao.*, administrador.*, cliente.*, produto.*, marca.*"
+                    + "\nFROM manutencao"
+                    + "\nINNER JOIN administrador administrador ON manutencao.id_administrador = administrador.id_administrador"
+                    + "\nINNER JOIN cliente cliente ON manutencao.id_cliente = cliente.id_cliente"
+                    + "\nINNER JOIN produto produto ON manutencao.id_produto = produto.id_produto"
+                    + "\nINNER JOIN marca ON produto.id_marca = marca.id_marca"
+                    + "\nWHERE manutencao.finalizado = false";
+
+            System.out.println(sql);
+            stm = getConector().prepareStatement(sql);
+            rs = stm.executeQuery(sql);
+
+            while (rs.next()) {
+                Administrador adm = new Administrador(rs.getLong("id_administrador"), rs.getString("nome_administrador"), "", "", rs.getString("endereco_administrador"), rs.getString("email_administrador"), rs.getString("cpf_administrador"), rs.getString("rg_administrador"), null, rs.getInt("status_administrador"));
+                Cliente cliente = new Cliente(rs.getLong("id_cliente"), rs.getString("nome_cliente"), rs.getString("endereco_cliente"), rs.getString("cpf_cliente"), rs.getString("rg_cliente"), rs.getString("telefone_cliente"), rs.getString("cidade_cliente"), null, rs.getInt("status_cliente"));
+                Celular celular = new Celular(rs.getLong("id_produto"), new Marca(null, rs.getString("descricao_marca")), rs.getString("descricao_produto"), null, 0, 0, 0);
+                celular.setCor(rs.getString("cor"));
+                celular.setImei(rs.getString("imei"));
+                celular.setModelo(rs.getString("modelo"));
+
+                manuntencoes.add(new Manuntencao(rs.getLong("id_manutencao"), rs.getString("descricao_manutencao"), cliente, adm, celular, rs.getLong("data_cadastro_manutencao"), rs.getLong("data_previsao"), rs.getLong("data_entrega"), rs.getFloat("preco"), rs.getBoolean("finalizado")));
+            }
+
+            stm.close();
+            rs.close();
+
+        } catch (Exception ex) {
+            chamarAlertaErro("Erro ao consultar manutencoes na base de dados!", ex.toString());
+        }
+
+        return manuntencoes;
     }
 
 }

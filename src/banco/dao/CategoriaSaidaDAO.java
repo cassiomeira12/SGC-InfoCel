@@ -111,8 +111,30 @@ public class CategoriaSaidaDAO extends DAO {
         return categorias;
     }
 
-    public CategoriaProduto buscarPorId(int id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public List<CategoriaSaida> buscarPorDescricao(String descricao) {
+
+        List<CategoriaSaida> categorias = new ArrayList<>();
+
+        try {
+            String sql = "SELECT categoria_saida.* FROM categoria_saida WHERE descricao_saida LIKE '%" + descricao + "%'";
+
+            stm = getConector().prepareStatement(sql);
+            rs = stm.executeQuery(sql);
+
+            while (rs.next()) {
+                CategoriaSaida categoria = new CategoriaSaida((long) rs.getInt(1), rs.getString(2));
+
+                categorias.add(categoria);
+            }
+
+            stm.close();
+            rs.close();
+
+        } catch (SQLException ex) {
+            chamarAlertaErro("Erro ao consultar categoria na base de dados!", ex.toString());
+        }
+
+        return categorias;
     }
 
 }

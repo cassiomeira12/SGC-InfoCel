@@ -1,5 +1,6 @@
 package model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /*
@@ -93,6 +94,15 @@ public class Venda {
         }
 
         return preco;
+    }
+
+    public void adicionarVendaProduto(VendaProduto vp) {
+        if (vendaProdutos == null) {
+            vendaProdutos = new ArrayList<>();
+        }
+
+        vendaProdutos.add(vp);
+        precoTotal = calcularPrecoTotal();
     }
 
 }

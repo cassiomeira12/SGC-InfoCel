@@ -26,6 +26,7 @@ import model.CategoriaProduto;
 import model.CategoriaSaida;
 import model.Celular;
 import model.Cliente;
+import model.Manuntencao;
 import model.Marca;
 import model.Produto;
 import model.Venda;
@@ -81,6 +82,9 @@ public class LoginController extends AnchorPane {
                 logar();
             }
         });
+        
+        List<Manuntencao> p = ControleDAO.getBanco().getManutencaoDAO().buscarFinalizadas();
+        p.size();
     }
 
     @FXML

@@ -9,6 +9,7 @@ import model.Administrador;
 import model.CategoriaProduto;
 import model.Celular;
 import model.Marca;
+import model.Produto;
 
 /**
  * DAO responsável pela ações realizadas na base de dados referentes a celulares
@@ -24,7 +25,7 @@ public class CelularDAO extends DAO {
      */
     public Long inserir(Celular celular) {
         try {
-            String sql = "INSERT INTO produto ( descricao_produto, id_categoria, id_marca, preco_compra, preco_venda, estoque, modelo, imei, cor ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            String sql = "INSERT INTO produto ( descricao_produto, id_categoria, id_marca, preco_compra, preco_venda, estoque, modelo, imei, cor, eh_celular) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
             stm = getConector().prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
 
@@ -37,6 +38,7 @@ public class CelularDAO extends DAO {
             stm.setString(7, celular.getModelo());
             stm.setString(8, celular.getImei());
             stm.setString(9, celular.getCor());
+            stm.setBoolean(10, true);
 
             return super.inserir();
         } catch (Exception ex) {
@@ -83,15 +85,8 @@ public class CelularDAO extends DAO {
      */
     public boolean excluir(int id) {
         try {
-            String sql = "DELETE FROM produto WHERE id_produto=?";
-
-            stm = getConector().prepareStatement(sql);
-
-            stm.setInt(1, id);
-            stm.execute();
-
-            stm.close();
-        } catch (SQLException ex) {
+            ControleDAO.getBanco().getProdutoDAO().excluir(id);
+        } catch (Exception ex) {
             chamarAlertaErro("Erro ao excluir celular na base de dados!", ex.toString());
             return false;
         }
@@ -100,26 +95,31 @@ public class CelularDAO extends DAO {
     }
 
     /**
-     * Consultar todos celulares cadastrados na base de dados
+     * Consultar todos produtos cadastrados na base de dados
      */
-    private List<Celular> listar() {
+    public List<Celular> listar() {
 
         List<Celular> celulares = new ArrayList<>();
 
         try {
-            String sql = "SELECT produto.* FROM produto WHERE produto.descricao_categoria = 'CELULAR'";
+            String sql = "SELECT produto.*, marca.descricao_marca, categoria_produto.descricao_categoria "
+                    + "FROM produto"
+                    + "\nINNER JOIN marca marca ON produto.id_marca = marca.id_marca"
+                    + "\nINNER JOIN categoria_produto categoria_produto ON produto.id_categoria = categoria_produto.id_categoria"
+                    + "\nWHERE produto.eh_celular = true";
 
+            System.out.println(sql);
             stm = getConector().prepareStatement(sql);
             rs = stm.executeQuery(sql);
 
             while (rs.next()) {
-                Marca marca = ControleDAO.getBanco().getMarcaDAO().buscarPorId(rs.getInt(2));
-                CategoriaProduto categoria = ControleDAO.getBanco().getCategoriaProdutoDAO().buscarPorId(rs.getInt(4));
+                CategoriaProduto categoria = new CategoriaProduto(rs.getLong("id_categoria"), rs.getString("descricao_categoria"));
+                Marca marca = new Marca(rs.getLong("id_marca"), rs.getString("descricao_marca"));
 
-                Celular celular = new Celular((long) rs.getInt(1), marca, rs.getString(3), categoria, rs.getFloat(5), rs.getFloat(6), rs.getFloat(7));
-                celular.setModelo(rs.getString(8));
-                celular.setImei(rs.getString(9));
-                celular.setCor(rs.getString(10));
+                Celular celular = new Celular(rs.getLong("id_produto"), marca, rs.getString("descricao_produto"), categoria, rs.getFloat("preco_compra"), rs.getFloat("preco_venda"), rs.getFloat("estoque"));
+                celular.setCor(rs.getString("cor"));
+                celular.setImei(rs.getString("imei"));
+                celular.setModelo("modelo");
 
                 celulares.add(celular);
             }
@@ -127,11 +127,85 @@ public class CelularDAO extends DAO {
             stm.close();
             rs.close();
 
-        } catch (SQLException ex) {
+            return celulares;
+        } catch (Exception ex) {
             chamarAlertaErro("Erro ao consultar celulares na base de dados!", ex.toString());
         }
 
-        return celulares;
+        return null;
     }
 
+    public List<Celular> buscarPorDescricaoModelo(String busca) {
+
+        List<Celular> celulares = new ArrayList<>();
+
+        try {
+            String sql = "SELECT produto.*, marca.descricao_marca, categoria_produto.descricao_categoria "
+                    + "FROM produto"
+                    + "\nINNER JOIN marca marca ON produto.id_marca = marca.id_marca"
+                    + "\nINNER JOIN categoria_produto categoria_produto ON produto.id_categoria = categoria_produto.id_categoria"
+                    + "\nWHERE produto.descricao_produto LIKE '%" + busca + "%'"
+                    + "\n OR produto.modelo LIKE '%" + busca + "%'"
+                    + "\nAND produto.eh_celular = true";
+
+            System.out.println(sql);
+            stm = getConector().prepareStatement(sql);
+            rs = stm.executeQuery(sql);
+
+            while (rs.next()) {
+                CategoriaProduto categoria = new CategoriaProduto(rs.getLong("id_categoria"), rs.getString("descricao_categoria"));
+                Marca marca = new Marca(rs.getLong("id_marca"), rs.getString("descricao_marca"));
+
+                Celular celular = new Celular(rs.getLong("id_produto"), marca, rs.getString("descricao_produto"), categoria, rs.getFloat("preco_compra"), rs.getFloat("preco_venda"), rs.getFloat("estoque"));
+                celular.setCor(rs.getString("cor"));
+                celular.setImei(rs.getString("imei"));
+                celular.setModelo("modelo");
+
+                celulares.add(celular);
+            }
+
+            stm.close();
+            rs.close();
+
+            return celulares;
+        } catch (Exception ex) {
+            chamarAlertaErro("Erro ao consultar produtos na base de dados!", ex.toString());
+        }
+
+        return null;
+    }
+
+    public Celular buscarPorId(Long id) {
+        Celular celular = null;
+        try {
+            String sql = "SELECT produto.*, marca.descricao_marca, categoria_produto.descricao_categoria "
+                    + "FROM produto"
+                    + "\nINNER JOIN marca marca ON produto.id_marca = marca.id_marca"
+                    + "\nINNER JOIN categoria_produto categoria_produto ON produto.id_categoria = categoria_produto.id_categoria"
+                    + "\nWHERE produto.id_produto = " + id;
+
+            System.out.println(sql);
+            stm = getConector().prepareStatement(sql);
+            rs = stm.executeQuery(sql);
+
+            while (rs.next()) {
+                CategoriaProduto categoria = new CategoriaProduto(rs.getLong("id_categoria"), rs.getString("descricao_categoria"));
+                Marca marca = new Marca(rs.getLong("id_marca"), rs.getString("descricao_marca"));
+
+                celular = new Celular(id, marca, rs.getString("descricao_produto"), categoria, rs.getFloat("preco_compra"), rs.getFloat("preco_venda"), rs.getFloat("estoque"));
+                celular.setCor(rs.getString("cor"));
+                celular.setImei(rs.getString("imei"));
+                celular.setModelo("modelo");
+            }
+
+            stm.close();
+            rs.close();
+
+            return celular;
+        } catch (Exception ex) {
+            chamarAlertaErro("Erro ao consultar produtos na base de dados!", ex.toString());
+        }
+
+        return null;
+    }
 }
