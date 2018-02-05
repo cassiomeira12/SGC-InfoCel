@@ -4,9 +4,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import model.Celular;
 import model.Marca;
-import model.Produto;
 import model.Venda;
 
 /**
@@ -26,10 +24,9 @@ public class VendaDAO extends DAO {
         try {
             String sql = "INSERT INTO marca ( descricao_marca ) VALUES (?)";
 
-            stm = getConector().prepareStatement(sql,  PreparedStatement.RETURN_GENERATED_KEYS);
+            stm = getConector().prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
 
-           // stm.setString(1, marca.getDescricao());
-
+            // stm.setString(1, marca.getDescricao());
             return super.inserir(sql);
         } catch (Exception ex) {
             chamarAlertaErro("Erro ao inserir marca na base de dados", ex.toString());
