@@ -111,8 +111,31 @@ public class MarcaDAO extends DAO {
         return marcas;
     }
 
-    Marca buscarPorId(int aInt) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public List<Marca> buscarPorDescricao(String busca) {
+
+        List<Marca> marcas = new ArrayList<>();
+
+        try {
+            String sql = "SELECT marca.* FROM marca WHERE descricao_marca LIKE '%" + busca + "%'";
+
+            stm = getConector().prepareStatement(sql);
+            rs = stm.executeQuery(sql);
+
+            while (rs.next()) {
+                Marca marca = new Marca((long) rs.getInt(1), rs.getString(2));
+
+                marcas.add(marca);
+            }
+
+            stm.close();
+            rs.close();
+
+        } catch (SQLException ex) {
+            chamarAlertaErro("Erro ao consultar marcas na base de dados!", ex.toString());
+        }
+
+        return marcas;
     }
+
 
 }

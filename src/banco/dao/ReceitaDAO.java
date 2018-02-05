@@ -23,7 +23,7 @@ public class ReceitaDAO extends DAO {
      */
     public Long inserir(Receita receita) {
         try {
-            String sql = "INSERT INTO receita ( id_cliente, id_administrador, descricao_receita, data, valor ) VALUES (?, ?, ?, ?, ?)";
+            String sql = "INSERT INTO receita ( id_cliente, id_administrador, descricao_receita, data_receita, valor_receita ) VALUES (?, ?, ?, ?, ?)";
 
             stm = getConector().prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
 
@@ -46,7 +46,7 @@ public class ReceitaDAO extends DAO {
      */
     public boolean editar(Receita receita) {
         try {
-            String sql = "UPDATE receita SET id_cliente =?, id_administrador =?, descricao_receita =?, valor =? WHERE id_receita =?";
+            String sql = "UPDATE receita SET id_cliente =?, id_administrador =?, descricao_receita =?, valor_receita =? WHERE id_receita =?";
 
             stm = getConector().prepareStatement(sql);
 
@@ -118,8 +118,31 @@ public class ReceitaDAO extends DAO {
         return receitas;
     }
 
-    Marca buscarPorId(int aInt) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+     private List<Receita> buscarPorDescricao(String busca) {
+
+        List<Receita> receitas = new ArrayList<>();
+
+        try {
+            String sql = "SELECT receita.* FROM receita WHERE descricao_receita LIKE '%" + busca + "%'" ;
+
+            stm = getConector().prepareStatement(sql);
+            rs = stm.executeQuery(sql);
+
+            while (rs.next()) {
+                Receita receita = new Receita(rs.getLong(1), null, null, rs.getString(4), rs.getLong(5), rs.getFloat(6));
+
+                receitas.add(receita);
+            }
+
+            stm.close();
+            rs.close();
+
+        } catch (SQLException ex) {
+            chamarAlertaErro("Erro ao consultar marcas na base de dados!", ex.toString());
+        }
+
+        return receitas;
     }
+
 
 }

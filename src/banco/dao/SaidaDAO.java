@@ -23,7 +23,7 @@ public class SaidaDAO extends DAO {
      */
     public Long inserir(Saida saida) {
         try {
-            String sql = "INSERT INTO saida ( id_categoria, id_administrador, descricao_saida, data, valor ) VALUES (?, ?, ?, ?, ?)";
+            String sql = "INSERT INTO saida ( id_categoria, id_administrador, descricao_saida, data_saida, valor_saida ) VALUES (?, ?, ?, ?, ?)";
 
             stm = getConector().prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
 
@@ -46,7 +46,7 @@ public class SaidaDAO extends DAO {
      */
     public boolean editar(Saida saida) {
         try {
-            String sql = "UPDATE saida SET id_categoria =?, id_administrador =?, descricao_saida =?, valor =? WHERE id_saida =?";
+            String sql = "UPDATE saida SET id_categoria =?, id_administrador =?, descricao_saida =?, valor_saida =? WHERE id_saida =?";
 
             stm = getConector().prepareStatement(sql);
 
@@ -118,8 +118,31 @@ public class SaidaDAO extends DAO {
         return saidas;
     }
 
-    Marca buscarPorId(int aInt) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+  private List<Saida> buscarPorDescricao(String busca) {
+
+        List<Saida> saidas = new ArrayList<>();
+
+        try {
+            String sql = "SELECT saida.* FROM saida WHERE descricao_saida LIKE '%" + busca + "%'";
+
+            stm = getConector().prepareStatement(sql);
+            rs = stm.executeQuery(sql);
+
+            while (rs.next()) {
+                Saida saida = new Saida(rs.getLong(1), null, rs.getString(3), null, rs.getFloat(5), rs.getLong(6));
+
+                saidas.add(saida);
+            }
+
+            stm.close();
+            rs.close();
+
+        } catch (SQLException ex) {
+            chamarAlertaErro("Erro ao consultar saidas na base de dados!", ex.toString());
+        }
+
+        return saidas;
     }
+
 
 }
