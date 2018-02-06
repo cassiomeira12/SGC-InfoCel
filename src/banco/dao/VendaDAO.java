@@ -13,6 +13,7 @@ import model.Marca;
 import model.Produto;
 import model.Venda;
 import model.VendaProduto;
+import util.DateUtils;
 
 /**
  * DAO responsável pela ações realizadas na base de dados referentes as vendas
@@ -95,9 +96,7 @@ public class VendaDAO extends DAO {
         return true;
     }
 
-    /**
-     * Consultar todas vendas cadastradas na base de dados
-     */
+    // Consultar todas vendas cadastradas na base de dados
     public List<Venda> listar() {
 
         List<Venda> vendas = new ArrayList<>();
@@ -107,6 +106,41 @@ public class VendaDAO extends DAO {
                     + "FROM venda"
                     + "\nINNER JOIN cliente cliente ON venda.id_cliente = cliente.id_cliente"
                     + "\nINNER JOIN administrador administrador ON venda.id_administrador = administrador.id_administrador";
+
+            stm = getConector().prepareStatement(sql);
+            rs = stm.executeQuery(sql);
+
+            while (rs.next()) {
+                Administrador adm = new Administrador(rs.getLong("id_administrador"), rs.getString("nome_administrador"), "", "", rs.getString("endereco_administrador"), rs.getString("email_administrador"), rs.getString("cpf_administrador"), rs.getString("rg_administrador"), null, rs.getInt("status_administrador"));
+                Cliente cliente = new Cliente(rs.getLong("id_cliente"), rs.getString("nome_cliente"), rs.getString("endereco_cliente"), rs.getString("cpf_cliente"), rs.getString("rg_cliente"), rs.getString("telefone_cliente"), rs.getString("cidade_cliente"), null, rs.getInt("status_cliente"));
+                Venda venda = new Venda(rs.getLong("id_venda"), adm, cliente, null, rs.getInt("forma_pagamento"), rs.getLong("data"));
+                venda.setPrecoTotal(rs.getFloat("preco_total"));
+
+                vendas.add(venda);
+            }
+
+            stm.close();
+            rs.close();
+
+        } catch (SQLException ex) {
+            chamarAlertaErro("Erro ao consultar marcas na base de dados!", ex.toString());
+        }
+
+        return vendas;
+    }
+
+    public List<Venda> buscarPorIntervalo(String dataInicio, String dataFinal) {
+        Long inicio = DateUtils.getLongFromDate(dataInicio);
+        Long finall = DateUtils.getLongFromDate(dataFinal);
+
+        List<Venda> vendas = new ArrayList<>();
+
+        try {
+            String sql = "SELECT venda.*, cliente.*, administrador.* "
+                    + "FROM venda"
+                    + "\nINNER JOIN cliente cliente ON venda.id_cliente = cliente.id_cliente"
+                    + "\nINNER JOIN administrador administrador ON venda.id_administrador = administrador.id_administrador"
+                    + "\nWHERE venda.data > " + inicio + " AND venda.data < " + finall;
 
             stm = getConector().prepareStatement(sql);
             rs = stm.executeQuery(sql);
@@ -161,20 +195,25 @@ public class VendaDAO extends DAO {
         return vendaProdutos;
     }
 
-    private List<Marca> buscarPorCliente(Cliente cliente) {
-
-        List<Marca> marcas = new ArrayList<>();
+    public List<Venda> buscarPorCliente(Cliente cliente) {
+        List<Venda> vendas = new ArrayList<>();
 
         try {
-            String sql = "SELECT marca.* FROM marca";
+            String sql = "SELECT venda.*, cliente.*, administrador.* "
+                    + "FROM venda"
+                    + "\nINNER JOIN cliente cliente ON venda.id_cliente = cliente.id_cliente"
+                    + "\nINNER JOIN administrador administrador ON venda.id_administrador = administrador.id_administrador"
+                    + "\nWHERE venda.id_cliente = " + cliente.getId();
 
             stm = getConector().prepareStatement(sql);
             rs = stm.executeQuery(sql);
 
             while (rs.next()) {
-                Marca marca = new Marca((long) rs.getInt(1), rs.getString(2));
+                Administrador adm = new Administrador(rs.getLong("id_administrador"), rs.getString("nome_administrador"), "", "", rs.getString("endereco_administrador"), rs.getString("email_administrador"), rs.getString("cpf_administrador"), rs.getString("rg_administrador"), null, rs.getInt("status_administrador"));
+                Venda venda = new Venda(rs.getLong("id_venda"), adm, cliente, null, rs.getInt("forma_pagamento"), rs.getLong("data"));
+                venda.setPrecoTotal(rs.getFloat("preco_total"));
 
-                marcas.add(marca);
+                vendas.add(venda);
             }
 
             stm.close();
@@ -184,7 +223,7 @@ public class VendaDAO extends DAO {
             chamarAlertaErro("Erro ao consultar marcas na base de dados!", ex.toString());
         }
 
-        return marcas;
+        return vendas;
     }
 
     private void excluirVendasProdutosDaVenda(Long id) throws SQLException {

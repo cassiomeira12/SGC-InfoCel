@@ -10,6 +10,7 @@ import model.Cliente;
 import model.Manuntencao;
 import model.Marca;
 import model.Produto;
+import util.DateUtils;
 
 /**
  * DAO responsável pela ações realizadas na base de dados referentes as
@@ -213,6 +214,42 @@ public class ManutencaoDAO extends DAO {
                     + "\nINNER JOIN administrador administrador ON manutencao.id_administrador = administrador.id_administrador"
                     + "\nINNER JOIN cliente cliente ON manutencao.id_cliente = cliente.id_cliente"
                     + "\nWHERE manutencao.finalizado = false";
+
+            System.out.println(sql);
+            stm = getConector().prepareStatement(sql);
+            rs = stm.executeQuery(sql);
+
+            while (rs.next()) {
+                Administrador adm = new Administrador(rs.getLong("id_administrador"), rs.getString("nome_administrador"), "", "", rs.getString("endereco_administrador"), rs.getString("email_administrador"), rs.getString("cpf_administrador"), rs.getString("rg_administrador"), null, rs.getInt("status_administrador"));
+                Cliente cliente = new Cliente(rs.getLong("id_cliente"), rs.getString("nome_cliente"), rs.getString("endereco_cliente"), rs.getString("cpf_cliente"), rs.getString("rg_cliente"), rs.getString("telefone_cliente"), rs.getString("cidade_cliente"), null, rs.getInt("status_cliente"));
+
+                manuntencoes.add(new Manuntencao(rs.getLong("id_manutencao"), rs.getString("descricao_manutencao"), cliente, adm, rs.getString("marca"), rs.getString("modelo"), rs.getString("imei"), rs.getString("cor"), rs.getLong("data_cadastro_manutencao"), rs.getLong("data_previsao"), rs.getLong("data_entrega"), rs.getFloat("preco"), rs.getBoolean("finalizado")));
+            }
+
+            stm.close();
+            rs.close();
+
+        } catch (Exception ex) {
+            chamarAlertaErro("Erro ao consultar manutencoes na base de dados!", ex.toString());
+        }
+
+        return manuntencoes;
+    }
+
+    //datas no formato dd/MM/yyy
+    public List<Manuntencao> buscarPorIntervalo(String dataInicio, String dataFinal) {
+
+        List<Manuntencao> manuntencoes = new ArrayList<>();
+
+        try {
+            Long inicio = DateUtils.getLongFromDate(dataInicio);
+            Long finall = DateUtils.getLongFromDate(dataFinal);
+
+            String sql = "SELECT manutencao.*, administrador.*, cliente.*"
+                    + "\nFROM manutencao"
+                    + "\nINNER JOIN administrador administrador ON manutencao.id_administrador = administrador.id_administrador"
+                    + "\nINNER JOIN cliente cliente ON manutencao.id_cliente = cliente.id_cliente"
+                    + "\nWHERE manutencao.data_cadastro_manutencao > " + inicio + " AND manutencao.data_cadastro_manutencao < " + finall;
 
             System.out.println(sql);
             stm = getConector().prepareStatement(sql);

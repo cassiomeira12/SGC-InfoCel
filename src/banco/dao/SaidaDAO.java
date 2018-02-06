@@ -8,6 +8,7 @@ import model.Celular;
 import model.Marca;
 import model.Produto;
 import model.Saida;
+import util.DateUtils;
 
 /**
  * DAO responsável pela ações realizadas na base de dados referentes as saida
@@ -125,6 +126,34 @@ public class SaidaDAO extends DAO {
 
         try {
             String sql = "SELECT saida.* FROM saida WHERE descricao_saida LIKE '%" + busca + "%'";
+
+            stm = getConector().prepareStatement(sql);
+            rs = stm.executeQuery(sql);
+
+            while (rs.next()) {
+                Saida saida = new Saida(rs.getLong(1), null, rs.getString(3), null, rs.getFloat(5), rs.getLong(6));
+
+                saidas.add(saida);
+            }
+
+            stm.close();
+            rs.close();
+
+        } catch (SQLException ex) {
+            chamarAlertaErro("Erro ao consultar saidas na base de dados!", ex.toString());
+        }
+
+        return saidas;
+    }
+
+    public List<Saida> buscarPorIntervalo(String dataInicio, String dataFinal) {
+        Long inicio = DateUtils.getLongFromDate(dataInicio);
+        Long finall = DateUtils.getLongFromDate(dataFinal);
+
+        List<Saida> saidas = new ArrayList<>();
+
+        try {
+            String sql = "SELECT saida.* FROM saida WHERE data_saida > " + inicio + " AND data_saida < " + finall;
 
             stm = getConector().prepareStatement(sql);
             rs = stm.executeQuery(sql);

@@ -29,6 +29,8 @@ import model.Cliente;
 import model.Manuntencao;
 import model.Marca;
 import model.Produto;
+import model.Receita;
+import model.Saida;
 import model.Venda;
 import model.VendaProduto;
 import util.Formatter;

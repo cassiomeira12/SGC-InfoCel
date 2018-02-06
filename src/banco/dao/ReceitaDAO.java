@@ -8,6 +8,7 @@ import model.Celular;
 import model.Marca;
 import model.Produto;
 import model.Receita;
+import util.DateUtils;
 
 /**
  * DAO responsável pela ações realizadas na base de dados referentes as receitas
@@ -125,6 +126,34 @@ public class ReceitaDAO extends DAO {
 
         try {
             String sql = "SELECT receita.* FROM receita WHERE descricao_receita LIKE '%" + busca + "%'";
+
+            stm = getConector().prepareStatement(sql);
+            rs = stm.executeQuery(sql);
+
+            while (rs.next()) {
+                Receita receita = new Receita(rs.getLong(1), null, null, rs.getString(4), rs.getLong(5), rs.getFloat(6));
+
+                receitas.add(receita);
+            }
+
+            stm.close();
+            rs.close();
+
+        } catch (SQLException ex) {
+            chamarAlertaErro("Erro ao consultar marcas na base de dados!", ex.toString());
+        }
+
+        return receitas;
+    }
+
+    public List<Receita> buscarPorIntervalo(String dataInicio, String dataFinal) {
+        Long inicio = DateUtils.getLongFromDate(dataInicio);
+        Long finall = DateUtils.getLongFromDate(dataFinal);
+
+        List<Receita> receitas = new ArrayList<>();
+
+        try {
+            String sql = "SELECT receita.* FROM receita WHERE data_receita > " + inicio + " AND data_receita < " + finall;
 
             stm = getConector().prepareStatement(sql);
             rs = stm.executeQuery(sql);
