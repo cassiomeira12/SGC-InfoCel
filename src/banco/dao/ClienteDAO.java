@@ -47,7 +47,7 @@ public class ClienteDAO extends DAO {
      */
     public boolean editar(Cliente cliente) {
         try {
-            String sql = "UPDATE cliente SET nome =?, endereco =?, cpf =?, rg =?, telefone =?, cidade =?, status =? WHERE id_cliente =?";
+            String sql = "UPDATE cliente SET nome_cliente =?, endereco_cliente =?, cpf_cliente =?, rg_cliente =?, telefone_cliente =?, cidade_cliente =?, status_cliente =? WHERE id_cliente =?";
 
             stm = getConector().prepareStatement(sql);
 
