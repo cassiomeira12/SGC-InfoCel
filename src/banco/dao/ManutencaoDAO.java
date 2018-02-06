@@ -107,9 +107,7 @@ public class ManutencaoDAO extends DAO {
         return true;
     }
 
-    /**
-     * Consultar todas Manutencao cadastradas na base de dados
-     */
+    //Consultar todas Manutencao cadastradas na base de dados
     public List<Manuntencao> listar() {
 
         List<Manuntencao> manuntencoes = new ArrayList<>();
