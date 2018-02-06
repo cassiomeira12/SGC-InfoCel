@@ -45,7 +45,7 @@ public class LoginController extends AnchorPane {
 
     private BorderPane painelPrincipal;
     private ControleDAO dao;
-    private Administrador admLogado;
+    public static Administrador admLogado;
 
     @FXML
     private TextField usuarioText;
@@ -107,7 +107,12 @@ public class LoginController extends AnchorPane {
         SwingWorker<Boolean, Boolean> worker = new SwingWorker<Boolean, Boolean>() {
             @Override
             protected Boolean doInBackground() throws Exception {
-                return ControleDAO.getBanco().getLoginDAO().autenticarLogin(login);
+                if (ControleDAO.getBanco().getLoginDAO().autenticarLogin(login)) {
+                    admLogado = ControleDAO.getBanco().getLoginDAO().administradorLogado(login);
+                    return true;
+                } else {
+                    return false;
+                }
             }
 
             //Método chamado após terminar a execução numa Thread searada
