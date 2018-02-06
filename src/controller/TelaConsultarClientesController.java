@@ -12,6 +12,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
@@ -19,8 +20,11 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javax.swing.SwingWorker;
 import model.Cliente;
 import util.Formatter;
 import util.alerta.Alerta;
@@ -79,6 +83,18 @@ public class TelaConsultarClientesController extends AnchorPane {
         pesquisaText.textProperty().addListener((obs, old, novo) -> {
             filtro(novo, listaClientes, clientesTable);
         });
+        
+        clientesTable.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                if (event.getButton().equals(MouseButton.PRIMARY)) {
+                    if (event.getClickCount() == 2) {
+                        editarCliente();
+                    }
+                }
+            }
+        });
+        
     }
 
     private void adicionarPainelInterno(AnchorPane novaTela) {
@@ -158,7 +174,7 @@ public class TelaConsultarClientesController extends AnchorPane {
     }
     
     private void sincronizarBancoDados() {
-        this.listaClientes = ControleDAO.getBanco().getClienteDAO().listar();
+        listaClientes = ControleDAO.getBanco().getClienteDAO().listar();
     }
     
 }

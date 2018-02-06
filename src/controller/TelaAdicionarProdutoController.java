@@ -15,6 +15,9 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
+import model.CategoriaProduto;
+import model.Marca;
+import util.Formatter;
 
 /**
  * FXML Controller class
@@ -31,7 +34,7 @@ public class TelaAdicionarProdutoController extends AnchorPane {
     @FXML
     private VBox categoriaBox;
     @FXML
-    private ComboBox categoriaComboBox;
+    private ComboBox<CategoriaProduto> categoriaComboBox;
     
     @FXML
     private VBox novaCategoriaBox;
@@ -46,7 +49,7 @@ public class TelaAdicionarProdutoController extends AnchorPane {
     @FXML
     private VBox marcaBox;
     @FXML
-    private ComboBox marcaComboBox;
+    private ComboBox<Marca> marcaComboBox;
     
     @FXML
     private TextField custoProdutoText;
@@ -90,7 +93,20 @@ public class TelaAdicionarProdutoController extends AnchorPane {
     
     @FXML
     private void salvarProduto() {
+        boolean vazio = Formatter.isEmpty(descricaoText, custoProdutoText, valorProdutoText, quantidadeText) &&
+                Formatter.isEmpty(categoriaComboBox, marcaComboBox);
+
+        String descricao = descricaoText.getText();
+        CategoriaProduto categoria;
+        Marca marca;
+        String custoProduto = custoProdutoText.getText();
+        String valorVenda = valorProdutoText.getText();
+        String quantidade = quantidadeText.getText();
         
+        if (!vazio) {
+            categoria = categoriaComboBox.getValue();
+            marca = marcaComboBox.getValue();
+        }
     }
     
     @FXML
@@ -103,6 +119,17 @@ public class TelaAdicionarProdutoController extends AnchorPane {
     private void salvarNovaCategoria() {
         this.novaCategoriaBox.setVisible(false);
         this.categoriaBox.setVisible(true);
+        
+        boolean vazio = Formatter.isEmpty(novaCategoriaText);
+        String novaCategoria = novaCategoriaText.getText();
+        
+        if (!vazio) {
+            CategoriaProduto categoria = new CategoriaProduto(null, novaCategoria);
+            this.categoriaComboBox.getItems().add(categoria);
+            this.categoriaComboBox.getSelectionModel().select(categoria);
+        }
+        
+        Formatter.limpar(novaCategoriaText);
         Platform.runLater(() -> categoriaComboBox.requestFocus());//Colocando o Foco
     }
     
@@ -116,6 +143,17 @@ public class TelaAdicionarProdutoController extends AnchorPane {
     private void salvarNovaMarca() {
         this.novaMarcaBox.setVisible(false);
         this.marcaBox.setVisible(true);
+        
+        boolean vazio = Formatter.isEmpty(novaMarcaText);
+        String novaMarca = novaMarcaText.getText();
+        
+        if (!vazio) {
+            Marca marca = new Marca(null, novaMarca);
+            this.marcaComboBox.getItems().add(marca);
+            this.marcaComboBox.getSelectionModel().select(marca);
+        }
+        
+        Formatter.limpar(novaMarcaText);
         Platform.runLater(() -> marcaComboBox.requestFocus());//Colocando o Foco
     }
     

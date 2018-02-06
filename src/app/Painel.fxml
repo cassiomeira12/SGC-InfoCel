@@ -29,7 +29,7 @@
                   <MenuItem mnemonicParsing="false" onAction="#chamarTelaAdicionarManutencao" text="Adicionar Manutenção" />
                   <MenuItem mnemonicParsing="false" onAction="#chamarTelaConsultarManutencoes" text="Consultar Manutenções" />
                </items></Menu>
-            <Menu mnemonicParsing="false" text="Clientes">
+            <Menu mnemonicParsing="false" text="Administrador">
                <items>
                   <MenuItem mnemonicParsing="false" onAction="#chamarTelaConsultarClientes" text="Consultar Clientes" />
                </items></Menu>

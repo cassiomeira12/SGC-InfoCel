@@ -6,6 +6,7 @@
 package util;
 
 import javafx.beans.value.ObservableValue;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
@@ -61,6 +62,19 @@ public class Formatter {
         for (TextField campo : field) {
             if (campo.getText().trim().isEmpty()) {
                 //erro(campo, "Verificar valor vazio!");
+                vazio = true;
+            }
+        }
+        return vazio;
+    }
+    
+    /**
+     * Não permitir que ComboBox estejam vazios
+     */
+    public static boolean isEmpty(ComboBox... box) {
+        boolean vazio = false;
+        for (ComboBox combo : box) {
+            if (combo.getSelectionModel().isEmpty()) {
                 vazio = true;
             }
         }
