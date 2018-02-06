@@ -45,7 +45,7 @@ public class VendaDAO extends DAO {
             stm.setInt(2, idCliente.intValue());
             stm.setFloat(3, venda.getPrecoTotal());
             stm.setInt(4, venda.getFormaPagamento());
-            stm.setLong(5, System.currentTimeMillis());
+            stm.setLong(5, venda.getData());
 
             idVenda = super.inserir();
 

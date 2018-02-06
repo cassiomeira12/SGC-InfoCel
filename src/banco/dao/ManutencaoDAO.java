@@ -33,7 +33,7 @@ public class ManutencaoDAO extends DAO {
             stm.setInt(1, manutencao.getCliente().getId().intValue());
             stm.setInt(2, manutencao.getAdministrador().getId().intValue());
             stm.setString(3, manutencao.getDescricao());
-            stm.setLong(4, System.currentTimeMillis());
+            stm.setLong(4, manutencao.getDataCadastro());
             stm.setLong(5, manutencao.getDataPrevisaoEntrega());
             stm.setLong(6, manutencao.getDataEntrega());
             stm.setFloat(7, manutencao.getPreco());
@@ -63,7 +63,7 @@ public class ManutencaoDAO extends DAO {
             stm.setInt(1, manutencao.getCliente().getId().intValue());
             stm.setInt(2, manutencao.getAdministrador().getId().intValue());
             stm.setString(3, manutencao.getDescricao());
-            stm.setLong(4, System.currentTimeMillis());
+            stm.setLong(4, manutencao.getDataCadastro());
             stm.setLong(5, manutencao.getDataPrevisaoEntrega());
             stm.setLong(6, manutencao.getDataEntrega());
             stm.setFloat(7, manutencao.getPreco());

@@ -30,7 +30,7 @@ public class SaidaDAO extends DAO {
             stm.setInt(1, saida.getCategoria().getId().intValue());
             stm.setInt(2, saida.getAdministrador().getId().intValue());
             stm.setString(3, saida.getDescricao());
-            stm.setLong(4, System.currentTimeMillis());
+            stm.setLong(4, saida.getData());
             stm.setFloat(5, saida.getValor());
 
             return super.inserir();
@@ -46,7 +46,7 @@ public class SaidaDAO extends DAO {
      */
     public boolean editar(Saida saida) {
         try {
-            String sql = "UPDATE saida SET id_categoria =?, id_administrador =?, descricao_saida =?, valor_saida =? WHERE id_saida =?";
+            String sql = "UPDATE saida SET id_categoria =?, id_administrador =?, descricao_saida =?, valor_saida =?, data_saida =? WHERE id_saida =?";
 
             stm = getConector().prepareStatement(sql);
 
@@ -54,8 +54,9 @@ public class SaidaDAO extends DAO {
             stm.setInt(2, saida.getAdministrador().getId().intValue());
             stm.setString(3, saida.getDescricao());
             stm.setFloat(4, saida.getValor());
+            stm.setLong(5, saida.getData());
 
-            stm.setInt(5, saida.getId().intValue());
+            stm.setInt(6, saida.getId().intValue());
 
             stm.executeUpdate();
             stm.close();
@@ -118,7 +119,7 @@ public class SaidaDAO extends DAO {
         return saidas;
     }
 
-  private List<Saida> buscarPorDescricao(String busca) {
+    private List<Saida> buscarPorDescricao(String busca) {
 
         List<Saida> saidas = new ArrayList<>();
 
@@ -143,6 +144,5 @@ public class SaidaDAO extends DAO {
 
         return saidas;
     }
-
 
 }

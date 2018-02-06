@@ -30,7 +30,7 @@ public class ReceitaDAO extends DAO {
             stm.setInt(1, receita.getCliente().getId().intValue());
             stm.setInt(2, receita.getAdministrador().getId().intValue());
             stm.setString(3, receita.getDescricao());
-            stm.setLong(4, System.currentTimeMillis());
+            stm.setLong(4, receita.getData());
             stm.setFloat(5, receita.getValor());
 
             return super.inserir();
@@ -46,7 +46,7 @@ public class ReceitaDAO extends DAO {
      */
     public boolean editar(Receita receita) {
         try {
-            String sql = "UPDATE receita SET id_cliente =?, id_administrador =?, descricao_receita =?, valor_receita =? WHERE id_receita =?";
+            String sql = "UPDATE receita SET id_cliente =?, id_administrador =?, descricao_receita =?, valor_receita =?, data_receita =? WHERE id_receita =?";
 
             stm = getConector().prepareStatement(sql);
 
@@ -54,8 +54,9 @@ public class ReceitaDAO extends DAO {
             stm.setInt(2, receita.getAdministrador().getId().intValue());
             stm.setString(3, receita.getDescricao());
             stm.setFloat(4, receita.getValor());
+            stm.setLong(5, receita.getData());
 
-            stm.setInt(5, receita.getId().intValue());
+            stm.setInt(6, receita.getId().intValue());
 
             stm.executeUpdate();
             stm.close();
@@ -118,12 +119,12 @@ public class ReceitaDAO extends DAO {
         return receitas;
     }
 
-     private List<Receita> buscarPorDescricao(String busca) {
+    private List<Receita> buscarPorDescricao(String busca) {
 
         List<Receita> receitas = new ArrayList<>();
 
         try {
-            String sql = "SELECT receita.* FROM receita WHERE descricao_receita LIKE '%" + busca + "%'" ;
+            String sql = "SELECT receita.* FROM receita WHERE descricao_receita LIKE '%" + busca + "%'";
 
             stm = getConector().prepareStatement(sql);
             rs = stm.executeQuery(sql);
@@ -143,6 +144,5 @@ public class ReceitaDAO extends DAO {
 
         return receitas;
     }
-
 
 }
