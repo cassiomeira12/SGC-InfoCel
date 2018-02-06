@@ -59,7 +59,6 @@ public class TelaAdicionarProdutoController extends AnchorPane {
     private Label percentualLabel;
     @FXML
     private TextField quantidadeText;
-
   
     public TelaAdicionarProdutoController(BorderPane painelPrincipal) {
         this.painelPrincipal = painelPrincipal;
