@@ -1,5 +1,6 @@
 package banco.dao;
 
+import banco.ControleDAO;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -24,6 +25,12 @@ public class ReceitaDAO extends DAO {
      */
     public Long inserir(Receita receita) {
         try {
+            if(receita.getCliente().getId()==null){
+                Long id = ControleDAO.getBanco().getClienteDAO().inserir(receita.getCliente());
+                receita.getCliente().setId(id);
+              
+            }
+            
             String sql = "INSERT INTO receita ( id_cliente, id_administrador, descricao_receita, data_receita, valor_receita ) VALUES (?, ?, ?, ?, ?)";
 
             stm = getConector().prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);

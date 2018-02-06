@@ -5,11 +5,18 @@
  */
 package controller;
 
+import banco.ControleDAO;
 import java.io.IOException;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.control.DatePicker;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import model.Cliente;
+import model.Receita;
+import util.alerta.Alerta;
 
 /**
  * FXML Controller class
@@ -20,7 +27,27 @@ public class TelaAdicionarReceitaController extends AnchorPane {
     
     private BorderPane painelPrincipal;
 
-  
+    @FXML
+    private TextField nomeText;
+    @FXML
+    private TextField telefoneText;
+    @FXML
+    private TextField cpfText;
+    @FXML
+    private TextField rgText;
+    @FXML
+    private TextField cidadeText;
+    @FXML
+    private TextField enderecoText;
+    @FXML
+    private TextField valorText;
+    @FXML
+    private TextArea decricaoText;
+    @FXML
+    private DatePicker dataDataPicker;
+    
+    private Cliente cliente;
+            
     public TelaAdicionarReceitaController(BorderPane painelPrincipal) {
         this.painelPrincipal = painelPrincipal;
         
@@ -50,4 +77,35 @@ public class TelaAdicionarReceitaController extends AnchorPane {
         this.adicionarPainelInterno(telaInicial);
     }
     
+    @FXML
+    private void salvarReceita(){
+        if(cliente == null){
+        cliente = new Cliente(null, nomeText.getText(), enderecoText.getText(), cpfText.getText(), rgText.getText(), telefoneText.getText(), cidadeText.getText(), System.currentTimeMillis(), 1);
+        }
+        Receita receita = new Receita(null, cliente, LoginController.admLogado, decricaoText.getText(), dataDataPicker.getValue().toEpochDay(), Float.parseFloat(valorText.getText()));
+        if(ControleDAO.getBanco().getReceitaDAO().inserir(receita)==null){
+            Alerta.erro("não foi possivel inserir!");
+        }
+        else{
+            Alerta.info("receita inserida com sucesso!");
+            cliente = null;
+            nomeText.setText("");
+            telefoneText.setText("");
+            cpfText.setText("");
+            rgText.setText("");
+            cidadeText.setText("");
+            enderecoText.setText("");
+            valorText.setText("");
+            decricaoText.setText("");
+            telefoneText.setText("");
+            cpfText.setText("");
+            rgText.setText("");
+            cidadeText.setText("");
+            enderecoText.setText("");
+            valorText.setText("");
+            decricaoText.setText("");
+            
+        }
+    
+    }
 }
