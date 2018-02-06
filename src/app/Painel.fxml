@@ -29,7 +29,7 @@
                   <MenuItem mnemonicParsing="false" onAction="#chamarTelaAdicionarManutencao" text="Adicionar Manutenção" />
                   <MenuItem mnemonicParsing="false" onAction="#chamarTelaConsultarManutencoes" text="Consultar Manutenções" />
                </items></Menu>
-            <Menu mnemonicParsing="false" text="Administrador">
+            <Menu mnemonicParsing="false" text="Clientes">
                <items>
                   <MenuItem mnemonicParsing="false" onAction="#chamarTelaConsultarClientes" text="Consultar Clientes" />
                </items></Menu>
@@ -37,7 +37,7 @@
                <items>
                   <MenuItem mnemonicParsing="false" onAction="#chamarTelaRelatorioMensal" text="Relatório Mensal" />
                </items></Menu>
-            <Menu mnemonicParsing="false" text="Usuários" />
+            <Menu mnemonicParsing="false" text="Administrador" />
             <Menu mnemonicParsing="false" text="Ajuda">
                <items>
                   <MenuItem mnemonicParsing="false" onAction="#chamarTelaSobre" text="Sobre" />
