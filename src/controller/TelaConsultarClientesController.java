@@ -110,7 +110,7 @@ public class TelaConsultarClientesController extends AnchorPane {
             Cliente cliente = clientesTable.getSelectionModel().getSelectedItem();
 
             Dialogo.Resposta resposta = Alerta.confirmar("Excluir usuário " + cliente.getNome() + " ?");
-
+            
             if (resposta == Dialogo.Resposta.YES) {
                 ControleDAO.getBanco().getClienteDAO().excluir(cliente.getId().intValue());
                 //sincronizarBase();
