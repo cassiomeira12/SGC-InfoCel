@@ -50,4 +50,14 @@ public class TelaConsultarManutencoesController extends AnchorPane {
         this.adicionarPainelInterno(telaInicial);
     }
     
+    @FXML
+    private void editarManutencao() {
+        
+    }
+    
+    @FXML
+    private void excluirManutencao() {
+        
+    }
+    
 }

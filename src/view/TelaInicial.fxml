@@ -50,12 +50,12 @@
                                         </HBox>
                                         <HBox alignment="CENTER_RIGHT" prefWidth="600.0" HBox.hgrow="ALWAYS">
                                             <children>
-                                                <Label fx:id="dataLabel" text="01/01/18">
+                                                <Label fx:id="dataLabel" text="01/01/2000">
                                                     <font>
                                                         <Font size="20.0" />
                                                     </font>
                                                     <HBox.margin>
-                                                        <Insets right="10.0" />
+                                                        <Insets />
                                                     </HBox.margin>
                                                 </Label>
                                             </children>
@@ -79,6 +79,9 @@
                                     </VBox.margin>
                                 </TableView>
                             </children>
+                     <VBox.margin>
+                        <Insets left="10.0" right="10.0" />
+                     </VBox.margin>
                         </VBox>
                     </children>
                 </VBox>
@@ -98,13 +101,10 @@
                             <HBox.margin>
                                 <Insets />
                             </HBox.margin>
-                            <padding>
-                                <Insets right="20.0" />
-                            </padding>
                         </Label>
                     </children>
                     <BorderPane.margin>
-                        <Insets bottom="20.0" />
+                        <Insets bottom="20.0" right="10.0" />
                     </BorderPane.margin>
                 </HBox>
             </bottom>

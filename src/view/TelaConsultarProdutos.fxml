@@ -28,24 +28,27 @@
             <bottom>
                 <HBox alignment="CENTER" prefWidth="1200.0" BorderPane.alignment="CENTER">
                     <children>
-                        <HBox alignment="CENTER" prefWidth="600.0" spacing="150.0">
+                        <HBox alignment="CENTER" prefWidth="400.0">
                             <children>
-                                <Button fx:id="excluirButton" alignment="CENTER" focusTraversable="false" mnemonicParsing="false" prefHeight="44.0" prefWidth="96.0" text="Excluir">
-                                    <HBox.margin>
-                                        <Insets />
-                                    </HBox.margin>
-                                </Button>
-                                <Button fx:id="editarButton" alignment="CENTER" focusTraversable="false" mnemonicParsing="false" prefHeight="44.0" prefWidth="96.0" text="Editar" />
-                            </children>
-                        </HBox>
-                        <HBox alignment="CENTER" prefHeight="44.0" prefWidth="600.0">
-                            <children>
-                                <Button alignment="CENTER" focusTraversable="false" mnemonicParsing="false" prefHeight="44.0" prefWidth="96.0" text="Voltar" />
+                                <Button alignment="CENTER" focusTraversable="false" mnemonicParsing="false" onAction="#cancelarOperacao" prefHeight="44.0" prefWidth="96.0" text="Voltar" />
                             </children>
                             <HBox.margin>
                                 <Insets />
                             </HBox.margin>
                         </HBox>
+                  <HBox alignment="CENTER" prefWidth="400.0">
+                     <children>
+                                <Button fx:id="editarButton" alignment="CENTER" focusTraversable="false" mnemonicParsing="false" onAction="#editarProduto" prefHeight="44.0" prefWidth="96.0" text="Editar" />
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER" prefWidth="400.0">
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin>
+                     <children>
+                                <Button fx:id="excluirButton" alignment="CENTER" focusTraversable="false" mnemonicParsing="false" onAction="#excluirProduto" prefHeight="44.0" prefWidth="96.0" text="Excluir" />
+                     </children>
+                  </HBox>
                     </children>
                     <BorderPane.margin>
                         <Insets top="10.0" />

@@ -28,23 +28,26 @@
          <bottom>
             <HBox alignment="CENTER" prefWidth="1200.0" BorderPane.alignment="CENTER">
                <children>
-                  <HBox alignment="CENTER" prefWidth="600.0" spacing="150.0">
+                  <HBox alignment="CENTER" prefWidth="400.0">
                      <children>
-                        <Button fx:id="excluirButton" alignment="CENTER" focusTraversable="false" mnemonicParsing="false" prefHeight="44.0" prefWidth="96.0" text="Excluir">
-                           <HBox.margin>
-                              <Insets />
-                           </HBox.margin>
-                        </Button>
-                        <Button fx:id="editarButton" alignment="CENTER" focusTraversable="false" mnemonicParsing="false" prefHeight="44.0" prefWidth="96.0" text="Editar" />
-                     </children>
-                  </HBox>
-                  <HBox alignment="CENTER" prefHeight="44.0" prefWidth="600.0">
-                     <children>
-                        <Button alignment="CENTER" focusTraversable="false" mnemonicParsing="false" prefHeight="44.0" prefWidth="96.0" text="Finalizar" />
+                        <Button alignment="CENTER" focusTraversable="false" mnemonicParsing="false" onAction="#cancelarOperacao" prefHeight="44.0" prefWidth="96.0" text="Voltar" />
                      </children>
                      <HBox.margin>
                         <Insets />
                      </HBox.margin>
+                  </HBox>
+                  <HBox alignment="CENTER" prefWidth="400.0">
+                     <children>
+                        <Button fx:id="editarButton" alignment="CENTER" focusTraversable="false" mnemonicParsing="false" onAction="#editarManutencao" prefHeight="44.0" prefWidth="96.0" text="Editar" />
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER" prefWidth="400.0">
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin>
+                     <children>
+                        <Button fx:id="excluirButton" alignment="CENTER" focusTraversable="false" mnemonicParsing="false" onAction="#excluirManutencao" prefHeight="44.0" prefWidth="96.0" text="Excluir" />
+                     </children>
                   </HBox>
                </children>
                <BorderPane.margin>
@@ -63,7 +66,7 @@
                               <ComboBox fx:id="mesComboBox" prefWidth="150.0" promptText="Dezembro" />
                            </children>
                         </VBox>
-                        <TableView fx:id="manutencoesTable" prefHeight="450.0">
+                        <TableView fx:id="manutencoesTable" focusTraversable="false" prefHeight="450.0">
                            <columns>
                               <TableColumn prefWidth="75.0" text="C1" />
                               <TableColumn prefWidth="75.0" text="C2" />

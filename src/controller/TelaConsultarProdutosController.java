@@ -50,4 +50,13 @@ public class TelaConsultarProdutosController extends AnchorPane {
         this.adicionarPainelInterno(telaInicial);
     }
     
+    @FXML
+    private void editarProduto() {
+        
+    }
+    
+    @FXML
+    private void excluirProduto() {
+        
+    }
 }
