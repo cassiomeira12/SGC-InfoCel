@@ -1,5 +1,6 @@
 package banco.dao;
 
+import banco.ControleDAO;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -23,10 +24,15 @@ public class ManutencaoDAO extends DAO {
     }
 
     /**
-     * Inserir marca na base de dados
+     * Inserir manutenção na base de dados
      */
     public Long inserir(Manuntencao manutencao) {
         try {
+            if (manutencao.getCliente().getId() == null) {
+                Long id = ControleDAO.getBanco().getClienteDAO().inserir(manutencao.getCliente());
+                manutencao.getCliente().setId(id);
+            }
+
             String sql = "INSERT INTO manutencao ( id_cliente, id_administrador, descricao_manutencao, data_cadastro_manutencao, data_previsao, data_entrega, preco, finalizado, marca, modelo, imei, cor) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
             stm = getConector().prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);

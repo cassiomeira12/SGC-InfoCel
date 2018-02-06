@@ -19,7 +19,6 @@ import javafx.scene.layout.BorderPane;
 public class TelaAdicionarManutencaoController extends AnchorPane {
     
     private BorderPane painelPrincipal;
-
   
     public TelaAdicionarManutencaoController(BorderPane painelPrincipal) {
         this.painelPrincipal = painelPrincipal;
