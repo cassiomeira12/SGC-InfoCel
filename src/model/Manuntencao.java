@@ -6,19 +6,25 @@ public class Manuntencao {
     private String descricao;
     private Cliente cliente;
     private Administrador administrador;
-    private Celular celular;
+    private String marca;
+    private String modelo;
+    private String imei;
+    private String cor;
     private Long dataCadastro;
     private Long dataPrevisaoEntrega;
     private Long dataEntrega;
     private float preco;
     private boolean finalizado;
 
-    public Manuntencao(Long id, String descricao, Cliente cliente, Administrador administrador, Celular celular, Long dataCadastro, Long dataPrevisaoEntrega, Long dataEntrega, float preco, boolean finalizado) {
+    public Manuntencao(Long id, String descricao, Cliente cliente, Administrador administrador, String marca, String modelo, String imei, String cor, Long dataCadastro, Long dataPrevisaoEntrega, Long dataEntrega, float preco, boolean finalizado) {
         this.id = id;
         this.descricao = descricao;
         this.cliente = cliente;
         this.administrador = administrador;
-        this.celular = celular;
+        this.marca = marca;
+        this.modelo = modelo;
+        this.imei = imei;
+        this.cor = cor;
         this.dataCadastro = dataCadastro;
         this.dataPrevisaoEntrega = dataPrevisaoEntrega;
         this.dataEntrega = dataEntrega;
@@ -58,12 +64,36 @@ public class Manuntencao {
         this.administrador = administrador;
     }
 
-    public Celular getCelular() {
-        return celular;
+    public String getMarca() {
+        return marca;
     }
 
-    public void setCelular(Celular celular) {
-        this.celular = celular;
+    public void setMarca(String marca) {
+        this.marca = marca;
+    }
+
+    public String getModelo() {
+        return modelo;
+    }
+
+    public void setModelo(String modelo) {
+        this.modelo = modelo;
+    }
+
+    public String getImei() {
+        return imei;
+    }
+
+    public void setImei(String imei) {
+        this.imei = imei;
+    }
+
+    public String getCor() {
+        return cor;
+    }
+
+    public void setCor(String cor) {
+        this.cor = cor;
     }
 
     public Long getDataCadastro() {
