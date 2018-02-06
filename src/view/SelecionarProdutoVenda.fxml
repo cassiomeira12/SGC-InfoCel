@@ -57,7 +57,7 @@
                         <TextField />
                      </children>
                   </VBox>
-                   <TableView  VBox.vgrow="ALWAYS">
+                   <TableView focusTraversable="false" VBox.vgrow="ALWAYS">
                                     <columnResizePolicy>
                                         <!-- falando sobre erro: https://netbeans.org/bugzilla/show_bug.cgi?id=256522-->
                                         <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />

@@ -135,7 +135,7 @@
                         <VBox>
                            <children>
                               <Label text="Produtos" />
-                              <TableView fx:id="produtosTable">
+                              <TableView fx:id="produtosTable" focusTraversable="false">
                                  <columns>
                                     <TableColumn prefWidth="75.0" text="C1" />
                                     <TableColumn prefWidth="75.0" text="C2" />
