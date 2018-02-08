@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.ColumnConstraints?>
@@ -23,12 +24,6 @@
       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
    </rowConstraints>
    <children>
-      <VBox GridPane.columnSpan="5">
-         <children>
-            <Label text="Pesquisar Cliente" />
-            <TextField fx:id="pesquisaText" />
-         </children>
-      </VBox>
       <VBox GridPane.columnSpan="4" GridPane.rowIndex="2">
          <children>
             <Label text="Nome Completo" />
@@ -69,5 +64,6 @@
             <TextField fx:id="enderecoText" />
          </children>
       </VBox>
+      <Button mnemonicParsing="false" prefHeight="40.0" text="Selecionar Cliente" GridPane.columnSpan="2" />
    </children>
 </GridPane>

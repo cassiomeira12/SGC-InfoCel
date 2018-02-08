@@ -49,5 +49,21 @@ public class VendaProduto {
     public void setProduto(Produto produto) {
         this.produto = produto;
     }
+    
+    public CategoriaProduto getCategoria() {
+        return this.produto.getCategoria();
+    }
+    
+    public String getDescricao() {
+        return this.produto.getDescricao();
+    }
+    
+    public Marca getMarca() {
+        return this.produto.getMarca();
+    }
+    
+    public float getPrecoProduto() {
+        return this.produto.getPrecoVenda();
+    }
 
 }

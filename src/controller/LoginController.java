@@ -7,8 +7,6 @@ package controller;
 
 import banco.ControleDAO;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -22,17 +20,6 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 import javax.swing.SwingWorker;
 import model.Administrador;
-import model.CategoriaProduto;
-import model.CategoriaSaida;
-import model.Celular;
-import model.Cliente;
-import model.Manuntencao;
-import model.Marca;
-import model.Produto;
-import model.Receita;
-import model.Saida;
-import model.Venda;
-import model.VendaProduto;
 import util.Formatter;
 import util.alerta.Alerta;
 
@@ -75,7 +62,6 @@ public class LoginController extends AnchorPane {
 
         usuarioText.setTextFormatter(Formatter.ALFA_NUMERICO());
 
-        // TODO
         stackPane.getChildren().add(indicator);
         indicator.setVisible(false);
 

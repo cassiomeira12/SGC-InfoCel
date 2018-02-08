@@ -127,7 +127,6 @@ public class TelaConsultarClientesController extends AnchorPane {
         }
 
         clientesTable.getSelectionModel().clearSelection();
-
     }
     
     private void filtro(String texto, List lista, TableView tabela) {

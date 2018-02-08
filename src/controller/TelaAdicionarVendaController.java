@@ -11,13 +11,13 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import javafx.beans.property.SimpleFloatProperty;
-import javafx.beans.property.SimpleObjectProperty;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
@@ -29,12 +29,16 @@ import javafx.scene.layout.BorderPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import model.Administrador;
 import model.CategoriaProduto;
 import model.Cliente;
 import model.Marca;
 import model.Produto;
+import model.Venda;
+import model.VendaProduto;
 import util.Formatter;
 import util.alerta.Alerta;
+import util.alerta.Dialogo;
 
 /**
  * FXML Controller class
@@ -46,8 +50,7 @@ public class TelaAdicionarVendaController extends AnchorPane {
     private BorderPane painelPrincipal;
     
     private Cliente cliente;
-    private List<Produto> listaProdutos;
-    private SimpleFloatProperty valorTotalCompra;
+    private Venda novaVenda;
     
     @FXML
     private TextField pesquisaText;
@@ -66,22 +69,30 @@ public class TelaAdicionarVendaController extends AnchorPane {
     @FXML
     private DatePicker dataDatePicker;
     @FXML
+    private ComboBox<Administrador> vendedorComboBox;
+    @FXML
+    private ComboBox<String> formarPagComboBox;
+    @FXML
+    private Button removerButton;
+    @FXML
     private Label totalLabel;
     
     @FXML
-    private TableView<Produto> produtosTable;
+    private TableView<VendaProduto> produtosTable;
     @FXML
     private TableColumn<CategoriaProduto, String> categoriaColumn;
     @FXML
-    private TableColumn<Produto, String> descricaoColumn;
+    private TableColumn<String, String> descricaoColumn;
     @FXML
     private TableColumn<Marca, String> marcaColumn;
     @FXML
+    private TableColumn<Float, String> precoColumn;
+    @FXML
     private TableColumn<Float, String> quantidadeColumn;
     @FXML
-    private TableColumn<Float, String> precoColumn;
+    private TableColumn<Float, String> totalColumn;
+    
 
-  
     public TelaAdicionarVendaController(BorderPane painelPrincipal) {
         this.painelPrincipal = painelPrincipal;
         
@@ -98,15 +109,24 @@ public class TelaAdicionarVendaController extends AnchorPane {
 
     @FXML
     public void initialize() {
+        this.novaVenda = new Venda(null, null, null, null, 0, null);
+        
         Formatter.mascaraCPF(cpfText);
         Formatter.mascaraRG(rgText);
         Formatter.mascaraTelefone(telefoneText);
         
-        this.valorTotalCompra = new SimpleFloatProperty(0);
-        this.totalLabel.textProperty().bind(valorTotalCompra.asString());
+        //Desativa os Botoes de Excluir quando nenhum item na tabela esta selecionado
+        removerButton.disableProperty().bind(produtosTable.getSelectionModel().selectedItemProperty().isNull());
         
-        this.listaProdutos = new ArrayList<>();
-        this.atualizarTabela();
+        //Adicionando formas de pagamento no ComboBox
+        this.formarPagComboBox.getItems().add("Dinheiro à Vista");
+        this.formarPagComboBox.getItems().add("Cartão de Crédito");
+        //Selecionando primeira forma de Pagamento
+        this.formarPagComboBox.getSelectionModel().select(0);//Selecionando o primeiro item
+        //Adicionando os Administradores no ComboBox
+        this.vendedorComboBox.setItems(FXCollections.observableArrayList(ControleDAO.getBanco().getAdministradorDAO().listar()));
+        //Selecionando o Administrador que fez o Login
+        this.vendedorComboBox.getSelectionModel().select(LoginController.admLogado);
         
         this.dataDatePicker.setValue(LocalDate.now());//Adicionando Data do dia atual
     }
@@ -137,11 +157,10 @@ public class TelaAdicionarVendaController extends AnchorPane {
         if (telaSelecionarProduto.RESULTADO) {//Selecionou Produto
             Produto produto = telaSelecionarProduto.getProduto();
             float quantidadeVendida = telaSelecionarProduto.getQuantidade();
-            produto.setEstoque(quantidadeVendida);
+            //Criando um novo VendaProduto
+            VendaProduto vendaProduto = new VendaProduto(quantidadeVendida, novaVenda, produto);
             
-            this.valorTotalCompra.set(valorTotalCompra.get() + quantidadeVendida * produto.getPrecoVenda());
-            
-            listaProdutos.add(produto);
+            this.novaVenda.adicionarVendaProduto(vendaProduto);
             this.atualizarTabela();
         }
         
@@ -149,6 +168,69 @@ public class TelaAdicionarVendaController extends AnchorPane {
     
     @FXML
     private void removerProduto() {
+        VendaProduto vendaProduto = produtosTable.getSelectionModel().getSelectedItem();
+        
+        Dialogo.Resposta resposta = Alerta.confirmar("Remover produto  " + vendaProduto.getDescricao() + " ?");
+
+        if (resposta == Dialogo.Resposta.YES) {
+            novaVenda.removerVendaProduto(vendaProduto);
+            atualizarTabela();
+        }
+        
+        produtosTable.getSelectionModel().clearSelection();
+    }
+    
+    @FXML
+    private void finalizarCompra() {
+        
+        boolean novoCliente = this.cliente == null;
+        boolean vazio = Formatter.isEmpty(nomeText, telefoneText, cpfText, rgText, cidadeText, enderecoText);
+        boolean carrinhoVazio = novaVenda.isEmpty();
+        
+        String nome = nomeText.getText();
+        String telefone = telefoneText.getText();
+        String cpf = cpfText.getText();
+        String rg = rgText.getText();
+        String cidade = cidadeText.getText();
+        String endereco = enderecoText.getText();
+        
+        Cliente cliente = null;
+        
+        if (vazio) {//Caso os Campos estejam vazios
+            Alerta.alerta("Preencha os campos com as informações do Cliente");
+        } else {
+            if (novoCliente) {//Caso for criar um Novo Cliente
+                cliente = new Cliente(null, nome, endereco, cpf, rg, telefone, cidade, null, 0);
+                Long id = ControleDAO.getBanco().getClienteDAO().inserir(cliente);
+
+                if (id == null) {
+                    Alerta.erro("Erro ao cadastrar Novo Usuário");
+                } else {
+                    cliente.setId(id);
+                }
+
+            } else {//Caso for usar um Cliente ja Cadastrado
+                cliente = this.cliente;//Recendo Cliente Selecionado
+                //Atualizando informacoes do Cliente
+                cliente.setNome(nome);
+                cliente.setEndereco(endereco);
+                cliente.setCpf(cpf);
+                cliente.setRg(rg);
+                cliente.setTelefone(telefone);
+                cliente.setCidade(cidade);
+            }
+        }
+        //Verificando se foi adicionado algum produto 
+        if (carrinhoVazio) {
+            Alerta.alerta("O carrinho de produtos está vazio");
+        }
+
+        LocalDate data = dataDatePicker.getValue();
+        
+    }
+    
+    @FXML
+    private void pesquisarCliente() {
         Stage palco = new Stage();
         palco.initModality(Modality.APPLICATION_MODAL);//Impede de clicar na tela em plano de fundo
         palco.centerOnScreen();
@@ -165,31 +247,6 @@ public class TelaAdicionarVendaController extends AnchorPane {
         }
     }
     
-    @FXML
-    private void finalizarCompra() {
-        //this.criarCliente();
-    }
-    
-    private void criarCliente() {
-        boolean vazio = Formatter.isEmpty(nomeText, telefoneText, cpfText, rgText, cidadeText, enderecoText);
-        
-        String nome = nomeText.getText();
-        String telefone = telefoneText.getText();
-        String cpf = cpfText.getText();
-        String rg = rgText.getText();
-        String cidade = cidadeText.getText();
-        String endereco = enderecoText.getText();
-        
-        if (vazio) {
-            Alerta.erro("Dados do cliente insuficientes", "Preencha as informações do Cliente");
-        } else {
-            Cliente cliente = new Cliente(null, nome, endereco, cpf, rg, telefone, cidade, null, 0);
-            ControleDAO.getBanco().getClienteDAO().inserir(cliente);
-            Alerta.info("Cadastro", "Cliente cadastrado com sucesso");
-        }
-       
-    }
-    
     private void adicionarDadosCliente(Cliente cliente) {
         this.nomeText.setText(cliente.getNome());
         this.telefoneText.setText(cliente.getTelefone());
@@ -201,15 +258,17 @@ public class TelaAdicionarVendaController extends AnchorPane {
     
     private void atualizarTabela() {
         //Transforma a lista em uma Lista Observavel
-        ObservableList data = FXCollections.observableArrayList(listaProdutos);
+        ObservableList data = FXCollections.observableArrayList(novaVenda.getVendaProdutos());
         
         this.categoriaColumn.setCellValueFactory(new PropertyValueFactory<>("categoria"));
         this.descricaoColumn.setCellValueFactory(new PropertyValueFactory<>("descricao"));
         this.marcaColumn.setCellValueFactory(new PropertyValueFactory<>("marca"));
-        this.quantidadeColumn.setCellValueFactory(new PropertyValueFactory<>("estoque"));
-        this.precoColumn.setCellValueFactory(new PropertyValueFactory<>("precoVenda"));
+        this.precoColumn.setCellValueFactory(new PropertyValueFactory<>("precoProduto"));
+        this.quantidadeColumn.setCellValueFactory(new PropertyValueFactory<>("quantidade"));
+        this.totalColumn.setCellValueFactory(new PropertyValueFactory<>("precoTotal"));
         
         this.produtosTable.setItems(data);
+        this.totalLabel.setText(String.valueOf(novaVenda.getPrecoTotal()));
     }
 
 }

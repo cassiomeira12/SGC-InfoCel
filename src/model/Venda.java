@@ -104,5 +104,20 @@ public class Venda {
         vendaProdutos.add(vp);
         precoTotal = calcularPrecoTotal();
     }
+    
+    public void removerVendaProduto(VendaProduto vp) {
+        if (vendaProdutos != null) {
+            vendaProdutos.remove(vp);
+            precoTotal = calcularPrecoTotal();
+        }
+    }
+    
+    public boolean isEmpty() {
+        if (vendaProdutos == null) {
+            return true;
+        } else {
+            return vendaProdutos.isEmpty();
+        }
+    }
 
 }
