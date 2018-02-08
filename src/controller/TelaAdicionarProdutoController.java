@@ -5,8 +5,12 @@
  */
 package controller;
 
+import banco.ControleDAO;
 import java.io.IOException;
+import java.util.List;
 import javafx.application.Platform;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.ComboBox;
@@ -17,7 +21,9 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import model.CategoriaProduto;
 import model.Marca;
+import model.Produto;
 import util.Formatter;
+import util.alerta.Alerta;
 
 /**
  * FXML Controller class
@@ -27,6 +33,9 @@ import util.Formatter;
 public class TelaAdicionarProdutoController extends AnchorPane {
     
     private BorderPane painelPrincipal;
+    
+    private List<CategoriaProduto> listaCategoriaProdutos;
+    private List<Marca> listaMarcas;
     
     @FXML
     private TextField descricaoText;
@@ -78,6 +87,16 @@ public class TelaAdicionarProdutoController extends AnchorPane {
     public void initialize() {
         this.novaCategoriaBox.setVisible(false);//Ocultando Nova Categoria
         this.novaMarcaBox.setVisible(false);//Ocultando Nova Marca
+        
+        //Adicionando Formatador de Texto
+        Formatter.decimal(custoProdutoText);
+        Formatter.decimal(valorProdutoText);
+        Formatter.decimal(quantidadeText);
+        
+        
+        this.sincronizarBancoDados();//Atualizando Listas com o Banco de Dados
+        this.atualizarComboBoxs();//Adicionando itens nos ComboBox
+        
     }
     
     private void adicionarPainelInterno(AnchorPane novaTela) {
@@ -92,19 +111,33 @@ public class TelaAdicionarProdutoController extends AnchorPane {
     
     @FXML
     private void salvarProduto() {
-        boolean vazio = Formatter.isEmpty(descricaoText, custoProdutoText, valorProdutoText, quantidadeText) &&
+        boolean vazio = Formatter.isEmpty(descricaoText, custoProdutoText, valorProdutoText, quantidadeText) ||
                 Formatter.isEmpty(categoriaComboBox, marcaComboBox);
 
         String descricao = descricaoText.getText();
         CategoriaProduto categoria;
         Marca marca;
-        String custoProduto = custoProdutoText.getText();
-        String valorVenda = valorProdutoText.getText();
-        String quantidade = quantidadeText.getText();
+        float custoProduto = Float.parseFloat(custoProdutoText.getText());
+        float valorVenda = Float.parseFloat(valorProdutoText.getText());
+        float quantidade = Float.parseFloat(quantidadeText.getText());
         
-        if (!vazio) {
+        if (vazio) {
+            Alerta.erro("Preencha todos os Campos para cadastrar um novo Produto");
+        } else {
             categoria = categoriaComboBox.getValue();
             marca = marcaComboBox.getValue();
+            
+            Produto novoProduto = new Produto(null, marca, descricao, categoria, custoProduto, valorVenda, quantidade);
+        
+            Long id = ControleDAO.getBanco().getProdutoDAO().inserir(novoProduto);
+            
+            if (id == null) {
+                Alerta.erro("Erro ao adicionar novo Produto");
+            } else {
+                Alerta.info("Novo produto Adicionado com sucesso!");
+                this.cancelarOperacao();
+            }
+            
         }
     }
     
@@ -124,8 +157,16 @@ public class TelaAdicionarProdutoController extends AnchorPane {
         
         if (!vazio) {
             CategoriaProduto categoria = new CategoriaProduto(null, novaCategoria);
-            this.categoriaComboBox.getItems().add(categoria);
-            this.categoriaComboBox.getSelectionModel().select(categoria);
+            
+            Long id = ControleDAO.getBanco().getCategoriaProdutoDAO().inserir(categoria);
+            
+            if (id == null) {//Erro ao inserir item no Banco de Dados
+                Alerta.erro("Erro ao criar nova Categoria de Produto");
+            } else {
+                categoria.setId(id);
+                this.categoriaComboBox.getItems().add(categoria);
+                this.categoriaComboBox.getSelectionModel().select(categoria);
+            }
         }
         
         Formatter.limpar(novaCategoriaText);
@@ -148,12 +189,34 @@ public class TelaAdicionarProdutoController extends AnchorPane {
         
         if (!vazio) {
             Marca marca = new Marca(null, novaMarca);
-            this.marcaComboBox.getItems().add(marca);
-            this.marcaComboBox.getSelectionModel().select(marca);
+            
+            Long id = ControleDAO.getBanco().getMarcaDAO().inserir(marca);
+            
+            if (id == null) {
+                Alerta.erro("Erro ao criar um nova Categoria de Marca");
+            } else {
+                marca.setId(id);
+                this.marcaComboBox.getItems().add(marca);
+                this.marcaComboBox.getSelectionModel().select(marca);
+            }
         }
         
         Formatter.limpar(novaMarcaText);
         Platform.runLater(() -> marcaComboBox.requestFocus());//Colocando o Foco
+    }
+    
+    private void sincronizarBancoDados() {
+        this.listaCategoriaProdutos = ControleDAO.getBanco().getCategoriaProdutoDAO().listar();
+        this.listaMarcas = ControleDAO.getBanco().getMarcaDAO().listar();
+    }
+    
+    private void atualizarComboBoxs() {
+        //Transforma a lista em uma Lista Observavel
+        ObservableList categoriaProdutos = FXCollections.observableArrayList(listaCategoriaProdutos);
+        ObservableList categoriasMarcas = FXCollections.observableArrayList(listaMarcas);
+        
+        this.categoriaComboBox.setItems(categoriaProdutos);
+        this.marcaComboBox.setItems(categoriasMarcas);
     }
     
 }

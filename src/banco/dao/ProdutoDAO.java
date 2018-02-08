@@ -107,7 +107,7 @@ public class ProdutoDAO extends DAO {
                     + "\nINNER JOIN marca marca ON produto.id_marca = marca.id_marca"
                     + "\nINNER JOIN categoria_produto categoria_produto ON produto.id_categoria = categoria_produto.id_categoria";
 
-            System.out.println(sql);
+            //System.out.println(sql);
             stm = getConector().prepareStatement(sql);
             rs = stm.executeQuery(sql);
 

@@ -79,33 +79,33 @@ public class TelaAdicionarReceitaController extends AnchorPane {
     
     @FXML
     private void salvarReceita(){
-        if(cliente == null){
-        cliente = new Cliente(null, nomeText.getText(), enderecoText.getText(), cpfText.getText(), rgText.getText(), telefoneText.getText(), cidadeText.getText(), System.currentTimeMillis(), 1);
-        }
-        Receita receita = new Receita(null, cliente, LoginController.admLogado, decricaoText.getText(), dataDataPicker.getValue().toEpochDay(), Float.parseFloat(valorText.getText()));
-        if(ControleDAO.getBanco().getReceitaDAO().inserir(receita)==null){
-            Alerta.erro("não foi possivel inserir!");
-        }
-        else{
-            Alerta.info("receita inserida com sucesso!");
-            cliente = null;
-            nomeText.setText("");
-            telefoneText.setText("");
-            cpfText.setText("");
-            rgText.setText("");
-            cidadeText.setText("");
-            enderecoText.setText("");
-            valorText.setText("");
-            decricaoText.setText("");
-            telefoneText.setText("");
-            cpfText.setText("");
-            rgText.setText("");
-            cidadeText.setText("");
-            enderecoText.setText("");
-            valorText.setText("");
-            decricaoText.setText("");
-            
-        }
+//        if(cliente == null){
+//        cliente = new Cliente(null, nomeText.getText(), enderecoText.getText(), cpfText.getText(), rgText.getText(), telefoneText.getText(), cidadeText.getText(), System.currentTimeMillis(), 1);
+//        }
+//        Receita receita = new Receita(null, cliente, LoginController.admLogado, decricaoText.getText(), dataDataPicker.getValue().toEpochDay(), Float.parseFloat(valorText.getText()));
+//        if(ControleDAO.getBanco().getReceitaDAO().inserir(receita)==null){
+//            Alerta.erro("não foi possivel inserir!");
+//        }
+//        else{
+//            Alerta.info("receita inserida com sucesso!");
+//            cliente = null;
+//            nomeText.setText("");
+//            telefoneText.setText("");
+//            cpfText.setText("");
+//            rgText.setText("");
+//            cidadeText.setText("");
+//            enderecoText.setText("");
+//            valorText.setText("");
+//            decricaoText.setText("");
+//            telefoneText.setText("");
+//            cpfText.setText("");
+//            rgText.setText("");
+//            cidadeText.setText("");
+//            enderecoText.setText("");
+//            valorText.setText("");
+//            decricaoText.setText("");
+//            
+//        }
     
     }
 }

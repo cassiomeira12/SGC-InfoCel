@@ -70,8 +70,11 @@
                                 <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                             </columnResizePolicy>
                             <columns>
-                                <TableColumn prefWidth="75.0" text="C1" />
-                                <TableColumn prefWidth="75.0" text="C2" />
+                                <TableColumn fx:id="categoriaColumn" maxWidth="200.0" minWidth="200.0" prefWidth="200.0" text="Categoria" />
+                                <TableColumn fx:id="descricacaoColumn" prefWidth="500.0" text="Descrição" />
+                        <TableColumn fx:id="marcaColumn" maxWidth="200.0" minWidth="200.0" prefWidth="200.0" text="Marca" />
+                        <TableColumn fx:id="quantidadeColumn" maxWidth="100.0" minWidth="100.0" prefWidth="100.0" text="Quantidade" />
+                        <TableColumn fx:id="precoColumn" maxWidth="130.0" minWidth="130.0" prefWidth="130.0" text="Preço R$" />
                             </columns>
                             <VBox.margin>
                                 <Insets />

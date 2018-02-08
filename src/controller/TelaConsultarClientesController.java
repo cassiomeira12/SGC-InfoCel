@@ -26,7 +26,6 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javax.swing.SwingWorker;
 import model.Cliente;
-import util.Formatter;
 import util.alerta.Alerta;
 import util.alerta.Dialogo;
 

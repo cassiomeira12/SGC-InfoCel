@@ -22,7 +22,7 @@ public class Principal extends Application {
             System.out.println("Erro ao iniciar Painel");
             System.out.println(e.toString());
         }
-        
+
         /*********************************************
         * Metodo: setOnCloseRequest
         * Funcao: Finaliza o programa por completo ao Fechar 
