@@ -67,9 +67,9 @@
                                 <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                             </columnResizePolicy>
                             <columns>
-                                <TableColumn fx:id="nomeColumn" prefWidth="400.0" text="Nome" />
+                                <TableColumn fx:id="nomeColumn" maxWidth="400.0" minWidth="400.0" prefWidth="400.0" text="Nome" />
                                 <TableColumn fx:id="enderecoColumn" prefWidth="579.0" text="Endereço" />
-                                <TableColumn fx:id="telefoneColumn" prefWidth="200.0" text="Telefone" />
+                                <TableColumn fx:id="telefoneColumn" maxWidth="150.0" minWidth="150.0" prefWidth="150.0" text="Telefone" />
                             </columns>
                             <VBox.margin>
                                 <Insets />

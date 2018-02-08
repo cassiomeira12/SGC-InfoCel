@@ -69,10 +69,10 @@
                         </HBox>
                         <HBox alignment="CENTER" prefWidth="400.0">
                            <children>
-                              <VBox>
+                              <VBox prefWidth="130.0">
                                  <children>
                                     <Label text="Data" />
-                                    <DatePicker fx:id="dataDataPicker" />
+                                    <DatePicker fx:id="dataDatePicker" />
                                  </children>
                               </VBox>
                            </children>

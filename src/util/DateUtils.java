@@ -2,6 +2,7 @@ package util;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
@@ -28,7 +29,7 @@ public class DateUtils {
         }
 
         Date date = new Date(dateLong);
-
+        
         String data = df.format(date);
         int mes = Integer.parseInt(data.substring(3, 5));
 
@@ -66,6 +67,57 @@ public class DateUtils {
 
     }
 
+    //retorna data no formato "01 de jan de 2018"
+    public static String formatDateExtenso(LocalDate date) {
+        if (date == null) {
+            return null;
+        }
+        
+        String data = String.valueOf(date.getDayOfMonth());
+        int mes = date.getMonthValue();
+
+        switch (mes) {
+            case 1:
+                data += " de Janeiro";
+                break;
+            case 2:
+                data += " de Fevereiro";
+                break;
+            case 3:
+                data += " de Março";
+                break;
+            case 4:
+                data += " de Abril";
+                break;
+            case 5:
+                data += " de Maio";
+                break;
+            case 6:
+                data += " de Junho";
+                break;
+            case 7:
+                data += " de Julho";
+                break;
+            case 8:
+                data += " de Agosto";
+                break;
+            case 9:
+                data += " de Setembro";
+                break;
+            case 10:
+                data += " de Outubro";
+                break;
+            case 11:
+                data += " de Novembro";
+                break;
+            default:
+                data += " de Dezembro";
+                break;
+        }
+
+        return data + " de " + String.valueOf(date.getYear());
+    }
+    
     // Cria um objeto Date a partir de uma string no formato dd/MM/yyyy
     public static Date createDate(String date) {
         int[] info = parseDateInfo(date);

@@ -108,35 +108,26 @@ public class TelaConsultarClientesController extends AnchorPane {
     
     @FXML
     private void editarCliente() {
-        try {
-            Cliente cliente = clientesTable.getSelectionModel().getSelectedItem();
+        Cliente cliente = clientesTable.getSelectionModel().getSelectedItem();
             
-            TelaClienteController telaCliente = new TelaClienteController(painelPrincipal, cliente);
-            this.adicionarPainelInterno(telaCliente);
-            
-        } catch (NullPointerException e) {
-            Alerta.alerta("Selecione usuário na tabela para editar!");
-        }
+        TelaClienteController telaCliente = new TelaClienteController(painelPrincipal, cliente);
+        this.adicionarPainelInterno(telaCliente);
     }
     
     @FXML
     private void excluirCliente() {
-        try {
-            Cliente cliente = clientesTable.getSelectionModel().getSelectedItem();
+        Cliente cliente = clientesTable.getSelectionModel().getSelectedItem();
 
-            Dialogo.Resposta resposta = Alerta.confirmar("Excluir usuário " + cliente.getNome() + " ?");
+        Dialogo.Resposta resposta = Alerta.confirmar("Excluir usuário " + cliente.getNome() + " ?");
             
-            if (resposta == Dialogo.Resposta.YES) {
-                ControleDAO.getBanco().getClienteDAO().excluir(cliente.getId().intValue());
-                //sincronizarBase();
-                atualizarTabela();
-            }
-
-            clientesTable.getSelectionModel().clearSelection();
-
-        } catch (NullPointerException ex) {
-            Alerta.alerta("Selecione usuário na tabela para exclusão!");
+        if (resposta == Dialogo.Resposta.YES) {
+            ControleDAO.getBanco().getClienteDAO().excluir(cliente.getId().intValue());
+            this.sincronizarBancoDados();
+            this.atualizarTabela();
         }
+
+        clientesTable.getSelectionModel().clearSelection();
+
     }
     
     private void filtro(String texto, List lista, TableView tabela) {

@@ -7,17 +7,32 @@ package controller;
 
 import banco.ControleDAO;
 import java.io.IOException;
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
+import javafx.beans.property.SimpleFloatProperty;
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.DatePicker;
+import javafx.scene.control.Label;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import model.CategoriaProduto;
 import model.Cliente;
+import model.Marca;
+import model.Produto;
 import util.Formatter;
 import util.alerta.Alerta;
 
@@ -31,6 +46,8 @@ public class TelaAdicionarVendaController extends AnchorPane {
     private BorderPane painelPrincipal;
     
     private Cliente cliente;
+    private List<Produto> listaProdutos;
+    private SimpleFloatProperty valorTotalCompra;
     
     @FXML
     private TextField pesquisaText;
@@ -46,6 +63,23 @@ public class TelaAdicionarVendaController extends AnchorPane {
     private TextField cidadeText;
     @FXML
     private TextField enderecoText;
+    @FXML
+    private DatePicker dataDatePicker;
+    @FXML
+    private Label totalLabel;
+    
+    @FXML
+    private TableView<Produto> produtosTable;
+    @FXML
+    private TableColumn<CategoriaProduto, String> categoriaColumn;
+    @FXML
+    private TableColumn<Produto, String> descricaoColumn;
+    @FXML
+    private TableColumn<Marca, String> marcaColumn;
+    @FXML
+    private TableColumn<Float, String> quantidadeColumn;
+    @FXML
+    private TableColumn<Float, String> precoColumn;
 
   
     public TelaAdicionarVendaController(BorderPane painelPrincipal) {
@@ -67,6 +101,14 @@ public class TelaAdicionarVendaController extends AnchorPane {
         Formatter.mascaraCPF(cpfText);
         Formatter.mascaraRG(rgText);
         Formatter.mascaraTelefone(telefoneText);
+        
+        this.valorTotalCompra = new SimpleFloatProperty(0);
+        this.totalLabel.textProperty().bind(valorTotalCompra.asString());
+        
+        this.listaProdutos = new ArrayList<>();
+        this.atualizarTabela();
+        
+        this.dataDatePicker.setValue(LocalDate.now());//Adicionando Data do dia atual
     }
     
     private void adicionarPainelInterno(AnchorPane novaTela) {
@@ -92,11 +134,15 @@ public class TelaAdicionarVendaController extends AnchorPane {
         palco.setScene(new Scene(telaSelecionarProduto));
         palco.showAndWait();
         
-        
         if (telaSelecionarProduto.RESULTADO) {//Selecionou Produto
-            System.out.println("Adicionou");
-        } else {//Nao selecionou Produto
-            System.out.println("Cancelou");
+            Produto produto = telaSelecionarProduto.getProduto();
+            float quantidadeVendida = telaSelecionarProduto.getQuantidade();
+            produto.setEstoque(quantidadeVendida);
+            
+            this.valorTotalCompra.set(valorTotalCompra.get() + quantidadeVendida * produto.getPrecoVenda());
+            
+            listaProdutos.add(produto);
+            this.atualizarTabela();
         }
         
     }
@@ -121,7 +167,7 @@ public class TelaAdicionarVendaController extends AnchorPane {
     
     @FXML
     private void finalizarCompra() {
-        this.criarCliente();
+        //this.criarCliente();
     }
     
     private void criarCliente() {
@@ -151,6 +197,19 @@ public class TelaAdicionarVendaController extends AnchorPane {
         this.rgText.setText(cliente.getRg());
         this.cidadeText.setText(cliente.getCidade());
         this.enderecoText.setText(cliente.getEndereco());
+    }
+    
+    private void atualizarTabela() {
+        //Transforma a lista em uma Lista Observavel
+        ObservableList data = FXCollections.observableArrayList(listaProdutos);
+        
+        this.categoriaColumn.setCellValueFactory(new PropertyValueFactory<>("categoria"));
+        this.descricaoColumn.setCellValueFactory(new PropertyValueFactory<>("descricao"));
+        this.marcaColumn.setCellValueFactory(new PropertyValueFactory<>("marca"));
+        this.quantidadeColumn.setCellValueFactory(new PropertyValueFactory<>("estoque"));
+        this.precoColumn.setCellValueFactory(new PropertyValueFactory<>("precoVenda"));
+        
+        this.produtosTable.setItems(data);
     }
 
 }

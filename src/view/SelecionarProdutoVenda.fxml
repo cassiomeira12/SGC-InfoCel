@@ -36,7 +36,7 @@
                   </HBox>
                   <HBox alignment="CENTER" prefHeight="44.0" prefWidth="600.0">
                      <children>
-                        <Button alignment="CENTER" focusTraversable="false" mnemonicParsing="false" onAction="#adicionarProduto" prefHeight="44.0" text="Adicionar Produto" />
+                        <Button fx:id="adicionarButton" alignment="CENTER" focusTraversable="false" mnemonicParsing="false" onAction="#adicionarProduto" prefHeight="44.0" text="Adicionar Produto" />
                      </children>
                      <HBox.margin>
                         <Insets />
@@ -54,17 +54,19 @@
                   <VBox>
                      <children>
                         <Label text="Pesquisar Produto" />
-                        <TextField />
+                        <TextField fx:id="pesquisaText" />
                      </children>
                   </VBox>
-                   <TableView focusTraversable="false" VBox.vgrow="ALWAYS">
+                   <TableView fx:id="produtosTable" focusTraversable="false" VBox.vgrow="ALWAYS">
                                     <columnResizePolicy>
                                         <!-- falando sobre erro: https://netbeans.org/bugzilla/show_bug.cgi?id=256522-->
                                         <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                                     </columnResizePolicy>
                                     <columns>
-                                        <TableColumn prefWidth="75.0" text="C1" />
-                                        <TableColumn prefWidth="75.0" text="C2" />
+                                        <TableColumn fx:id="marcaColumn" maxWidth="200.0" minWidth="200.0" prefWidth="200.0" text="Marca" />
+                                        <TableColumn fx:id="descricaoColumn" prefWidth="75.0" text="Descrição" />
+                        <TableColumn fx:id="quantidadeColumn" maxWidth="100.0" minWidth="100.0" prefWidth="100.0" text="Quantidade" />
+                        <TableColumn fx:id="precoColumn" maxWidth="100.0" minWidth="100.0" prefWidth="100.0" text="Preço R$" />
                                     </columns>
                                     <VBox.margin>
                                         <Insets />
@@ -75,7 +77,7 @@
                         <VBox>
                            <children>
                               <Label text="Quantidade" />
-                              <ComboBox prefWidth="150.0" />
+                              <ComboBox fx:id="quantidadeComboBox" prefWidth="100.0" />
                            </children>
                         </VBox>
                      </children>

@@ -7,6 +7,7 @@ package controller;
 
 import banco.ControleDAO;
 import java.io.IOException;
+import java.time.LocalDate;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.DatePicker;
@@ -44,7 +45,7 @@ public class TelaAdicionarReceitaController extends AnchorPane {
     @FXML
     private TextArea decricaoText;
     @FXML
-    private DatePicker dataDataPicker;
+    private DatePicker dataDatePicker;
     
     private Cliente cliente;
             
@@ -64,7 +65,7 @@ public class TelaAdicionarReceitaController extends AnchorPane {
 
     @FXML
     public void initialize() {
-        // TODO
+        this.dataDatePicker.setValue(LocalDate.now());//Adicionando Data do dia atual
     }
     
     private void adicionarPainelInterno(AnchorPane novaTela) {

@@ -8,12 +8,14 @@ package controller;
 import java.io.IOException;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import util.DateUtils;
 
 /**
  * FXML Controller class
@@ -49,7 +51,7 @@ public class TelaInicialController extends AnchorPane {
 
     @FXML
     public void initialize() {
-        dataLabel.setText(new SimpleDateFormat("dd/MM/yyyy").format(new Date(System.currentTimeMillis())));
+        this.dataLabel.setText(DateUtils.formatDateExtenso(LocalDate.now()));
     }
     
     private void adicionarPainelInterno(AnchorPane novaTela) {

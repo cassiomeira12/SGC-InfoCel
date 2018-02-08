@@ -7,6 +7,7 @@ package controller;
 
 import banco.ControleDAO;
 import java.io.IOException;
+import java.time.LocalDate;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.DatePicker;
@@ -51,7 +52,7 @@ public class TelaAdicionarManutencaoController extends AnchorPane {
     @FXML
     private TextField precoText;
     @FXML
-    private DatePicker dataDataPicker;
+    private DatePicker dataDatePicker;
 
     public TelaAdicionarManutencaoController(BorderPane painelPrincipal) {
         this.painelPrincipal = painelPrincipal;
@@ -69,7 +70,7 @@ public class TelaAdicionarManutencaoController extends AnchorPane {
 
     @FXML
     public void initialize() {
-        // TODO
+        this.dataDatePicker.setValue(LocalDate.now());//Adicionando Data do dia atual
     }
 
     private void adicionarPainelInterno(AnchorPane novaTela) {
@@ -88,7 +89,7 @@ public class TelaAdicionarManutencaoController extends AnchorPane {
             cliente = new Cliente(null, nomeText.getText(), enderecoText.getText(), cpfText.getText(), rgText.getText(), telefoneText.getText(), cidadeText.getText(), System.currentTimeMillis(), 1);
         }
 
-        Manuntencao m = new Manuntencao(null, descricaoArea.getText(), cliente, LoginController.admLogado, marcaText.getText(), modeloText.getText(), imeiText.getText(), "cor", dataDataPicker.getValue().toEpochDay(), 0l, 0l, Float.parseFloat(precoText.getText()), true);
+        Manuntencao m = new Manuntencao(null, descricaoArea.getText(), cliente, LoginController.admLogado, marcaText.getText(), modeloText.getText(), imeiText.getText(), "cor", dataDatePicker.getValue().toEpochDay(), 0l, 0l, Float.parseFloat(precoText.getText()), true);
 
         if (ControleDAO.getBanco().getManutencaoDAO().inserir(m) == null) {
             Alerta.erro("Ocorreu um erro ao inserir manutenção!");
