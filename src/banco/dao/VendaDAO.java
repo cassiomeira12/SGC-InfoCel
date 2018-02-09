@@ -45,7 +45,6 @@ public class VendaDAO extends DAO {
             stm.setFloat(3, venda.getPrecoTotal());
             stm.setInt(4, venda.getFormaPagamento());
             stm.setLong(5, venda.getData());
-
             idVenda = super.inserir();
 
             //cadastrar vendaProduto
@@ -130,9 +129,8 @@ public class VendaDAO extends DAO {
     public List<Venda> buscarPorIntervalo(String dataInicio, String dataFinal) {
         Long inicio = DateUtils.getLongFromDate(dataInicio);
         Long finall = DateUtils.getLongFromDate(dataFinal);
-
-        List<Venda> vendas = new ArrayList<>();
         
+        List<Venda> vendas = new ArrayList<>();
 
         try {
             String sql = "SELECT venda.*, cliente.*, administrador.* "

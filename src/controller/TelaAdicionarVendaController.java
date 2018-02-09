@@ -248,6 +248,7 @@ public class TelaAdicionarVendaController extends AnchorPane {
                         Alerta.erro("Erro ao cadastrar Novo Usuário");
                     } else {
                         cliente.setId(id);
+                        this.cliente = cliente;
                         continuar = true;
                     }
                 } else {//Cliente selecionado

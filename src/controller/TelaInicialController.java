@@ -7,9 +7,7 @@ package controller;
 
 import banco.ControleDAO;
 import java.io.IOException;
-import java.sql.Date;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import javafx.collections.FXCollections;
@@ -79,15 +77,13 @@ public class TelaInicialController extends AnchorPane {
         
         this.listaOperacao = new ArrayList<>();
 
-        
-      
         //this.adicionarManutencao(listaOperacao, LocalDate.now());
         //this.adicionarReceita(listaOperacao, LocalDate.now());
         //this.adicionarSaida(listaOperacao, LocalDate.now());
         this.adicionarVenda(listaOperacao, LocalDate.now());
         
+        System.out.println(listaOperacao.size());
         this.atualizarTabela();
-        
     }
     
     private void adicionarPainelInterno(AnchorPane novaTela) {
@@ -121,7 +117,7 @@ public class TelaInicialController extends AnchorPane {
     
     private void adicionarManutencao(List<Operacao> lista, LocalDate data) {
         String dataInicio = DateUtils.formatDate(data.getYear(), data.getMonthValue(), data.getDayOfMonth());
-        String dataFinal = DateUtils.formatDate(data.plusDays(1).getYear(), data.plusDays(1).getDayOfMonth(), data.plusDays(1).getDayOfMonth());
+        String dataFinal = DateUtils.formatDate(data.plusDays(1).getYear(), data.plusDays(1).getMonthValue(), data.plusDays(1).getDayOfMonth());
         
         List<Manutencao> listaManutencao = ControleDAO.getBanco().getManutencaoDAO().buscarPorIntervalo(dataInicio, dataFinal);
     
@@ -132,7 +128,7 @@ public class TelaInicialController extends AnchorPane {
     
     private void adicionarReceita(List<Operacao> lista, LocalDate data) {
         String dataInicio = DateUtils.formatDate(data.getYear(), data.getMonthValue(), data.getDayOfMonth());
-        String dataFinal = DateUtils.formatDate(data.plusDays(1).getYear(), data.plusDays(1).getDayOfMonth(), data.plusDays(1).getDayOfMonth());
+        String dataFinal = DateUtils.formatDate(data.plusDays(1).getYear(), data.plusDays(1).getMonthValue(), data.plusDays(1).getDayOfMonth());
         
         List<Receita> listaReceita = ControleDAO.getBanco().getReceitaDAO().buscarPorIntervalo(dataInicio, dataFinal);
     
@@ -143,7 +139,7 @@ public class TelaInicialController extends AnchorPane {
     
     private void adicionarSaida(List<Operacao> lista, LocalDate data) {
         String dataInicio = DateUtils.formatDate(data.getYear(), data.getMonthValue(), data.getDayOfMonth());
-        String dataFinal = DateUtils.formatDate(data.plusDays(1).getYear(), data.plusDays(1).getDayOfMonth(), data.plusDays(1).getDayOfMonth());
+        String dataFinal = DateUtils.formatDate(data.plusDays(1).getYear(), data.plusDays(1).getMonthValue(), data.plusDays(1).getDayOfMonth());
         
         List<Saida> listaSaida = ControleDAO.getBanco().getSaidaDAO().buscarPorIntervalo(dataInicio, dataFinal);
     
@@ -154,13 +150,14 @@ public class TelaInicialController extends AnchorPane {
     
     private void adicionarVenda(List<Operacao> lista, LocalDate data) {
         String dataInicio = DateUtils.formatDate(data.getYear(), data.getMonthValue(), data.getDayOfMonth());
-        String dataFinal = DateUtils.formatDate(data.plusDays(1).getYear(), data.plusDays(1).getDayOfMonth(), data.plusDays(1).getDayOfMonth());
+        String dataFinal = DateUtils.formatDate(data.plusDays(1).getYear(), data.plusDays(1).getMonthValue(), data.plusDays(1).getDayOfMonth());
         
-        //List<Venda> listaVenda = ControleDAO.getBanco().getVendaDAO().buscarPorIntervalo(dataInicio, dataFinal);
-        List<Venda> listaVenda = ControleDAO.getBanco().getVendaDAO().listar();
+        List<Venda> listaVenda = ControleDAO.getBanco().getVendaDAO().buscarPorIntervalo(dataInicio, dataFinal);
+        //List<Venda> listaVenda = ControleDAO.getBanco().getVendaDAO().listar();
         
         for (Venda venda : listaVenda) {
             lista.add(new Operacao(venda));
+            System.out.println(venda.getData());
         }
     }
     

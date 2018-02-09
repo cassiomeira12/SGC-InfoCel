@@ -3,6 +3,9 @@ package util;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
@@ -20,7 +23,16 @@ public class DateUtils {
         }
         return df.format(new Date(date));
     }
-
+    
+    // Formata um objeto Date no formato dd/MM/yyyy
+    public static String formatDate(LocalDate date) {
+        String data = "";
+        data += date.getDayOfMonth() + "/";
+        data += date.getMonthValue() + "/";
+        data += date.getYear();
+        return data;
+    }
+    
     //retorna data no formato "01 de jan de 2018"
     public static String formatDateExtenso(Long dateLong) {
         if (dateLong == null) {
@@ -136,7 +148,10 @@ public class DateUtils {
     }
     
     public static Long getLong(LocalDate localDate) {
-        return new Date(localDate.getYear(), localDate.getMonthValue(), localDate.getDayOfMonth()).getTime();
+        int dia = localDate.getDayOfMonth();
+        int mes = localDate.getMonthValue();
+        int ano = localDate.getYear();
+        return getLongFromDate(formatDate(ano, mes, dia));
     }
     
     // Formata um string no formato dd/MM/yyyy a partir do ano, mês e dia fornecidos
