@@ -25,7 +25,6 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-import model.CategoriaProduto;
 import model.Marca;
 import model.Produto;
 
@@ -147,7 +146,7 @@ public class TelaSelecionarProdutoController extends AnchorPane {
     private void atualizarTabela() {
         //Transforma a lista em uma Lista Observavel
         ObservableList data = FXCollections.observableArrayList(listaProdutos);
-        
+
         this.descricaoColumn.setCellValueFactory(new PropertyValueFactory<>("descricao"));
         this.marcaColumn.setCellValueFactory(new PropertyValueFactory<>("marca"));
         this.quantidadeColumn.setCellValueFactory(new PropertyValueFactory<>("estoque"));
@@ -158,6 +157,12 @@ public class TelaSelecionarProdutoController extends AnchorPane {
     
     private void sincronizarBancoDados() {
         this.listaProdutos = ControleDAO.getBanco().getProdutoDAO().listar();
+        //Tirando da Lista os produtos que nao tem no Estoque
+        for (int i=0; i<listaProdutos.size(); i++) {
+            if (listaProdutos.get(i).getEstoque() == 0) {
+                listaProdutos.remove(i);
+            }
+        }
     }
     
     public Produto getProduto() {

@@ -119,5 +119,22 @@ public class Venda {
             return vendaProdutos.isEmpty();
         }
     }
+    
+    public VendaProduto containsProduto(Produto produto) {
+        if (this.isEmpty()) {
+            return null;
+        } else {
+            for (VendaProduto vp : vendaProdutos) {
+                if (vp.getProduto().getId().equals(produto.getId())) {
+                    return vp;
+                }
+            }
+            return null;
+        }
+    }
+    
+    public void atualizarVenda() {
+        precoTotal = calcularPrecoTotal();
+    }
 
 }

@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.List;
 import model.Administrador;
 import model.CategoriaProduto;
-import model.Celular;
 import model.Cliente;
 import model.Marca;
 import model.Produto;
@@ -133,6 +132,7 @@ public class VendaDAO extends DAO {
         Long finall = DateUtils.getLongFromDate(dataFinal);
 
         List<Venda> vendas = new ArrayList<>();
+        
 
         try {
             String sql = "SELECT venda.*, cliente.*, administrador.* "

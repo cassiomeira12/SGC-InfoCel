@@ -50,7 +50,7 @@
                                         </HBox>
                                         <HBox alignment="CENTER_RIGHT" prefWidth="600.0" HBox.hgrow="ALWAYS">
                                             <children>
-                                                <Label fx:id="dataLabel" text="01/01/2000">
+                                                <Label fx:id="dataLabel" text="Data">
                                                     <font>
                                                         <Font size="20.0" />
                                                     </font>
@@ -68,11 +68,11 @@
                                         <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                                     </columnResizePolicy>
                                     <columns>
-                                        <TableColumn maxWidth="200.0" minWidth="200.0" prefWidth="200.0" text="Categoria" />
-                                        <TableColumn prefWidth="229.765380859375" text="Cliente" />
-                                        <TableColumn prefWidth="300.0" text="Descrição" />
-                                        <TableColumn maxWidth="250.0" minWidth="250.0" prefWidth="250.0" text="Funcionário" />
-                                        <TableColumn maxWidth="130.0" minWidth="130.0" prefWidth="130.0" text="Valor R$" />
+                                        <TableColumn fx:id="categoriaColumn" maxWidth="200.0" minWidth="200.0" prefWidth="200.0" text="Categoria" />
+                                        <TableColumn fx:id="descricaoColumn" prefWidth="300.0" text="Descrição" />
+                                        <TableColumn fx:id="clienteColumn" prefWidth="229.765380859375" text="Cliente" />
+                                        <TableColumn fx:id="funcionarioColumn" maxWidth="250.0" minWidth="250.0" prefWidth="250.0" text="Funcionário" />
+                                        <TableColumn fx:id="valorColumn" maxWidth="130.0" minWidth="130.0" prefWidth="130.0" text="Valor R$" />
                                     </columns>
                                     <VBox.margin>
                                         <Insets />

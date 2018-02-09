@@ -1,6 +1,6 @@
 package model;
 
-public class Manuntencao {
+public class Manutencao {
 
     private Long id;
     private String descricao;
@@ -16,7 +16,7 @@ public class Manuntencao {
     private float preco;
     private boolean finalizado;
 
-    public Manuntencao(Long id, String descricao, Cliente cliente, Administrador administrador, String marca, String modelo, String imei, String cor, Long dataCadastro, Long dataPrevisaoEntrega, Long dataEntrega, float preco, boolean finalizado) {
+    public Manutencao(Long id, String descricao, Cliente cliente, Administrador administrador, String marca, String modelo, String imei, String cor, Long dataCadastro, Long dataPrevisaoEntrega, Long dataEntrega, float preco, boolean finalizado) {
         this.id = id;
         this.descricao = descricao;
         this.cliente = cliente;

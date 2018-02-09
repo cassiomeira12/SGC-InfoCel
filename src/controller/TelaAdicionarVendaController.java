@@ -7,12 +7,8 @@ package controller;
 
 import banco.ControleDAO;
 import java.io.IOException;
-import java.sql.Date;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
 import javafx.application.Platform;
-import javafx.beans.property.SimpleFloatProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -128,7 +124,6 @@ public class TelaAdicionarVendaController extends AnchorPane {
             }
         });
         
-        
         //Campos ficam desativados enquanto CheckBox esta desativado
         nomeText.disableProperty().bind(editarClienteCheckBox.selectedProperty().not());
         telefoneText.disableProperty().bind(editarClienteCheckBox.selectedProperty().not());
@@ -137,9 +132,9 @@ public class TelaAdicionarVendaController extends AnchorPane {
         cidadeText.disableProperty().bind(editarClienteCheckBox.selectedProperty().not());
         enderecoText.disableProperty().bind(editarClienteCheckBox.selectedProperty().not());
         
-        Formatter.mascaraCPF(cpfText);
-        Formatter.mascaraRG(rgText);
-        Formatter.mascaraTelefone(telefoneText);
+        Formatter.mascaraCPF(cpfText);//Formatador para CPF
+        Formatter.mascaraRG(rgText);//Formatador para Rg
+        Formatter.mascaraTelefone(telefoneText);//Formatador para Telefone
         
         //Desativa os Botoes de Excluir quando nenhum item na tabela esta selecionado
         removerButton.disableProperty().bind(produtosTable.getSelectionModel().selectedItemProperty().isNull());
@@ -195,13 +190,26 @@ public class TelaAdicionarVendaController extends AnchorPane {
         if (telaSelecionarProduto.RESULTADO) {//Selecionou Produto
             Produto produto = telaSelecionarProduto.getProduto();
             float quantidadeVendida = telaSelecionarProduto.getQuantidade();
-            //Criando um novo VendaProduto
-            VendaProduto vendaProduto = new VendaProduto(quantidadeVendida, novaVenda, produto);
             
-            this.novaVenda.adicionarVendaProduto(vendaProduto);
-            this.atualizarTabela();
+            VendaProduto vendaProduto = novaVenda.containsProduto(produto);
+            
+            if (vendaProduto != null) {//Verificando se o produto Selecionado ja existe na lista de Compras
+                float novaQuantidade = vendaProduto.getQuantidade() + quantidadeVendida;
+                if (novaQuantidade > vendaProduto.getProduto().getEstoque()) {//Verificando se a nova quantidade ultrapassa a quantidade permitida
+                    Alerta.alerta("A quantidade selecionada ultrapassa a disponível no estoque");
+                } else {
+                    vendaProduto.setQuantidade(novaQuantidade);
+                    this.novaVenda.atualizarVenda();
+                    this.produtosTable.refresh();
+                    this.atualizarTabela();
+                }
+            } else {
+                //Criando um novo VendaProduto
+                vendaProduto = new VendaProduto(quantidadeVendida, novaVenda, produto);
+                this.novaVenda.adicionarVendaProduto(vendaProduto);
+                this.atualizarTabela();
+            }
         }
-        
     }
     
     @FXML
@@ -218,7 +226,8 @@ public class TelaAdicionarVendaController extends AnchorPane {
         produtosTable.getSelectionModel().clearSelection();
     }
     
-    private void teste() {
+    @FXML
+    private void finalizarCompra() {
         boolean novoCliente = this.cliente == null;
         boolean vazio = Formatter.isEmpty(nomeText, telefoneText, cpfText, rgText, cidadeText, enderecoText);
         boolean carrinhoVazio = novaVenda.isEmpty();
@@ -229,56 +238,80 @@ public class TelaAdicionarVendaController extends AnchorPane {
         if (vazio || carrinhoVazio) {
             Alerta.alerta("Não é possivel finalizar essa Venda", "Erro");
         } else {
-            if (novoCliente) {//Criar um Novo Cliente
-                cliente = criarCliente();
-                Long id = ControleDAO.getBanco().getClienteDAO().inserir(cliente);
-                if (id == null) {
-                    Alerta.erro("Erro ao cadastrar Novo Usuário");
-                } else {
-                    cliente.setId(id);
-                    continuar = true;
-                }
-            } else {//Cliente selecionado
-                if (editarClienteCheckBox.isSelected()) {//Houve modificacoes
-                    cliente = atualizarCliente(this.cliente);
-                    if (ControleDAO.getBanco().getClienteDAO().editar(cliente)) {
-                        continuar = true;
+            Dialogo.Resposta resposta = Alerta.confirmar("Deseja concluir esta Venda ?");
+            if (resposta == Dialogo.Resposta.YES) {
+                
+                if (novoCliente) {//Criar um Novo Cliente
+                    cliente = criarCliente();
+                    Long id = ControleDAO.getBanco().getClienteDAO().inserir(cliente);
+                    if (id == null) {
+                        Alerta.erro("Erro ao cadastrar Novo Usuário");
                     } else {
-                        Alerta.erro("Erro ao atualizar informações do Cliente");
+                        cliente.setId(id);
+                        continuar = true;
+                    }
+                } else {//Cliente selecionado
+                    cliente = atualizarCliente(this.cliente);
+                    if (editarClienteCheckBox.isSelected()) {//Houve modificacoes
+                        if (ControleDAO.getBanco().getClienteDAO().editar(cliente)) {
+                            continuar = true;
+                        } else {
+                            Alerta.erro("Erro ao atualizar informações do Cliente");
+                        }
+                    } else {
+                        continuar = true;
+                    }
+                }
+
+                if (continuar) {
+                    LocalDate data = dataDatePicker.getValue();
+                    Administrador vendedor = vendedorComboBox.getValue();
+                    int formaPagamento = 1;
+                    switch (formarPagComboBox.getValue()) {
+                        case "Dinheiro à Vista":
+                            formaPagamento = 1;
+                            break;
+                        case "Cartão de Crédito":
+                            formaPagamento = 2;
+                            break;
+                    }
+                    this.novaVenda.setAdministrador(vendedor);
+                    this.novaVenda.setCliente(cliente);
+                    this.novaVenda.setFormaPagamento(formaPagamento);
+                    this.novaVenda.setData(DateUtils.getLong(data));
+
+                    Long id = ControleDAO.getBanco().getVendaDAO().inserir(novaVenda);
+
+                    if (id == null) {
+                        Alerta.erro("Erro ao adicionar nova Venda");
+                    } else {
+                        Alerta.info("Venda Realizada com sucesso!");
+                        TelaInicialController telaInicial = new TelaInicialController(painelPrincipal);
+                        this.adicionarPainelInterno(telaInicial);
                     }
                 }
             }
-            
-            if (continuar) {
-                LocalDate data = dataDatePicker.getValue();
-                Administrador vendedor = vendedorComboBox.getValue();
-                int formaPagamento = 1;
-                
-                switch (formarPagComboBox.getValue()) {
-                    case "Dinheiro à Vista":
-                        formaPagamento = 1;
-                        break;
-                    case "Cartão de Crédito":
-                        formaPagamento = 2;
-                        break;
-                }
-                
-                this.novaVenda.setAdministrador(vendedor);
-                this.novaVenda.setCliente(cliente);
-                this.novaVenda.setFormaPagamento(formaPagamento);
-                //this.novaVenda.setData(Date.valueOf(data).getTime());
-                this.novaVenda.setData(DateUtils.getLong(data));
-                
-                Long id = ControleDAO.getBanco().getVendaDAO().inserir(novaVenda);
-//                
-//                if (id == null) {
-//                    Alerta.erro("Erro ao adicionar nova Venda");
-//                }
-                
-            }
-            
-            
-            
+        }
+    }
+    
+    @FXML
+    private void pesquisarCliente() {
+        Stage palco = new Stage();
+        palco.initModality(Modality.APPLICATION_MODAL);//Impede de clicar na tela em plano de fundo
+        palco.centerOnScreen();
+        palco.initStyle(StageStyle.UNDECORATED);//Remove a barra de menu
+
+        TelaPesquisarClienteController telaPesquisarCliente = new TelaPesquisarClienteController(palco);
+        
+        palco.setScene(new Scene(telaPesquisarCliente));
+        palco.showAndWait();
+        
+        if (telaPesquisarCliente.RESULTADO) {//Selecionou Produto
+            this.cliente = telaPesquisarCliente.getCliente();
+            this.adicionarDadosCliente(cliente);
+            this.editarClienteCheckBox.setVisible(true);//Mostando componente
+            this.editarClienteCheckBox.setSelected(false);//Desativando selecao do CheckBox
+            Platform.runLater(() -> dataDatePicker.requestFocus());//Colocando o Foco
         }
     }
     
@@ -301,76 +334,6 @@ public class TelaAdicionarVendaController extends AnchorPane {
         cliente.setCidade(cidadeText.getText());
         cliente.setEndereco(enderecoText.getText());
         return cliente;
-    }
-    
-    @FXML
-    private void finalizarCompra() {
-        
-        boolean novoCliente = this.cliente == null;
-        boolean vazio = Formatter.isEmpty(nomeText, telefoneText, cpfText, rgText, cidadeText, enderecoText);
-        boolean carrinhoVazio = novaVenda.isEmpty();
-        
-        String nome = nomeText.getText();
-        String telefone = telefoneText.getText();
-        String cpf = cpfText.getText();
-        String rg = rgText.getText();
-        String cidade = cidadeText.getText();
-        String endereco = enderecoText.getText();
-        
-        Cliente cliente = null;
-        
-        if (vazio) {//Caso os Campos estejam vazios
-            Alerta.alerta("Preencha os campos com as informações do Cliente");
-        } else {
-            if (novoCliente) {//Caso for criar um Novo Cliente
-                cliente = new Cliente(null, nome, endereco, cpf, rg, telefone, cidade, null, 0);
-                Long id = ControleDAO.getBanco().getClienteDAO().inserir(cliente);
-
-                if (id == null) {
-                    Alerta.erro("Erro ao cadastrar Novo Usuário");
-                } else {
-                    cliente.setId(id);
-                }
-
-            } else {//Caso for usar um Cliente ja Cadastrado
-                cliente = this.cliente;//Recendo Cliente Selecionado
-                //Atualizando informacoes do Cliente
-                cliente.setNome(nome);
-                cliente.setEndereco(endereco);
-                cliente.setCpf(cpf);
-                cliente.setRg(rg);
-                cliente.setTelefone(telefone);
-                cliente.setCidade(cidade);
-            }
-        }
-        //Verificando se foi adicionado algum produto 
-        if (carrinhoVazio) {
-            Alerta.alerta("O carrinho de produtos está vazio");
-        }
-
-        LocalDate data = dataDatePicker.getValue();
-        
-    }
-    
-    @FXML
-    private void pesquisarCliente() {
-        Stage palco = new Stage();
-        palco.initModality(Modality.APPLICATION_MODAL);//Impede de clicar na tela em plano de fundo
-        palco.centerOnScreen();
-        palco.initStyle(StageStyle.UNDECORATED);//Remove a barra de menu
-
-        TelaPesquisarClienteController telaPesquisarCliente = new TelaPesquisarClienteController(palco);
-        
-        palco.setScene(new Scene(telaPesquisarCliente));
-        palco.showAndWait();
-        
-        if (telaPesquisarCliente.RESULTADO) {//Selecionou Produto
-            this.cliente = telaPesquisarCliente.getCliente();
-            this.adicionarDadosCliente(cliente);
-            this.editarClienteCheckBox.setVisible(true);//Mostando componente
-            this.editarClienteCheckBox.setSelected(false);//Desativando selecao do CheckBox
-            Platform.runLater(() -> dataDatePicker.requestFocus());//Colocando o Foco
-        }
     }
     
     private void adicionarDadosCliente(Cliente cliente) {

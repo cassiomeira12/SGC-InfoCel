@@ -8,7 +8,7 @@ import java.util.List;
 import model.Administrador;
 import model.Celular;
 import model.Cliente;
-import model.Manuntencao;
+import model.Manutencao;
 import model.Marca;
 import model.Produto;
 import util.DateUtils;
@@ -26,7 +26,7 @@ public class ManutencaoDAO extends DAO {
     /**
      * Inserir manutenção na base de dados
      */
-    public Long inserir(Manuntencao manutencao) {
+    public Long inserir(Manutencao manutencao) {
         try {
             if (manutencao.getCliente().getId() == null) {
                 Long id = ControleDAO.getBanco().getClienteDAO().inserir(manutencao.getCliente());
@@ -61,7 +61,7 @@ public class ManutencaoDAO extends DAO {
     /**
      * Atualizar dados marca na base de dados
      */
-    public boolean editar(Manuntencao manutencao) {
+    public boolean editar(Manutencao manutencao) {
         try {
             String sql = "UPDATE manutencao SET  id_cliente =?, id_administrador =?, descricao_manutencao =?, data_previsao =?, data_entrega =?, preco =?, finalizado =?, marca =?, modelo =?, imei =?, cor =? WHERE id_manutencao =?";
 
@@ -115,9 +115,9 @@ public class ManutencaoDAO extends DAO {
     }
 
     //Consultar todas Manutencao cadastradas na base de dados
-    public List<Manuntencao> listar() {
+    public List<Manutencao> listar() {
 
-        List<Manuntencao> manuntencoes = new ArrayList<>();
+        List<Manutencao> manuntencoes = new ArrayList<>();
 
         try {
             String sql = "SELECT manutencao.*, administrador.*, cliente.*"
@@ -133,7 +133,7 @@ public class ManutencaoDAO extends DAO {
                 Administrador adm = new Administrador(rs.getLong("id_administrador"), rs.getString("nome_administrador"), "", "", rs.getString("endereco_administrador"), rs.getString("email_administrador"), rs.getString("cpf_administrador"), rs.getString("rg_administrador"), null, rs.getInt("status_administrador"));
                 Cliente cliente = new Cliente(rs.getLong("id_cliente"), rs.getString("nome_cliente"), rs.getString("endereco_cliente"), rs.getString("cpf_cliente"), rs.getString("rg_cliente"), rs.getString("telefone_cliente"), rs.getString("cidade_cliente"), null, rs.getInt("status_cliente"));
 
-                manuntencoes.add(new Manuntencao(rs.getLong("id_manutencao"), rs.getString("descricao_manutencao"), cliente, adm, rs.getString("marca"), rs.getString("modelo"), rs.getString("imei"), rs.getString("cor"), rs.getLong("data_cadastro_manutencao"), rs.getLong("data_previsao"), rs.getLong("data_entrega"), rs.getFloat("preco"), rs.getBoolean("finalizado")));
+                manuntencoes.add(new Manutencao(rs.getLong("id_manutencao"), rs.getString("descricao_manutencao"), cliente, adm, rs.getString("marca"), rs.getString("modelo"), rs.getString("imei"), rs.getString("cor"), rs.getLong("data_cadastro_manutencao"), rs.getLong("data_previsao"), rs.getLong("data_entrega"), rs.getFloat("preco"), rs.getBoolean("finalizado")));
             }
 
             stm.close();
@@ -146,9 +146,9 @@ public class ManutencaoDAO extends DAO {
         return manuntencoes;
     }
 
-    public List<Manuntencao> buscarPorCliente(Cliente c) {
+    public List<Manutencao> buscarPorCliente(Cliente c) {
 
-        List<Manuntencao> manuntencoes = new ArrayList<>();
+        List<Manutencao> manuntencoes = new ArrayList<>();
 
         try {
             String sql = "SELECT manutencao.*, administrador.*, cliente.*"
@@ -165,7 +165,7 @@ public class ManutencaoDAO extends DAO {
                 Administrador adm = new Administrador(rs.getLong("id_administrador"), rs.getString("nome_administrador"), "", "", rs.getString("endereco_administrador"), rs.getString("email_administrador"), rs.getString("cpf_administrador"), rs.getString("rg_administrador"), null, rs.getInt("status_administrador"));
                 Cliente cliente = new Cliente(rs.getLong("id_cliente"), rs.getString("nome_cliente"), rs.getString("endereco_cliente"), rs.getString("cpf_cliente"), rs.getString("rg_cliente"), rs.getString("telefone_cliente"), rs.getString("cidade_cliente"), null, rs.getInt("status_cliente"));
 
-                manuntencoes.add(new Manuntencao(rs.getLong("id_manutencao"), rs.getString("descricao_manutencao"), cliente, adm, rs.getString("marca"), rs.getString("modelo"), rs.getString("imei"), rs.getString("cor"), rs.getLong("data_cadastro_manutencao"), rs.getLong("data_previsao"), rs.getLong("data_entrega"), rs.getFloat("preco"), rs.getBoolean("finalizado")));
+                manuntencoes.add(new Manutencao(rs.getLong("id_manutencao"), rs.getString("descricao_manutencao"), cliente, adm, rs.getString("marca"), rs.getString("modelo"), rs.getString("imei"), rs.getString("cor"), rs.getLong("data_cadastro_manutencao"), rs.getLong("data_previsao"), rs.getLong("data_entrega"), rs.getFloat("preco"), rs.getBoolean("finalizado")));
             }
 
             stm.close();
@@ -178,9 +178,9 @@ public class ManutencaoDAO extends DAO {
         return manuntencoes;
     }
 
-    public List<Manuntencao> buscarFinalizadas() {
+    public List<Manutencao> buscarFinalizadas() {
 
-        List<Manuntencao> manuntencoes = new ArrayList<>();
+        List<Manutencao> manuntencoes = new ArrayList<>();
 
         try {
             String sql = "SELECT manutencao.*, administrador.*, cliente.*"
@@ -197,7 +197,7 @@ public class ManutencaoDAO extends DAO {
                 Administrador adm = new Administrador(rs.getLong("id_administrador"), rs.getString("nome_administrador"), "", "", rs.getString("endereco_administrador"), rs.getString("email_administrador"), rs.getString("cpf_administrador"), rs.getString("rg_administrador"), null, rs.getInt("status_administrador"));
                 Cliente cliente = new Cliente(rs.getLong("id_cliente"), rs.getString("nome_cliente"), rs.getString("endereco_cliente"), rs.getString("cpf_cliente"), rs.getString("rg_cliente"), rs.getString("telefone_cliente"), rs.getString("cidade_cliente"), null, rs.getInt("status_cliente"));
 
-                manuntencoes.add(new Manuntencao(rs.getLong("id_manutencao"), rs.getString("descricao_manutencao"), cliente, adm, rs.getString("marca"), rs.getString("modelo"), rs.getString("imei"), rs.getString("cor"), rs.getLong("data_cadastro_manutencao"), rs.getLong("data_previsao"), rs.getLong("data_entrega"), rs.getFloat("preco"), rs.getBoolean("finalizado")));
+                manuntencoes.add(new Manutencao(rs.getLong("id_manutencao"), rs.getString("descricao_manutencao"), cliente, adm, rs.getString("marca"), rs.getString("modelo"), rs.getString("imei"), rs.getString("cor"), rs.getLong("data_cadastro_manutencao"), rs.getLong("data_previsao"), rs.getLong("data_entrega"), rs.getFloat("preco"), rs.getBoolean("finalizado")));
             }
 
             stm.close();
@@ -210,9 +210,9 @@ public class ManutencaoDAO extends DAO {
         return manuntencoes;
     }
 
-    public List<Manuntencao> buscarPendentes() {
+    public List<Manutencao> buscarPendentes() {
 
-        List<Manuntencao> manuntencoes = new ArrayList<>();
+        List<Manutencao> manuntencoes = new ArrayList<>();
 
         try {
             String sql = "SELECT manutencao.*, administrador.*, cliente.*"
@@ -229,7 +229,7 @@ public class ManutencaoDAO extends DAO {
                 Administrador adm = new Administrador(rs.getLong("id_administrador"), rs.getString("nome_administrador"), "", "", rs.getString("endereco_administrador"), rs.getString("email_administrador"), rs.getString("cpf_administrador"), rs.getString("rg_administrador"), null, rs.getInt("status_administrador"));
                 Cliente cliente = new Cliente(rs.getLong("id_cliente"), rs.getString("nome_cliente"), rs.getString("endereco_cliente"), rs.getString("cpf_cliente"), rs.getString("rg_cliente"), rs.getString("telefone_cliente"), rs.getString("cidade_cliente"), null, rs.getInt("status_cliente"));
 
-                manuntencoes.add(new Manuntencao(rs.getLong("id_manutencao"), rs.getString("descricao_manutencao"), cliente, adm, rs.getString("marca"), rs.getString("modelo"), rs.getString("imei"), rs.getString("cor"), rs.getLong("data_cadastro_manutencao"), rs.getLong("data_previsao"), rs.getLong("data_entrega"), rs.getFloat("preco"), rs.getBoolean("finalizado")));
+                manuntencoes.add(new Manutencao(rs.getLong("id_manutencao"), rs.getString("descricao_manutencao"), cliente, adm, rs.getString("marca"), rs.getString("modelo"), rs.getString("imei"), rs.getString("cor"), rs.getLong("data_cadastro_manutencao"), rs.getLong("data_previsao"), rs.getLong("data_entrega"), rs.getFloat("preco"), rs.getBoolean("finalizado")));
             }
 
             stm.close();
@@ -242,10 +242,10 @@ public class ManutencaoDAO extends DAO {
         return manuntencoes;
     }
 
-    //datas no formato dd/MM/yyy
-    public List<Manuntencao> buscarPorIntervalo(String dataInicio, String dataFinal) {
+    //datas no formato dd/MM/yyyy
+    public List<Manutencao> buscarPorIntervalo(String dataInicio, String dataFinal) {
 
-        List<Manuntencao> manuntencoes = new ArrayList<>();
+        List<Manutencao> manuntencoes = new ArrayList<>();
 
         try {
             Long inicio = DateUtils.getLongFromDate(dataInicio);
@@ -265,7 +265,7 @@ public class ManutencaoDAO extends DAO {
                 Administrador adm = new Administrador(rs.getLong("id_administrador"), rs.getString("nome_administrador"), "", "", rs.getString("endereco_administrador"), rs.getString("email_administrador"), rs.getString("cpf_administrador"), rs.getString("rg_administrador"), null, rs.getInt("status_administrador"));
                 Cliente cliente = new Cliente(rs.getLong("id_cliente"), rs.getString("nome_cliente"), rs.getString("endereco_cliente"), rs.getString("cpf_cliente"), rs.getString("rg_cliente"), rs.getString("telefone_cliente"), rs.getString("cidade_cliente"), null, rs.getInt("status_cliente"));
 
-                manuntencoes.add(new Manuntencao(rs.getLong("id_manutencao"), rs.getString("descricao_manutencao"), cliente, adm, rs.getString("marca"), rs.getString("modelo"), rs.getString("imei"), rs.getString("cor"), rs.getLong("data_cadastro_manutencao"), rs.getLong("data_previsao"), rs.getLong("data_entrega"), rs.getFloat("preco"), rs.getBoolean("finalizado")));
+                manuntencoes.add(new Manutencao(rs.getLong("id_manutencao"), rs.getString("descricao_manutencao"), cliente, adm, rs.getString("marca"), rs.getString("modelo"), rs.getString("imei"), rs.getString("cor"), rs.getLong("data_cadastro_manutencao"), rs.getLong("data_previsao"), rs.getLong("data_entrega"), rs.getFloat("preco"), rs.getBoolean("finalizado")));
             }
 
             stm.close();

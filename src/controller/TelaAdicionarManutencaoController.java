@@ -16,7 +16,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import model.Cliente;
-import model.Manuntencao;
+import model.Manutencao;
 import util.alerta.Alerta;
 
 /**
@@ -89,7 +89,7 @@ public class TelaAdicionarManutencaoController extends AnchorPane {
             cliente = new Cliente(null, nomeText.getText(), enderecoText.getText(), cpfText.getText(), rgText.getText(), telefoneText.getText(), cidadeText.getText(), System.currentTimeMillis(), 1);
         }
 
-        Manuntencao m = new Manuntencao(null, descricaoArea.getText(), cliente, LoginController.admLogado, marcaText.getText(), modeloText.getText(), imeiText.getText(), "cor", dataDatePicker.getValue().toEpochDay(), 0l, 0l, Float.parseFloat(precoText.getText()), true);
+        Manutencao m = new Manutencao(null, descricaoArea.getText(), cliente, LoginController.admLogado, marcaText.getText(), modeloText.getText(), imeiText.getText(), "cor", dataDatePicker.getValue().toEpochDay(), 0l, 0l, Float.parseFloat(precoText.getText()), true);
 
         if (ControleDAO.getBanco().getManutencaoDAO().inserir(m) == null) {
             Alerta.erro("Ocorreu um erro ao inserir manutenção!");
