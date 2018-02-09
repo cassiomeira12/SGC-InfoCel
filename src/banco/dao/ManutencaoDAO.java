@@ -255,7 +255,7 @@ public class ManutencaoDAO extends DAO {
                     + "\nFROM manutencao"
                     + "\nINNER JOIN administrador administrador ON manutencao.id_administrador = administrador.id_administrador"
                     + "\nINNER JOIN cliente cliente ON manutencao.id_cliente = cliente.id_cliente"
-                    + "\nWHERE manutencao.data_cadastro_manutencao > " + inicio + " AND manutencao.data_cadastro_manutencao < " + finall;
+                    + "\nWHERE manutencao.data_cadastro_manutencao >= " + inicio + " AND manutencao.data_cadastro_manutencao < " + finall;
 
             System.out.println(sql);
             stm = getConector().prepareStatement(sql);

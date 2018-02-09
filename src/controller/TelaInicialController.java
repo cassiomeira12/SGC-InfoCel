@@ -9,13 +9,17 @@ import banco.ControleDAO;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import javafx.beans.property.FloatProperty;
+import javafx.beans.property.SimpleFloatProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
@@ -37,7 +41,8 @@ public class TelaInicialController extends AnchorPane {
     
     private BorderPane painelPrincipal;
     private List<Operacao> listaOperacao;
-
+    private FloatProperty totalDiario = new SimpleFloatProperty(0);
+    
     @FXML
     private Label dataLabel;
     @FXML
@@ -77,13 +82,31 @@ public class TelaInicialController extends AnchorPane {
         
         this.listaOperacao = new ArrayList<>();
 
-        //this.adicionarManutencao(listaOperacao, LocalDate.now());
-        //this.adicionarReceita(listaOperacao, LocalDate.now());
-        //this.adicionarSaida(listaOperacao, LocalDate.now());
+        this.adicionarManutencao(listaOperacao, LocalDate.now());
+        this.adicionarReceita(listaOperacao, LocalDate.now());
+        this.adicionarSaida(listaOperacao, LocalDate.now());
         this.adicionarVenda(listaOperacao, LocalDate.now());
         
-        System.out.println(listaOperacao.size());
         this.atualizarTabela();
+        
+        dinheiroLabel.textProperty().bind(this.totalDiario.asString());
+        
+        Collections.sort(listaOperacao);//Ordenando as Operacoes
+        
+        
+//        relatorioTableView.setRowFactory(tv -> new TableRow<Operacao>() {
+//            @Override
+//            public void updateItem(Operacao item, boolean empty) {
+//                super.updateItem(item, empty);
+//                if (item == null) {
+//                    setStyle("");
+//                } else if (item.getCategoria().equals("Saída")) {
+//                    setStyle("-fx-background-color: #e84118;");
+//                } else {
+//                    setStyle("-fx-background-color: #44bd32;");
+//                }
+//            }
+//        });
     }
     
     private void adicionarPainelInterno(AnchorPane novaTela) {
@@ -123,6 +146,7 @@ public class TelaInicialController extends AnchorPane {
     
         for (Manutencao manutencao : listaManutencao) {
             lista.add(new Operacao(manutencao));
+            this.totalDiario.set(totalDiario.get() + manutencao.getPreco());
         }
     }
     
@@ -134,6 +158,7 @@ public class TelaInicialController extends AnchorPane {
     
         for (Receita receita : listaReceita) {
             lista.add(new Operacao(receita));
+            this.totalDiario.set(totalDiario.get() + receita.getValor());
         }
     }
     
@@ -145,6 +170,7 @@ public class TelaInicialController extends AnchorPane {
     
         for (Saida saida : listaSaida) {
             lista.add(new Operacao(saida));
+            this.totalDiario.set(totalDiario.get() - saida.getValor());
         }
     }
     
@@ -152,12 +178,12 @@ public class TelaInicialController extends AnchorPane {
         String dataInicio = DateUtils.formatDate(data.getYear(), data.getMonthValue(), data.getDayOfMonth());
         String dataFinal = DateUtils.formatDate(data.plusDays(1).getYear(), data.plusDays(1).getMonthValue(), data.plusDays(1).getDayOfMonth());
         
-        List<Venda> listaVenda = ControleDAO.getBanco().getVendaDAO().buscarPorIntervalo(dataInicio, dataFinal);
-        //List<Venda> listaVenda = ControleDAO.getBanco().getVendaDAO().listar();
+        //List<Venda> listaVenda = ControleDAO.getBanco().getVendaDAO().buscarPorIntervalo(dataInicio, dataFinal);
+        List<Venda> listaVenda = ControleDAO.getBanco().getVendaDAO().listar();
         
         for (Venda venda : listaVenda) {
             lista.add(new Operacao(venda));
-            System.out.println(venda.getData());
+            this.totalDiario.set(totalDiario.get() + venda.getPrecoTotal());
         }
     }
     

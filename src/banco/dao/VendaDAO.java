@@ -137,7 +137,7 @@ public class VendaDAO extends DAO {
                     + "FROM venda"
                     + "\nINNER JOIN cliente cliente ON venda.id_cliente = cliente.id_cliente"
                     + "\nINNER JOIN administrador administrador ON venda.id_administrador = administrador.id_administrador"
-                    + "\nWHERE venda.data > " + inicio + " AND venda.data < " + finall;
+                    + "\nWHERE venda.data >= " + inicio + " AND venda.data < " + finall;
 
             stm = getConector().prepareStatement(sql);
             rs = stm.executeQuery(sql);

@@ -128,6 +128,42 @@ public class ProdutoDAO extends DAO {
 
         return produtos;
     }
+    
+    public List<Produto> listarParaVender() {
+
+        List<Produto> produtos = new ArrayList<>();
+
+        try {
+            String sql = "SELECT produto.*, marca.descricao_marca, categoria_produto.descricao_categoria "
+                    + "FROM produto"
+                    + "\nINNER JOIN marca marca ON produto.id_marca = marca.id_marca"
+                    + "\nINNER JOIN categoria_produto categoria_produto ON produto.id_categoria = categoria_produto.id_categoria";
+
+            //System.out.println(sql);
+            stm = getConector().prepareStatement(sql);
+            rs = stm.executeQuery(sql);
+
+            while (rs.next()) {
+                CategoriaProduto categoria = new CategoriaProduto(rs.getLong("id_categoria"), rs.getString("descricao_categoria"));
+                Marca marca = new Marca(rs.getLong("id_marca"), rs.getString("descricao_marca"));
+                Produto produto = new Produto(rs.getLong("id_produto"), marca, rs.getString("descricao_produto"), categoria, rs.getFloat("preco_compra"), rs.getFloat("preco_venda"), rs.getFloat("estoque"));
+                
+                if (produto.getEstoque() > 0) {
+                    produtos.add(new Produto(rs.getLong("id_produto"), marca, rs.getString("descricao_produto"), categoria, rs.getFloat("preco_compra"), rs.getFloat("preco_venda"), rs.getFloat("estoque")));
+                }
+                
+            }
+
+            stm.close();
+            rs.close();
+
+            return produtos;
+        } catch (Exception ex) {
+            chamarAlertaErro("Erro ao consultar produtos na base de dados!", ex.toString());
+        }
+
+        return produtos;
+    }
 
     public List<Produto> buscarPorDescricaoModelo(String busca) {
 

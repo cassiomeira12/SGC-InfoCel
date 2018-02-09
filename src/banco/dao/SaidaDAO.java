@@ -153,7 +153,7 @@ public class SaidaDAO extends DAO {
         List<Saida> saidas = new ArrayList<>();
 
         try {
-            String sql = "SELECT saida.* FROM saida WHERE data_saida > " + inicio + " AND data_saida < " + finall;
+            String sql = "SELECT saida.* FROM saida WHERE data_saida >= " + inicio + " AND data_saida < " + finall;
 
             stm = getConector().prepareStatement(sql);
             rs = stm.executeQuery(sql);

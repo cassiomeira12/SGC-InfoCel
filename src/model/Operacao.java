@@ -9,20 +9,22 @@ package model;
  *
  * @author cassio
  */
-public class Operacao {
+public class Operacao implements Comparable<Operacao> {
     
     private String categoria = "";
     private String cliente = "";
     private String descricao = "";
     private Administrador funcionario;
     private float valor = 0;
+    private Long data;
     
     public Operacao(Venda venda) {
-        this.categoria = "Venda";
+        this.categoria = "Manutenção";
         this.cliente = venda.getCliente().getNome();
         //this.descricao = 
         this.funcionario = venda.getAdministrador();
         this.valor = venda.getPrecoTotal();
+        this.data = venda.getData();
     }
     
     public Operacao(Manutencao manutencao) {
@@ -31,6 +33,7 @@ public class Operacao {
         this.descricao = manutencao.getDescricao();
         this.funcionario = manutencao.getAdministrador();
         this.valor = manutencao.getPreco();
+        this.data = manutencao.getDataCadastro();
     }
     
     public Operacao(Receita receita) {
@@ -39,6 +42,7 @@ public class Operacao {
         this.descricao = receita.getDescricao();
         this.funcionario = receita.getAdministrador();
         this.valor = receita.getValor();
+        this.data = receita.getData();
     }
     
     public Operacao(Saida saida) {
@@ -47,6 +51,7 @@ public class Operacao {
         this.descricao = saida.getDescricao();
         this.funcionario = saida.getAdministrador();
         this.valor = saida.getValor();
+        this.data = saida.getData();
     }
 
     public String getCategoria() {
@@ -69,6 +74,20 @@ public class Operacao {
         return valor;
     }
     
+    public Long getData() {
+        return data;
+    }
+    
+    @Override
+    public int compareTo(Operacao operacao) {
+        int comparador = operacao.getData().intValue();
+        
+        /* Do maior para o Menor*/
+        //return this.getData().intValue() - comparador;
+
+        /* Do menor para o Maior */
+        return  comparador - this.getData().intValue();
+    }
     
     
 }

@@ -160,7 +160,7 @@ public class ReceitaDAO extends DAO {
         List<Receita> receitas = new ArrayList<>();
 
         try {
-            String sql = "SELECT receita.* FROM receita WHERE data_receita > " + inicio + " AND data_receita < " + finall;
+            String sql = "SELECT receita.* FROM receita WHERE data_receita >= " + inicio + " AND data_receita < " + finall;
 
             stm = getConector().prepareStatement(sql);
             rs = stm.executeQuery(sql);

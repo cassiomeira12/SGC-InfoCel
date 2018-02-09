@@ -156,13 +156,7 @@ public class TelaSelecionarProdutoController extends AnchorPane {
     }
     
     private void sincronizarBancoDados() {
-        this.listaProdutos = ControleDAO.getBanco().getProdutoDAO().listar();
-        //Tirando da Lista os produtos que nao tem no Estoque
-        for (int i=0; i<listaProdutos.size(); i++) {
-            if (listaProdutos.get(i).getEstoque() == 0) {
-                listaProdutos.remove(i);
-            }
-        }
+        this.listaProdutos = ControleDAO.getBanco().getProdutoDAO().listarParaVender();
     }
     
     public Produto getProduto() {
