@@ -33,8 +33,7 @@ public class VendaDAO extends DAO {
         Long idCliente = venda.getCliente().getId();
 
         try {
-            if (idCliente == null) //null = cliente não cadastrado
-            {
+            if (idCliente == null) {//null = cliente não cadastrado
                 idCliente = ControleDAO.getBanco().getClienteDAO().inserir(venda.getCliente());
             }
 

@@ -4,7 +4,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.Calendar;
-import java.util.Date;
+import java.sql.Date;
 import java.util.Locale;
 
 //Observação: O Java considera janeiro como o mês 0. É preciso levar isto em consideração ao trabalhar com datas
@@ -58,12 +58,13 @@ public class DateUtils {
         } else {
             data = df.format(date).substring(0, 2) + " de dez";
         }
-
-        if (date.getYear() == new Date().getYear()) {
-            return data;
-        } else {
-            return data + " de " + date.getYear();
-        }
+        
+//        if (date.getYear() == new Date().getYear()) {
+//            return data;
+//        } else {
+//            return data + " de " + date.getYear();
+//        }
+        return data;
 
     }
 
@@ -126,13 +127,17 @@ public class DateUtils {
         c.set(Calendar.DAY_OF_MONTH, info[0]);
         c.set(Calendar.MONTH, info[1] - 1);
         c.set(Calendar.YEAR, info[2]);
-        return c.getTime();
+        return (Date) c.getTime();
     }
 
     //retorna Long de uma data no formato dd/MM/yyyy
     public static Long getLongFromDate(String data){
         Date date = createDate(data);
         return date.getTime();
+    }
+    
+    public static Long getLong(LocalDate localDate) {
+        return Date.valueOf(localDate).getTime();
     }
     
     // Formata um string no formato dd/MM/yyyy a partir do ano, mês e dia fornecidos

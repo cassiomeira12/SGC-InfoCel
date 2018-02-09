@@ -68,6 +68,17 @@ public class Formatter {
         return vazio;
     }
     
+    public static boolean noEmpty(TextField... field) {
+        boolean vazio = false;
+        for (TextField campo : field) {
+            if (!campo.getText().trim().isEmpty()) {
+                //erro(campo, "Verificar valor vazio!");
+                vazio = true;
+            }
+        }
+        return vazio;
+    }
+    
     /**
      * Não permitir que ComboBox estejam vazios
      */

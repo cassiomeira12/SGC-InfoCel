@@ -2,6 +2,7 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
@@ -70,13 +71,8 @@
                         <RowConstraints minHeight="10.0" prefHeight="50.0" vgrow="SOMETIMES" />
                      </rowConstraints>
                      <children>
+                        <CheckBox fx:id="editarClienteCheckBox" focusTraversable="false" mnemonicParsing="false" text="Editar informações do Cliente" GridPane.columnSpan="2" />
                         <Button alignment="CENTER" mnemonicParsing="false" onAction="#pesquisarCliente" prefHeight="40.0" prefWidth="150.0" text="Selecionar Cliente" GridPane.columnIndex="4" />
-                        <VBox visible="false" GridPane.columnSpan="5">
-                           <children>
-                              <Label text="Pesquisar Cliente Cadastrado" />
-                              <TextField fx:id="pesquisaText" />
-                           </children>
-                        </VBox>
                         <VBox GridPane.columnSpan="4" GridPane.rowIndex="1">
                            <children>
                               <Label text="Nome Completo" />
