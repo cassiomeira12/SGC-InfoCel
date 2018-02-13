@@ -1,0 +1,386 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 13/02/2018, 14:39:03
+    Author     : cassio
+*/
+
+/**************************** Label ****************************/
+.label {
+    -fx-font-size: 16px;
+    -fx-alignment: center;
+}
+
+.label-titulo {
+    /*-fx-font-family: "Les Mousquetaires";*/
+    -fx-font-size: 27px;
+}
+
+.label-dinheiro {
+    -fx-font-size: 30px;
+}
+
+/**************************** Button ****************************/
+.button {
+    -fx-min-height: 40px;
+    -fx-alignment: center;
+}
+
+/*.button:pressed {
+    -fx-background-color: #81ecec;
+    -fx-border-color: #34bdfe;
+}*/
+
+.button-pesquisar {
+    -fx-min-height: 40px;
+    -fx-min-width: 150px;
+    -fx-background-color: #b2bec3;
+    -fx-text-fill: #fff;
+}
+
+.button-add {
+
+}
+
+.button-deletar {
+    
+}
+
+.button-cancelar,
+.button-voltar {
+    -fx-background-color: linear-gradient(to top right, #ff5b5b, #ff5359);
+    -fx-border-color: linear-gradient(to top right, #ff5b5b, #ff5359);
+    
+    -fx-min-height: 40px;
+    -fx-min-width: 150px;
+    
+    -fx-font-size: 16px;
+/*    -fx-font-family: "Open Sans";*/
+    -fx-content-display: left;
+    -fx-graphic-text-gap: 8;
+    -fx-border-insets: 0;
+    -fx-background-insets: 0;
+    -fx-border-radius: 4;
+    -fx-background-radius: 4;
+    -fx-text-fill: #fff;
+    -fx-cursor: hand;
+}
+
+/*Passar o mouse por cima*/
+.button-cancelar:hover,
+.button-voltar:hover {
+    -fx-effect: innershadow(two-pass-box, rgba(0, 0, 0, 0.2), 6, 0.1, 0, 2);
+}
+
+.button-salvar,
+.button-finalizar {
+    -fx-background-color: linear-gradient(to top right, #55c8fe, #34bdfe);
+    -fx-border-color: linear-gradient(to top right, #55c8fe, #34bdfe);
+    
+    
+    -fx-min-height: 40px;
+    -fx-min-width: 150px;
+    
+    -fx-font-size: 16px;
+/*    -fx-font-family: "Open Sans";*/
+    -fx-content-display: left;
+    -fx-graphic-text-gap: 8;
+    -fx-border-insets: 0;
+    -fx-background-insets: 0;
+    -fx-border-radius: 4;
+    -fx-background-radius: 4;
+    -fx-text-fill: #fff;
+    -fx-cursor: hand;
+    
+}
+
+.button-salvar:pressed,
+.button-finalizar:pressed {
+    -fx-background-color: #55c8fe;
+    -fx-border-color: #34bdfe;
+}
+
+
+/**************************** TextField ****************************/
+.text-field {
+    -fx-font-size: 13px;
+    -fx-background-color: #fff;
+    -fx-border-color: #eaeaea;
+/*    -fx-text-fill: #7a7a7a;*/
+    -fx-background-radius: 4;
+    -fx-border-radius: 4;
+    -fx-highlight-fill: #ebebcc;
+    -fx-highlight-text-fill: #000000;
+    -fx-min-height: 35px;
+}
+
+.text-field:focused {
+    -fx-border-color: #7acff5;
+    -fx-background-radius: 4;
+    -fx-border-radius: 4;
+}
+
+
+
+/**************************** CheckBox ****************************/
+.check-box {
+    -fx-font-size: 15px;
+}
+
+/**************************** ComboBox ****************************/
+.combo-box {
+    -fx-background-color: transparent, transparent, #eaeaea, #fff;
+    -fx-background-insets: 0px 0px 0px 0px, 0px, 0px, 1px;
+    -fx-background-radius: 4px, 4px, 4px, 4px;
+    -fx-text-fill: #414141;
+    -fx-padding: 0px;
+    -fx-min-height: 35px;
+}
+
+.combo-box:focused {
+    -fx-background-color: transparent, #7acff5, transparent, #fff;
+    -fx-text-fill: #414141;
+}
+
+
+
+
+/*.combo-box > *.list-cell {
+    -fx-background-color: transparent;
+    -fx-padding: 0.333333em 0.666667em 0.333333em 0.666667em;
+    -fx-text-fill: #838383;
+    -fx-background-insets: 0;
+}
+
+.combo-box > .list-view {
+    -fx-background-color: #e0e0e0, #eaeaea, #fff;
+    -fx-background-insets: 0, 1;
+    -fx-text-fill: #838383;
+}
+
+.combo-box > .list-view > .virtual-flow > .clipped-container > .sheet > .list-cell {
+    -fx-padding: 4 0 4 5;
+    -fx-background: -fx-control-inner-background;
+    -fx-text-fill: #6f6f6f;
+    -fx-border-color: transparent;
+}
+
+.combo-box > .list-view > .virtual-flow > .clipped-container > .sheet > .list-cell:filled:selected,
+.combo-box > .list-view > .virtual-flow > .clipped-container > .sheet > .list-cell:filled:selected:hover {
+    -fx-padding: 4 0 4 5;
+    -fx-background: -fx-selection-bar-non-focused;
+    -fx-background-color: #eaeaea;
+    -fx-border-color: #e3e3e3 transparent;
+}
+
+.combo-box > .list-view > .virtual-flow > .clipped-container > .sheet > .list-cell:filled:hover {
+    -fx-padding: 4 0 4 5;
+    -fx-text-fill: #262626;
+    -fx-background-color: #fbfbfb;
+    -fx-border-color: #fbfbfb transparent;
+}
+
+.combo-box > .list-view > .placeholder > .label {
+    -fx-text-fill: derive(-fx-control-inner-background, -80%);
+}
+
+.combo-box > *.list-view > *.virtual-flow > *.scroll-bar:vertical {
+    -fx-background-color: #fff;
+    -fx-background-insets: 5;
+    -fx-padding: 0;
+    -fx-pref-width: 10;
+}
+
+.combo-box > *.list-view > *.virtual-flow > *.scroll-bar:vertical > *.thumb {
+    -fx-background-color: #cecece;
+    -fx-cursor: hand;
+    -fx-border-radius: 0;
+    -fx-background-radius: 2;
+}
+
+.combo-box > *.list-view > *.virtual-flow > *.scroll-bar > *.decrement-button > *.decrement-arrow,
+.combo-box > *.list-view > *.virtual-flow > *.scroll-bar > *.increment-button > *.increment-arrow {
+    -fx-background-color: transparent;
+}*/
+
+
+
+
+
+
+
+
+/**************************** DatePicker ****************************/
+.date-picker > *.arrow-button {
+    -fx-background-color: transparent, #f4f4f4;
+    -fx-background-insets: 1px 1px 1px -1px;
+}
+
+.date-picker > *.arrow-button > *.arrow {
+    -fx-background-color: transparent, #383838;
+    -fx-background-insets: 1px 0px -1px 0px, 0px;
+    -fx-padding: 0.416667em 0.416667em 0.333333em 0.333333em;
+    -fx-scale-shape: true;
+}
+
+.date-picker > *.text-field {
+    -fx-background-insets: 0;
+    -fx-background-radius: 0 3 2 0;
+    -fx-border-radius: 3 0 0 3;
+    -fx-border-color: #eaeaea;
+}
+
+.date-picker > *.text-field:focused {
+    -fx-border-color: #7acff5;
+}
+
+
+/**************************** TableView ****************************/
+.table-view {
+    -fx-background-color: #e8e8e8, -fx-control-inner-background;
+    -fx-background-insets: 0px, 1px;
+    -fx-padding: 1px;
+}
+
+.table-view *.column-header-background {
+    -fx-background-color: #f4f4f4;
+    -fx-background-insets: 0px, 1px;
+    -fx-border-color: #ddd;
+    -fx-border-width: 0 1 2 1;
+}
+
+.table-view *.column-header {
+    -fx-background-color: #f4f4f4;
+    -fx-border-color: #ccc;
+    -fx-border-width: 0 1 0 0;
+    -fx-background-insets: 0 1 0 0;
+    -fx-border-insets: 8 0;
+    -fx-padding: 1em 0em 1em 1em;
+    -fx-pref-height: 32;
+    -fx-cursor: hand;
+}
+
+.table-view *.column-header *.label {
+    -fx-alignment: center-left;
+    -fx-font-size: 12px;
+/*    -fx-font-family: 'Open Sans', sans-serif;*/
+    -fx-text-fill: #555;
+    -fx-font-weight: 700;
+}
+
+.table-view *.filler {
+    -fx-background-color: #ddd, #f4f4f4, #f4f4f4;
+    -fx-padding: 0.166667em;
+    -fx-background-insets: 0px, 0px 0px 0px 0px, 0px 1px 0px 1px;
+}
+
+.table-view > *.column-header-background > *.show-hide-columns-button {
+    -fx-background-color: transparent, #f4f4f4, #f4f4f4;
+    -fx-padding: 0.166667em;
+    -fx-background-insets: 0px, 0px 0px 0px 1px, 1px 33px 0px 0px;
+}
+
+.table-view *.show-hide-column-image {
+    -fx-background-color: #555;
+    -fx-padding: 0.25em;
+}
+
+.table-view *.column-drag-header {
+    -fx-background-color: #96c440;
+    -fx-border-color: #96c440;
+    -fx-opacity: 0.6px;
+}
+
+
+
+
+.table-cell:even {
+    -fx-background-color: null;
+    -fx-border-color: transparent transparent transparent transparent;
+    -fx-cell-size: 2em;
+    -fx-padding: 0.5em 0.6em;
+    -fx-pref-height: 30px;
+    -fx-text-fill: #6a6a6a;
+}
+
+.table-row-cell:even {
+    -fx-background: -fx-control-inner-background;
+    -fx-background-color: #f7f7f7, #fff;
+    -fx-background-insets: 0px, 0px 0px 1px 0px;
+    -fx-padding: 0px;
+}
+
+.table-row-cell:even:selected {
+    -fx-background: -fx-control-inner-background;
+    -fx-background-color: #d7e3a8 transparent, #ebf4c7;
+    -fx-background-insets: 0px, 1px 0px 1px 0px;
+}
+
+.table-cell:odd {
+    -fx-background-color: null;
+    -fx-border-color: transparent transparent transparent transparent;
+    -fx-text-fill: #6a6a6a;
+    -fx-cell-size: 2em;
+    -fx-padding: 0.5em 0.6em;
+    -fx-pref-height: 30px;
+}
+
+.table-row-cell:odd {
+    -fx-background-color: #f7f7f7, #fff;
+    -fx-background: -fx-control-inner-background;
+    -fx-background-insets: 0px, 0px 0px 1px 0px;
+    -fx-padding: 0px;
+}
+
+.table-row-cell:odd:selected {
+    -fx-background: -fx-control-inner-background;
+    -fx-background-color: #d7e3a8 transparent, #ebf4c7;
+    -fx-background-insets: 0px, 1px 0px 1px 0px;
+    -fx-text-fill: black;
+}
+
+.table-view > *.virtual-flow > *.corner {
+    -fx-background-color: #fff;
+}
+
+.table-view:focused > .virtual-flow > .clipped-container > .sheet > .table-row-cell:filled > .check-box-table-cell:selected > .check-box > .box,
+.table-view:focused > .virtual-flow > .clipped-container > .sheet > .table-row-cell:filled:selected > .check-box-table-cell > .check-box > .box {
+    -fx-background-color: derive(-fx-accent, 40%), -fx-background;
+}
+
+.table-view > *.virtual-flow > *.scroll-bar:horizontal {
+    -fx-background-color: #fff;
+    -fx-background-insets: 5 0;
+    -fx-padding: 2;
+    -fx-pref-height: 15;
+}
+
+.table-view > *.virtual-flow > *.scroll-bar:vertical {
+    -fx-background-color: #fff;
+    -fx-background-insets: 0 5;
+    -fx-padding: 2;
+    -fx-pref-width: 15;
+}
+
+.table-view > *.virtual-flow > *.scroll-bar > *.decrement-button > *.decrement-arrow,
+.table-view > *.virtual-flow > *.scroll-bar > *.increment-button > *.increment-arrow {
+    -fx-background-color: transparent;
+    -fx-padding: 0;
+}
+
+.table-view > *.virtual-flow > *.scroll-bar:vertical > *.thumb,
+.table-view > *.virtual-flow > *.scroll-bar:horizontal > *.thumb {
+    -fx-background-color: #cecece;
+    -fx-cursor: hand;
+    -fx-border-radius: 0;
+    -fx-background-radius: 2;
+    -fx-pref-height: 10;
+}
+
+.table-view *.column-overlay {
+    -fx-background-color: darkgray;
+    -fx-opacity: 0.3px;
+}

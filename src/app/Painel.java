@@ -10,6 +10,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
+import util.SoftwareSpecifications;
 
 /**
  *
@@ -33,7 +34,7 @@ public class Painel extends Application {
         palco.setScene(scene);
         palco.centerOnScreen();
         palco.setMaximized(true);//Deixando a tela Maximizada
-        palco.setTitle("Sistema de Gerenciamento Comercial - InfoCel");
+        palco.setTitle(SoftwareSpecifications.TITULO);
         palco.show();
         
     }

@@ -10,11 +10,11 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<fx:root id="AnchorPane" prefHeight="650.0" prefWidth="1200.0" type="AnchorPane" xmlns="http://javafx.com/javafx/9" xmlns:fx="http://javafx.com/fxml/1">
+<fx:root id="AnchorPane" prefHeight="650.0" prefWidth="1200.0" stylesheets="@../css/default.css" type="AnchorPane" xmlns="http://javafx.com/javafx/9" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <VBox alignment="CENTER" layoutX="407.0" layoutY="168.0" prefHeight="650.0" prefWidth="1200.0" spacing="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <Label text="Login">
+            <Label styleClass="label-titulo" text="Login">
                <font>
                   <Font size="30.0" />
                </font>
@@ -25,7 +25,7 @@
                </VBox.margin>
             </TextField>
             <PasswordField fx:id="senhaPassword" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="40.0" prefWidth="330.0" promptText="Senha" text="infocel" />
-            <Button alignment="CENTER" mnemonicParsing="false" onAction="#logar" prefHeight="35.0" prefWidth="330.0" text="Entrar" />
+            <Button alignment="CENTER" mnemonicParsing="false" onAction="#logar" prefHeight="35.0" prefWidth="330.0" styleClass="button-finalizar" text="Entrar" />
             <StackPane fx:id="stackPane" prefHeight="150.0" prefWidth="200.0" />
          </children>
          <padding>
