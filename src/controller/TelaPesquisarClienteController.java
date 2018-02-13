@@ -8,6 +8,10 @@ package controller;
 import banco.ControleDAO;
 import java.io.IOException;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -22,7 +26,9 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import javax.swing.SwingWorker;
 import model.Cliente;
+import util.alerta.Alerta;
 
 /**
  * FXML Controller class
@@ -61,7 +67,7 @@ public class TelaPesquisarClienteController extends AnchorPane {
     @FXML
     public void initialize() {
         this.sincronizarBancoDados();
-        this.atualizarListView();
+        //this.atualizarListView();
         
         selecionarButton.disableProperty().bind(clientesListView.getSelectionModel().selectedItemProperty().isNull());
         
@@ -125,7 +131,36 @@ public class TelaPesquisarClienteController extends AnchorPane {
     }
     
     private void sincronizarBancoDados() {
-        this.listaClientes = ControleDAO.getBanco().getClienteDAO().listar();
+        //Metodo executado numa Thread separada
+        SwingWorker<List, List> worker = new SwingWorker<List, List>() {
+            @Override
+            protected List<Cliente> doInBackground() throws Exception {
+                return ControleDAO.getBanco().getClienteDAO().listar();
+            }
+            
+            //Metodo chamado apos terminar a execucao numa Thread separada
+            @Override
+            protected void done() {
+                super.done(); //To change body of generated methods, choose Tools | Templates.
+                try {
+                    listaClientes = this.get();
+                    atualizarListView();
+                } catch (InterruptedException | ExecutionException ex) {
+                    chamarAlerta("Erro ao consultar Banco de Dados");
+                }
+            }
+        };
+
+        worker.execute();
+    }
+    
+    private void chamarAlerta(String mensagem) {
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                Alerta.erro(mensagem);
+            }
+        });
     }
    
     public Cliente getCliente() {

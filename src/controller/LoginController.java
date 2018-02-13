@@ -64,6 +64,7 @@ public class LoginController extends AnchorPane {
 
         stackPane.getChildren().add(indicator);
         indicator.setVisible(false);
+        
 
         senhaPassword.setOnKeyReleased((KeyEvent key) -> {
             if (key.getCode() == KeyCode.ENTER) {
@@ -89,7 +90,7 @@ public class LoginController extends AnchorPane {
     }
 
     private void autenticarLogin(String login, String senha) {
-        //método executado numa Thread separada
+        //Metodo executado numa Thread separada
         SwingWorker<Boolean, Boolean> worker = new SwingWorker<Boolean, Boolean>() {
             @Override
             protected Boolean doInBackground() throws Exception {
@@ -101,7 +102,7 @@ public class LoginController extends AnchorPane {
                 }
             }
 
-            //Método chamado após terminar a execução numa Thread searada
+            //Metodo chamado apos terminar a execucao numa Thread separada
             @Override
             protected void done() {
                 indicator.setVisible(false);

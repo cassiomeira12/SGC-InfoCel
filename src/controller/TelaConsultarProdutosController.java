@@ -8,6 +8,8 @@ package controller;
 import banco.ControleDAO;
 import java.io.IOException;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -21,6 +23,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javax.swing.SwingWorker;
 import model.CategoriaProduto;
 import model.Marca;
 import model.Produto;
@@ -82,7 +85,7 @@ public class TelaConsultarProdutosController extends AnchorPane {
         });
         
         this.sincronizarBancoDados();
-        this.atualizarTabela();
+        //this.atualizarTabela();
     }
     
     private void adicionarPainelInterno(AnchorPane novaTela) {
@@ -162,6 +165,35 @@ public class TelaConsultarProdutosController extends AnchorPane {
     }
     
     private void sincronizarBancoDados() {
-        this.listaProdutos = ControleDAO.getBanco().getProdutoDAO().listar();
+        //Metodo executado numa Thread separada
+        SwingWorker<List, List> worker = new SwingWorker<List, List>() {
+            @Override
+            protected List<Produto> doInBackground() throws Exception {
+                return ControleDAO.getBanco().getProdutoDAO().listarParaVender();
+            }
+            
+            //Metodo chamado apos terminar a execucao numa Thread separada
+            @Override
+            protected void done() {
+                super.done(); //To change body of generated methods, choose Tools | Templates.
+                try {
+                    listaProdutos = this.get();
+                    atualizarTabela();
+                } catch (InterruptedException | ExecutionException ex) {
+                    chamarAlerta("Erro ao consultar Banco de Dados");
+                }
+            }
+        };
+
+        worker.execute();
+    }
+    
+    private void chamarAlerta(String mensagem) {
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                Alerta.erro(mensagem);
+            }
+        });
     }
 }

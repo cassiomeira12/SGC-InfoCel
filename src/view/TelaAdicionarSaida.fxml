@@ -36,7 +36,7 @@
                   </HBox>
                   <HBox alignment="CENTER" prefHeight="44.0" prefWidth="600.0">
                      <children>
-                        <Button alignment="CENTER" disable="true" focusTraversable="false" mnemonicParsing="false" prefHeight="44.0" prefWidth="96.0" text="Finalizar" />
+                        <Button alignment="CENTER" focusTraversable="false" mnemonicParsing="false" prefHeight="44.0" prefWidth="96.0" text="Finalizar" />
                      </children>
                      <HBox.margin>
                         <Insets />
@@ -49,7 +49,7 @@
             </HBox>
          </bottom>
          <center>
-            <VBox alignment="CENTER" spacing="50.0" BorderPane.alignment="CENTER">
+            <VBox alignment="CENTER" spacing="50.0" BorderPane.alignment="TOP_CENTER">
                <children>
                   <HBox alignment="CENTER">
                      <children>
@@ -89,13 +89,13 @@
                         </HBox>
                      </children>
                   </HBox>
-                  <VBox>
+                  <VBox VBox.vgrow="ALWAYS">
                      <children>
                         <Label text="Descrição" />
-                        <TextArea fx:id="descricaoText" prefHeight="300.0" promptText="Descreva nesse compo qualquer informação a respeito dessa nova saída." />
+                        <TextArea fx:id="descricaoText" promptText="Descreva nesse compo qualquer informação a respeito dessa nova saída." VBox.vgrow="ALWAYS" />
                      </children>
                      <VBox.margin>
-                        <Insets left="20.0" right="20.0" />
+                        <Insets bottom="20.0" left="20.0" right="20.0" />
                      </VBox.margin>
                   </VBox>
                </children></VBox>

@@ -11,6 +11,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import javafx.application.Platform;
 import javafx.beans.property.FloatProperty;
 import javafx.beans.property.SimpleFloatProperty;
 import javafx.collections.FXCollections;
@@ -19,11 +20,11 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javax.swing.SwingWorker;
 import model.Administrador;
 import model.Manutencao;
 import model.Operacao;
@@ -82,17 +83,9 @@ public class TelaInicialController extends AnchorPane {
         
         this.listaOperacao = new ArrayList<>();
 
-        this.adicionarManutencao(listaOperacao, LocalDate.now());
-        this.adicionarReceita(listaOperacao, LocalDate.now());
-        this.adicionarSaida(listaOperacao, LocalDate.now());
-        this.adicionarVenda(listaOperacao, LocalDate.now());
-        
-        this.atualizarTabela();
-        
         dinheiroLabel.textProperty().bind(this.totalDiario.asString());
         
-        Collections.sort(listaOperacao);//Ordenando as Operacoes
-        
+        atualizarOperacoes(listaOperacao, LocalDate.now());
         
 //        relatorioTableView.setRowFactory(tv -> new TableRow<Operacao>() {
 //            @Override
@@ -138,53 +131,53 @@ public class TelaInicialController extends AnchorPane {
         this.adicionarPainelInterno(telaAdicionarVenda);
     }
     
-    private void adicionarManutencao(List<Operacao> lista, LocalDate data) {
+    private void atualizarOperacoes(List<Operacao> lista, LocalDate data) {
         String dataInicio = DateUtils.formatDate(data.getYear(), data.getMonthValue(), data.getDayOfMonth());
         String dataFinal = DateUtils.formatDate(data.plusDays(1).getYear(), data.plusDays(1).getMonthValue(), data.plusDays(1).getDayOfMonth());
+
+        //Metodo executado numa Thread separada
+        SwingWorker<List, List> worker = new SwingWorker<List, List>() {
+            @Override
+            protected List doInBackground() throws Exception {
+                List<Manutencao> listaManutencao = ControleDAO.getBanco().getManutencaoDAO().buscarPorIntervalo(dataInicio, dataFinal);
+                List<Receita> listaReceita = ControleDAO.getBanco().getReceitaDAO().buscarPorIntervalo(dataInicio, dataFinal);
+                List<Saida> listaSaida = ControleDAO.getBanco().getSaidaDAO().buscarPorIntervalo(dataInicio, dataFinal);
+                //List<Venda> listaVenda = ControleDAO.getBanco().getVendaDAO().buscarPorIntervalo(dataInicio, dataFinal);
+                List<Venda> listaVenda = ControleDAO.getBanco().getVendaDAO().listar();
+                
+                for (Manutencao manutencao : listaManutencao) {
+                    lista.add(new Operacao(manutencao));
+                    atualizarValorTotal(manutencao.getPreco());
+                }
+                
+                for (Receita receita : listaReceita) {
+                    lista.add(new Operacao(receita));
+                    atualizarValorTotal(receita.getValor());
+                }
+                
+                for (Saida saida : listaSaida) {
+                    lista.add(new Operacao(saida));
+                    atualizarValorTotal(saida.getValor());
+                }
+                
+                for (Venda venda : listaVenda) {
+                    lista.add(new Operacao(venda));
+                    atualizarValorTotal(venda.getPrecoTotal());
+                }
+                
+                return lista;
+            }
+            
+            //Metodo chamado apos terminar a execucao numa Thread separada
+            @Override
+            protected void done() {
+                super.done();
+                Collections.sort(listaOperacao);//Ordenando as Operacoes
+                atualizarTabela();
+            }
+        };
         
-        List<Manutencao> listaManutencao = ControleDAO.getBanco().getManutencaoDAO().buscarPorIntervalo(dataInicio, dataFinal);
-    
-        for (Manutencao manutencao : listaManutencao) {
-            lista.add(new Operacao(manutencao));
-            this.totalDiario.set(totalDiario.get() + manutencao.getPreco());
-        }
-    }
-    
-    private void adicionarReceita(List<Operacao> lista, LocalDate data) {
-        String dataInicio = DateUtils.formatDate(data.getYear(), data.getMonthValue(), data.getDayOfMonth());
-        String dataFinal = DateUtils.formatDate(data.plusDays(1).getYear(), data.plusDays(1).getMonthValue(), data.plusDays(1).getDayOfMonth());
-        
-        List<Receita> listaReceita = ControleDAO.getBanco().getReceitaDAO().buscarPorIntervalo(dataInicio, dataFinal);
-    
-        for (Receita receita : listaReceita) {
-            lista.add(new Operacao(receita));
-            this.totalDiario.set(totalDiario.get() + receita.getValor());
-        }
-    }
-    
-    private void adicionarSaida(List<Operacao> lista, LocalDate data) {
-        String dataInicio = DateUtils.formatDate(data.getYear(), data.getMonthValue(), data.getDayOfMonth());
-        String dataFinal = DateUtils.formatDate(data.plusDays(1).getYear(), data.plusDays(1).getMonthValue(), data.plusDays(1).getDayOfMonth());
-        
-        List<Saida> listaSaida = ControleDAO.getBanco().getSaidaDAO().buscarPorIntervalo(dataInicio, dataFinal);
-    
-        for (Saida saida : listaSaida) {
-            lista.add(new Operacao(saida));
-            this.totalDiario.set(totalDiario.get() - saida.getValor());
-        }
-    }
-    
-    private void adicionarVenda(List<Operacao> lista, LocalDate data) {
-        String dataInicio = DateUtils.formatDate(data.getYear(), data.getMonthValue(), data.getDayOfMonth());
-        String dataFinal = DateUtils.formatDate(data.plusDays(1).getYear(), data.plusDays(1).getMonthValue(), data.plusDays(1).getDayOfMonth());
-        
-        //List<Venda> listaVenda = ControleDAO.getBanco().getVendaDAO().buscarPorIntervalo(dataInicio, dataFinal);
-        List<Venda> listaVenda = ControleDAO.getBanco().getVendaDAO().listar();
-        
-        for (Venda venda : listaVenda) {
-            lista.add(new Operacao(venda));
-            this.totalDiario.set(totalDiario.get() + venda.getPrecoTotal());
-        }
+        worker.execute();
     }
     
     private void atualizarTabela() {
@@ -200,4 +193,13 @@ public class TelaInicialController extends AnchorPane {
         this.relatorioTableView.setItems(data);//Adiciona a lista de clientes na Tabela
     }
     
+    private void atualizarValorTotal(float valor) {
+        //forma usada para executar algo na Thread procipal, pois a manipulaçao das views deve ser feita na Thread principal
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                totalDiario.set(totalDiario.get() + valor);
+            }
+        });
+    }
 }

@@ -113,9 +113,12 @@ public class TelaAdicionarVendaController extends AnchorPane {
     public void initialize() {
         this.novaVenda = new Venda(null, null, null, null, 0, null);
         
+        Formatter.mascaraCPF(cpfText);//Formatador para CPF
+        Formatter.mascaraRG(rgText);//Formatador para Rg
+        Formatter.mascaraTelefone(telefoneText);//Formatador para Telefone
+        
         this.editarClienteCheckBox.setVisible(false);//Ocultando componente
         this.editarClienteCheckBox.setSelected(true);//Deixando o CheckBox selecionado
-        
         this.editarClienteCheckBox.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
@@ -123,7 +126,6 @@ public class TelaAdicionarVendaController extends AnchorPane {
                 Platform.runLater(() -> nomeText.requestFocus());//Colocando o Foco
             }
         });
-        
         //Campos ficam desativados enquanto CheckBox esta desativado
         nomeText.disableProperty().bind(editarClienteCheckBox.selectedProperty().not());
         telefoneText.disableProperty().bind(editarClienteCheckBox.selectedProperty().not());
@@ -131,10 +133,6 @@ public class TelaAdicionarVendaController extends AnchorPane {
         rgText.disableProperty().bind(editarClienteCheckBox.selectedProperty().not());
         cidadeText.disableProperty().bind(editarClienteCheckBox.selectedProperty().not());
         enderecoText.disableProperty().bind(editarClienteCheckBox.selectedProperty().not());
-        
-        Formatter.mascaraCPF(cpfText);//Formatador para CPF
-        Formatter.mascaraRG(rgText);//Formatador para Rg
-        Formatter.mascaraTelefone(telefoneText);//Formatador para Telefone
         
         //Desativa os Botoes de Excluir quando nenhum item na tabela esta selecionado
         removerButton.disableProperty().bind(produtosTable.getSelectionModel().selectedItemProperty().isNull());
@@ -162,7 +160,7 @@ public class TelaAdicionarVendaController extends AnchorPane {
         boolean carrinhoVazio = novaVenda.isEmpty();
         
         if (cliente != null || vazio || !carrinhoVazio) {
-            Dialogo.Resposta resposta = Alerta.confirmar("Deseja cancelar esta venda?");
+            Dialogo.Resposta resposta = Alerta.confirmar("Deseja cancelar esta Venda?");
 
             if (resposta == Dialogo.Resposta.YES) {
                 TelaInicialController telaInicial = new TelaInicialController(painelPrincipal);

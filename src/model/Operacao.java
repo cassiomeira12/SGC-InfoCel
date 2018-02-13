@@ -19,7 +19,7 @@ public class Operacao implements Comparable<Operacao> {
     private Long data;
     
     public Operacao(Venda venda) {
-        this.categoria = "Manutenção";
+        this.categoria = "Venda";
         this.cliente = venda.getCliente().getNome();
         //this.descricao = 
         this.funcionario = venda.getAdministrador();

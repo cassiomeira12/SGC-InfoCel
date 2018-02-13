@@ -8,6 +8,8 @@ package controller;
 import banco.ControleDAO;
 import java.io.IOException;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -77,7 +79,7 @@ public class TelaConsultarClientesController extends AnchorPane {
         excluirButton.disableProperty().bind(clientesTable.getSelectionModel().selectedItemProperty().isNull());
         
         this.sincronizarBancoDados();
-        this.atualizarTabela();
+        //this.atualizarTabela();
         
         pesquisaText.textProperty().addListener((obs, old, novo) -> {
             filtro(novo, listaClientes, clientesTable);
@@ -163,7 +165,36 @@ public class TelaConsultarClientesController extends AnchorPane {
     }
     
     private void sincronizarBancoDados() {
-        listaClientes = ControleDAO.getBanco().getClienteDAO().listar();
+        //Metodo executado numa Thread separada
+        SwingWorker<List, List> worker = new SwingWorker<List, List>() {
+            @Override
+            protected List<Cliente> doInBackground() throws Exception {
+                return ControleDAO.getBanco().getClienteDAO().listar();
+            }
+            
+            //Metodo chamado apos terminar a execucao numa Thread separada
+            @Override
+            protected void done() {
+                super.done(); //To change body of generated methods, choose Tools | Templates.
+                try {
+                    listaClientes = this.get();
+                    atualizarTabela();
+                } catch (InterruptedException | ExecutionException ex) {
+                    chamarAlerta("Erro ao consultar Banco de Dados");
+                }
+            }
+        };
+
+        worker.execute();
+    }
+    
+    private void chamarAlerta(String mensagem) {
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                Alerta.erro(mensagem);
+            }
+        });
     }
     
 }

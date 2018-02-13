@@ -9,6 +9,8 @@ import banco.ControleDAO;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -25,8 +27,10 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import javax.swing.SwingWorker;
 import model.Marca;
 import model.Produto;
+import util.alerta.Alerta;
 
 /**
  * FXML Controller class
@@ -87,7 +91,7 @@ public class TelaSelecionarProdutoController extends AnchorPane {
         });
         
         this.sincronizarBancoDados();
-        this.atualizarTabela();
+        //this.atualizarTabela();
         
         produtosTable.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
@@ -155,8 +159,38 @@ public class TelaSelecionarProdutoController extends AnchorPane {
         this.produtosTable.setItems(data);//Adiciona a lista de clientes na Tabela
     }
     
+    
     private void sincronizarBancoDados() {
-        this.listaProdutos = ControleDAO.getBanco().getProdutoDAO().listarParaVender();
+        //Metodo executado numa Thread separada
+        SwingWorker<List, List> worker = new SwingWorker<List, List>() {
+            @Override
+            protected List<Produto> doInBackground() throws Exception {
+                return ControleDAO.getBanco().getProdutoDAO().listarParaVender();
+            }
+            
+            //Metodo chamado apos terminar a execucao numa Thread separada
+            @Override
+            protected void done() {
+                super.done(); //To change body of generated methods, choose Tools | Templates.
+                try {
+                    listaProdutos = this.get();
+                    atualizarTabela();
+                } catch (InterruptedException | ExecutionException ex) {
+                    chamarAlerta("Erro ao consultar Banco de Dados");
+                }
+            }
+        };
+
+        worker.execute();
+    }
+    
+    private void chamarAlerta(String mensagem) {
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                Alerta.erro(mensagem);
+            }
+        });
     }
     
     public Produto getProduto() {
