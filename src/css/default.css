@@ -69,17 +69,38 @@ and open the template in the editor.
     -fx-cursor: hand;
 }
 
+.button-cancelar:pressed,
+.button-voltar:pressed {
+    -fx-background-color: #ff5b5b;
+    -fx-border-color: #ff5b5b;
+}
+
 /*Passar o mouse por cima*/
 .button-cancelar:hover,
 .button-voltar:hover {
     -fx-effect: innershadow(two-pass-box, rgba(0, 0, 0, 0.2), 6, 0.1, 0, 2);
 }
 
+.button-login {
+    -fx-background-color: linear-gradient(to top right, #55c8fe, #34bdfe);
+    -fx-border-color: linear-gradient(to top right, #55c8fe, #34bdfe);
+    -fx-font-size: 16px;
+    -fx-graphic-text-gap: 8;
+    -fx-border-insets: 0;
+    -fx-background-insets: 0;
+    -fx-border-radius: 4;
+    -fx-background-radius: 4;
+    -fx-text-fill: #fff;
+    -fx-cursor: hand;
+    
+    -fx-graphic: url("../img/icons/login.png");
+    -fx-content-display: right;
+}
+
 .button-salvar,
 .button-finalizar {
     -fx-background-color: linear-gradient(to top right, #55c8fe, #34bdfe);
     -fx-border-color: linear-gradient(to top right, #55c8fe, #34bdfe);
-    
     
     -fx-min-height: 40px;
     -fx-min-width: 150px;
@@ -103,6 +124,11 @@ and open the template in the editor.
     -fx-border-color: #34bdfe;
 }
 
+/*Passar o mouse por cima*/
+.button-salvar:hover,
+.button-finalizar:hover {
+    -fx-effect: innershadow(two-pass-box, rgba(0, 0, 0, 0.2), 6, 0.1, 0, 2);
+}
 
 /**************************** TextField ****************************/
 .text-field {
@@ -123,6 +149,38 @@ and open the template in the editor.
     -fx-border-radius: 4;
 }
 
+.text-field-usuario {
+    -fx-font-size: 15px;
+    -fx-background-color: #fff;
+    -fx-border-color: #eaeaea;
+/*    -fx-text-fill: #7a7a7a;*/
+    -fx-background-radius: 4;
+    -fx-border-radius: 4;
+    -fx-highlight-fill: #ebebcc;
+    -fx-highlight-text-fill: #000000;
+    -fx-min-height: 35px;
+    -fx-background-image: url("../img/icons/usuario.png");
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: left center;
+/*    -fx-padding: 0 5 0 30;*/
+}
+
+
+.text-field-senha {
+    -fx-font-size: 15px;
+    -fx-background-color: #fff;
+    -fx-border-color: #eaeaea;
+/*    -fx-text-fill: #7a7a7a;*/
+    -fx-background-radius: 4;
+    -fx-border-radius: 4;
+    -fx-highlight-fill: #ebebcc;
+    -fx-highlight-text-fill: #000000;
+    -fx-min-height: 35px;
+    -fx-background-image: url("../img/icons/senha.png");
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: left center;
+/*    -fx-padding: 0 5 0 30;*/
+}
 
 
 /**************************** CheckBox ****************************/

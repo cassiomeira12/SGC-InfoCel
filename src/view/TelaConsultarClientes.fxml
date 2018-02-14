@@ -12,11 +12,11 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<fx:root prefHeight="650.0" prefWidth="1200.0" type="AnchorPane" xmlns="http://javafx.com/javafx/9" xmlns:fx="http://javafx.com/fxml/1">
+<fx:root prefHeight="650.0" prefWidth="1200.0" stylesheets="@../css/default.css" type="AnchorPane" xmlns="http://javafx.com/javafx/9" xmlns:fx="http://javafx.com/fxml/1">
     <children>
         <BorderPane layoutX="270.0" layoutY="182.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
             <top>
-                <Label text="Consultar Clientes" BorderPane.alignment="CENTER">
+                <Label styleClass="label-titulo" text="Consultar Clientes" BorderPane.alignment="CENTER">
                     <font>
                         <Font size="27.0" />
                     </font>
@@ -30,12 +30,12 @@
                     <children>
                   <HBox alignment="CENTER" prefWidth="400.0">
                      <children>
-                                <Button alignment="CENTER" focusTraversable="false" mnemonicParsing="false" onAction="#cancelarOperacao" prefHeight="44.0" prefWidth="96.0" text="Voltar" />
+                                <Button alignment="CENTER" focusTraversable="false" mnemonicParsing="false" onAction="#cancelarOperacao" styleClass="button-voltar" text="Voltar" />
                      </children>
                   </HBox>
                   <HBox alignment="CENTER" prefWidth="400.0">
                      <children>
-                                <Button fx:id="editarButton" alignment="CENTER" focusTraversable="false" mnemonicParsing="false" onAction="#editarCliente" prefHeight="44.0" prefWidth="96.0" text="Editar" />
+                                <Button fx:id="editarButton" alignment="CENTER" focusTraversable="false" mnemonicParsing="false" onAction="#editarCliente" text="Editar" />
                      </children>
                   </HBox>
                   <HBox alignment="CENTER" prefWidth="400.0">
@@ -43,7 +43,7 @@
                         <Insets />
                      </HBox.margin>
                      <children>
-                                <Button fx:id="excluirButton" alignment="CENTER" focusTraversable="false" mnemonicParsing="false" onAction="#excluirCliente" prefHeight="44.0" prefWidth="96.0" text="Excluir" />
+                                <Button fx:id="excluirButton" alignment="CENTER" focusTraversable="false" mnemonicParsing="false" onAction="#excluirCliente" text="Excluir" />
                      </children>
                   </HBox>
                     </children>

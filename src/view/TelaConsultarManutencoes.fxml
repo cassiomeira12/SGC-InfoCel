@@ -12,11 +12,11 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<fx:root prefHeight="650.0" prefWidth="1200.0" type="AnchorPane" xmlns="http://javafx.com/javafx/9" xmlns:fx="http://javafx.com/fxml/1">
+<fx:root prefHeight="650.0" prefWidth="1200.0" stylesheets="@../css/default.css" type="AnchorPane" xmlns="http://javafx.com/javafx/9" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <BorderPane layoutX="270.0" layoutY="182.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
          <top>
-            <Label text="Consultar Manutenções" BorderPane.alignment="CENTER">
+            <Label styleClass="label-titulo" text="Consultar Manutenções" BorderPane.alignment="CENTER">
                <font>
                   <Font size="27.0" />
                </font>
@@ -60,12 +60,16 @@
                <children>
                   <VBox alignment="TOP_RIGHT" spacing="20.0">
                      <children>
-                        <VBox alignment="TOP_RIGHT">
+                        <HBox alignment="CENTER_RIGHT">
                            <children>
-                              <Label prefHeight="21.0" prefWidth="151.0" text="Mês" />
-                              <ComboBox fx:id="mesComboBox" prefWidth="150.0" promptText="Dezembro" />
+                              <VBox>
+                                 <children>
+                                    <Label text="Mês" />
+                                    <ComboBox fx:id="mesComboBox" prefWidth="150.0" promptText="Dezembro" />
+                                 </children>
+                              </VBox>
                            </children>
-                        </VBox>
+                        </HBox>
                         <TableView fx:id="manutencoesTable" focusTraversable="false" prefHeight="450.0">
                            <columns>
                               <TableColumn prefWidth="75.0" text="C1" />

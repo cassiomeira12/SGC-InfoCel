@@ -16,11 +16,11 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<fx:root prefHeight="650.0" prefWidth="1200.0" type="AnchorPane" xmlns="http://javafx.com/javafx/9" xmlns:fx="http://javafx.com/fxml/1">
+<fx:root prefHeight="650.0" prefWidth="1200.0" stylesheets="@../css/default.css" type="AnchorPane" xmlns="http://javafx.com/javafx/9" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <BorderPane layoutX="270.0" layoutY="182.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
          <top>
-            <Label text="Adicionar Receita" BorderPane.alignment="CENTER">
+            <Label styleClass="label-titulo" text="Adicionar Receita" BorderPane.alignment="CENTER">
                <font>
                   <Font size="27.0" />
                </font>
@@ -34,12 +34,12 @@
                <children>
                   <HBox alignment="CENTER" prefWidth="600.0">
                      <children>
-                        <Button alignment="CENTER" focusTraversable="false" mnemonicParsing="false" onAction="#cancelarOperacao" prefHeight="44.0" prefWidth="96.0" text="Cancelar" />
+                        <Button alignment="CENTER" focusTraversable="false" mnemonicParsing="false" onAction="#cancelarOperacao" styleClass="button-cancelar" text="Cancelar" />
                      </children>
                   </HBox>
                   <HBox alignment="CENTER" prefHeight="44.0" prefWidth="600.0">
                      <children>
-                        <Button alignment="CENTER" focusTraversable="false" mnemonicParsing="false" onAction="#salvarReceita" prefHeight="44.0" prefWidth="96.0" text="Salvar" />
+                        <Button alignment="CENTER" focusTraversable="false" mnemonicParsing="false" onAction="#salvarReceita" styleClass="button-salvar" text="Salvar" />
                      </children>
                      <HBox.margin>
                         <Insets />
@@ -52,9 +52,9 @@
             </HBox>
          </bottom>
          <center>
-            <VBox alignment="TOP_CENTER" BorderPane.alignment="CENTER">
+            <VBox alignment="TOP_CENTER" spacing="20.0" BorderPane.alignment="CENTER">
                <children>
-                  <GridPane hgap="10.0" prefHeight="140.0">
+                  <GridPane hgap="10.0" prefHeight="200.0" vgap="10.0">
                      <columnConstraints>
                         <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="130.0" />
                         <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="120.0" />
@@ -63,13 +63,14 @@
                         <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="150.0" />
                      </columnConstraints>
                      <rowConstraints>
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="40.0" vgrow="SOMETIMES" />
+                        <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="50.0" vgrow="SOMETIMES" />
+                        <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="50.0" vgrow="SOMETIMES" />
+                        <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="50.0" vgrow="SOMETIMES" />
                      </rowConstraints>
                      <children>
                         <CheckBox fx:id="editarClienteCheckBox" focusTraversable="false" mnemonicParsing="false" text="Editar informações do Cliente" GridPane.columnSpan="2" />
-                        <Button alignment="CENTER" mnemonicParsing="false" onAction="#pesquisarCliente" prefHeight="40.0" prefWidth="150.0" text="Selecionar Cliente" GridPane.columnIndex="4" />
+                        <Button alignment="CENTER" mnemonicParsing="false" onAction="#pesquisarCliente" prefHeight="40.0" prefWidth="150.0" styleClass="button-pesquisar" text="Selecionar Cliente" GridPane.columnIndex="4" />
                         <VBox GridPane.columnSpan="4" GridPane.rowIndex="1">
                            <children>
                               <Label text="Nome Completo" />
@@ -110,40 +111,24 @@
                               <TextField fx:id="enderecoText" />
                            </children>
                         </VBox>
-                     </children>
-                  </GridPane>
-                  <VBox spacing="10.0" VBox.vgrow="ALWAYS">
-                     <children>
-                        <HBox alignment="CENTER">
+                        <VBox prefWidth="130.0" GridPane.rowIndex="3">
                            <children>
-                              <HBox prefWidth="600.0" HBox.hgrow="ALWAYS">
-                                 <children>
-                                    <VBox prefWidth="130.0">
-                                       <children>
-                                          <Label text="Data" />
-                                          <DatePicker fx:id="dataDatePicker" />
-                                       </children>
-                                    </VBox>
-                                 </children>
-                              </HBox>
-                              <HBox alignment="TOP_RIGHT" prefWidth="600.0" HBox.hgrow="ALWAYS">
-                                 <children>
-                                    <VBox>
-                                       <children>
-                                          <Label text="Valor R$" />
-                                          <TextField fx:id="valorText" />
-                                       </children>
-                                    </VBox>
-                                 </children>
-                              </HBox>
-                           </children>
-                        </HBox>
-                        <VBox VBox.vgrow="ALWAYS">
-                           <children>
-                              <Label text="Descrição" />
-                              <TextArea fx:id="decricaoText" VBox.vgrow="ALWAYS" />
+                              <Label text="Data" />
+                              <DatePicker fx:id="dataDatePicker" />
                            </children>
                         </VBox>
+                        <VBox GridPane.columnIndex="4" GridPane.rowIndex="3">
+                           <children>
+                              <Label text="Valor R$" />
+                              <TextField fx:id="valorText" />
+                           </children>
+                        </VBox>
+                     </children>
+                  </GridPane>
+                  <VBox VBox.vgrow="ALWAYS">
+                     <children>
+                        <Label text="Descrição" />
+                        <TextArea fx:id="decricaoText" VBox.vgrow="ALWAYS" />
                      </children>
                   </VBox>
                </children></VBox>
