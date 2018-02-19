@@ -74,7 +74,7 @@
                      </rowConstraints>
                      <children>
                         <CheckBox fx:id="editarClienteCheckBox" focusTraversable="false" mnemonicParsing="false" text="Editar informações do Cliente" GridPane.columnSpan="3" />
-                        <Button alignment="CENTER" mnemonicParsing="false" onAction="#pesquisarCliente" styleClass="button-pesquisar" text="Selecionar Cliente" GridPane.columnIndex="5" />
+                        <Button alignment="CENTER" mnemonicParsing="false" onAction="#pesquisarCliente" styleClass="button-pesquisar" text="Pesquisar Cliente" GridPane.columnIndex="5" />
                         <VBox GridPane.columnSpan="5" GridPane.rowIndex="1">
                            <children>
                               <Label text="Nome Completo" />

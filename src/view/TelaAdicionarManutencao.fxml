@@ -63,7 +63,7 @@
                         <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="120.0" />
                         <ColumnConstraints hgrow="SOMETIMES" minWidth="50.0" prefWidth="205.0" />
                         <ColumnConstraints hgrow="SOMETIMES" prefWidth="320.0" />
-                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="150.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="160.0" />
                      </columnConstraints>
                      <rowConstraints>
                         <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="40.0" vgrow="SOMETIMES" />
@@ -112,7 +112,7 @@
                               <TextField fx:id="enderecoText" />
                            </children>
                         </VBox>
-                        <Button alignment="CENTER" mnemonicParsing="false" onAction="#pesquisarCliente" styleClass="button-pesquisar" text="Selecionar Cliente" GridPane.columnIndex="4" />
+                        <Button alignment="CENTER" mnemonicParsing="false" onAction="#pesquisarCliente" styleClass="button-pesquisar" text="Pesquisar Cliente" GridPane.columnIndex="4" />
                      </children>
                   </GridPane>
                   <GridPane hgap="10.0" vgap="10.0" VBox.vgrow="ALWAYS">
@@ -159,11 +159,11 @@
                         </VBox>
                         <HBox alignment="BOTTOM_CENTER" spacing="10.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
                            <children>
-                              <Rectangle fx:id="corRectangle" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="25.0" stroke="BLACK" strokeType="INSIDE" width="25.0" />
+                              <Rectangle fx:id="corRectangle" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="35.0" stroke="BLACK" strokeType="INSIDE" width="35.0" />
                               <VBox>
                                  <children>
                                     <Label text="Cor do Celular" />
-                                    <ColorPicker fx:id="corColorPicker" />
+                                    <ColorPicker fx:id="corColorPicker" minHeight="35.0" />
                                  </children>
                               </VBox>
                            </children>

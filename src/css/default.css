@@ -39,6 +39,8 @@ and open the template in the editor.
     -fx-min-width: 150px;
     -fx-background-color: #b2bec3;
     -fx-text-fill: #fff;
+    -fx-graphic: url("../img/icons/pesquisar.png");
+    -fx-content-display: left;
 }
 
 .button-add {
