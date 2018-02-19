@@ -30,7 +30,7 @@
                <children>
                   <HBox alignment="CENTER" prefWidth="400.0">
                      <children>
-                        <Button alignment="CENTER" focusTraversable="false" mnemonicParsing="false" onAction="#cancelarOperacao" prefHeight="44.0" prefWidth="96.0" text="Voltar" />
+                        <Button alignment="CENTER" focusTraversable="false" mnemonicParsing="false" onAction="#cancelarOperacao" styleClass="button-voltar" text="Voltar" />
                      </children>
                      <HBox.margin>
                         <Insets />
@@ -38,7 +38,7 @@
                   </HBox>
                   <HBox alignment="CENTER" prefWidth="400.0">
                      <children>
-                        <Button fx:id="editarButton" alignment="CENTER" focusTraversable="false" mnemonicParsing="false" onAction="#editarManutencao" prefHeight="44.0" prefWidth="96.0" text="Editar" />
+                        <Button fx:id="editarButton" alignment="CENTER" focusTraversable="false" mnemonicParsing="false" onAction="#editarManutencao" styleClass="button-editar" text="Editar" />
                      </children>
                   </HBox>
                   <HBox alignment="CENTER" prefWidth="400.0">
@@ -46,7 +46,7 @@
                         <Insets />
                      </HBox.margin>
                      <children>
-                        <Button fx:id="excluirButton" alignment="CENTER" focusTraversable="false" mnemonicParsing="false" onAction="#excluirManutencao" prefHeight="44.0" prefWidth="96.0" text="Excluir" />
+                        <Button fx:id="excluirButton" alignment="CENTER" focusTraversable="false" mnemonicParsing="false" onAction="#excluirManutencao" styleClass="button-excluir" text="Excluir" />
                      </children>
                   </HBox>
                </children>

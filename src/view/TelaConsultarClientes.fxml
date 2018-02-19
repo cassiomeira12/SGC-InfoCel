@@ -35,7 +35,7 @@
                   </HBox>
                   <HBox alignment="CENTER" prefWidth="400.0">
                      <children>
-                                <Button fx:id="editarButton" alignment="CENTER" focusTraversable="false" mnemonicParsing="false" onAction="#editarCliente" text="Editar" />
+                                <Button fx:id="editarButton" alignment="CENTER" focusTraversable="false" mnemonicParsing="false" onAction="#editarCliente" styleClass="button-editar" text="Editar" />
                      </children>
                   </HBox>
                   <HBox alignment="CENTER" prefWidth="400.0">
@@ -43,7 +43,7 @@
                         <Insets />
                      </HBox.margin>
                      <children>
-                                <Button fx:id="excluirButton" alignment="CENTER" focusTraversable="false" mnemonicParsing="false" onAction="#excluirCliente" text="Excluir" />
+                                <Button fx:id="excluirButton" alignment="CENTER" focusTraversable="false" mnemonicParsing="false" onAction="#excluirCliente" styleClass="button-excluir" text="Excluir" />
                      </children>
                   </HBox>
                     </children>

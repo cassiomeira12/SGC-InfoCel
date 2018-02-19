@@ -18,6 +18,7 @@
           <Menu mnemonicParsing="false" text="Vendas">
                <items>
                   <MenuItem mnemonicParsing="false" onAction="#chamarTelaAdicionarVenda" text="Adicionar Vendas" />
+                  <MenuItem mnemonicParsing="false" text="Consultar Vendas" />
                </items></Menu>
           <Menu mnemonicParsing="false" text="Produtos">
                <items>
@@ -37,7 +38,11 @@
                <items>
                   <MenuItem mnemonicParsing="false" onAction="#chamarTelaRelatorioMensal" text="Relatório Mensal" />
                </items></Menu>
-            <Menu mnemonicParsing="false" text="Administrador" />
+            <Menu mnemonicParsing="false" text="Configuração">
+               <items>
+                  <MenuItem mnemonicParsing="false" onAction="#chamarTelaRelatorioMensal" text="Administradores" />
+               </items>
+            </Menu>
             <Menu mnemonicParsing="false" text="Ajuda">
                <items>
                   <MenuItem mnemonicParsing="false" onAction="#chamarTelaSobre" text="Sobre" />

@@ -49,44 +49,31 @@ and open the template in the editor.
 }
 
 .button-add {
-
-}
-
-.button-deletar {
-    
-}
-
-.button-cancelar,
-.button-voltar {
-    -fx-background-color: linear-gradient(to top right, #ff5b5b, #ff5359);
-    -fx-border-color: linear-gradient(to top right, #ff5b5b, #ff5359);
-    
-    -fx-min-height: 40px;
-    -fx-min-width: 150px;
-    
-    -fx-font-size: 16px;
-/*    -fx-font-family: "Open Sans";*/
-    -fx-content-display: left;
-    -fx-graphic-text-gap: 8;
-    -fx-border-insets: 0;
-    -fx-background-insets: 0;
-    -fx-border-radius: 4;
-    -fx-background-radius: 4;
     -fx-text-fill: #fff;
-    -fx-cursor: hand;
+    -fx-background-color: #2ecc71;
+    -fx-graphic: url("../img/icons/add.png");
 }
 
-.button-cancelar:pressed,
-.button-voltar:pressed {
-    -fx-background-color: #ff5b5b;
-    -fx-border-color: #ff5b5b;
-}
 
-/*Passar o mouse por cima*/
-.button-cancelar:hover,
-.button-voltar:hover {
+/*Botao Editar*/
+.button-add:hover {
     -fx-effect: innershadow(two-pass-box, rgba(0, 0, 0, 0.2), 6, 0.1, 0, 2);
+    -fx-background-color: #27ae60;
 }
+
+/*Botao Deletar*/
+.button-deletar {
+    -fx-text-fill: #fff;
+    -fx-background-color: #e74c3c;
+    -fx-graphic: url("../img/icons/deletar.png");
+}
+
+.button-deletar:hover {
+    -fx-effect: innershadow(two-pass-box, rgba(0, 0, 0, 0.2), 6, 0.1, 0, 2);
+    -fx-background-color: #c0392b;
+}
+
+
 
 .button-login {
     -fx-background-color: linear-gradient(to top right, #55c8fe, #34bdfe);
@@ -104,6 +91,82 @@ and open the template in the editor.
     -fx-content-display: right;
 }
 
+
+
+
+
+/*Botao Cancelar | Botao Voltar*/
+.button-cancelar,
+.button-voltar {
+/*    -fx-background-color: linear-gradient(to top right, #ff5b5b, #ff5359);
+    -fx-border-color: linear-gradient(to top right, #ff5b5b, #ff5359);
+    
+    -fx-min-height: 40px;
+    -fx-min-width: 150px;
+    
+    -fx-font-size: 16px;
+    -fx-font-family: "Open Sans";
+    -fx-content-display: left;
+    -fx-graphic-text-gap: 8;
+    -fx-border-insets: 0;
+    -fx-background-insets: 0;
+    -fx-border-radius: 4;
+    -fx-background-radius: 4;
+    -fx-text-fill: #fff;
+    -fx-cursor: hand;*/
+}
+
+.button-cancelar:hover,
+.button-voltar:hover {
+/*    -fx-effect: innershadow(two-pass-box, rgba(0, 0, 0, 0.2), 6, 0.1, 0, 2);*/
+}
+
+.button-cancelar:pressed,
+.button-voltar:pressed {
+/*    -fx-background-color: #ff5b5b;
+    -fx-border-color: #ff5b5b;*/
+}
+
+
+
+
+
+/*Botao Editar*/
+.button-editar {
+    -fx-background-color: linear-gradient(to top right, #ffc234, #fdb440);
+    -fx-border-color: linear-gradient(to top right, #ffc234, #fdb440);
+    
+    -fx-min-height: 40px;
+    -fx-min-width: 150px;
+    -fx-text-fill: #fff;
+    
+    -fx-font-size: 16px;
+/*    -fx-font-family: "Open Sans";*/
+    -fx-content-display: left;
+    -fx-graphic-text-gap: 8;
+    -fx-border-insets: 0;
+    -fx-background-insets: 0;
+    -fx-border-radius: 4;
+    -fx-background-radius: 4;
+    -fx-text-fill: #fff;
+    -fx-cursor: hand;
+    
+}
+
+.button-editar:hover {
+    -fx-background-color: #ffc234;
+    -fx-border-color: #fdb440;
+}
+
+.button-editar:pressed {
+    -fx-background-color: #ffc234;
+    -fx-border-color: #fdb440;
+}
+
+
+
+
+/*Botao Salvar | Botao Finalizar*/
 .button-salvar,
 .button-finalizar {
     -fx-background-color: linear-gradient(to top right, #55c8fe, #34bdfe);
@@ -125,17 +188,55 @@ and open the template in the editor.
     
 }
 
+/*Passar o mouse por cima*/
+.button-salvar:hover,
+.button-finalizar:hover {
+    -fx-effect: innershadow(two-pass-box, rgba(0, 0, 0, 0.2), 6, 0.1, 0, 2);
+}
+
 .button-salvar:pressed,
 .button-finalizar:pressed {
     -fx-background-color: #55c8fe;
     -fx-border-color: #34bdfe;
 }
 
-/*Passar o mouse por cima*/
-.button-salvar:hover,
-.button-finalizar:hover {
+
+
+
+
+
+/*Botao Excluir*/
+.button-excluir {
+    -fx-background-color: linear-gradient(to top right, #ff5b5b, #ff5359);
+    -fx-border-color: linear-gradient(to top right, #ff5b5b, #ff5359);
+    
+    -fx-min-height: 40px;
+    -fx-min-width: 150px;
+    
+    -fx-font-size: 16px;
+/*    -fx-font-family: "Open Sans";*/
+    -fx-content-display: left;
+    -fx-graphic-text-gap: 8;
+    -fx-border-insets: 0;
+    -fx-background-insets: 0;
+    -fx-border-radius: 4;
+    -fx-background-radius: 4;
+    -fx-text-fill: #fff;
+    -fx-cursor: hand;
+}
+
+.button-excluir:hover {
     -fx-effect: innershadow(two-pass-box, rgba(0, 0, 0, 0.2), 6, 0.1, 0, 2);
 }
+
+.button-excluir:pressed {
+    -fx-background-color: #ff5b5b;
+    -fx-border-color: #ff5b5b;
+}
+
+
+
+
 
 /**************************** TextField ****************************/
 .text-field {
