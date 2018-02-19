@@ -50,7 +50,7 @@
                                         </HBox>
                                         <HBox alignment="CENTER_RIGHT" prefWidth="600.0" HBox.hgrow="ALWAYS">
                                             <children>
-                                                <Label fx:id="dataLabel" text="Data">
+                                                <Label fx:id="dataLabel" styleClass="label-data" text="Data">
                                                     <font>
                                                         <Font size="20.0" />
                                                     </font>

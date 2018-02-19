@@ -16,7 +16,12 @@ and open the template in the editor.
 
 .label-titulo {
     /*-fx-font-family: "Les Mousquetaires";*/
-    -fx-font-size: 27px;
+    -fx-font-size: 30px;
+}
+
+.label-data {
+    /*-fx-font-family: "Les Mousquetaires";*/
+    -fx-font-size: 20px;
 }
 
 .label-dinheiro {
