@@ -164,7 +164,7 @@ public class TelaAdicionarManutencaoController extends AnchorPane {
     private void finalizar() {
         boolean novoCliente = this.cliente == null;
         boolean vazio =  Formatter.isEmpty(nomeText, telefoneText, cpfText, rgText, cidadeText, enderecoText);
-         Cliente cliente = null;
+        Cliente cliente = null;
         boolean continuar = false;
         
         if(vazio){
@@ -213,6 +213,7 @@ public class TelaAdicionarManutencaoController extends AnchorPane {
                             finalizado = true;
                             break;
                     }
+                    
                     this.novaManutencao.setCliente(cliente);
                     this.novaManutencao.setAdministrador(LoginController.admLogado);
                     this.novaManutencao.setDescricao(descricaoArea.getText());
@@ -225,9 +226,11 @@ public class TelaAdicionarManutencaoController extends AnchorPane {
                     this.novaManutencao.setCor(corColorPicker.getValue().toString());
                     this.novaManutencao.setModelo(modeloText.getText());
                     this.novaManutencao.setImei(imeiText.getText());
-                     System.out.println("antes do id");
+                    
+                    System.out.println("antes do id");
                     Long id = ControleDAO.getBanco().getManutencaoDAO().inserir(novaManutencao);
-                   // id esta ficando nulo
+                    
+                    // id esta ficando nulo
                     if (id == null) {
                         System.out.println("id null");
                         Alerta.erro("Erro ao adicionar nova Manutenção!");
