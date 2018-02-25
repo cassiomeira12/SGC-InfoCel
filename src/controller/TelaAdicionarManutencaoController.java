@@ -26,8 +26,10 @@ import javafx.scene.shape.Rectangle;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import model.Administrador;
 import model.Cliente;
 import model.Manutencao;
+import util.DateUtils;
 import util.Formatter;
 import util.alerta.Alerta;
 import util.alerta.Dialogo;
@@ -41,6 +43,7 @@ public class TelaAdicionarManutencaoController extends AnchorPane {
 
     private BorderPane painelPrincipal;
     private Cliente cliente;
+    private Manutencao novaManutencao;
 
     @FXML
     private CheckBox editarClienteCheckBox;
@@ -92,6 +95,7 @@ public class TelaAdicionarManutencaoController extends AnchorPane {
 
     @FXML
     public void initialize() {
+        this.novaManutencao = new Manutencao(null, null, null, null, null, null, null, null, null, null, null, 00, false);
         this.dataDatePicker.setValue(LocalDate.now());//Adicionando Data do dia atual
         
         Formatter.mascaraCPF(cpfText);//Formatador para CPF
@@ -158,6 +162,96 @@ public class TelaAdicionarManutencaoController extends AnchorPane {
 
     @FXML
     private void finalizar() {
+        boolean novoCliente = this.cliente == null;
+        boolean vazio =  Formatter.isEmpty(nomeText, telefoneText, cpfText, rgText, cidadeText, enderecoText);
+         Cliente cliente = null;
+        boolean continuar = false;
+        
+        if(vazio){
+         Alerta.alerta("Não é possivel finalizar essa Manutenção", "Erro");
+        }
+        else{
+            Dialogo.Resposta resposta = Alerta.confirmar("Deseja concluir esta Manutenção ?");
+            // se quer cadastrar uma nova manutencao
+            if (resposta == Dialogo.Resposta.YES) {
+                System.out.println("ele deseja concluir a manutenção");
+                
+                 if (novoCliente) {//Criar um Novo Cliente
+                    cliente = criarCliente();
+                    Long id = ControleDAO.getBanco().getClienteDAO().inserir(cliente);
+                    if (id == null) {
+                        Alerta.erro("Erro ao cadastrar Novo Usuário");
+                    } else {
+                        cliente.setId(id);
+                        this.cliente = cliente;
+                        continuar = true;
+                    }
+                } else {//Cliente selecionado
+                    cliente = atualizarCliente(this.cliente);
+                    if (editarClienteCheckBox.isSelected()) {//Houve modificacoes
+                        if (ControleDAO.getBanco().getClienteDAO().editar(cliente)) {
+                            continuar = true;
+                        } else {
+                            Alerta.erro("Erro ao atualizar informações do Cliente");
+                        }
+                    } else {
+                        continuar = true;
+                    }
+                }
+                
+                 if (continuar) {
+ 
+                    LocalDate data = dataDatePicker.getValue();
+                     //Administrador vendedor = vendedorComboBox.getValue();
+                    boolean finalizado = false;
+                    // olha os estado do aparelho, aberto ou finalizado
+                    switch (estadoComboBox.getValue()) {
+                        case "Aberto":
+                            finalizado = false;
+                            break;
+                        case "Finalizado":
+                            finalizado = true;
+                            break;
+                    }
+                 
+                    //this.novaManutencao.setAdministrador(vendedor);
+
+                    this.novaManutencao.setCliente(cliente);
+                    this.novaManutencao.setDescricao(descricaoArea.getText());
+                    this.novaManutencao.setPreco(Integer.parseInt(precoText.getText()));
+                    // nao sei se essa data esta sendo pega corretamente
+                    this.novaManutencao.setDataCadastro(DateUtils.getLong(data));
+                    this.novaManutencao.setMarca(marcaText.getText());
+                    // nao estou conseguindo transformar a cor em STring
+                    //this.novaManutencao.setCor(ColorPicker).toString());
+                    this.novaManutencao.setModelo(modeloText.getText());
+                    this.novaManutencao.setImei(imeiText.getText());
+                     System.out.println("antes do id");
+                    Long id = ControleDAO.getBanco().getManutencaoDAO().inserir(novaManutencao);
+                   // id esta ficando nulo
+                    if (id == null) {
+                        System.out.println("id null");
+                        Alerta.erro("Erro ao adicionar nova Manutenção!");
+                    } else {
+                        Alerta.info("Manutenção cadastrada com sucesso!");
+                        TelaInicialController telaInicial = new TelaInicialController(painelPrincipal);
+                        this.adicionarPainelInterno(telaInicial);
+                    }
+   
+                 }  
+                
+            }
+            // não quer adicionar uma noma manutenção
+            else{
+                System.out.println("ele NÃO deseja concluir a manutenção");
+            }
+        
+        }
+        
+        
+        
+        
+        /*
         if (cliente == null) {
             cliente = new Cliente(null, nomeText.getText(), enderecoText.getText(), cpfText.getText(), rgText.getText(), telefoneText.getText(), cidadeText.getText(), System.currentTimeMillis(), 1);
         }
@@ -169,7 +263,7 @@ public class TelaAdicionarManutencaoController extends AnchorPane {
         } else {
             Alerta.info("Manutenção cadastrada!");
             this.cancelarOperacao();
-        }
+        }*/
     }
     
     @FXML
