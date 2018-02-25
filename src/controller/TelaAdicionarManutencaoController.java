@@ -213,17 +213,16 @@ public class TelaAdicionarManutencaoController extends AnchorPane {
                             finalizado = true;
                             break;
                     }
-                 
-                    //this.novaManutencao.setAdministrador(vendedor);
-
                     this.novaManutencao.setCliente(cliente);
+                    this.novaManutencao.setAdministrador(LoginController.admLogado);
                     this.novaManutencao.setDescricao(descricaoArea.getText());
                     this.novaManutencao.setPreco(Integer.parseInt(precoText.getText()));
                     // nao sei se essa data esta sendo pega corretamente
-                    this.novaManutencao.setDataCadastro(DateUtils.getLong(data));
+                    this.novaManutencao.setDataCadastro(dataDatePicker.getValue().toEpochDay());
+                    this.novaManutencao.setDataEntrega(dataDatePicker.getValue().toEpochDay());
+                    this.novaManutencao.setDataPrevisaoEntrega(dataDatePicker.getValue().toEpochDay());
                     this.novaManutencao.setMarca(marcaText.getText());
-                    // nao estou conseguindo transformar a cor em STring
-                    //this.novaManutencao.setCor(ColorPicker).toString());
+                    this.novaManutencao.setCor(corColorPicker.getValue().toString());
                     this.novaManutencao.setModelo(modeloText.getText());
                     this.novaManutencao.setImei(imeiText.getText());
                      System.out.println("antes do id");
