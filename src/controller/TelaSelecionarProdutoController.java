@@ -30,6 +30,7 @@ import javafx.stage.Stage;
 import javax.swing.SwingWorker;
 import model.Marca;
 import model.Produto;
+import util.Formatter;
 import util.alerta.Alerta;
 
 /**
@@ -38,15 +39,14 @@ import util.alerta.Alerta;
  * @author cassio
  */
 public class TelaSelecionarProdutoController extends AnchorPane {
-    
+
     private Stage palco;
     public boolean RESULTADO = false;
     private Produto produtoSelecionado;
     private float quantidadeSelecionada;
-    
+
     private List<Produto> listaProdutos;
-    
-    
+
     @FXML
     private TextField pesquisaText;
     @FXML
@@ -59,17 +59,15 @@ public class TelaSelecionarProdutoController extends AnchorPane {
     private TableColumn<Float, String> quantidadeColumn;
     @FXML
     private TableColumn<Float, String> precoColumn;
-    
+
     @FXML
     private ComboBox<Float> quantidadeComboBox;
     @FXML
     private Button adicionarButton;
-    
-    
-  
+
     public TelaSelecionarProdutoController(Stage palco) {
         this.palco = palco;
-        
+
         try {
             FXMLLoader fxml = new FXMLLoader(getClass().getResource("/view/SelecionarProdutoVenda.fxml"));
             fxml.setRoot(this);
@@ -85,21 +83,23 @@ public class TelaSelecionarProdutoController extends AnchorPane {
     public void initialize() {
         //Desativa os Botoes de Editar e Excluir quando nenhum item na tabela esta selecionado
         adicionarButton.disableProperty().bind(produtosTable.getSelectionModel().selectedItemProperty().isNull());
-        
+
+        Formatter.toUpperCase(pesquisaText);
+
         pesquisaText.textProperty().addListener((obs, old, novo) -> {
             filtro(novo, listaProdutos, produtosTable);
         });
-        
+
         this.sincronizarBancoDados();
         //this.atualizarTabela();
-        
+
         produtosTable.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
                 Produto produto = produtosTable.getSelectionModel().getSelectedItem();
                 float quantidade = produto.getEstoque();
                 List<Float> lista = new ArrayList<>();
-                for (int i=1; i<=quantidade; i++) {
+                for (int i = 1; i <= quantidade; i++) {
                     lista.add((float) i);
                 }
                 quantidadeComboBox.setItems(FXCollections.observableArrayList(lista));
@@ -107,7 +107,7 @@ public class TelaSelecionarProdutoController extends AnchorPane {
             }
         });
     }
-    
+
     @FXML
     private void adicionarProduto() {
         this.RESULTADO = true;
@@ -121,12 +121,12 @@ public class TelaSelecionarProdutoController extends AnchorPane {
         this.RESULTADO = false;
         this.palco.close();
     }
-    
+
     private void filtro(String texto, List lista, TableView tabela) {
         ObservableList data = FXCollections.observableArrayList(lista);
-        
+
         FilteredList<Produto> dadosFiltrados = new FilteredList(data, filtro -> true);
-        
+
         dadosFiltrados.setPredicate(filtro -> {
             if (texto == null || texto.isEmpty()) {
                 return true;
@@ -138,15 +138,15 @@ public class TelaSelecionarProdutoController extends AnchorPane {
             if (filtro.getMarca().getDescricao().toLowerCase().contains(texto.toLowerCase())) {
                 return true;
             }
-            
+
             return false;
         });
-        
+
         SortedList dadosOrdenados = new SortedList(dadosFiltrados);
         dadosOrdenados.comparatorProperty().bind(tabela.comparatorProperty());
         tabela.setItems(dadosOrdenados);
     }
-    
+
     private void atualizarTabela() {
         //Transforma a lista em uma Lista Observavel
         ObservableList data = FXCollections.observableArrayList(listaProdutos);
@@ -155,11 +155,10 @@ public class TelaSelecionarProdutoController extends AnchorPane {
         this.marcaColumn.setCellValueFactory(new PropertyValueFactory<>("marca"));
         this.quantidadeColumn.setCellValueFactory(new PropertyValueFactory<>("estoque"));
         this.precoColumn.setCellValueFactory(new PropertyValueFactory<>("precoVenda"));
-        
+
         this.produtosTable.setItems(data);//Adiciona a lista de clientes na Tabela
     }
-    
-    
+
     private void sincronizarBancoDados() {
         //Metodo executado numa Thread separada
         SwingWorker<List, List> worker = new SwingWorker<List, List>() {
@@ -167,7 +166,7 @@ public class TelaSelecionarProdutoController extends AnchorPane {
             protected List<Produto> doInBackground() throws Exception {
                 return ControleDAO.getBanco().getProdutoDAO().listarParaVender();
             }
-            
+
             //Metodo chamado apos terminar a execucao numa Thread separada
             @Override
             protected void done() {
@@ -183,7 +182,7 @@ public class TelaSelecionarProdutoController extends AnchorPane {
 
         worker.execute();
     }
-    
+
     private void chamarAlerta(String mensagem) {
         Platform.runLater(new Runnable() {
             @Override
@@ -192,13 +191,13 @@ public class TelaSelecionarProdutoController extends AnchorPane {
             }
         });
     }
-    
+
     public Produto getProduto() {
         return this.produtoSelecionado;
     }
-    
+
     public float getQuantidade() {
         return this.quantidadeSelecionada;
     }
-    
+
 }

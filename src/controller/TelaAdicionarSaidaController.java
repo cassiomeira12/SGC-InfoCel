@@ -10,8 +10,10 @@ import java.time.LocalDate;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.DatePicker;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import util.Formatter;
 
 /**
  * FXML Controller class
@@ -21,12 +23,12 @@ import javafx.scene.layout.BorderPane;
 public class TelaAdicionarSaidaController extends AnchorPane {
     
     private BorderPane painelPrincipal;
-    
-    
+        
     @FXML
     private DatePicker dataDatePicker;
+    @FXML
+    private TextField descricaoArea;
 
-  
     public TelaAdicionarSaidaController(BorderPane painelPrincipal) {
         this.painelPrincipal = painelPrincipal;
         
@@ -43,6 +45,9 @@ public class TelaAdicionarSaidaController extends AnchorPane {
 
     @FXML
     public void initialize() {
+        
+        Formatter.toUpperCase(descricaoArea);
+        
         this.dataDatePicker.setValue(LocalDate.now());//Adicionando Data do dia atual
     }
     

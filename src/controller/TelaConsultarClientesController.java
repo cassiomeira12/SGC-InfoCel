@@ -28,6 +28,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javax.swing.SwingWorker;
 import model.Cliente;
+import util.Formatter;
 import util.alerta.Alerta;
 import util.alerta.Dialogo;
 
@@ -57,7 +58,6 @@ public class TelaConsultarClientesController extends AnchorPane {
     @FXML
     private Button excluirButton;
     
-  
     public TelaConsultarClientesController(BorderPane painelPrincipal) {
         this.painelPrincipal = painelPrincipal;
         
@@ -77,6 +77,8 @@ public class TelaConsultarClientesController extends AnchorPane {
         //Desativa os Botoes de Editar e Excluir quando nenhum item na tabela esta selecionado
         editarButton.disableProperty().bind(clientesTable.getSelectionModel().selectedItemProperty().isNull());
         excluirButton.disableProperty().bind(clientesTable.getSelectionModel().selectedItemProperty().isNull());
+        
+        Formatter.toUpperCase(pesquisaText);
         
         this.sincronizarBancoDados();
         //this.atualizarTabela();

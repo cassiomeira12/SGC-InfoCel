@@ -28,6 +28,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javax.swing.SwingWorker;
 import model.Cliente;
+import util.Formatter;
 import util.alerta.Alerta;
 
 /**
@@ -36,23 +37,23 @@ import util.alerta.Alerta;
  * @author cassio
  */
 public class TelaPesquisarClienteController extends AnchorPane {
-    
+
     private Stage palco;
     public boolean RESULTADO = false;
     private Cliente clienteSelecionado;
-    
+
     private List<Cliente> listaClientes;
-    
+
     @FXML
     private TextField pesquisaText;
     @FXML
     private ListView<Cliente> clientesListView;
     @FXML
     private Button selecionarButton;
-  
+
     public TelaPesquisarClienteController(Stage palco) {
         this.palco = palco;
-        
+
         try {
             FXMLLoader fxml = new FXMLLoader(getClass().getResource("/view/PesquisarCliente.fxml"));
             fxml.setRoot(this);
@@ -68,46 +69,45 @@ public class TelaPesquisarClienteController extends AnchorPane {
     public void initialize() {
         this.sincronizarBancoDados();
         //this.atualizarListView();
-        
+
         selecionarButton.disableProperty().bind(clientesListView.getSelectionModel().selectedItemProperty().isNull());
-        
-        
+
+        Formatter.toUpperCase(pesquisaText);
+
         pesquisaText.textProperty().addListener((obs, old, novo) -> {
             filtro(novo, listaClientes);
         });
-        
-        
+
         clientesListView.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
-                if(mouseEvent.getButton().equals(MouseButton.PRIMARY)){
-                    if(mouseEvent.getClickCount() == 2){
+                if (mouseEvent.getButton().equals(MouseButton.PRIMARY)) {
+                    if (mouseEvent.getClickCount() == 2) {
                         selecionarCliente();
                     }
                 }
             }
         });
     }
-    
 
     @FXML
     private void cancelarOperacao() {
         this.RESULTADO = false;
         this.palco.close();
     }
-    
+
     @FXML
     private void selecionarCliente() {
         this.clienteSelecionado = clientesListView.getSelectionModel().getSelectedItem();
         this.RESULTADO = true;
         this.palco.close();
     }
-    
+
     private void filtro(String texto, List lista) {
         ObservableList data = FXCollections.observableArrayList(lista);
 
         FilteredList<Cliente> dadosFiltrados = new FilteredList(data, s -> true);
-        
+
         dadosFiltrados.setPredicate(filtro -> {
             if (texto == null || texto.isEmpty()) {
                 return true;
@@ -116,10 +116,10 @@ public class TelaPesquisarClienteController extends AnchorPane {
             if (filtro.getNome().toLowerCase().contains(texto.toLowerCase())) {
                 return true;
             }
-            
+
             return false;
         });
-        
+
         SortedList dadosOrdenados = new SortedList(dadosFiltrados);
         this.clientesListView.setItems(dadosOrdenados);
     }
@@ -129,7 +129,7 @@ public class TelaPesquisarClienteController extends AnchorPane {
         ObservableList data = FXCollections.observableArrayList(listaClientes);
         this.clientesListView.setItems(data);
     }
-    
+
     private void sincronizarBancoDados() {
         //Metodo executado numa Thread separada
         SwingWorker<List, List> worker = new SwingWorker<List, List>() {
@@ -137,7 +137,7 @@ public class TelaPesquisarClienteController extends AnchorPane {
             protected List<Cliente> doInBackground() throws Exception {
                 return ControleDAO.getBanco().getClienteDAO().listar();
             }
-            
+
             //Metodo chamado apos terminar a execucao numa Thread separada
             @Override
             protected void done() {
@@ -153,7 +153,7 @@ public class TelaPesquisarClienteController extends AnchorPane {
 
         worker.execute();
     }
-    
+
     private void chamarAlerta(String mensagem) {
         Platform.runLater(new Runnable() {
             @Override
@@ -162,9 +162,9 @@ public class TelaPesquisarClienteController extends AnchorPane {
             }
         });
     }
-   
+
     public Cliente getCliente() {
         return this.clienteSelecionado;
     }
-    
+
 }

@@ -27,6 +27,7 @@ import javax.swing.SwingWorker;
 import model.CategoriaProduto;
 import model.Marca;
 import model.Produto;
+import util.Formatter;
 import util.alerta.Alerta;
 import util.alerta.Dialogo;
 
@@ -79,6 +80,8 @@ public class TelaConsultarProdutosController extends AnchorPane {
         //Desativa os Botoes de Editar e Excluir quando nenhum item na tabela esta selecionado
         editarButton.disableProperty().bind(produtosTable.getSelectionModel().selectedItemProperty().isNull());
         excluirButton.disableProperty().bind(produtosTable.getSelectionModel().selectedItemProperty().isNull());
+        
+         Formatter.toUpperCase(pesquisaText);
         
         pesquisaText.textProperty().addListener((obs, old, novo) -> {
             filtro(novo, listaProdutos, produtosTable);

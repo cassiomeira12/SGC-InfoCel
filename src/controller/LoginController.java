@@ -10,6 +10,7 @@ import java.io.IOException;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.TextField;
@@ -39,6 +40,8 @@ public class LoginController extends AnchorPane {
     @FXML
     private PasswordField senhaPassword;
     @FXML
+    private Button entrarButton;
+    @FXML
     private StackPane stackPane;
     private ProgressIndicator indicator = new ProgressIndicator();
 
@@ -61,10 +64,8 @@ public class LoginController extends AnchorPane {
     public void initialize() {
 
         usuarioText.setTextFormatter(Formatter.ALFA_NUMERICO());
-
         stackPane.getChildren().add(indicator);
         indicator.setVisible(false);
-        
 
         senhaPassword.setOnKeyReleased((KeyEvent key) -> {
             if (key.getCode() == KeyCode.ENTER) {
@@ -85,6 +86,9 @@ public class LoginController extends AnchorPane {
             Alerta.alerta("Preencha os campos vazios", "Campos vazios");
         } else {
             indicator.setVisible(true);
+            entrarButton.setDisable(true);
+            usuarioText.setDisable(true);
+            senhaPassword.setDisable(true);
             autenticarLogin(login, senha);
         }
     }
@@ -116,12 +120,20 @@ public class LoginController extends AnchorPane {
                         System.out.println("Login não encontrado");
                         limparLogin();//Apaga o texto que esta no TextField de Login
                         limparSenha();//Apaga o texto que esta no TextField de Login
+
+                        entrarButton.setDisable(false);
+                        usuarioText.setDisable(false);
+                        senhaPassword.setDisable(false);
                     }
                 } catch (Exception e) {
                     chamarAlerta("Erro", "Usuário não encontrado");
                     System.out.println("[ERRO]: " + e.toString());
                     limparLogin();//Apaga o texto que esta no TextField de Login
                     limparSenha();//Apaga o texto que esta no TextField de Login
+
+                    entrarButton.setDisable(false);
+                    usuarioText.setDisable(false);
+                    senhaPassword.setDisable(false);
                 }
 
             }
@@ -155,11 +167,19 @@ public class LoginController extends AnchorPane {
                     } else {
                         chamarAlerta("Erro", "Senha incorreta");
                         limparSenha();//Apaga o texto que esta no TextField de Login
+
+                        entrarButton.setDisable(false);
+                        usuarioText.setDisable(false);
+                        senhaPassword.setDisable(false);
                     }
                 } catch (Exception e) {
                     chamarAlerta("Erro", "Ocorreu um erro ao realizar o Login");
                     System.out.println("[ERRO]: " + e);
                     limparSenha();//Apaga o texto que esta no TextField de Login
+
+                    entrarButton.setDisable(false);
+                    usuarioText.setDisable(false);
+                    senhaPassword.setDisable(false);
                 }
 
             }

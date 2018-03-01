@@ -69,6 +69,8 @@ public class TelaClienteController extends AnchorPane {
         rgText.disableProperty().bind(editarClienteCheckBox.selectedProperty().not());
         cidadeText.disableProperty().bind(editarClienteCheckBox.selectedProperty().not());
         enderecoText.disableProperty().bind(editarClienteCheckBox.selectedProperty().not());
+        
+        Formatter.toUpperCase(nomeText, cidadeText, enderecoText);
     }
 
     public void adicionarDadosCliente() {

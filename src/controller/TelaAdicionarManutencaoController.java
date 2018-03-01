@@ -77,7 +77,6 @@ public class TelaAdicionarManutencaoController extends AnchorPane {
     private TextField imeiText;
     @FXML
     private ComboBox<String> estadoComboBox;
-    
 
     public TelaAdicionarManutencaoController(BorderPane painelPrincipal) {
         this.painelPrincipal = painelPrincipal;
@@ -97,14 +96,15 @@ public class TelaAdicionarManutencaoController extends AnchorPane {
     public void initialize() {
         this.novaManutencao = new Manutencao(null, null, null, null, null, null, null, null, null, null, null, 00, false);
         this.dataDatePicker.setValue(LocalDate.now());//Adicionando Data do dia atual
-        
+
+        Formatter.toUpperCase(nomeText, cidadeText, enderecoText, descricaoArea, marcaText, modeloText, imeiText);
         Formatter.mascaraCPF(cpfText);//Formatador para CPF
         Formatter.mascaraRG(rgText);//Formatador para Rg
         Formatter.mascaraTelefone(telefoneText);//Formatador para Telefone
         Formatter.decimal(precoText);//Formatador para Dinheiro
         this.imeiText.setTextFormatter(Formatter.NUMERICO());//Formatador Numerico
         Formatter.maxField(imeiText, 15);
-        
+
         this.editarClienteCheckBox.setVisible(false);//Ocultando componente
         this.editarClienteCheckBox.setSelected(true);//Deixando o CheckBox selecionado
         this.editarClienteCheckBox.setOnAction(new EventHandler<ActionEvent>() {
@@ -121,21 +121,20 @@ public class TelaAdicionarManutencaoController extends AnchorPane {
         rgText.disableProperty().bind(editarClienteCheckBox.selectedProperty().not());
         cidadeText.disableProperty().bind(editarClienteCheckBox.selectedProperty().not());
         enderecoText.disableProperty().bind(editarClienteCheckBox.selectedProperty().not());
-        
-        
+
         //Adicionando estados de manutencao no ComboBox
         this.estadoComboBox.getItems().add("Aberto");
         this.estadoComboBox.getItems().add("Finalizado");
         //Selecionando o primeiro Item
         this.estadoComboBox.getSelectionModel().select(0);//Selecionando o primeiro item
-        
+
         corColorPicker.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
                 corRectangle.setFill(corColorPicker.getValue());
             }
         });
-        
+
     }
 
     private void adicionarPainelInterno(AnchorPane novaTela) {
@@ -151,8 +150,8 @@ public class TelaAdicionarManutencaoController extends AnchorPane {
 //            Dialogo.Resposta resposta = Alerta.confirmar("Deseja cancelar esta Manutenção?");
 //
 //            if (resposta == Dialogo.Resposta.YES) {
-                TelaInicialController telaInicial = new TelaInicialController(painelPrincipal);
-                this.adicionarPainelInterno(telaInicial);
+        TelaInicialController telaInicial = new TelaInicialController(painelPrincipal);
+        this.adicionarPainelInterno(telaInicial);
 //            }
 //        } else {
 //            TelaInicialController telaInicial = new TelaInicialController(painelPrincipal);
@@ -163,20 +162,19 @@ public class TelaAdicionarManutencaoController extends AnchorPane {
     @FXML
     private void finalizar() {
         boolean novoCliente = this.cliente == null;
-        boolean vazio =  Formatter.isEmpty(nomeText, telefoneText, cpfText, rgText, cidadeText, enderecoText);
+        boolean vazio = Formatter.isEmpty(nomeText, telefoneText, cpfText, rgText, cidadeText, enderecoText);
         Cliente cliente = null;
         boolean continuar = false;
-        
-        if(vazio){
-         Alerta.alerta("Não é possivel finalizar essa Manutenção", "Erro");
-        }
-        else{
+
+        if (vazio) {
+            Alerta.alerta("Não é possivel finalizar essa Manutenção", "Erro");
+        } else {
             Dialogo.Resposta resposta = Alerta.confirmar("Deseja concluir esta Manutenção ?");
             // se quer cadastrar uma nova manutencao
             if (resposta == Dialogo.Resposta.YES) {
                 System.out.println("ele deseja concluir a manutenção");
-                
-                 if (novoCliente) {//Criar um Novo Cliente
+
+                if (novoCliente) {//Criar um Novo Cliente
                     cliente = criarCliente();
                     Long id = ControleDAO.getBanco().getClienteDAO().inserir(cliente);
                     if (id == null) {
@@ -198,11 +196,11 @@ public class TelaAdicionarManutencaoController extends AnchorPane {
                         continuar = true;
                     }
                 }
-                
-                 if (continuar) {
- 
+
+                if (continuar) {
+
                     LocalDate data = dataDatePicker.getValue();
-                     //Administrador vendedor = vendedorComboBox.getValue();
+                    //Administrador vendedor = vendedorComboBox.getValue();
                     boolean finalizado = false;
                     // olha os estado do aparelho, aberto ou finalizado
                     switch (estadoComboBox.getValue()) {
@@ -213,7 +211,7 @@ public class TelaAdicionarManutencaoController extends AnchorPane {
                             finalizado = true;
                             break;
                     }
-                    
+
                     this.novaManutencao.setCliente(cliente);
                     this.novaManutencao.setAdministrador(LoginController.admLogado);
                     this.novaManutencao.setDescricao(descricaoArea.getText());
@@ -226,10 +224,10 @@ public class TelaAdicionarManutencaoController extends AnchorPane {
                     this.novaManutencao.setCor(corColorPicker.getValue().toString());
                     this.novaManutencao.setModelo(modeloText.getText());
                     this.novaManutencao.setImei(imeiText.getText());
-                    
+
                     System.out.println("antes do id");
                     Long id = ControleDAO.getBanco().getManutencaoDAO().inserir(novaManutencao);
-                    
+
                     // id esta ficando nulo
                     if (id == null) {
                         System.out.println("id null");
@@ -239,20 +237,16 @@ public class TelaAdicionarManutencaoController extends AnchorPane {
                         TelaInicialController telaInicial = new TelaInicialController(painelPrincipal);
                         this.adicionarPainelInterno(telaInicial);
                     }
-   
-                 }  
-                
-            }
-            // não quer adicionar uma noma manutenção
-            else{
+
+                }
+
+            } // não quer adicionar uma noma manutenção
+            else {
                 System.out.println("ele NÃO deseja concluir a manutenção");
             }
-        
+
         }
-        
-        
-        
-        
+
         /*
         if (cliente == null) {
             cliente = new Cliente(null, nomeText.getText(), enderecoText.getText(), cpfText.getText(), rgText.getText(), telefoneText.getText(), cidadeText.getText(), System.currentTimeMillis(), 1);
@@ -267,7 +261,7 @@ public class TelaAdicionarManutencaoController extends AnchorPane {
             this.cancelarOperacao();
         }*/
     }
-    
+
     @FXML
     private void pesquisarCliente() {
         Stage palco = new Stage();
@@ -276,10 +270,10 @@ public class TelaAdicionarManutencaoController extends AnchorPane {
         palco.initStyle(StageStyle.UNDECORATED);//Remove a barra de menu
 
         TelaPesquisarClienteController telaPesquisarCliente = new TelaPesquisarClienteController(palco);
-        
+
         palco.setScene(new Scene(telaPesquisarCliente));
         palco.showAndWait();
-        
+
         if (telaPesquisarCliente.RESULTADO) {//Selecionou Produto
             this.cliente = telaPesquisarCliente.getCliente();
             this.adicionarDadosCliente(cliente);
@@ -288,7 +282,7 @@ public class TelaAdicionarManutencaoController extends AnchorPane {
             Platform.runLater(() -> dataDatePicker.requestFocus());//Colocando o Foco
         }
     }
-    
+
     private Cliente criarCliente() {
         String nome = nomeText.getText();
         String telefone = telefoneText.getText();
@@ -296,10 +290,10 @@ public class TelaAdicionarManutencaoController extends AnchorPane {
         String rg = rgText.getText();
         String cidade = cidadeText.getText();
         String endereco = enderecoText.getText();
-        
+
         return new Cliente(null, nome, endereco, cpf, rg, telefone, cidade, null, 0);
     }
-    
+
     private Cliente atualizarCliente(Cliente cliente) {
         cliente.setNome(nomeText.getText());
         cliente.setTelefone(telefoneText.getText());
@@ -309,7 +303,7 @@ public class TelaAdicionarManutencaoController extends AnchorPane {
         cliente.setEndereco(enderecoText.getText());
         return cliente;
     }
-    
+
     private void adicionarDadosCliente(Cliente cliente) {
         this.nomeText.setText(cliente.getNome());
         this.telefoneText.setText(cliente.getTelefone());

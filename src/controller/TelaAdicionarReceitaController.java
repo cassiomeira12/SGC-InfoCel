@@ -54,7 +54,7 @@ public class TelaAdicionarReceitaController extends AnchorPane {
     @FXML
     private TextField valorText;
     @FXML
-    private TextArea decricaoText;
+    private TextArea descricaoText;
     @FXML
     private DatePicker dataDatePicker;
     
@@ -82,6 +82,8 @@ public class TelaAdicionarReceitaController extends AnchorPane {
         Formatter.mascaraRG(rgText);//Formatador para Rg
         Formatter.mascaraTelefone(telefoneText);//Formatador para Telefone
         Formatter.decimal(valorText);//Formatador para Dinheiro
+        
+        Formatter.toUpperCase(nomeText, cidadeText, enderecoText, descricaoText);
         
         this.editarClienteCheckBox.setVisible(false);//Ocultando componente
         this.editarClienteCheckBox.setSelected(true);//Deixando o CheckBox selecionado

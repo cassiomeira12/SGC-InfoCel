@@ -21,7 +21,6 @@ public class TelaProdutoController extends AnchorPane {
     
     private Stage palco;
 
-  
     public TelaProdutoController(Stage palco) {
         this.palco = palco;
         

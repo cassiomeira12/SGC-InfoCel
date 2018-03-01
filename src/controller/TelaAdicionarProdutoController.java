@@ -49,7 +49,7 @@ public class TelaAdicionarProdutoController extends AnchorPane {
     private VBox novaCategoriaBox;
     @FXML
     private TextField novaCategoriaText;
-
+    
     @FXML
     private VBox novaMarcaBox;
     @FXML
@@ -68,7 +68,7 @@ public class TelaAdicionarProdutoController extends AnchorPane {
     private Label percentualLabel;
     @FXML
     private TextField quantidadeText;
-  
+    
     public TelaAdicionarProdutoController(BorderPane painelPrincipal) {
         this.painelPrincipal = painelPrincipal;
         
@@ -82,17 +82,18 @@ public class TelaAdicionarProdutoController extends AnchorPane {
             System.out.println(ex.toString());
         }
     }
-
+    
     @FXML
     public void initialize() {
         this.novaCategoriaBox.setVisible(false);//Ocultando Nova Categoria
         this.novaMarcaBox.setVisible(false);//Ocultando Nova Marca
-        
+
         //Adicionando Formatador de Texto
         Formatter.decimal(custoProdutoText);
         Formatter.decimal(valorProdutoText);
         Formatter.decimal(quantidadeText);
         
+        Formatter.toUpperCase(descricaoText, custoProdutoText);
         
         this.sincronizarBancoDados();//Atualizando Listas com o Banco de Dados
         this.atualizarComboBoxs();//Adicionando itens nos ComboBox
@@ -111,9 +112,9 @@ public class TelaAdicionarProdutoController extends AnchorPane {
     
     @FXML
     private void salvarProduto() {
-        boolean vazio = Formatter.isEmpty(descricaoText, custoProdutoText, valorProdutoText, quantidadeText) ||
-                Formatter.isEmpty(categoriaComboBox, marcaComboBox);
-
+        boolean vazio = Formatter.isEmpty(descricaoText, custoProdutoText, valorProdutoText, quantidadeText)
+                || Formatter.isEmpty(categoriaComboBox, marcaComboBox);
+        
         String descricao = descricaoText.getText();
         CategoriaProduto categoria;
         Marca marca;
@@ -128,7 +129,7 @@ public class TelaAdicionarProdutoController extends AnchorPane {
             marca = marcaComboBox.getValue();
             
             Produto novoProduto = new Produto(null, marca, descricao, categoria, custoProduto, valorVenda, quantidade);
-        
+            
             Long id = ControleDAO.getBanco().getProdutoDAO().inserir(novoProduto);
             
             if (id == null) {
