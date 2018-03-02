@@ -83,7 +83,7 @@ public class TelaAdicionarReceitaController extends AnchorPane {
         Formatter.mascaraTelefone(telefoneText);//Formatador para Telefone
         Formatter.decimal(valorText);//Formatador para Dinheiro
         
-        Formatter.toUpperCase(nomeText, cidadeText, enderecoText, descricaoText);
+        Formatter.toUpperCase(nomeText, cidadeText, enderecoText);
         
         this.editarClienteCheckBox.setVisible(false);//Ocultando componente
         this.editarClienteCheckBox.setSelected(true);//Deixando o CheckBox selecionado
