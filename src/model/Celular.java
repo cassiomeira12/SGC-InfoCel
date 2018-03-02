@@ -6,8 +6,8 @@ public class Celular extends Produto {
     private String imei;
     private String cor;
 
-    public Celular(Long id, Marca marca, String descricao, CategoriaProduto categoria, float precoCompra, float precoVenda, float estoque) {
-        super(id, marca, descricao, categoria, precoCompra, precoVenda, estoque);
+    public Celular(Long id, Marca marca, String descricao, CategoriaProduto categoria, float precoCompra, float precoVenda, float estoque, UnidadeMedida unidadeMedida) {
+        super(id, marca, descricao, categoria, precoCompra, precoVenda, estoque, unidadeMedida);
     }
 
     public String getModelo() {

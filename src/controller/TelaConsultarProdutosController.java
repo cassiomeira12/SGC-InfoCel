@@ -172,7 +172,7 @@ public class TelaConsultarProdutosController extends AnchorPane {
         SwingWorker<List, List> worker = new SwingWorker<List, List>() {
             @Override
             protected List<Produto> doInBackground() throws Exception {
-                return ControleDAO.getBanco().getProdutoDAO().listarParaVender();
+                return ControleDAO.getBanco().getProdutoDAO().listar();
             }
             
             //Metodo chamado apos terminar a execucao numa Thread separada

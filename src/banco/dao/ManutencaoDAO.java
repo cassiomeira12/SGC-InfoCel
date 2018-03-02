@@ -33,7 +33,7 @@ public class ManutencaoDAO extends DAO {
                 manutencao.getCliente().setId(id);
             }
 
-            String sql = "INSERT INTO manutencao ( id_cliente, id_administrador, descricao_manutencao, data_cadastro_manutencao, data_previsao, data_entrega, preco, finalizado, marca, modelo, imei, cor) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            String sql = "INSERT INTO manutencao ( cliente_id, administrador_id, descricao_manutencao, data_cadastro_manutencao, data_previsao, data_entrega, preco, finalizado, marca, modelo, imei, cor) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
             stm = getConector().prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
 
@@ -63,7 +63,7 @@ public class ManutencaoDAO extends DAO {
      */
     public boolean editar(Manutencao manutencao) {
         try {
-            String sql = "UPDATE manutencao SET  id_cliente =?, id_administrador =?, descricao_manutencao =?, data_previsao =?, data_entrega =?, preco =?, finalizado =?, marca =?, modelo =?, imei =?, cor =? WHERE id_manutencao =?";
+            String sql = "UPDATE manutencao SET  cliente_id =?, administrador_id =?, descricao_manutencao =?, data_previsao =?, data_entrega =?, preco =?, finalizado =?, marca =?, modelo =?, imei =?, cor =? WHERE id_manutencao =?";
 
             stm = getConector().prepareStatement(sql);
 
@@ -122,16 +122,16 @@ public class ManutencaoDAO extends DAO {
         try {
             String sql = "SELECT manutencao.*, administrador.*, cliente.*"
                     + "\nFROM manutencao"
-                    + "\nINNER JOIN administrador administrador ON manutencao.id_administrador = administrador.id_administrador"
-                    + "\nINNER JOIN cliente cliente ON manutencao.id_cliente = cliente.id_cliente";
+                    + "\nINNER JOIN administrador administrador ON manutencao.administrador_id = administrador.id_administrador"
+                    + "\nINNER JOIN cliente cliente ON manutencao.cliente_id = cliente.id_cliente";
 
             System.out.println(sql);
             stm = getConector().prepareStatement(sql);
             rs = stm.executeQuery(sql);
 
             while (rs.next()) {
-                Administrador adm = new Administrador(rs.getLong("id_administrador"), rs.getString("nome_administrador"), "", "", rs.getString("endereco_administrador"), rs.getString("email_administrador"), rs.getString("cpf_administrador"), rs.getString("rg_administrador"), null, rs.getInt("status_administrador"));
-                Cliente cliente = new Cliente(rs.getLong("id_cliente"), rs.getString("nome_cliente"), rs.getString("endereco_cliente"), rs.getString("cpf_cliente"), rs.getString("rg_cliente"), rs.getString("telefone_cliente"), rs.getString("cidade_cliente"), null, rs.getInt("status_cliente"));
+                Administrador adm = new Administrador(rs.getLong("administrador_id"), rs.getString("nome_administrador"), "", "", rs.getString("endereco_administrador"), rs.getString("email_administrador"), rs.getString("cpf_administrador"), rs.getString("rg_administrador"), null, rs.getInt("status_administrador"));
+                Cliente cliente = new Cliente(rs.getLong("cliente_id"), rs.getString("nome_cliente"), rs.getString("endereco_cliente"), rs.getString("cpf_cliente"), rs.getString("rg_cliente"), rs.getString("telefone_cliente"), rs.getString("cidade_cliente"), null, rs.getInt("status_cliente"));
 
                 manuntencoes.add(new Manutencao(rs.getLong("id_manutencao"), rs.getString("descricao_manutencao"), cliente, adm, rs.getString("marca"), rs.getString("modelo"), rs.getString("imei"), rs.getString("cor"), rs.getLong("data_cadastro_manutencao"), rs.getLong("data_previsao"), rs.getLong("data_entrega"), rs.getFloat("preco"), rs.getBoolean("finalizado")));
             }
@@ -153,8 +153,8 @@ public class ManutencaoDAO extends DAO {
         try {
             String sql = "SELECT manutencao.*, administrador.*, cliente.*"
                     + "\nFROM manutencao"
-                    + "\nINNER JOIN administrador administrador ON manutencao.id_administrador = administrador.id_administrador"
-                    + "\nINNER JOIN cliente cliente ON manutencao.id_cliente = cliente.id_cliente"
+                    + "\nINNER JOIN administrador administrador ON manutencao.administrador_id = administrador.id_administrador"
+                    + "\nINNER JOIN cliente cliente ON manutencao.cliente_id = cliente.id_cliente"
                     + "\nWHERE manutencao.id_cliente = " + c.getId();
 
             System.out.println(sql);
@@ -162,8 +162,8 @@ public class ManutencaoDAO extends DAO {
             rs = stm.executeQuery(sql);
 
             while (rs.next()) {
-                Administrador adm = new Administrador(rs.getLong("id_administrador"), rs.getString("nome_administrador"), "", "", rs.getString("endereco_administrador"), rs.getString("email_administrador"), rs.getString("cpf_administrador"), rs.getString("rg_administrador"), null, rs.getInt("status_administrador"));
-                Cliente cliente = new Cliente(rs.getLong("id_cliente"), rs.getString("nome_cliente"), rs.getString("endereco_cliente"), rs.getString("cpf_cliente"), rs.getString("rg_cliente"), rs.getString("telefone_cliente"), rs.getString("cidade_cliente"), null, rs.getInt("status_cliente"));
+                Administrador adm = new Administrador(rs.getLong("administrador_id"), rs.getString("nome_administrador"), "", "", rs.getString("endereco_administrador"), rs.getString("email_administrador"), rs.getString("cpf_administrador"), rs.getString("rg_administrador"), null, rs.getInt("status_administrador"));
+                Cliente cliente = new Cliente(rs.getLong("cliente_id"), rs.getString("nome_cliente"), rs.getString("endereco_cliente"), rs.getString("cpf_cliente"), rs.getString("rg_cliente"), rs.getString("telefone_cliente"), rs.getString("cidade_cliente"), null, rs.getInt("status_cliente"));
 
                 manuntencoes.add(new Manutencao(rs.getLong("id_manutencao"), rs.getString("descricao_manutencao"), cliente, adm, rs.getString("marca"), rs.getString("modelo"), rs.getString("imei"), rs.getString("cor"), rs.getLong("data_cadastro_manutencao"), rs.getLong("data_previsao"), rs.getLong("data_entrega"), rs.getFloat("preco"), rs.getBoolean("finalizado")));
             }
@@ -185,8 +185,8 @@ public class ManutencaoDAO extends DAO {
         try {
             String sql = "SELECT manutencao.*, administrador.*, cliente.*"
                     + "\nFROM manutencao"
-                    + "\nINNER JOIN administrador administrador ON manutencao.id_administrador = administrador.id_administrador"
-                    + "\nINNER JOIN cliente cliente ON manutencao.id_cliente = cliente.id_cliente"
+                    + "\nINNER JOIN administrador administrador ON manutencao.administrador_id = administrador.id_administrador"
+                    + "\nINNER JOIN cliente cliente ON manutencao.cliente_id = cliente.id_cliente"
                     + "\nWHERE manutencao.finalizado = true";
 
             System.out.println(sql);
@@ -194,8 +194,8 @@ public class ManutencaoDAO extends DAO {
             rs = stm.executeQuery(sql);
 
             while (rs.next()) {
-                Administrador adm = new Administrador(rs.getLong("id_administrador"), rs.getString("nome_administrador"), "", "", rs.getString("endereco_administrador"), rs.getString("email_administrador"), rs.getString("cpf_administrador"), rs.getString("rg_administrador"), null, rs.getInt("status_administrador"));
-                Cliente cliente = new Cliente(rs.getLong("id_cliente"), rs.getString("nome_cliente"), rs.getString("endereco_cliente"), rs.getString("cpf_cliente"), rs.getString("rg_cliente"), rs.getString("telefone_cliente"), rs.getString("cidade_cliente"), null, rs.getInt("status_cliente"));
+                Administrador adm = new Administrador(rs.getLong("administrador_id"), rs.getString("nome_administrador"), "", "", rs.getString("endereco_administrador"), rs.getString("email_administrador"), rs.getString("cpf_administrador"), rs.getString("rg_administrador"), null, rs.getInt("status_administrador"));
+                Cliente cliente = new Cliente(rs.getLong("cliente_id"), rs.getString("nome_cliente"), rs.getString("endereco_cliente"), rs.getString("cpf_cliente"), rs.getString("rg_cliente"), rs.getString("telefone_cliente"), rs.getString("cidade_cliente"), null, rs.getInt("status_cliente"));
 
                 manuntencoes.add(new Manutencao(rs.getLong("id_manutencao"), rs.getString("descricao_manutencao"), cliente, adm, rs.getString("marca"), rs.getString("modelo"), rs.getString("imei"), rs.getString("cor"), rs.getLong("data_cadastro_manutencao"), rs.getLong("data_previsao"), rs.getLong("data_entrega"), rs.getFloat("preco"), rs.getBoolean("finalizado")));
             }
@@ -217,8 +217,8 @@ public class ManutencaoDAO extends DAO {
         try {
             String sql = "SELECT manutencao.*, administrador.*, cliente.*"
                     + "\nFROM manutencao"
-                    + "\nINNER JOIN administrador administrador ON manutencao.id_administrador = administrador.id_administrador"
-                    + "\nINNER JOIN cliente cliente ON manutencao.id_cliente = cliente.id_cliente"
+                    + "\nINNER JOIN administrador administrador ON manutencao.administrador_id = administrador.id_administrador"
+                    + "\nINNER JOIN cliente cliente ON manutencao.cliente_id = cliente.id_cliente"
                     + "\nWHERE manutencao.finalizado = false";
 
             System.out.println(sql);
@@ -226,8 +226,8 @@ public class ManutencaoDAO extends DAO {
             rs = stm.executeQuery(sql);
 
             while (rs.next()) {
-                Administrador adm = new Administrador(rs.getLong("id_administrador"), rs.getString("nome_administrador"), "", "", rs.getString("endereco_administrador"), rs.getString("email_administrador"), rs.getString("cpf_administrador"), rs.getString("rg_administrador"), null, rs.getInt("status_administrador"));
-                Cliente cliente = new Cliente(rs.getLong("id_cliente"), rs.getString("nome_cliente"), rs.getString("endereco_cliente"), rs.getString("cpf_cliente"), rs.getString("rg_cliente"), rs.getString("telefone_cliente"), rs.getString("cidade_cliente"), null, rs.getInt("status_cliente"));
+                Administrador adm = new Administrador(rs.getLong("administrador_id"), rs.getString("nome_administrador"), "", "", rs.getString("endereco_administrador"), rs.getString("email_administrador"), rs.getString("cpf_administrador"), rs.getString("rg_administrador"), null, rs.getInt("status_administrador"));
+                Cliente cliente = new Cliente(rs.getLong("cliente_id"), rs.getString("nome_cliente"), rs.getString("endereco_cliente"), rs.getString("cpf_cliente"), rs.getString("rg_cliente"), rs.getString("telefone_cliente"), rs.getString("cidade_cliente"), null, rs.getInt("status_cliente"));
 
                 manuntencoes.add(new Manutencao(rs.getLong("id_manutencao"), rs.getString("descricao_manutencao"), cliente, adm, rs.getString("marca"), rs.getString("modelo"), rs.getString("imei"), rs.getString("cor"), rs.getLong("data_cadastro_manutencao"), rs.getLong("data_previsao"), rs.getLong("data_entrega"), rs.getFloat("preco"), rs.getBoolean("finalizado")));
             }
@@ -253,8 +253,8 @@ public class ManutencaoDAO extends DAO {
 
             String sql = "SELECT manutencao.*, administrador.*, cliente.*"
                     + "\nFROM manutencao"
-                    + "\nINNER JOIN administrador administrador ON manutencao.id_administrador = administrador.id_administrador"
-                    + "\nINNER JOIN cliente cliente ON manutencao.id_cliente = cliente.id_cliente"
+                    + "\nINNER JOIN administrador administrador ON manutencao.administrador_id = administrador.id_administrador"
+                    + "\nINNER JOIN cliente cliente ON manutencao.cliente_id = cliente.id_cliente"
                     + "\nWHERE manutencao.data_cadastro_manutencao >= " + inicio + " AND manutencao.data_cadastro_manutencao < " + finall;
 
             System.out.println(sql);
@@ -262,8 +262,8 @@ public class ManutencaoDAO extends DAO {
             rs = stm.executeQuery(sql);
 
             while (rs.next()) {
-                Administrador adm = new Administrador(rs.getLong("id_administrador"), rs.getString("nome_administrador"), "", "", rs.getString("endereco_administrador"), rs.getString("email_administrador"), rs.getString("cpf_administrador"), rs.getString("rg_administrador"), null, rs.getInt("status_administrador"));
-                Cliente cliente = new Cliente(rs.getLong("id_cliente"), rs.getString("nome_cliente"), rs.getString("endereco_cliente"), rs.getString("cpf_cliente"), rs.getString("rg_cliente"), rs.getString("telefone_cliente"), rs.getString("cidade_cliente"), null, rs.getInt("status_cliente"));
+                Administrador adm = new Administrador(rs.getLong("administrador_id"), rs.getString("nome_administrador"), "", "", rs.getString("endereco_administrador"), rs.getString("email_administrador"), rs.getString("cpf_administrador"), rs.getString("rg_administrador"), null, rs.getInt("status_administrador"));
+                Cliente cliente = new Cliente(rs.getLong("cliente_id"), rs.getString("nome_cliente"), rs.getString("endereco_cliente"), rs.getString("cpf_cliente"), rs.getString("rg_cliente"), rs.getString("telefone_cliente"), rs.getString("cidade_cliente"), null, rs.getInt("status_cliente"));
 
                 manuntencoes.add(new Manutencao(rs.getLong("id_manutencao"), rs.getString("descricao_manutencao"), cliente, adm, rs.getString("marca"), rs.getString("modelo"), rs.getString("imei"), rs.getString("cor"), rs.getLong("data_cadastro_manutencao"), rs.getLong("data_previsao"), rs.getLong("data_entrega"), rs.getFloat("preco"), rs.getBoolean("finalizado")));
             }

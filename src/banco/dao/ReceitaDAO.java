@@ -5,7 +5,9 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import model.Administrador;
 import model.Celular;
+import model.Cliente;
 import model.Marca;
 import model.Produto;
 import model.Receita;
@@ -25,13 +27,13 @@ public class ReceitaDAO extends DAO {
      */
     public Long inserir(Receita receita) {
         try {
-            if(receita.getCliente().getId()==null){
+            if (receita.getCliente().getId() == null) {
                 Long id = ControleDAO.getBanco().getClienteDAO().inserir(receita.getCliente());
                 receita.getCliente().setId(id);
-              
+
             }
-            
-            String sql = "INSERT INTO receita ( id_cliente, id_administrador, descricao_receita, data_receita, valor_receita ) VALUES (?, ?, ?, ?, ?)";
+
+            String sql = "INSERT INTO receita ( cliente_id, administrador_id, descricao_receita, data_receita, valor_receita ) VALUES (?, ?, ?, ?, ?)";
 
             stm = getConector().prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
 
@@ -54,7 +56,7 @@ public class ReceitaDAO extends DAO {
      */
     public boolean editar(Receita receita) {
         try {
-            String sql = "UPDATE receita SET id_cliente =?, id_administrador =?, descricao_receita =?, valor_receita =?, data_receita =? WHERE id_receita =?";
+            String sql = "UPDATE receita SET cliente_id =?, administrador_id =?, descricao_receita =?, valor_receita =?, data_receita =? WHERE id_receita =?";
 
             stm = getConector().prepareStatement(sql);
 
@@ -106,13 +108,19 @@ public class ReceitaDAO extends DAO {
         List<Receita> receitas = new ArrayList<>();
 
         try {
-            String sql = "SELECT receita.* FROM receita";
+            String sql = "SELECT receita.*, cliente.*, administrador.* "
+                    + "FROM receita"
+                    + "\nINNER JOIN cliente cliente ON receita.cliente_id = cliente.id_cliente"
+                    + "\nINNER JOIN administrador administrador ON receita.administrador_id = administrador.id_administrador";
 
             stm = getConector().prepareStatement(sql);
             rs = stm.executeQuery(sql);
 
             while (rs.next()) {
-                Receita receita = new Receita(rs.getLong(1), null, null, rs.getString(4), rs.getLong(5), rs.getFloat(6));
+                Administrador adm = new Administrador(rs.getLong("administrador_id"), rs.getString("nome_administrador"), "", "", rs.getString("endereco_administrador"), rs.getString("email_administrador"), rs.getString("cpf_administrador"), rs.getString("rg_administrador"), null, rs.getInt("status_administrador"));
+                Cliente cliente = new Cliente(rs.getLong("cliente_id"), rs.getString("nome_cliente"), rs.getString("endereco_cliente"), rs.getString("cpf_cliente"), rs.getString("rg_cliente"), rs.getString("telefone_cliente"), rs.getString("cidade_cliente"), null, rs.getInt("status_cliente"));
+
+                Receita receita = new Receita(rs.getLong(1), cliente, adm, rs.getString(4), rs.getLong(5), rs.getFloat(6));
 
                 receitas.add(receita);
             }
@@ -132,13 +140,20 @@ public class ReceitaDAO extends DAO {
         List<Receita> receitas = new ArrayList<>();
 
         try {
-            String sql = "SELECT receita.* FROM receita WHERE descricao_receita LIKE '%" + busca + "%'";
+            String sql = "SELECT receita.*, cliente.*, administrador.* "
+                    + "FROM receita"
+                    + "\nINNER JOIN cliente cliente ON receita.cliente_id = cliente.id_cliente"
+                    + "\nINNER JOIN administrador administrador ON receita.administrador_id = administrador.id_administrador"
+                    + "\nWHERE descricao_receita LIKE '%" + busca + "%'";
 
             stm = getConector().prepareStatement(sql);
             rs = stm.executeQuery(sql);
 
             while (rs.next()) {
-                Receita receita = new Receita(rs.getLong(1), null, null, rs.getString(4), rs.getLong(5), rs.getFloat(6));
+                Administrador adm = new Administrador(rs.getLong("administrador_id"), rs.getString("nome_administrador"), "", "", rs.getString("endereco_administrador"), rs.getString("email_administrador"), rs.getString("cpf_administrador"), rs.getString("rg_administrador"), null, rs.getInt("status_administrador"));
+                Cliente cliente = new Cliente(rs.getLong("cliente_id"), rs.getString("nome_cliente"), rs.getString("endereco_cliente"), rs.getString("cpf_cliente"), rs.getString("rg_cliente"), rs.getString("telefone_cliente"), rs.getString("cidade_cliente"), null, rs.getInt("status_cliente"));
+
+                Receita receita = new Receita(rs.getLong(1), cliente, adm, rs.getString(4), rs.getLong(5), rs.getFloat(6));
 
                 receitas.add(receita);
             }
@@ -160,13 +175,20 @@ public class ReceitaDAO extends DAO {
         List<Receita> receitas = new ArrayList<>();
 
         try {
-            String sql = "SELECT receita.* FROM receita WHERE data_receita >= " + inicio + " AND data_receita < " + finall;
+            String sql = "SELECT receita.*, cliente.*, administrador.* "
+                    + "FROM receita"
+                    + "\nINNER JOIN cliente cliente ON receita.cliente_id = cliente.id_cliente"
+                    + "\nINNER JOIN administrador administrador ON receita.administrador_id = administrador.id_administrador"
+                    + "\nWHERE data_receita >= " + inicio + " AND data_receita < " + finall;
 
             stm = getConector().prepareStatement(sql);
             rs = stm.executeQuery(sql);
 
             while (rs.next()) {
-                Receita receita = new Receita(rs.getLong(1), null, null, rs.getString(4), rs.getLong(5), rs.getFloat(6));
+                Administrador adm = new Administrador(rs.getLong("administrador_id"), rs.getString("nome_administrador"), "", "", rs.getString("endereco_administrador"), rs.getString("email_administrador"), rs.getString("cpf_administrador"), rs.getString("rg_administrador"), null, rs.getInt("status_administrador"));
+                Cliente cliente = new Cliente(rs.getLong("cliente_id"), rs.getString("nome_cliente"), rs.getString("endereco_cliente"), rs.getString("cpf_cliente"), rs.getString("rg_cliente"), rs.getString("telefone_cliente"), rs.getString("cidade_cliente"), null, rs.getInt("status_cliente"));
+
+                Receita receita = new Receita(rs.getLong(1), cliente, adm, rs.getString(4), rs.getLong(5), rs.getFloat(6));
 
                 receitas.add(receita);
             }

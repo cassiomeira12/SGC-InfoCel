@@ -128,7 +128,7 @@ public class TelaAdicionarProdutoController extends AnchorPane {
             categoria = categoriaComboBox.getValue();
             marca = marcaComboBox.getValue();
             
-            Produto novoProduto = new Produto(null, marca, descricao, categoria, custoProduto, valorVenda, quantidade);
+            Produto novoProduto = new Produto(null, marca, descricao, categoria, custoProduto, valorVenda, quantidade, null);
             
             Long id = ControleDAO.getBanco().getProdutoDAO().inserir(novoProduto);
             

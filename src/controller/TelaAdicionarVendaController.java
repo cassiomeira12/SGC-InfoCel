@@ -33,6 +33,7 @@ import javafx.stage.StageStyle;
 import model.Administrador;
 import model.CategoriaProduto;
 import model.Cliente;
+import model.FormaPagamento;
 import model.Marca;
 import model.Produto;
 import model.Venda;
@@ -110,7 +111,7 @@ public class TelaAdicionarVendaController extends AnchorPane {
 
     @FXML
     public void initialize() {
-        this.novaVenda = new Venda(null, null, null, null, 0, null);
+        this.novaVenda = new Venda(null, null, null, null, null, null);
 
         Formatter.mascaraCPF(cpfText);//Formatador para CPF
         Formatter.mascaraRG(rgText);//Formatador para Rg
@@ -266,15 +267,8 @@ public class TelaAdicionarVendaController extends AnchorPane {
                 if (continuar) {
                     LocalDate data = dataDatePicker.getValue();
                     Administrador vendedor = vendedorComboBox.getValue();
-                    int formaPagamento = 1;
-                    switch (formarPagComboBox.getValue()) {
-                        case "Dinheiro à Vista":
-                            formaPagamento = 1;
-                            break;
-                        case "Cartão de Crédito":
-                            formaPagamento = 2;
-                            break;
-                    }
+                    FormaPagamento formaPagamento = null;
+                    
                     this.novaVenda.setAdministrador(vendedor);
                     this.novaVenda.setCliente(cliente);
                     this.novaVenda.setFormaPagamento(formaPagamento);

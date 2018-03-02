@@ -3,9 +3,6 @@ package model;
 import java.util.ArrayList;
 import java.util.List;
 
-/*
-*forma de pagamento 1 = dinheiro, 2 = cartão de crédito
- */
 public class Venda {
 
     private Long id;
@@ -13,10 +10,10 @@ public class Venda {
     private Cliente cliente;
     private List<VendaProduto> vendaProdutos;
     private float precoTotal;
-    private int formaPagamento;
+    private FormaPagamento formaPagamento;
     private Long data;
 
-    public Venda(Long id, Administrador administrador, Cliente cliente, List<VendaProduto> vendaProdutos, int formaPagamento, Long data) {
+    public Venda(Long id, Administrador administrador, Cliente cliente, List<VendaProduto> vendaProdutos, FormaPagamento formaPagamento, Long data) {
         this.id = id;
         this.administrador = administrador;
         this.cliente = cliente;
@@ -67,11 +64,11 @@ public class Venda {
         this.precoTotal = precoTotal;
     }
 
-    public int getFormaPagamento() {
+    public FormaPagamento getFormaPagamento() {
         return formaPagamento;
     }
 
-    public void setFormaPagamento(int formaPagamento) {
+    public void setFormaPagamento(FormaPagamento formaPagamento) {
         this.formaPagamento = formaPagamento;
     }
 
@@ -104,14 +101,14 @@ public class Venda {
         vendaProdutos.add(vp);
         precoTotal = calcularPrecoTotal();
     }
-    
+
     public void removerVendaProduto(VendaProduto vp) {
         if (vendaProdutos != null) {
             vendaProdutos.remove(vp);
             precoTotal = calcularPrecoTotal();
         }
     }
-    
+
     public boolean isEmpty() {
         if (vendaProdutos == null) {
             return true;
@@ -119,7 +116,7 @@ public class Venda {
             return vendaProdutos.isEmpty();
         }
     }
-    
+
     public VendaProduto containsProduto(Produto produto) {
         if (this.isEmpty()) {
             return null;
@@ -132,7 +129,7 @@ public class Venda {
             return null;
         }
     }
-    
+
     public void atualizarVenda() {
         precoTotal = calcularPrecoTotal();
     }

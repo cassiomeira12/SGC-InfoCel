@@ -9,8 +9,9 @@ public class Produto {
     private float precoCompra;
     private float precoVenda;
     private float estoque;
+    private UnidadeMedida unidadeMedida;
 
-    public Produto(Long id, Marca marca, String descricao, CategoriaProduto categoria, float precoCompra, float precoVenda, float estoque) {
+    public Produto(Long id, Marca marca, String descricao, CategoriaProduto categoria, float precoCompra, float precoVenda, float estoque, UnidadeMedida unidadeMedida) {
         this.id = id;
         this.marca = marca;
         this.descricao = descricao;
@@ -18,6 +19,7 @@ public class Produto {
         this.precoCompra = precoCompra;
         this.precoVenda = precoVenda;
         this.estoque = estoque;
+        this.unidadeMedida = unidadeMedida;
     }
 
     public Long getId() {
@@ -75,5 +77,13 @@ public class Produto {
     public void setEstoque(float estoque) {
         this.estoque = estoque;
     }
-   
+
+    public UnidadeMedida getUnidadeMedida() {
+        return unidadeMedida;
+    }
+
+    public void setUnidadeMedida(UnidadeMedida unidadeMedida) {
+        this.unidadeMedida = unidadeMedida;
+    }
+
 }

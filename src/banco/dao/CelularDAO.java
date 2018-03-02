@@ -10,6 +10,7 @@ import model.CategoriaProduto;
 import model.Celular;
 import model.Marca;
 import model.Produto;
+import model.UnidadeMedida;
 
 /**
  * DAO responsável pela ações realizadas na base de dados referentes a celulares
@@ -25,7 +26,7 @@ public class CelularDAO extends DAO {
      */
     public Long inserir(Celular celular) {
         try {
-            String sql = "INSERT INTO produto ( descricao_produto, id_categoria, id_marca, preco_compra, preco_venda, estoque, modelo, imei, cor, eh_celular) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            String sql = "INSERT INTO produto ( descricao_produto, categoria_produto_id, marca_id, preco_compra, preco_venda, estoque, modelo, imei, cor, eh_celular, unidade_medida_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
             stm = getConector().prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
 
@@ -39,6 +40,7 @@ public class CelularDAO extends DAO {
             stm.setString(8, celular.getImei());
             stm.setString(9, celular.getCor());
             stm.setBoolean(10, true);
+            stm.setInt(11, celular.getUnidadeMedida().getId().intValue());
 
             return super.inserir();
         } catch (Exception ex) {
@@ -53,7 +55,7 @@ public class CelularDAO extends DAO {
      */
     public boolean editar(Celular celular) {
         try {
-            String sql = "UPDATE produto SET  descricao_produto =?, id_categoria =?, id_marca =?, preco_compra =?, preco_venda =?, estoque =?, modelo =?, imei =?, cor =? WHERE id_produto =?";
+            String sql = "UPDATE produto SET  descricao_produto =?, categoria_produto_id =?, id_marca =?, preco_compra =?, preco_venda =?, estoque =?, modelo =?, imei =?, cor =?, unidade_medida_id =  WHERE id_produto =?";
 
             stm = getConector().prepareStatement(sql);
 
@@ -66,6 +68,7 @@ public class CelularDAO extends DAO {
             stm.setString(7, celular.getModelo());
             stm.setString(8, celular.getImei());
             stm.setString(9, celular.getCor());
+            stm.setInt(10, celular.getUnidadeMedida().getId().intValue());
 
             stm.setInt(10, celular.getId().intValue());
 
@@ -102,10 +105,11 @@ public class CelularDAO extends DAO {
         List<Celular> celulares = new ArrayList<>();
 
         try {
-            String sql = "SELECT produto.*, marca.descricao_marca, categoria_produto.descricao_categoria "
+            String sql = "SELECT produto.*, marca.descricao_marca, categoria_produto.descricao_categoria, unidade_medida.descricao_unidade "
                     + "FROM produto"
-                    + "\nINNER JOIN marca marca ON produto.id_marca = marca.id_marca"
-                    + "\nINNER JOIN categoria_produto categoria_produto ON produto.id_categoria = categoria_produto.id_categoria"
+                    + "\nINNER JOIN marca marca ON produto.marca_id = marca.id_marca"
+                    + "\nINNER JOIN unidade_medida unidade_medida ON produto.unidade_medida_id = unidade_medida.id_unidade"
+                    + "\nINNER JOIN categoria_produto categoria_produto ON produto.categoria_produto_id = categoria_produto.id_categoria_produto"
                     + "\nWHERE produto.eh_celular = true";
 
             System.out.println(sql);
@@ -113,10 +117,11 @@ public class CelularDAO extends DAO {
             rs = stm.executeQuery(sql);
 
             while (rs.next()) {
-                CategoriaProduto categoria = new CategoriaProduto(rs.getLong("id_categoria"), rs.getString("descricao_categoria"));
-                Marca marca = new Marca(rs.getLong("id_marca"), rs.getString("descricao_marca"));
+                CategoriaProduto categoria = new CategoriaProduto(rs.getLong("categoria_produto_id"), rs.getString("descricao_categoria"));
+                Marca marca = new Marca(rs.getLong("marca_id"), rs.getString("descricao_marca"));
+                UnidadeMedida unidadeMedida = new UnidadeMedida(rs.getLong("marca_id"), rs.getString("descricao_marca"));
 
-                Celular celular = new Celular(rs.getLong("id_produto"), marca, rs.getString("descricao_produto"), categoria, rs.getFloat("preco_compra"), rs.getFloat("preco_venda"), rs.getFloat("estoque"));
+                Celular celular = new Celular(rs.getLong("id_produto"), marca, rs.getString("descricao_produto"), categoria, rs.getFloat("preco_compra"), rs.getFloat("preco_venda"), rs.getFloat("estoque"), unidadeMedida);
                 celular.setCor(rs.getString("cor"));
                 celular.setImei(rs.getString("imei"));
                 celular.setModelo("modelo");
@@ -140,10 +145,11 @@ public class CelularDAO extends DAO {
         List<Celular> celulares = new ArrayList<>();
 
         try {
-            String sql = "SELECT produto.*, marca.descricao_marca, categoria_produto.descricao_categoria "
+            String sql = "SELECT produto.*, marca.descricao_marca, unidade_medida.descricao_unidade, categoria_produto.descricao_categoria "
                     + "FROM produto"
-                    + "\nINNER JOIN marca marca ON produto.id_marca = marca.id_marca"
-                    + "\nINNER JOIN categoria_produto categoria_produto ON produto.id_categoria = categoria_produto.id_categoria"
+                    + "\nINNER JOIN marca marca ON produto.marca_id = marca.id_marca"
+                    + "\nINNER JOIN unidade_medida unidade_medida ON produto.unidade_id = unidade_medida.id_unidade"
+                    + "\nINNER JOIN categoria_produto categoria_produto ON produto.categoria_produto_id = categoria_produto.id_categoria_produto"
                     + "\nWHERE produto.descricao_produto LIKE '%" + busca + "%'"
                     + "\n OR produto.modelo LIKE '%" + busca + "%'"
                     + "\nAND produto.eh_celular = true";
@@ -153,10 +159,11 @@ public class CelularDAO extends DAO {
             rs = stm.executeQuery(sql);
 
             while (rs.next()) {
-                CategoriaProduto categoria = new CategoriaProduto(rs.getLong("id_categoria"), rs.getString("descricao_categoria"));
-                Marca marca = new Marca(rs.getLong("id_marca"), rs.getString("descricao_marca"));
+                CategoriaProduto categoria = new CategoriaProduto(rs.getLong("categoria_produto_id"), rs.getString("descricao_categoria"));
+                Marca marca = new Marca(rs.getLong("marca_id"), rs.getString("descricao_marca"));
+                UnidadeMedida unidadeMedida = new UnidadeMedida(rs.getLong("marca_id"), rs.getString("descricao_marca"));
 
-                Celular celular = new Celular(rs.getLong("id_produto"), marca, rs.getString("descricao_produto"), categoria, rs.getFloat("preco_compra"), rs.getFloat("preco_venda"), rs.getFloat("estoque"));
+                Celular celular = new Celular(rs.getLong("id_produto"), marca, rs.getString("descricao_produto"), categoria, rs.getFloat("preco_compra"), rs.getFloat("preco_venda"), rs.getFloat("estoque"), unidadeMedida);
                 celular.setCor(rs.getString("cor"));
                 celular.setImei(rs.getString("imei"));
                 celular.setModelo("modelo");
@@ -168,40 +175,6 @@ public class CelularDAO extends DAO {
             rs.close();
 
             return celulares;
-        } catch (Exception ex) {
-            chamarAlertaErro("Erro ao consultar produtos na base de dados!", ex.toString());
-        }
-
-        return null;
-    }
-
-    public Celular buscarPorId(Long id) {
-        Celular celular = null;
-        try {
-            String sql = "SELECT produto.*, marca.descricao_marca, categoria_produto.descricao_categoria "
-                    + "FROM produto"
-                    + "\nINNER JOIN marca marca ON produto.id_marca = marca.id_marca"
-                    + "\nINNER JOIN categoria_produto categoria_produto ON produto.id_categoria = categoria_produto.id_categoria"
-                    + "\nWHERE produto.id_produto = " + id;
-
-            System.out.println(sql);
-            stm = getConector().prepareStatement(sql);
-            rs = stm.executeQuery(sql);
-
-            while (rs.next()) {
-                CategoriaProduto categoria = new CategoriaProduto(rs.getLong("id_categoria"), rs.getString("descricao_categoria"));
-                Marca marca = new Marca(rs.getLong("id_marca"), rs.getString("descricao_marca"));
-
-                celular = new Celular(id, marca, rs.getString("descricao_produto"), categoria, rs.getFloat("preco_compra"), rs.getFloat("preco_venda"), rs.getFloat("estoque"));
-                celular.setCor(rs.getString("cor"));
-                celular.setImei(rs.getString("imei"));
-                celular.setModelo("modelo");
-            }
-
-            stm.close();
-            rs.close();
-
-            return celular;
         } catch (Exception ex) {
             chamarAlertaErro("Erro ao consultar produtos na base de dados!", ex.toString());
         }
