@@ -14,11 +14,13 @@ public class FormaPagamento {
     private Long id;
     private String descricao;
     private int parcelas;
+    private int maximoParcelas;
 
-    public FormaPagamento(Long id, String descricao, int parcelas) {
+    public FormaPagamento(Long id, String descricao, int parcelas, int maximoParcelas) {
         this.id = id;
         this.parcelas = parcelas;
         this.descricao = descricao;
+        this.maximoParcelas = maximoParcelas;
     }
 
     public Long getId() {
@@ -43,6 +45,14 @@ public class FormaPagamento {
 
     public void setDescricao(String descricao) {
         this.descricao = descricao;
+    }
+
+    public int getMaximoParcelas() {
+        return maximoParcelas;
+    }
+
+    public void setMaximoParcelas(int maximoParcelas) {
+        this.maximoParcelas = maximoParcelas;
     }
 
 }
