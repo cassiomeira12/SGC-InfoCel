@@ -21,9 +21,9 @@ import util.Formatter;
  * @author cassio
  */
 public class TelaAdicionarSaidaController extends AnchorPane {
-    
+
     private BorderPane painelPrincipal;
-        
+
     @FXML
     private DatePicker dataDatePicker;
     @FXML
@@ -31,7 +31,7 @@ public class TelaAdicionarSaidaController extends AnchorPane {
 
     public TelaAdicionarSaidaController(BorderPane painelPrincipal) {
         this.painelPrincipal = painelPrincipal;
-        
+
         try {
             FXMLLoader fxml = new FXMLLoader(getClass().getResource("/view/TelaAdicionarSaida.fxml"));
             fxml.setRoot(this);
@@ -45,20 +45,17 @@ public class TelaAdicionarSaidaController extends AnchorPane {
 
     @FXML
     public void initialize() {
-        
-        Formatter.toUpperCase(descricaoArea);
-        
         this.dataDatePicker.setValue(LocalDate.now());//Adicionando Data do dia atual
     }
-    
+
     private void adicionarPainelInterno(AnchorPane novaTela) {
         this.painelPrincipal.setCenter(novaTela);
     }
-    
+
     @FXML
     private void cancelarOperacao() {
         TelaInicialController telaInicial = new TelaInicialController(painelPrincipal);
         this.adicionarPainelInterno(telaInicial);
     }
-    
+
 }
