@@ -11,15 +11,17 @@ public class Venda {
     private List<VendaProduto> vendaProdutos;
     private float precoTotal;
     private FormaPagamento formaPagamento;
+    private int quantidadeParcelas;
     private Long data;
 
-    public Venda(Long id, Administrador administrador, Cliente cliente, List<VendaProduto> vendaProdutos, FormaPagamento formaPagamento, Long data) {
+    public Venda(Long id, Administrador administrador, Cliente cliente, List<VendaProduto> vendaProdutos, FormaPagamento formaPagamento, int quantidadeParcelas, Long data) {
         this.id = id;
         this.administrador = administrador;
         this.cliente = cliente;
         this.vendaProdutos = vendaProdutos;
         this.precoTotal = calcularPrecoTotal();
         this.formaPagamento = formaPagamento;
+        this.quantidadeParcelas = quantidadeParcelas;
         this.data = data;
     }
 
@@ -49,6 +51,14 @@ public class Venda {
 
     public List<VendaProduto> getVendaProdutos() {
         return vendaProdutos;
+    }
+
+    public int getQuantidadeParcelas() {
+        return quantidadeParcelas;
+    }
+
+    public void setQuantidadeParcelas(int quantidadeParcelas) {
+        this.quantidadeParcelas = quantidadeParcelas;
     }
 
     public void setVendaProdutos(List<VendaProduto> vendaProdutos) {

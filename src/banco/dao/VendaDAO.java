@@ -38,7 +38,7 @@ public class VendaDAO extends DAO {
                 idCliente = ControleDAO.getBanco().getClienteDAO().inserir(venda.getCliente());
             }
 
-            String sql = "INSERT INTO venda ( administrador_id, cliente_id, preco_total, forma_pagamento_id, data ) VALUES (?, ?, ?, ?, ?)";
+            String sql = "INSERT INTO venda ( administrador_id, cliente_id, preco_total, forma_pagamento_id, quantidade_parcela, data ) VALUES (?, ?, ?, ?, ?)";
 
             stm = getConector().prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
 
@@ -46,7 +46,8 @@ public class VendaDAO extends DAO {
             stm.setInt(2, idCliente.intValue());
             stm.setFloat(3, venda.getPrecoTotal());
             stm.setInt(4, venda.getFormaPagamento().getId().intValue());
-            stm.setLong(5, venda.getData());
+            stm.setInt(5, venda.getQuantidadeParcelas());
+            stm.setLong(6, venda.getData());
             idVenda = super.inserir();
 
             //cadastrar vendaProduto
@@ -113,9 +114,9 @@ public class VendaDAO extends DAO {
             while (rs.next()) {
                 Administrador adm = new Administrador(rs.getLong("administrador_id"), rs.getString("nome_administrador"), "", "", rs.getString("endereco_administrador"), rs.getString("email_administrador"), rs.getString("cpf_administrador"), rs.getString("rg_administrador"), null, rs.getInt("status_administrador"));
                 Cliente cliente = new Cliente(rs.getLong("cliente_id"), rs.getString("nome_cliente"), rs.getString("endereco_cliente"), rs.getString("cpf_cliente"), rs.getString("rg_cliente"), rs.getString("telefone_cliente"), rs.getString("cidade_cliente"), null, rs.getInt("status_cliente"));
-                FormaPagamento formaPagamento = new FormaPagamento(rs.getLong("forma_pagamento_id"), rs.getString("descricao_forma_pagamento"), rs.getInt("parcelas"), rs.getInt("maximo_parcelas"));
+                FormaPagamento formaPagamento = new FormaPagamento(rs.getLong("forma_pagamento_id"), rs.getString("descricao_forma_pagamento"), rs.getInt("maximo_parcelas"));
 
-                Venda venda = new Venda(rs.getLong("id_venda"), adm, cliente, null, formaPagamento, rs.getLong("data"));
+                Venda venda = new Venda(rs.getLong("id_venda"), adm, cliente, null, formaPagamento, rs.getInt("quantidade_parcela"), rs.getLong("data"));
                 venda.setPrecoTotal(rs.getFloat("preco_total"));
 
                 vendas.add(venda);
@@ -151,8 +152,8 @@ public class VendaDAO extends DAO {
             while (rs.next()) {
                 Administrador adm = new Administrador(rs.getLong("administrador_id"), rs.getString("nome_administrador"), "", "", rs.getString("endereco_administrador"), rs.getString("email_administrador"), rs.getString("cpf_administrador"), rs.getString("rg_administrador"), null, rs.getInt("status_administrador"));
                 Cliente cliente = new Cliente(rs.getLong("cliente_id"), rs.getString("nome_cliente"), rs.getString("endereco_cliente"), rs.getString("cpf_cliente"), rs.getString("rg_cliente"), rs.getString("telefone_cliente"), rs.getString("cidade_cliente"), null, rs.getInt("status_cliente"));
-                FormaPagamento formaPagamento = new FormaPagamento(rs.getLong("forma_pagamento_id"), rs.getString("descricao_forma_pagamento"), rs.getInt("parcelas"), rs.getInt("maximo_parcelas"));
-                Venda venda = new Venda(rs.getLong("id_venda"), adm, cliente, null, formaPagamento, rs.getLong("data"));
+                FormaPagamento formaPagamento = new FormaPagamento(rs.getLong("forma_pagamento_id"), rs.getString("descricao_forma_pagamento"), rs.getInt("maximo_parcelas"));
+                Venda venda = new Venda(rs.getLong("id_venda"), adm, cliente, null, formaPagamento, rs.getInt("quantidade_parcela"), rs.getLong("data"));
                 venda.setPrecoTotal(rs.getFloat("preco_total"));
 
                 vendas.add(venda);
@@ -220,8 +221,8 @@ public class VendaDAO extends DAO {
 
             while (rs.next()) {
                 Administrador adm = new Administrador(rs.getLong("administrador_id"), rs.getString("nome_administrador"), "", "", rs.getString("endereco_administrador"), rs.getString("email_administrador"), rs.getString("cpf_administrador"), rs.getString("rg_administrador"), null, rs.getInt("status_administrador"));
-                FormaPagamento formaPagamento = new FormaPagamento(rs.getLong("forma_pagamento_id"), rs.getString("descricao_forma_pagamento"), rs.getInt("parcelas"), rs.getInt("maximo_parcelas"));
-                Venda venda = new Venda(rs.getLong("id_venda"), adm, cliente, null, formaPagamento, rs.getLong("data"));
+                FormaPagamento formaPagamento = new FormaPagamento(rs.getLong("forma_pagamento_id"), rs.getString("descricao_forma_pagamento"), rs.getInt("maximo_parcelas"));
+                Venda venda = new Venda(rs.getLong("id_venda"), adm, cliente, null, formaPagamento, rs.getInt("quantidade_parcela"), rs.getLong("data"));
 
                 venda.setPrecoTotal(rs.getFloat("preco_total"));
 

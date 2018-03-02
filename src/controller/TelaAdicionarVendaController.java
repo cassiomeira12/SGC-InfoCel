@@ -74,7 +74,7 @@ public class TelaAdicionarVendaController extends AnchorPane {
     @FXML
     private ComboBox<Administrador> vendedorComboBox;
     @FXML
-    private ComboBox<String> formarPagComboBox;
+    private ComboBox<FormaPagamento> formarPagComboBox;
     @FXML
     private Button removerButton;
     @FXML
@@ -111,7 +111,7 @@ public class TelaAdicionarVendaController extends AnchorPane {
 
     @FXML
     public void initialize() {
-        this.novaVenda = new Venda(null, null, null, null, null, null);
+        this.novaVenda = new Venda(null, null, null, null, null, 1, null);
 
         Formatter.mascaraCPF(cpfText);//Formatador para CPF
         Formatter.mascaraRG(rgText);//Formatador para Rg
@@ -140,8 +140,7 @@ public class TelaAdicionarVendaController extends AnchorPane {
         removerButton.disableProperty().bind(produtosTable.getSelectionModel().selectedItemProperty().isNull());
 
         //Adicionando formas de pagamento no ComboBox
-        this.formarPagComboBox.getItems().add("Dinheiro à Vista");
-        this.formarPagComboBox.getItems().add("Cartão de Crédito");
+        this.formarPagComboBox.getItems().addAll(ControleDAO.getBanco().getFormaPagamentoDAO().listar());
         //Selecionando primeira forma de Pagamento
         this.formarPagComboBox.getSelectionModel().select(0);//Selecionando o primeiro item
         //Adicionando os Administradores no ComboBox
@@ -268,7 +267,7 @@ public class TelaAdicionarVendaController extends AnchorPane {
                     LocalDate data = dataDatePicker.getValue();
                     Administrador vendedor = vendedorComboBox.getValue();
                     FormaPagamento formaPagamento = null;
-                    
+
                     this.novaVenda.setAdministrador(vendedor);
                     this.novaVenda.setCliente(cliente);
                     this.novaVenda.setFormaPagamento(formaPagamento);

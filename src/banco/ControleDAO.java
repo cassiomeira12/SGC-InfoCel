@@ -23,6 +23,8 @@ public class ControleDAO {
     private ReceitaDAO receitaDAO = new ReceitaDAO();
     private SaidaDAO saidaDAO = new SaidaDAO();
     private VendaDAO vendaDAO = new VendaDAO();
+    private FormaPagamentoDAO formaPagamentoDAO = new FormaPagamentoDAO();
+    private UnidadeMedidaDAO unidadeMedidaDAO = new UnidadeMedidaDAO();
 
     public static ControleDAO getBanco() {
         return banco;
@@ -46,6 +48,22 @@ public class ControleDAO {
 
     public ProdutoDAO getProdutoDAO() {
         return produtoDAO;
+    }
+
+    public FormaPagamentoDAO getFormaPagamentoDAO() {
+        return formaPagamentoDAO;
+    }
+
+    public void setFormaPagamentoDAO(FormaPagamentoDAO formaPagamentoDAO) {
+        this.formaPagamentoDAO = formaPagamentoDAO;
+    }
+
+    public UnidadeMedidaDAO getUnidadeMedidaDAO() {
+        return unidadeMedidaDAO;
+    }
+
+    public void setUnidadeMedidaDAO(UnidadeMedidaDAO unidadeMedidaDAO) {
+        this.unidadeMedidaDAO = unidadeMedidaDAO;
     }
 
     public MarcaDAO getMarcaDAO() {

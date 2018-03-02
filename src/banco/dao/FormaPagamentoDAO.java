@@ -23,13 +23,12 @@ public class FormaPagamentoDAO extends DAO {
      */
     public Long inserir(FormaPagamento formaPagamento) {
         try {
-            String sql = "INSERT INTO forma_pagamento ( descricao_forma_pagamento, parcelas, maximo_parcelas ) VALUES (?, ?)";
+            String sql = "INSERT INTO forma_pagamento ( descricao_forma_pagamento, maximo_parcelas ) VALUES (?, ?)";
 
             stm = getConector().prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
 
             stm.setString(1, formaPagamento.getDescricao());
-            stm.setInt(2, formaPagamento.getParcelas());
-            stm.setInt(3, formaPagamento.getParcelas());
+            stm.setInt(2, formaPagamento.getMaximoParcelas());
 
             return super.inserir();
         } catch (Exception ex) {
@@ -44,13 +43,12 @@ public class FormaPagamentoDAO extends DAO {
      */
     public boolean editar(FormaPagamento formaPagamento) {
         try {
-            String sql = "UPDATE forma_pagamento SET descricao_forma_pagamento =?, parcelas =?, maximo_parcelas WHERE id_forma_pagamento =?";
+            String sql = "UPDATE forma_pagamento SET descricao_forma_pagamento =?, maximo_parcelas WHERE id_forma_pagamento =?";
 
             stm = getConector().prepareStatement(sql);
 
             stm.setString(1, formaPagamento.getDescricao());
-            stm.setInt(2, formaPagamento.getParcelas());
-            stm.setInt(3, formaPagamento.getMaximoParcelas());
+            stm.setInt(2, formaPagamento.getMaximoParcelas());
 
             stm.setInt(3, formaPagamento.getId().intValue());
 
@@ -100,7 +98,7 @@ public class FormaPagamentoDAO extends DAO {
             rs = stm.executeQuery(sql);
 
             while (rs.next()) {
-                FormaPagamento formaPagamento = new FormaPagamento((long) rs.getInt(1), rs.getString("descricao_forma_pagamento"), rs.getInt("parcelas"), rs.getInt("maximo_parcelas"));
+                FormaPagamento formaPagamento = new FormaPagamento((long) rs.getInt(1), rs.getString("descricao_forma_pagamento"), rs.getInt("maximo_parcelas"));
 
                 formaPagamentos.add(formaPagamento);
             }
@@ -126,7 +124,7 @@ public class FormaPagamentoDAO extends DAO {
             rs = stm.executeQuery(sql);
 
             while (rs.next()) {
-                FormaPagamento formaPagamento = new FormaPagamento((long) rs.getInt(1), rs.getString(2), rs.getInt(3), rs.getInt("maximo_parcelas"));
+                FormaPagamento formaPagamento = new FormaPagamento((long) rs.getInt(1), rs.getString(2), rs.getInt("maximo_parcelas"));
 
                 formaPagamentos.add(formaPagamento);
             }

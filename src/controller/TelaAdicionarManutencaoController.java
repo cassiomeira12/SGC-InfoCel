@@ -14,6 +14,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.ComboBox;
@@ -28,6 +29,7 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import model.Administrador;
 import model.Cliente;
+import model.FormaPagamento;
 import model.Manutencao;
 import util.DateUtils;
 import util.Formatter;
@@ -77,6 +79,12 @@ public class TelaAdicionarManutencaoController extends AnchorPane {
     private TextField imeiText;
     @FXML
     private ComboBox<String> estadoComboBox;
+    @FXML
+    private ComboBox<FormaPagamento> formaPagamentoComboBox;
+    @FXML
+    private TextField novaFormaPagamentoText;
+    @FXML
+    private Button novaFormaPagamentoButton, salvarFormaPagamentoButton;
 
     public TelaAdicionarManutencaoController(BorderPane painelPrincipal) {
         this.painelPrincipal = painelPrincipal;
@@ -97,7 +105,7 @@ public class TelaAdicionarManutencaoController extends AnchorPane {
         this.novaManutencao = new Manutencao(null, null, null, null, null, null, null, null, null, null, null, 00, false);
         this.dataDatePicker.setValue(LocalDate.now());//Adicionando Data do dia atual
 
-        Formatter.toUpperCase(nomeText, cidadeText, enderecoText, marcaText, modeloText, imeiText);
+        Formatter.toUpperCase(nomeText, cidadeText, enderecoText, marcaText, modeloText, novaFormaPagamentoText);
         Formatter.mascaraCPF(cpfText);//Formatador para CPF
         Formatter.mascaraRG(rgText);//Formatador para Rg
         Formatter.mascaraTelefone(telefoneText);//Formatador para Telefone
@@ -127,6 +135,8 @@ public class TelaAdicionarManutencaoController extends AnchorPane {
         this.estadoComboBox.getItems().add("Finalizado");
         //Selecionando o primeiro Item
         this.estadoComboBox.getSelectionModel().select(0);//Selecionando o primeiro item
+
+        this.formaPagamentoComboBox.getItems().addAll(ControleDAO.getBanco().getFormaPagamentoDAO().listar());
 
         corColorPicker.setOnAction(new EventHandler<ActionEvent>() {
             @Override
@@ -281,6 +291,27 @@ public class TelaAdicionarManutencaoController extends AnchorPane {
             this.editarClienteCheckBox.setSelected(false);//Desativando selecao do CheckBox
             Platform.runLater(() -> dataDatePicker.requestFocus());//Colocando o Foco
         }
+    }
+
+    @FXML
+    private void adicionarNovaFormaPagamento() {
+        this.formaPagamentoComboBox.setVisible(false);
+        this.novaFormaPagamentoButton.setVisible(false);
+
+        this.novaFormaPagamentoText.setVisible(true);
+        this.salvarFormaPagamentoButton.setVisible(true);
+    }
+
+    @FXML
+    private void salvarNovaFormaPagamento() {
+        ControleDAO.getBanco().getFormaPagamentoDAO().inserir(new FormaPagamento(null, novaFormaPagamentoText.getText(), 12));
+
+        this.formaPagamentoComboBox.getItems().addAll(ControleDAO.getBanco().getFormaPagamentoDAO().listar());
+        this.formaPagamentoComboBox.setVisible(true);
+        this.novaFormaPagamentoButton.setVisible(true);
+
+        this.novaFormaPagamentoText.setVisible(false);
+        this.salvarFormaPagamentoButton.setVisible(false);
     }
 
     private Cliente criarCliente() {

@@ -93,7 +93,7 @@ public class TelaAdicionarProdutoController extends AnchorPane {
         Formatter.decimal(valorProdutoText);
         Formatter.decimal(quantidadeText);
         
-        Formatter.toUpperCase(descricaoText, custoProdutoText, novaCategoriaText);
+        Formatter.toUpperCase(descricaoText, custoProdutoText, novaCategoriaText, novaMarcaText);
         
         this.sincronizarBancoDados();//Atualizando Listas com o Banco de Dados
         this.atualizarComboBoxs();//Adicionando itens nos ComboBox
