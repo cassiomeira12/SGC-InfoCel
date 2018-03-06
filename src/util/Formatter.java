@@ -551,8 +551,7 @@ public class Formatter {
             if (newValue == null || newValue.length() > length) {
                 textField.setText(oldValue);
             }
-        }
-        );
+        });
     }
 
     public static void toUpperCase(TextInputControl... textFields) {

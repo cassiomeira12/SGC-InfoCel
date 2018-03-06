@@ -7,6 +7,7 @@ package controller;
 
 import banco.ControleDAO;
 import java.io.IOException;
+import java.text.DecimalFormat;
 import java.util.List;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
@@ -18,6 +19,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import model.CategoriaProduto;
 import model.Marca;
@@ -41,24 +43,29 @@ public class TelaAdicionarProdutoController extends AnchorPane {
     private TextField descricaoText;
     
     @FXML
-    private VBox categoriaBox;
+    private Label categoriaLabel;
+    @FXML
+    private HBox categoriaBox;
     @FXML
     private ComboBox<CategoriaProduto> categoriaComboBox;
-    
     @FXML
-    private VBox novaCategoriaBox;
+    private HBox novaCategoriaBox;
     @FXML
     private TextField novaCategoriaText;
     
+    
     @FXML
-    private VBox novaMarcaBox;
+    private Label marcaLabel;
+    @FXML
+    private HBox marcaBox;
+    @FXML
+    private ComboBox<Marca> marcaComboBox;
+    
+    @FXML
+    private HBox novaMarcaBox;
     @FXML
     private TextField novaMarcaText;
     
-    @FXML
-    private VBox marcaBox;
-    @FXML
-    private ComboBox<Marca> marcaComboBox;
     
     @FXML
     private TextField custoProdutoText;
@@ -97,7 +104,7 @@ public class TelaAdicionarProdutoController extends AnchorPane {
         
         this.sincronizarBancoDados();//Atualizando Listas com o Banco de Dados
         this.atualizarComboBoxs();//Adicionando itens nos ComboBox
-        
+        calcularPercentual();
     }
     
     private void adicionarPainelInterno(AnchorPane novaTela) {
@@ -118,6 +125,7 @@ public class TelaAdicionarProdutoController extends AnchorPane {
         String descricao = descricaoText.getText();
         CategoriaProduto categoria;
         Marca marca;
+        
         float custoProduto = Float.parseFloat(custoProdutoText.getText());
         float valorVenda = Float.parseFloat(valorProdutoText.getText());
         float quantidade = Float.parseFloat(quantidadeText.getText());
@@ -144,12 +152,14 @@ public class TelaAdicionarProdutoController extends AnchorPane {
     
     @FXML
     private void adicionarNovaCategoria() {
+        this.categoriaLabel.setText("Nova Categoria");
         this.categoriaBox.setVisible(false);
         this.novaCategoriaBox.setVisible(true);
     }
     
     @FXML
     private void salvarNovaCategoria() {
+        this.categoriaLabel.setText("Categoria");
         this.novaCategoriaBox.setVisible(false);
         this.categoriaBox.setVisible(true);
         
@@ -176,12 +186,14 @@ public class TelaAdicionarProdutoController extends AnchorPane {
     
     @FXML
     private void adicionarNovaMarca() {
+        this.marcaLabel.setText("Nova Marca");
         this.marcaBox.setVisible(false);
         this.novaMarcaBox.setVisible(true);
     }
     
     @FXML
     private void salvarNovaMarca() {
+        this.marcaLabel.setText("Marca");
         this.novaMarcaBox.setVisible(false);
         this.marcaBox.setVisible(true);
         
@@ -220,4 +232,34 @@ public class TelaAdicionarProdutoController extends AnchorPane {
         this.marcaComboBox.setItems(categoriasMarcas);
     }
     
+    private void calcularPercentual() {
+        valorProdutoText.textProperty().addListener((ov, oldValue, newValue) -> {
+            
+            if (custoProdutoText.getText().isEmpty()) {
+                Platform.runLater(() -> custoProdutoText.requestFocus());//Colocando o Foco
+                Formatter.limpar(valorProdutoText);
+                percentualLabel.setText("0%");
+                return;
+            }
+            
+            if (!valorProdutoText.getText().isEmpty()) {
+               float custoProduto = Float.parseFloat(custoProdutoText.getText());
+                float valorVenda = Float.parseFloat(valorProdutoText.getText());
+                float lucro = valorVenda - custoProduto;
+
+                float percentual = (lucro / custoProduto) * 100;
+
+                DecimalFormat df = new DecimalFormat("#,###.##");
+
+                if (valorVenda >= custoProduto) {
+                    percentualLabel.setText(df.format(percentual) + "%");
+                } else {
+                    percentualLabel.setText("0%");
+                } 
+            }
+            
+            
+            
+        });
+    }
 }

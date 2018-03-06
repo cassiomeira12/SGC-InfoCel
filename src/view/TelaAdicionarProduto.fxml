@@ -52,7 +52,7 @@
          <center>
             <VBox alignment="TOP_CENTER" spacing="50.0" BorderPane.alignment="CENTER">
                <children>
-                  <GridPane hgap="10.0" prefHeight="200.0" vgap="10.0">
+                  <GridPane hgap="10.0" prefHeight="300.0" vgap="10.0">
                     <columnConstraints>
                       <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="100.0" />
                         <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="100.0" />
@@ -62,80 +62,42 @@
                         <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="200.0" />
                     </columnConstraints>
                     <rowConstraints>
-                      <RowConstraints minHeight="-Infinity" prefHeight="50.0" vgrow="ALWAYS" />
-                      <RowConstraints minHeight="-Infinity" prefHeight="50.0" vgrow="ALWAYS" />
-                      <RowConstraints minHeight="-Infinity" prefHeight="50.0" vgrow="ALWAYS" />
+                        <RowConstraints vgrow="ALWAYS" />
+                      <RowConstraints vgrow="ALWAYS" />
+                        <RowConstraints vgrow="ALWAYS" />
+                      <RowConstraints vgrow="ALWAYS" />
+                        <RowConstraints vgrow="ALWAYS" />
+                      <RowConstraints vgrow="ALWAYS" />
                     </rowConstraints>
                      <children>
-                        <VBox spacing="4.0" GridPane.columnSpan="5">
+                        <TextField fx:id="descricaoText" GridPane.columnSpan="5" GridPane.rowIndex="1" />
+                        <HBox fx:id="categoriaBox" alignment="CENTER" spacing="5.0" GridPane.columnIndex="5" GridPane.rowIndex="1">
                            <children>
-                              <Label text="Descrição do Produto" />
-                              <TextField fx:id="descricaoText" />
+                              <ComboBox fx:id="categoriaComboBox" prefWidth="166.0" />
+                              <Button focusTraversable="false" mnemonicParsing="false" onAction="#adicionarNovaCategoria" styleClass="button-add" />
                            </children>
-                        </VBox>
-                        <VBox fx:id="categoriaBox" spacing="1.0" GridPane.columnIndex="5">
+                        </HBox>
+                        <HBox fx:id="novaCategoriaBox" alignment="CENTER" spacing="5.0" visible="false" GridPane.columnIndex="5" GridPane.rowIndex="1">
                            <children>
-                              <Label text="Categoria" />
-                              <HBox alignment="CENTER" spacing="5.0">
-                                 <children>
-                                    <ComboBox fx:id="categoriaComboBox" prefWidth="166.0" />
-                                    <Button focusTraversable="false" mnemonicParsing="false" onAction="#adicionarNovaCategoria" styleClass="button-add" />
-                                 </children>
-                              </HBox>
+                              <TextField fx:id="novaCategoriaText" />
+                              <Button focusTraversable="false" mnemonicParsing="false" onAction="#salvarNovaCategoria" styleClass="button-add" />
                            </children>
-                        </VBox>
-                        <VBox fx:id="novaCategoriaBox" focusTraversable="true" spacing="1.0" GridPane.columnIndex="5">
+                        </HBox>
+                        <HBox fx:id="marcaBox" alignment="CENTER" spacing="5.0" GridPane.columnSpan="2" GridPane.rowIndex="3">
                            <children>
-                              <Label text="Nova Categoria" />
-                              <HBox alignment="CENTER" spacing="5.0">
-                                 <children>
-                                    <TextField fx:id="novaCategoriaText" />
-                                    <Button focusTraversable="false" mnemonicParsing="false" onAction="#salvarNovaCategoria" styleClass="button-add" />
-                                 </children>
-                              </HBox>
+                              <ComboBox fx:id="marcaComboBox" prefWidth="170.0" />
+                              <Button focusTraversable="false" mnemonicParsing="false" onAction="#adicionarNovaMarca" styleClass="button-add" />
                            </children>
-                        </VBox>
-                        <VBox fx:id="marcaBox" GridPane.columnSpan="2" GridPane.rowIndex="1">
+                        </HBox>
+                        <HBox fx:id="novaMarcaBox" alignment="CENTER" spacing="5.0" GridPane.columnSpan="2" GridPane.rowIndex="3">
                            <children>
-                              <Label text="Marca" />
-                              <HBox alignment="CENTER" spacing="5.0">
-                                 <children>
-                                    <ComboBox fx:id="marcaComboBox" prefWidth="170.0" />
-                                    <Button focusTraversable="false" mnemonicParsing="false" onAction="#adicionarNovaMarca" styleClass="button-add" />
-                                 </children>
-                              </HBox>
+                              <TextField fx:id="novaMarcaText" prefWidth="170.0" />
+                              <Button focusTraversable="false" mnemonicParsing="false" onAction="#salvarNovaMarca" styleClass="button-add" />
                            </children>
-                        </VBox>
-                        <VBox fx:id="novaMarcaBox" GridPane.columnSpan="2" GridPane.rowIndex="1">
-                           <children>
-                              <Label text="Nova Marca" />
-                              <HBox alignment="CENTER" spacing="5.0">
-                                 <children>
-                                    <TextField fx:id="novaMarcaText" prefWidth="170.0" />
-                                    <Button focusTraversable="false" mnemonicParsing="false" onAction="#salvarNovaMarca" styleClass="button-add" />
-                                 </children>
-                              </HBox>
-                           </children>
-                        </VBox>
-                        <VBox spacing="4.0" GridPane.columnIndex="2" GridPane.rowIndex="1">
-                           <children>
-                              <Label text="Custo do Produto R$" />
-                              <TextField fx:id="custoProdutoText" />
-                           </children>
-                        </VBox>
-                        <VBox spacing="4.0" GridPane.columnIndex="3" GridPane.rowIndex="1">
-                           <children>
-                              <Label text="Valor para Venda R$" />
-                              <TextField fx:id="valorProdutoText" />
-                           </children>
-                        </VBox>
-                        <VBox GridPane.rowIndex="2">
-                           <children>
-                              <Label text="Quantidade" />
-                              <TextField fx:id="quantidadeText" />
-                           </children>
-                        </VBox>
-                        <HBox alignment="CENTER" focusTraversable="true" spacing="10.0" GridPane.columnIndex="4" GridPane.columnSpan="2" GridPane.rowIndex="1">
+                        </HBox>
+                        <TextField fx:id="custoProdutoText" GridPane.columnIndex="2" GridPane.rowIndex="3" />
+                        <TextField fx:id="valorProdutoText" GridPane.columnIndex="3" GridPane.rowIndex="3" />
+                        <HBox alignment="CENTER" spacing="10.0" GridPane.columnIndex="4" GridPane.columnSpan="2" GridPane.rowIndex="3">
                            <children>
                               <Label styleClass="label-titulo" text="Percentual de Lucro:">
                                  <font>
@@ -149,6 +111,15 @@
                               </Label>
                            </children>
                         </HBox>
+                        <TextField fx:id="quantidadeText" GridPane.columnIndex="2" GridPane.rowIndex="5" />
+                        <Label text="Descrição do Produto" GridPane.columnSpan="2" />
+                        <Label fx:id="categoriaLabel" text="Categoria" GridPane.columnIndex="5" />
+                        <Label text="Custo do Produto R$" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+                        <Label text="Valor para Venda R$" GridPane.columnIndex="3" GridPane.rowIndex="2" />
+                        <Label text="Quantidade" GridPane.columnIndex="2" GridPane.rowIndex="4" />
+                        <Label fx:id="marcaLabel" text="Marca" GridPane.columnSpan="2" GridPane.rowIndex="2" />
+                        <Label text="Unidade de Medida" GridPane.columnSpan="2" GridPane.rowIndex="4" />
+                        <ComboBox prefWidth="200.0" GridPane.columnSpan="2" GridPane.rowIndex="5" />
                      </children>
                      <VBox.margin>
                         <Insets top="80.0" />
