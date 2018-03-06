@@ -19,6 +19,7 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
+import javafx.scene.control.Spinner;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
@@ -52,6 +53,8 @@ public class TelaAdicionarManutencaoController extends AnchorPane {
     @FXML
     private TextField nomeText;
     @FXML
+    private TextField telefoneText;
+    @FXML
     private TextField cpfText;
     @FXML
     private TextField rgText;
@@ -60,13 +63,18 @@ public class TelaAdicionarManutencaoController extends AnchorPane {
     @FXML
     private TextField enderecoText;
     @FXML
-    private TextField telefoneText;
-    @FXML
-    private TextArea descricaoArea;
+    private DatePicker dataDatePicker;
     @FXML
     private TextField precoText;
     @FXML
-    private DatePicker dataDatePicker;
+    private ComboBox<Administrador> vendedorComboBox;
+    @FXML
+    private ComboBox<FormaPagamento> formaPagamentoComboBox;
+    @FXML
+    private Spinner parcelasSpinner;
+    
+    @FXML
+    private TextArea descricaoArea;
     @FXML
     private TextField marcaText;
     @FXML
@@ -79,12 +87,6 @@ public class TelaAdicionarManutencaoController extends AnchorPane {
     private TextField imeiText;
     @FXML
     private ComboBox<String> estadoComboBox;
-    @FXML
-    private ComboBox<FormaPagamento> formaPagamentoComboBox;
-    @FXML
-    private TextField novaFormaPagamentoText;
-    @FXML
-    private Button novaFormaPagamentoButton, salvarFormaPagamentoButton;
 
     public TelaAdicionarManutencaoController(BorderPane painelPrincipal) {
         this.painelPrincipal = painelPrincipal;
@@ -105,7 +107,7 @@ public class TelaAdicionarManutencaoController extends AnchorPane {
         this.novaManutencao = new Manutencao(null, null, null, null, null, null, null, null, null, null, null, 00, false);
         this.dataDatePicker.setValue(LocalDate.now());//Adicionando Data do dia atual
 
-        Formatter.toUpperCase(nomeText, cidadeText, enderecoText, marcaText, modeloText, novaFormaPagamentoText);
+        Formatter.toUpperCase(nomeText, cidadeText, enderecoText, marcaText, modeloText);
         Formatter.mascaraCPF(cpfText);//Formatador para CPF
         Formatter.mascaraRG(rgText);//Formatador para Rg
         Formatter.mascaraTelefone(telefoneText);//Formatador para Telefone
@@ -296,22 +298,22 @@ public class TelaAdicionarManutencaoController extends AnchorPane {
     @FXML
     private void adicionarNovaFormaPagamento() {
         this.formaPagamentoComboBox.setVisible(false);
-        this.novaFormaPagamentoButton.setVisible(false);
+        //this.novaFormaPagamentoButton.setVisible(false);
 
-        this.novaFormaPagamentoText.setVisible(true);
-        this.salvarFormaPagamentoButton.setVisible(true);
+        //this.novaFormaPagamentoText.setVisible(true);
+        //this.salvarFormaPagamentoButton.setVisible(true);
     }
 
     @FXML
     private void salvarNovaFormaPagamento() {
-        ControleDAO.getBanco().getFormaPagamentoDAO().inserir(new FormaPagamento(null, novaFormaPagamentoText.getText(), 12));
+        //ControleDAO.getBanco().getFormaPagamentoDAO().inserir(new FormaPagamento(null, novaFormaPagamentoText.getText(), 12));
 
         this.formaPagamentoComboBox.getItems().addAll(ControleDAO.getBanco().getFormaPagamentoDAO().listar());
         this.formaPagamentoComboBox.setVisible(true);
-        this.novaFormaPagamentoButton.setVisible(true);
+        //this.novaFormaPagamentoButton.setVisible(true);
 
-        this.novaFormaPagamentoText.setVisible(false);
-        this.salvarFormaPagamentoButton.setVisible(false);
+        //this.novaFormaPagamentoText.setVisible(false);
+        //this.salvarFormaPagamentoButton.setVisible(false);
     }
 
     private Cliente criarCliente() {

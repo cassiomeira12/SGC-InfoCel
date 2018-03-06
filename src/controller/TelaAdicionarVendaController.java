@@ -21,6 +21,7 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
+import javafx.scene.control.Spinner;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -75,6 +76,8 @@ public class TelaAdicionarVendaController extends AnchorPane {
     private ComboBox<Administrador> vendedorComboBox;
     @FXML
     private ComboBox<FormaPagamento> formarPagComboBox;
+    @FXML
+    private Spinner parcelasSpinner;
     @FXML
     private Button removerButton;
     @FXML
