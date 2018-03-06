@@ -23,7 +23,7 @@ public class FormaPagamentoDAO extends DAO {
      */
     public Long inserir(FormaPagamento formaPagamento) {
         try {
-            String sql = "INSERT INTO forma_pagamento ( descricao_forma_pagamento, maximo_parcelas ) VALUES (?, ?)";
+            String sql = "INSERT INTO forma_pagamento ( descricao, maximo_parcelas ) VALUES (?, ?)";
 
             stm = getConector().prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
 
@@ -43,7 +43,7 @@ public class FormaPagamentoDAO extends DAO {
      */
     public boolean editar(FormaPagamento formaPagamento) {
         try {
-            String sql = "UPDATE forma_pagamento SET descricao_forma_pagamento =?, maximo_parcelas WHERE id_forma_pagamento =?";
+            String sql = "UPDATE forma_pagamento SET descricao =?, maximo_parcelas WHERE id =?";
 
             stm = getConector().prepareStatement(sql);
 
@@ -68,7 +68,7 @@ public class FormaPagamentoDAO extends DAO {
      */
     public boolean excluir(int id) {
         try {
-            String sql = "DELETE FROM forma_pagamento WHERE id_forma_pagamento=?";
+            String sql = "DELETE FROM forma_pagamento WHERE id=?";
 
             stm = getConector().prepareStatement(sql);
 
@@ -118,7 +118,7 @@ public class FormaPagamentoDAO extends DAO {
         List<FormaPagamento> formaPagamentos = new ArrayList<>();
 
         try {
-            String sql = "SELECT forma_pagamento.* FROM forma_pagamento WHERE descricao_forma_pagamento LIKE '%" + descricao + "%'";
+            String sql = "SELECT forma_pagamento.* FROM forma_pagamento WHERE descricao LIKE '%" + descricao + "%'";
 
             stm = getConector().prepareStatement(sql);
             rs = stm.executeQuery(sql);

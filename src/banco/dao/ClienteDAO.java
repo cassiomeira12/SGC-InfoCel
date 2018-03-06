@@ -21,7 +21,7 @@ public class ClienteDAO extends DAO {
      */
     public Long inserir(Cliente cliente) {
         try {
-            String sql = "INSERT INTO cliente ( nome_cliente, endereco_cliente, cpf_cliente, rg_cliente, telefone_cliente, cidade_cliente, data_cadastro_cliente, status_cliente ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+            String sql = "INSERT INTO cliente ( nome, endereco, cpf, rg, telefone, cidade, data_cadastro, status ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
             stm = getConector().prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
 
@@ -47,7 +47,7 @@ public class ClienteDAO extends DAO {
      */
     public boolean editar(Cliente cliente) {
         try {
-            String sql = "UPDATE cliente SET nome_cliente =?, endereco_cliente =?, cpf_cliente =?, rg_cliente =?, telefone_cliente =?, cidade_cliente =?, status_cliente =? WHERE id_cliente =?";
+            String sql = "UPDATE cliente SET nome =?, endereco =?, cpf =?, rg =?, telefone =?, cidade =?, status =? WHERE id =?";
 
             stm = getConector().prepareStatement(sql);
 
@@ -77,7 +77,7 @@ public class ClienteDAO extends DAO {
      */
     public boolean excluir(int id) {
         try {
-            String sql = "DELETE FROM cliente WHERE id_cliente=?";
+            String sql = "DELETE FROM cliente WHERE id=?";
 
             stm = getConector().prepareStatement(sql);
 

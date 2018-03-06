@@ -13,10 +13,12 @@ public class UnidadeMedida {
 
     private Long id;
     private String descricao;
+    private String abreviacao;
 
-    public UnidadeMedida(Long id, String descricao) {
+    public UnidadeMedida(Long id, String descricao, String abreviacao) {
         this.id = id;
         this.descricao = descricao;
+        this.abreviacao = abreviacao;
     }
 
     public Long getId() {
@@ -33,6 +35,14 @@ public class UnidadeMedida {
 
     public void setDescricao(String descricao) {
         this.descricao = descricao;
+    }
+
+    public String getAbreviacao() {
+        return abreviacao;
+    }
+
+    public void setAbreviacao(String abreviacao) {
+        this.abreviacao = abreviacao;
     }
 
 }

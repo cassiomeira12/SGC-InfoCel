@@ -26,7 +26,7 @@ public class CelularDAO extends DAO {
      */
     public Long inserir(Celular celular) {
         try {
-            String sql = "INSERT INTO produto ( descricao_produto, categoria_produto_id, marca_id, preco_compra, preco_venda, estoque, modelo, imei, cor, eh_celular, unidade_medida_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            String sql = "INSERT INTO produto ( descricao, id_categoria_produto, id_marca, preco_compra, preco_venda, estoque, modelo, imei, cor, eh_celular, id_unidade_medida) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
             stm = getConector().prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
 
@@ -55,7 +55,7 @@ public class CelularDAO extends DAO {
      */
     public boolean editar(Celular celular) {
         try {
-            String sql = "UPDATE produto SET  descricao_produto =?, categoria_produto_id =?, id_marca =?, preco_compra =?, preco_venda =?, estoque =?, modelo =?, imei =?, cor =?, unidade_medida_id =  WHERE id_produto =?";
+            String sql = "UPDATE produto SET  descricao =?, id_categoria_produto =?, id_marca =?, preco_compra =?, preco_venda =?, estoque =?, modelo =?, imei =?, cor =?, id_unidade_medida =  WHERE id =?";
 
             stm = getConector().prepareStatement(sql);
 
@@ -119,7 +119,7 @@ public class CelularDAO extends DAO {
             while (rs.next()) {
                 CategoriaProduto categoria = new CategoriaProduto(rs.getLong("categoria_produto_id"), rs.getString("descricao_categoria"));
                 Marca marca = new Marca(rs.getLong("marca_id"), rs.getString("descricao_marca"));
-                UnidadeMedida unidadeMedida = new UnidadeMedida(rs.getLong("marca_id"), rs.getString("descricao_marca"));
+                UnidadeMedida unidadeMedida = new UnidadeMedida(rs.getLong(""), rs.getString(""), "");
 
                 Celular celular = new Celular(rs.getLong("id_produto"), marca, rs.getString("descricao_produto"), categoria, rs.getFloat("preco_compra"), rs.getFloat("preco_venda"), rs.getFloat("estoque"), unidadeMedida);
                 celular.setCor(rs.getString("cor"));
@@ -161,7 +161,7 @@ public class CelularDAO extends DAO {
             while (rs.next()) {
                 CategoriaProduto categoria = new CategoriaProduto(rs.getLong("categoria_produto_id"), rs.getString("descricao_categoria"));
                 Marca marca = new Marca(rs.getLong("marca_id"), rs.getString("descricao_marca"));
-                UnidadeMedida unidadeMedida = new UnidadeMedida(rs.getLong("marca_id"), rs.getString("descricao_marca"));
+                UnidadeMedida unidadeMedida = new UnidadeMedida(rs.getLong("marca_id"), rs.getString("descricao_marca"), "");
 
                 Celular celular = new Celular(rs.getLong("id_produto"), marca, rs.getString("descricao_produto"), categoria, rs.getFloat("preco_compra"), rs.getFloat("preco_venda"), rs.getFloat("estoque"), unidadeMedida);
                 celular.setCor(rs.getString("cor"));

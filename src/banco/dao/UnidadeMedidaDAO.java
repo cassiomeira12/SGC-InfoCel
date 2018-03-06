@@ -96,7 +96,7 @@ public class UnidadeMedidaDAO extends DAO {
             rs = stm.executeQuery(sql);
 
             while (rs.next()) {
-                UnidadeMedida unidadeMedida = new UnidadeMedida((long) rs.getInt(1), rs.getString(2));
+                UnidadeMedida unidadeMedida = new UnidadeMedida((long) rs.getInt(1), rs.getString(2), rs.getString(3));
 
                 unidadeMedidas.add(unidadeMedida);
             }
