@@ -19,7 +19,7 @@ public class LoginDAO extends DAO {
     public boolean autenticarLogin(String nome) {
 
         try {
-            String sql = "SELECT login FROM administrador WHERE login=? AND status_administrador = 1 ";
+            String sql = "SELECT login FROM administrador WHERE login=? AND status = 1 ";
 
             stm = getConector().prepareStatement(sql);
             stm.setString(1, nome);
