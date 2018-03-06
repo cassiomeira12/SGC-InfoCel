@@ -38,7 +38,7 @@ public class VendaDAO extends DAO {
                 idCliente = ControleDAO.getBanco().getClienteDAO().inserir(venda.getCliente());
             }
 
-            String sql = "INSERT INTO venda ( administrador_id, cliente_id, preco_total, forma_pagamento_id, quantidade_parcela, data ) VALUES (?, ?, ?, ?, ?)";
+            String sql = "INSERT INTO venda ( id_administrador, id_cliente, preco_total, id_forma_pagamento, quantidade_parcela, data ) VALUES (?, ?, ?, ?, ?)";
 
             stm = getConector().prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
 
@@ -51,7 +51,7 @@ public class VendaDAO extends DAO {
             idVenda = super.inserir();
 
             //cadastrar vendaProduto
-            sql = "INSERT INTO venda_produto ( produto_id, venda_id, quantidade, preco_total ) VALUES";
+            sql = "INSERT INTO venda_produto ( id_produto, id_venda, quantidade, preco_total ) VALUES";
             for (VendaProduto vp : venda.getVendaProdutos()) {
                 sql = sql + "\n(" + vp.getProduto().getId() + "," + idVenda + "," + vp.getQuantidade() + "," + vp.getPrecoTotal() + "),";
             }
@@ -104,20 +104,20 @@ public class VendaDAO extends DAO {
         try {
             String sql = "SELECT venda.*, cliente.*, administrador.*, forma_pagamento.* "
                     + "FROM venda"
-                    + "\nINNER JOIN cliente cliente ON venda.cliente_id = cliente.id_cliente"
-                    + "\nINNER JOIN forma_pagamento forma_pagamento ON venda.forma_pagamento_id = forma_pagamento.id_forma_pagamento"
-                    + "\nINNER JOIN administrador administrador ON venda.administrador_id = administrador.id_administrador";
+                    + "\nINNER JOIN cliente cliente ON venda.id_cliente = cliente.id"
+                    + "\nINNER JOIN forma_pagamento forma_pagamento ON venda.id_forma_pagamento = forma_pagamento.id"
+                    + "\nINNER JOIN administrador administrador ON venda.id_administrador = administrador.id";
 
             stm = getConector().prepareStatement(sql);
             rs = stm.executeQuery(sql);
 
             while (rs.next()) {
-                Administrador adm = new Administrador(rs.getLong("administrador_id"), rs.getString("nome_administrador"), "", "", rs.getString("endereco_administrador"), rs.getString("email_administrador"), rs.getString("cpf_administrador"), rs.getString("rg_administrador"), null, rs.getInt("status_administrador"));
-                Cliente cliente = new Cliente(rs.getLong("cliente_id"), rs.getString("nome_cliente"), rs.getString("endereco_cliente"), rs.getString("cpf_cliente"), rs.getString("rg_cliente"), rs.getString("telefone_cliente"), rs.getString("cidade_cliente"), null, rs.getInt("status_cliente"));
-                FormaPagamento formaPagamento = new FormaPagamento(rs.getLong("forma_pagamento_id"), rs.getString("descricao_forma_pagamento"), rs.getInt("maximo_parcelas"));
+                Administrador adm = new Administrador(rs.getLong("administrador.id"), rs.getString("administrador.nome"), "", "", rs.getString("administrador.endereco"), rs.getString("administrador.email"), rs.getString("administrador.cpf"), rs.getString("administrador.rg"), null, rs.getInt("administrador.status"));
+                Cliente cliente = new Cliente(rs.getLong("cliente_id"), rs.getString("nome_cliente"), rs.getString("endereco_cliente"), rs.getString("cpf_cliente"), rs.getString("cliente.rg"), rs.getString("cliente.telefone"), rs.getString("cliente.cidade"), null, rs.getInt("cliente.status"));
+                FormaPagamento formaPagamento = new FormaPagamento(rs.getLong("forma_pagamento.id"), rs.getString("forma_pagamento.descricao"), rs.getInt("maximo_parcelas"));
 
-                Venda venda = new Venda(rs.getLong("id_venda"), adm, cliente, null, formaPagamento, rs.getInt("quantidade_parcela"), rs.getLong("data"));
-                venda.setPrecoTotal(rs.getFloat("preco_total"));
+                Venda venda = new Venda(rs.getLong("venda.id"), adm, cliente, null, formaPagamento, rs.getInt("venda.quantidade_parcela"), rs.getLong("venda.data"));
+                venda.setPrecoTotal(rs.getFloat("venda.preco_total"));
 
                 vendas.add(venda);
             }
@@ -187,7 +187,7 @@ public class VendaDAO extends DAO {
             while (rs.next()) {
                 CategoriaProduto categoria = new CategoriaProduto(rs.getLong("categoria_id"), rs.getString("descricao_categoria"));
                 Marca marca = new Marca(rs.getLong("marca_id"), rs.getString("descricao_marca"));
-                UnidadeMedida unidadeMedida = new UnidadeMedida(rs.getLong("unidade_medida_id"), rs.getString("descricao_unidade"));
+                UnidadeMedida unidadeMedida = new UnidadeMedida(rs.getLong("unidade_medida_id"), rs.getString("descricao_unidade"), "");
 
                 Produto produto = (new Produto(rs.getLong("id_produto"), marca, rs.getString("descricao_produto"), categoria, rs.getFloat("preco_compra"), rs.getFloat("preco_venda"), rs.getFloat("estoque"), unidadeMedida));
                 produto.setPrecoVenda(rs.getFloat("preco_total") / rs.getFloat("quantidade"));

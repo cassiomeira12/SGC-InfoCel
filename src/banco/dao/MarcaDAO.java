@@ -23,7 +23,7 @@ public class MarcaDAO extends DAO {
      */
     public Long inserir(Marca marca) {
         try {
-            String sql = "INSERT INTO marca ( descricao_marca ) VALUES (?)";
+            String sql = "INSERT INTO marca ( descricao ) VALUES (?)";
 
             stm = getConector().prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
 
@@ -42,7 +42,7 @@ public class MarcaDAO extends DAO {
      */
     public boolean editar(Marca marca) {
         try {
-            String sql = "UPDATE marca SET descricao_marca =? WHERE id_marca =?";
+            String sql = "UPDATE marca SET descricao =? WHERE id =?";
 
             stm = getConector().prepareStatement(sql);
 
@@ -66,7 +66,7 @@ public class MarcaDAO extends DAO {
      */
     public boolean excluir(int id) {
         try {
-            String sql = "DELETE FROM marca WHERE id_marca=?";
+            String sql = "DELETE FROM marca WHERE id=?";
 
             stm = getConector().prepareStatement(sql);
 
@@ -116,7 +116,7 @@ public class MarcaDAO extends DAO {
         List<Marca> marcas = new ArrayList<>();
 
         try {
-            String sql = "SELECT marca.* FROM marca WHERE descricao_marca LIKE '%" + busca + "%'";
+            String sql = "SELECT marca.* FROM marca WHERE descricao LIKE '%" + busca + "%'";
 
             stm = getConector().prepareStatement(sql);
             rs = stm.executeQuery(sql);

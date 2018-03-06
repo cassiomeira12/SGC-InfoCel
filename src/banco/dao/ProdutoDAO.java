@@ -118,7 +118,7 @@ public class ProdutoDAO extends DAO {
             while (rs.next()) {
                 CategoriaProduto categoria = new CategoriaProduto(rs.getLong("categoria_id"), rs.getString("descricao_categoria"));
                 Marca marca = new Marca(rs.getLong("marca_id"), rs.getString("descricao_marca"));
-                UnidadeMedida unidadeMedida = new UnidadeMedida(rs.getLong("unidade_medida_id"), rs.getString("descricao_unidade"));
+                UnidadeMedida unidadeMedida = new UnidadeMedida(rs.getLong("unidade_medida_id"), rs.getString("descricao_unidade"), "");
 
                 produtos.add(new Produto(rs.getLong("id_produto"), marca, rs.getString("descricao_produto"), categoria, rs.getFloat("preco_compra"), rs.getFloat("preco_venda"), rs.getFloat("estoque"), unidadeMedida));
             }
@@ -190,7 +190,7 @@ public class ProdutoDAO extends DAO {
             while (rs.next()) {
                 CategoriaProduto categoria = new CategoriaProduto(rs.getLong("categoria_id"), rs.getString("descricao_categoria"));
                 Marca marca = new Marca(rs.getLong("marca_id"), rs.getString("descricao_marca"));
-                UnidadeMedida unidadeMedida = new UnidadeMedida(rs.getLong("unidade_medida_id"), rs.getString("descricao_unidade"));
+                UnidadeMedida unidadeMedida = new UnidadeMedida(rs.getLong("unidade_medida_id"), rs.getString("descricao_unidade"), "");
 
                 produtos.add(new Produto(rs.getLong("id_produto"), marca, rs.getString("descricao_produto"), categoria, rs.getFloat("preco_compra"), rs.getFloat("preco_venda"), rs.getFloat("estoque"), unidadeMedida));
             }
@@ -224,7 +224,7 @@ public class ProdutoDAO extends DAO {
 
             while (rs.next()) {
                 Marca marca = new Marca(rs.getLong("marca_id"), rs.getString("descricao_marca"));
-                UnidadeMedida unidadeMedida = new UnidadeMedida(rs.getLong("unidade_medida_id"), rs.getString("descricao_unidade"));
+                UnidadeMedida unidadeMedida = new UnidadeMedida(rs.getLong("unidade_medida_id"), rs.getString("descricao_unidade"), "");
 
                 produtos.add(new Produto(rs.getLong("id_produto"), marca, rs.getString("descricao_produto"), categoria, rs.getFloat("preco_compra"), rs.getFloat("preco_venda"), rs.getFloat("estoque"), unidadeMedida));
             }
@@ -257,7 +257,7 @@ public class ProdutoDAO extends DAO {
             while (rs.next()) {
                 CategoriaProduto categoria = new CategoriaProduto(rs.getLong("categoria_id"), rs.getString("descricao_categoria"));
                 Marca marca = new Marca(rs.getLong("marca_id"), rs.getString("descricao_marca"));
-                UnidadeMedida unidadeMedida = new UnidadeMedida(rs.getLong("unidade_medida_id"), rs.getString("descricao_unidade"));
+                UnidadeMedida unidadeMedida = new UnidadeMedida(rs.getLong("unidade_medida_id"), rs.getString("descricao_unidade"), "");
 
                 produto = new Produto(rs.getLong("id_produto"), marca, rs.getString("descricao_produto"), categoria, rs.getFloat("preco_compra"), rs.getFloat("preco_venda"), rs.getFloat("estoque"), unidadeMedida);
 

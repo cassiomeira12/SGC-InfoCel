@@ -41,7 +41,7 @@ public class CategoriaProdutoDAO extends DAO {
      */
     public boolean editar(CategoriaProduto categoria) {
         try {
-            String sql = "UPDATE categoria_produto SET descricao_categoria =? WHERE id_categoria =?";
+            String sql = "UPDATE categoria_produto SET descricao =? WHERE id =?";
 
             stm = getConector().prepareStatement(sql);
 
@@ -65,7 +65,7 @@ public class CategoriaProdutoDAO extends DAO {
      */
     public boolean excluir(int id) {
         try {
-            String sql = "DELETE FROM categoria_produto WHERE id_categoria=?";
+            String sql = "DELETE FROM categoria_produto WHERE id=?";
 
             stm = getConector().prepareStatement(sql);
 
@@ -115,7 +115,7 @@ public class CategoriaProdutoDAO extends DAO {
         List<CategoriaProduto> categorias = new ArrayList<>();
 
         try {
-            String sql = "SELECT categoria_produto.* FROM categoria_produto WHERE descricao_categoria LIKE '%" + descricao + "%'";
+            String sql = "SELECT categoria_produto.* FROM categoria_produto WHERE descricao LIKE '%" + descricao + "%'";
 
             stm = getConector().prepareStatement(sql);
             rs = stm.executeQuery(sql);

@@ -23,7 +23,7 @@ public class CategoriaSaidaDAO extends DAO {
      */
     public Long inserir(CategoriaSaida categoria) {
         try {
-            String sql = "INSERT INTO categoria_saida ( descricao_categoria ) VALUES (?)";
+            String sql = "INSERT INTO categoria_saida ( descricao ) VALUES (?)";
 
             stm = getConector().prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
 
@@ -42,7 +42,7 @@ public class CategoriaSaidaDAO extends DAO {
      */
     public boolean editar(CategoriaProduto categoria) {
         try {
-            String sql = "UPDATE categoria_saida SET descricao_categoria =? WHERE id_categoria =?";
+            String sql = "UPDATE categoria_saida SET descricao =? WHERE id =?";
 
             stm = getConector().prepareStatement(sql);
 
@@ -66,7 +66,7 @@ public class CategoriaSaidaDAO extends DAO {
      */
     public boolean excluir(int id) {
         try {
-            String sql = "DELETE FROM categoria_saida WHERE id_categoria=?";
+            String sql = "DELETE FROM categoria_saida WHERE id=?";
 
             stm = getConector().prepareStatement(sql);
 
@@ -116,7 +116,7 @@ public class CategoriaSaidaDAO extends DAO {
         List<CategoriaSaida> categorias = new ArrayList<>();
 
         try {
-            String sql = "SELECT categoria_saida.* FROM categoria_saida WHERE descricao_saida LIKE '%" + descricao + "%'";
+            String sql = "SELECT categoria_saida.* FROM categoria_saida WHERE descricao LIKE '%" + descricao + "%'";
 
             stm = getConector().prepareStatement(sql);
             rs = stm.executeQuery(sql);
