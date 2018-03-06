@@ -54,12 +54,23 @@ and open the template in the editor.
     -fx-graphic: url("../img/icons/add.png");
 }
 
-
 /*Botao Editar*/
 .button-add:hover {
     -fx-effect: innershadow(two-pass-box, rgba(0, 0, 0, 0.2), 6, 0.1, 0, 2);
     -fx-background-color: #27ae60;
 }
+
+.button-confirmar {
+    -fx-text-fill: #fff;
+    -fx-background-color: #55c8fe;
+    -fx-graphic: url("../img/icons/confirmar.png");
+}
+
+.button-confirmar:hover {
+    -fx-effect: innershadow(two-pass-box, rgba(0, 0, 0, 0.2), 6, 0.1, 0, 2);
+    -fx-background-color: #34bdfe;
+}
+
 
 /*Botao Deletar*/
 .button-deletar {
