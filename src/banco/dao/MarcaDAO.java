@@ -21,42 +21,30 @@ public class MarcaDAO extends DAO {
     /**
      * Inserir marca na base de dados
      */
-    public Long inserir(Marca marca) {
-        try {
-            String sql = "INSERT INTO marca ( descricao ) VALUES (?)";
+    public Long inserir(Marca marca) throws Exception {
+        String sql = "INSERT INTO marca ( descricao ) VALUES (?)";
 
-            stm = getConector().prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
+        stm = getConector().prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
 
-            stm.setString(1, marca.getDescricao());
+        stm.setString(1, marca.getDescricao());
 
-            return super.inserir();
-        } catch (Exception ex) {
-            chamarAlertaErro("Erro ao inserir marca na base de dados", ex.toString());
-        }
-
-        return null;
+        return super.inserir();
     }
 
     /**
      * Atualizar dados marca na base de dados
      */
-    public boolean editar(Marca marca) {
-        try {
-            String sql = "UPDATE marca SET descricao =? WHERE id =?";
+    public boolean editar(Marca marca) throws SQLException {
+        String sql = "UPDATE marca SET descricao =? WHERE id =?";
 
-            stm = getConector().prepareStatement(sql);
+        stm = getConector().prepareStatement(sql);
 
-            stm.setString(1, marca.getDescricao());
+        stm.setString(1, marca.getDescricao());
 
-            stm.setInt(2, marca.getId().intValue());
+        stm.setInt(2, marca.getId().intValue());
 
-            stm.executeUpdate();
-            stm.close();
-
-        } catch (SQLException ex) {
-            chamarAlertaErro("Erro ao atualizar marca na base de dados!", ex.toString());
-            return false;
-        }
+        stm.executeUpdate();
+        stm.close();
 
         return true;
     }
@@ -64,20 +52,15 @@ public class MarcaDAO extends DAO {
     /**
      * Excluir marca na base de dados
      */
-    public boolean excluir(int id) {
-        try {
-            String sql = "DELETE FROM marca WHERE id=?";
+    public boolean excluir(int id) throws SQLException {
+        String sql = "DELETE FROM marca WHERE id=?";
 
-            stm = getConector().prepareStatement(sql);
+        stm = getConector().prepareStatement(sql);
 
-            stm.setInt(1, id);
-            stm.execute();
+        stm.setInt(1, id);
+        stm.execute();
 
-            stm.close();
-        } catch (SQLException ex) {
-            chamarAlertaErro("Erro ao excluir marca na base de dados!", ex.toString());
-            return false;
-        }
+        stm.close();
 
         return true;
     }
@@ -85,57 +68,46 @@ public class MarcaDAO extends DAO {
     /**
      * Consultar todas marcas cadastradas na base de dados
      */
-    public List<Marca> listar() {
+    public List<Marca> listar() throws SQLException {
 
         List<Marca> marcas = new ArrayList<>();
 
-        try {
-            String sql = "SELECT marca.* FROM marca";
+        String sql = "SELECT marca.* FROM marca";
 
-            stm = getConector().prepareStatement(sql);
-            rs = stm.executeQuery(sql);
+        stm = getConector().prepareStatement(sql);
+        rs = stm.executeQuery(sql);
 
-            while (rs.next()) {
-                Marca marca = new Marca((long) rs.getInt(1), rs.getString(2));
+        while (rs.next()) {
+            Marca marca = new Marca((long) rs.getInt(1), rs.getString(2));
 
-                marcas.add(marca);
-            }
-
-            stm.close();
-            rs.close();
-
-        } catch (SQLException ex) {
-            chamarAlertaErro("Erro ao consultar marcas na base de dados!", ex.toString());
+            marcas.add(marca);
         }
+
+        stm.close();
+        rs.close();
 
         return marcas;
     }
 
-    public List<Marca> buscarPorDescricao(String busca) {
+    public List<Marca> buscarPorDescricao(String busca) throws Exception {
 
         List<Marca> marcas = new ArrayList<>();
 
-        try {
-            String sql = "SELECT marca.* FROM marca WHERE descricao LIKE '%" + busca + "%'";
+        String sql = "SELECT marca.* FROM marca WHERE descricao LIKE '%" + busca + "%'";
 
-            stm = getConector().prepareStatement(sql);
-            rs = stm.executeQuery(sql);
+        stm = getConector().prepareStatement(sql);
+        rs = stm.executeQuery(sql);
 
-            while (rs.next()) {
-                Marca marca = new Marca((long) rs.getInt(1), rs.getString(2));
+        while (rs.next()) {
+            Marca marca = new Marca((long) rs.getInt(1), rs.getString(2));
 
-                marcas.add(marca);
-            }
-
-            stm.close();
-            rs.close();
-
-        } catch (SQLException ex) {
-            chamarAlertaErro("Erro ao consultar marcas na base de dados!", ex.toString());
+            marcas.add(marca);
         }
+
+        stm.close();
+        rs.close();
 
         return marcas;
     }
-
 
 }

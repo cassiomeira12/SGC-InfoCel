@@ -121,16 +121,11 @@ public class LoginController extends AnchorPane {
                         limparLogin();//Apaga o texto que esta no TextField de Login
                         limparSenha();//Apaga o texto que esta no TextField de Login
 
-                        entrarButton.setDisable(false);
-                        usuarioText.setDisable(false);
-                        senhaPassword.setDisable(false);
                     }
                 } catch (Exception e) {
-                    chamarAlerta("Erro", "Usuário não encontrado");
+                    chamarAlerta("Não foi possível conectar-se ao banco de dados.", "Falha de conexão");
                     System.out.println("[ERRO]: " + e.toString());
-                    limparLogin();//Apaga o texto que esta no TextField de Login
-                    limparSenha();//Apaga o texto que esta no TextField de Login
-
+                } finally {
                     entrarButton.setDisable(false);
                     usuarioText.setDisable(false);
                     senhaPassword.setDisable(false);

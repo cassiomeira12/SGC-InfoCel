@@ -45,13 +45,4 @@ public class DAO {
 
         return id;
     }
-
-    public void chamarAlertaErro(String titulo, String mensagem) {
-        Platform.runLater(new Runnable() {
-            @Override
-            public void run() {
-                Alerta.erro(mensagem, titulo);
-            }
-        });
-    }
 }

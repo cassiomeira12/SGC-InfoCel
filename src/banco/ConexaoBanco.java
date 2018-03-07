@@ -33,7 +33,6 @@ public class ConexaoBanco {
             connection = DriverManager.getConnection(URL + DATABASE, USERNAME, PASSWORD);
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | SQLException ex) {
             System.out.println("[ERRO]: Erro ao conectar-se com a base de dados\n" + ex.toString());
-            chamarAlertaErro("[ERRO]: Erro ao conectar-se com a base de dados", ex.toString());
         }
     }
 
@@ -56,15 +55,6 @@ public class ConexaoBanco {
      */
     public Connection getConnection() {
         return connection;
-    }
-
-    public void chamarAlertaErro(String titulo, String mensagem) {
-        Platform.runLater(new Runnable() {
-            @Override
-            public void run() {
-                Alerta.erro(titulo, mensagem);
-            }
-        });
     }
 
 }//fim class

@@ -25,77 +25,59 @@ public class ReceitaDAO extends DAO {
     /**
      * Inserir marca na base de dados
      */
-    public Long inserir(Receita receita) {
-        try {
-            if (receita.getCliente().getId() == null) {
-                Long id = ControleDAO.getBanco().getClienteDAO().inserir(receita.getCliente());
-                receita.getCliente().setId(id);
+    public Long inserir(Receita receita) throws Exception {
+        if (receita.getCliente().getId() == null) {
+            Long id = ControleDAO.getBanco().getClienteDAO().inserir(receita.getCliente());
+            receita.getCliente().setId(id);
 
-            }
-
-            String sql = "INSERT INTO receita ( cliente_id, administrador_id, descricao_receita, data_receita, valor_receita ) VALUES (?, ?, ?, ?, ?)";
-
-            stm = getConector().prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
-
-            stm.setInt(1, receita.getCliente().getId().intValue());
-            stm.setInt(2, receita.getAdministrador().getId().intValue());
-            stm.setString(3, receita.getDescricao());
-            stm.setLong(4, receita.getData());
-            stm.setFloat(5, receita.getValor());
-
-            return super.inserir();
-        } catch (Exception ex) {
-            chamarAlertaErro("Erro ao inserir marca na base de dados", ex.toString());
         }
 
-        return null;
+        String sql = "INSERT INTO receita ( id_cliente, id_administrador, descricao, data, valor ) VALUES (?, ?, ?, ?, ?)";
+
+        stm = getConector().prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
+
+        stm.setInt(1, receita.getCliente().getId().intValue());
+        stm.setInt(2, receita.getAdministrador().getId().intValue());
+        stm.setString(3, receita.getDescricao());
+        stm.setLong(4, receita.getData());
+        stm.setFloat(5, receita.getValor());
+
+        return super.inserir();
     }
 
     /**
      * Atualizar dados receita na base de dados
      */
-    public boolean editar(Receita receita) {
-        try {
-            String sql = "UPDATE receita SET cliente_id =?, administrador_id =?, descricao_receita =?, valor_receita =?, data_receita =? WHERE id_receita =?";
+    public boolean editar(Receita receita) throws SQLException {
+        String sql = "UPDATE receita SET id_cliente =?, id_administrador =?, descricao =?, valor =?, data =? WHERE id=?";
 
-            stm = getConector().prepareStatement(sql);
+        stm = getConector().prepareStatement(sql);
 
-            stm.setInt(1, receita.getCliente().getId().intValue());
-            stm.setInt(2, receita.getAdministrador().getId().intValue());
-            stm.setString(3, receita.getDescricao());
-            stm.setFloat(4, receita.getValor());
-            stm.setLong(5, receita.getData());
+        stm.setInt(1, receita.getCliente().getId().intValue());
+        stm.setInt(2, receita.getAdministrador().getId().intValue());
+        stm.setString(3, receita.getDescricao());
+        stm.setFloat(4, receita.getValor());
+        stm.setLong(5, receita.getData());
 
-            stm.setInt(6, receita.getId().intValue());
+        stm.setInt(6, receita.getId().intValue());
 
-            stm.executeUpdate();
-            stm.close();
-
-        } catch (SQLException ex) {
-            chamarAlertaErro("Erro ao atualizar receita na base de dados!", ex.toString());
-            return false;
-        }
-
+        stm.executeUpdate();
+        stm.close();
         return true;
     }
 
     /**
      * Excluir marca na base de dados
      */
-    public boolean excluir(int id) {
-        try {
-            String sql = "DELETE FROM receita WHERE id_receita=?";
+    public boolean excluir(int id) throws SQLException {
+        String sql = "DELETE FROM receita WHERE id=?";
 
-            stm = getConector().prepareStatement(sql);
+        stm = getConector().prepareStatement(sql);
 
-            stm.setInt(1, id);
-            stm.execute();
+        stm.setInt(1, id);
+        stm.execute();
 
-            stm.close();
-        } catch (SQLException ex) {
-            chamarAlertaErro("Erro ao excluir receita na base de dados!", ex.toString());
-            return false;
-        }
+        stm.close();
 
         return true;
     }
@@ -103,102 +85,51 @@ public class ReceitaDAO extends DAO {
     /**
      * Consultar todas receita cadastradas na base de dados
      */
-    private List<Receita> listar() {
+    private List<Receita> listar() throws SQLException {
 
         List<Receita> receitas = new ArrayList<>();
 
-        try {
-            String sql = "SELECT receita.*, cliente.*, administrador.* "
-                    + "FROM receita"
-                    + "\nINNER JOIN cliente cliente ON receita.cliente_id = cliente.id_cliente"
-                    + "\nINNER JOIN administrador administrador ON receita.administrador_id = administrador.id_administrador";
+        String sql = "SELECT * FROM view_receita";
+        stm = getConector().prepareStatement(sql);
+        rs = stm.executeQuery(sql);
 
-            stm = getConector().prepareStatement(sql);
-            rs = stm.executeQuery(sql);
+        while (rs.next()) {
+            Administrador adm = new Administrador(rs.getLong("id_administrador"), rs.getString("nome_administrador"), null, null, null, null, null, null, null, 1);
+            Cliente cliente = new Cliente(rs.getLong("id_cliente"), rs.getString("nome_cliente"), null, null, null, null, null, null, 1);
 
-            while (rs.next()) {
-                Administrador adm = new Administrador(rs.getLong("administrador_id"), rs.getString("nome_administrador"), "", "", rs.getString("endereco_administrador"), rs.getString("email_administrador"), rs.getString("cpf_administrador"), rs.getString("rg_administrador"), null, rs.getInt("status_administrador"));
-                Cliente cliente = new Cliente(rs.getLong("cliente_id"), rs.getString("nome_cliente"), rs.getString("endereco_cliente"), rs.getString("cpf_cliente"), rs.getString("rg_cliente"), rs.getString("telefone_cliente"), rs.getString("cidade_cliente"), null, rs.getInt("status_cliente"));
+            Receita receita = new Receita(rs.getLong(1), cliente, adm, rs.getString(4), rs.getLong(5), rs.getFloat(6));
 
-                Receita receita = new Receita(rs.getLong(1), cliente, adm, rs.getString(4), rs.getLong(5), rs.getFloat(6));
-
-                receitas.add(receita);
-            }
-
-            stm.close();
-            rs.close();
-
-        } catch (SQLException ex) {
-            chamarAlertaErro("Erro ao consultar marcas na base de dados!", ex.toString());
+            receitas.add(receita);
         }
+
+        stm.close();
+        rs.close();
 
         return receitas;
     }
 
-    private List<Receita> buscarPorDescricao(String busca) {
-
-        List<Receita> receitas = new ArrayList<>();
-
-        try {
-            String sql = "SELECT receita.*, cliente.*, administrador.* "
-                    + "FROM receita"
-                    + "\nINNER JOIN cliente cliente ON receita.cliente_id = cliente.id_cliente"
-                    + "\nINNER JOIN administrador administrador ON receita.administrador_id = administrador.id_administrador"
-                    + "\nWHERE descricao_receita LIKE '%" + busca + "%'";
-
-            stm = getConector().prepareStatement(sql);
-            rs = stm.executeQuery(sql);
-
-            while (rs.next()) {
-                Administrador adm = new Administrador(rs.getLong("administrador_id"), rs.getString("nome_administrador"), "", "", rs.getString("endereco_administrador"), rs.getString("email_administrador"), rs.getString("cpf_administrador"), rs.getString("rg_administrador"), null, rs.getInt("status_administrador"));
-                Cliente cliente = new Cliente(rs.getLong("cliente_id"), rs.getString("nome_cliente"), rs.getString("endereco_cliente"), rs.getString("cpf_cliente"), rs.getString("rg_cliente"), rs.getString("telefone_cliente"), rs.getString("cidade_cliente"), null, rs.getInt("status_cliente"));
-
-                Receita receita = new Receita(rs.getLong(1), cliente, adm, rs.getString(4), rs.getLong(5), rs.getFloat(6));
-
-                receitas.add(receita);
-            }
-
-            stm.close();
-            rs.close();
-
-        } catch (SQLException ex) {
-            chamarAlertaErro("Erro ao consultar marcas na base de dados!", ex.toString());
-        }
-
-        return receitas;
-    }
-
-    public List<Receita> buscarPorIntervalo(String dataInicio, String dataFinal) {
+    public List<Receita> buscarPorIntervalo(String dataInicio, String dataFinal) throws SQLException {
         Long inicio = DateUtils.getLongFromDate(dataInicio);
         Long finall = DateUtils.getLongFromDate(dataFinal);
 
         List<Receita> receitas = new ArrayList<>();
 
-        try {
-            String sql = "SELECT receita.*, cliente.*, administrador.* "
-                    + "FROM receita"
-                    + "\nINNER JOIN cliente cliente ON receita.cliente_id = cliente.id_cliente"
-                    + "\nINNER JOIN administrador administrador ON receita.administrador_id = administrador.id_administrador"
-                    + "\nWHERE data_receita >= " + inicio + " AND data_receita < " + finall;
+        String sql = "SELECT * FROM view_receita"
+                + "\nWHERE data >= " + inicio + " AND data < " + finall;;
+        stm = getConector().prepareStatement(sql);
+        rs = stm.executeQuery(sql);
 
-            stm = getConector().prepareStatement(sql);
-            rs = stm.executeQuery(sql);
+        while (rs.next()) {
+            Administrador adm = new Administrador(rs.getLong("id_administrador"), rs.getString("nome_administrador"), null, null, null, null, null, null, null, 1);
+            Cliente cliente = new Cliente(rs.getLong("id_cliente"), rs.getString("nome_cliente"), null, null, null, null, null, null, 1);
 
-            while (rs.next()) {
-                Administrador adm = new Administrador(rs.getLong("administrador_id"), rs.getString("nome_administrador"), "", "", rs.getString("endereco_administrador"), rs.getString("email_administrador"), rs.getString("cpf_administrador"), rs.getString("rg_administrador"), null, rs.getInt("status_administrador"));
-                Cliente cliente = new Cliente(rs.getLong("cliente_id"), rs.getString("nome_cliente"), rs.getString("endereco_cliente"), rs.getString("cpf_cliente"), rs.getString("rg_cliente"), rs.getString("telefone_cliente"), rs.getString("cidade_cliente"), null, rs.getInt("status_cliente"));
+            Receita receita = new Receita(rs.getLong(1), cliente, adm, rs.getString(4), rs.getLong(5), rs.getFloat(6));
 
-                Receita receita = new Receita(rs.getLong(1), cliente, adm, rs.getString(4), rs.getLong(5), rs.getFloat(6));
-
-                receitas.add(receita);
-            }
-
-            stm.close();
-            rs.close();
-
-        } catch (SQLException ex) {
-            chamarAlertaErro("Erro ao consultar marcas na base de dados!", ex.toString());
+            receitas.add(receita);
         }
+
+        stm.close();
+        rs.close();
 
         return receitas;
     }

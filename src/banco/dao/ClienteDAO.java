@@ -19,8 +19,7 @@ public class ClienteDAO extends DAO {
     /**
      * Inserir cliente na base de dados
      */
-    public Long inserir(Cliente cliente) {
-        try {
+    public Long inserir(Cliente cliente) throws Exception {
             String sql = "INSERT INTO cliente ( nome, endereco, cpf, rg, telefone, cidade, data_cadastro, status ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
             stm = getConector().prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
@@ -35,18 +34,13 @@ public class ClienteDAO extends DAO {
             stm.setInt(8, cliente.getStatus());
 
             return super.inserir();
-        } catch (Exception ex) {
-            chamarAlertaErro("Erro ao inserir cliente na base de dados", ex.toString());
-        }
 
-        return null;
     }
 
     /**
      * Atualizar dados cliente na base de dados
      */
-    public boolean editar(Cliente cliente) {
-        try {
+    public boolean editar(Cliente cliente) throws SQLException {
             String sql = "UPDATE cliente SET nome =?, endereco =?, cpf =?, rg =?, telefone =?, cidade =?, status =? WHERE id =?";
 
             stm = getConector().prepareStatement(sql);
@@ -64,19 +58,13 @@ public class ClienteDAO extends DAO {
             stm.executeUpdate();
             stm.close();
 
-        } catch (SQLException ex) {
-            chamarAlertaErro("Erro ao atualizar cliente na base de dados!", ex.toString());
-            return false;
-        }
-
         return true;
     }
 
     /**
      * Excluir cliente na base de dados
      */
-    public boolean excluir(int id) {
-        try {
+    public boolean excluir(int id) throws SQLException {
             String sql = "DELETE FROM cliente WHERE id=?";
 
             stm = getConector().prepareStatement(sql);
@@ -85,10 +73,6 @@ public class ClienteDAO extends DAO {
             stm.execute();
 
             stm.close();
-        } catch (SQLException ex) {
-            chamarAlertaErro("Erro ao excluir cliente na base de dados!", ex.toString());
-            return false;
-        }
 
         return true;
     }
@@ -96,11 +80,10 @@ public class ClienteDAO extends DAO {
     /**
      * Consultar todos clientes cadastrados na base de dados
      */
-    public List<Cliente> listar() {
+    public List<Cliente> listar() throws SQLException {
 
         List<Cliente> clientes = new ArrayList<>();
 
-        try {
             String sql = "SELECT cliente.* FROM cliente";
 
             stm = getConector().prepareStatement(sql);
@@ -115,18 +98,13 @@ public class ClienteDAO extends DAO {
             stm.close();
             rs.close();
 
-        } catch (SQLException ex) {
-            chamarAlertaErro("Erro ao consultar clientes na base de dados!", ex.toString());
-        }
-
         return clientes;
     }
     
-     public List<Cliente> buscarPorNome(String busca) {
+     public List<Cliente> buscarPorNome(String busca) throws SQLException {
 
         List<Cliente> clientes = new ArrayList<>();
 
-        try {
             String sql = "SELECT cliente.* FROM cliente WHERE nome LIKE '%" + busca + "%'";
 
             stm = getConector().prepareStatement(sql);
@@ -140,10 +118,6 @@ public class ClienteDAO extends DAO {
 
             stm.close();
             rs.close();
-
-        } catch (SQLException ex) {
-            chamarAlertaErro("Erro ao consultar clientes na base de dados!", ex.toString());
-        }
 
         return clientes;
     }

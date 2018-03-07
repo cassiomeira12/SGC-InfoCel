@@ -24,10 +24,10 @@ import util.alerta.Dialogo;
  * @author cassio
  */
 public class TelaClienteController extends AnchorPane {
-
+    
     private BorderPane painelPrincipal;
     private Cliente cliente;
-
+    
     @FXML
     private CheckBox editarClienteCheckBox;
     @FXML
@@ -42,11 +42,11 @@ public class TelaClienteController extends AnchorPane {
     private TextField cidadeText;
     @FXML
     private TextField enderecoText;
-
+    
     public TelaClienteController(BorderPane painelPrincipal, Cliente cliente) {
         this.painelPrincipal = painelPrincipal;
         this.cliente = cliente;
-
+        
         try {
             FXMLLoader fxml = new FXMLLoader(getClass().getResource("/view/TelaCliente.fxml"));
             fxml.setRoot(this);
@@ -57,7 +57,7 @@ public class TelaClienteController extends AnchorPane {
             System.out.println(ex.toString());
         }
     }
-
+    
     @FXML
     public void initialize() {
         this.adicionarDadosCliente();
@@ -72,7 +72,7 @@ public class TelaClienteController extends AnchorPane {
         
         Formatter.toUpperCase(nomeText, cidadeText, enderecoText);
     }
-
+    
     public void adicionarDadosCliente() {
         this.nomeText.setText(cliente.getNome());
         this.telefoneText.setText(cliente.getTelefone());
@@ -81,54 +81,58 @@ public class TelaClienteController extends AnchorPane {
         this.cidadeText.setText(cliente.getCidade());
         this.enderecoText.setText(cliente.getEndereco());
     }
-
+    
     private void adicionarPainelInterno(AnchorPane novaTela) {
         this.painelPrincipal.setCenter(novaTela);
     }
-
+    
     @FXML
     private void cancelarOperacao() {
         TelaConsultarClientesController telaConsultarClientes = new TelaConsultarClientesController(painelPrincipal);
         this.adicionarPainelInterno(telaConsultarClientes);
     }
-
+    
     @FXML
     private void salvarCliente() {
         try {
             boolean vazio = Formatter.isEmpty(nomeText, telefoneText, cpfText, rgText, cidadeText, enderecoText);
-
+            
             String nome = nomeText.getText();
             String telefone = telefoneText.getText();
             String cpf = cpfText.getText();
             String rg = rgText.getText();
             String cidade = cidadeText.getText();
             String endereco = enderecoText.getText();
-
+            
             if (vazio) {
                 Alerta.alerta("Prencha todos os compos do Cliente");
             } else {
                 Dialogo.Resposta resposta = Alerta.confirmar("Deseja salvar as modificações do cliente " + cliente.getNome() + " ?");
-
+                
                 if (resposta == Dialogo.Resposta.YES) {
-
+                    
                     cliente.setNome(nome);
                     cliente.setTelefone(telefone);
                     cliente.setCpf(cpf);
                     cliente.setRg(rg);
                     cliente.setCidade(cidade);
                     cliente.setEndereco(endereco);
-
-                    if (ControleDAO.getBanco().getClienteDAO().editar(cliente)) {
-                        Alerta.info("Cliente editado com sucesso");
+                    
+                    try {
+                        if (ControleDAO.getBanco().getClienteDAO().editar(cliente)) {
+                            Alerta.info("Cliente editado com sucesso");
+                        }
+                    } catch (Exception e) {
+                        Alerta.erro(e.toString());
                     }
                     this.cancelarOperacao();
                 }
-
+                
             }
-
+            
         } catch (NullPointerException ex) {
             Alerta.erro("Erro ao salvar as informações do Cliente");
         }
     }
-
+    
 }

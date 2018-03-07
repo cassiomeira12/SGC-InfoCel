@@ -21,44 +21,33 @@ public class FormaPagamentoDAO extends DAO {
     /**
      * Inserir categoria na base de dados
      */
-    public Long inserir(FormaPagamento formaPagamento) {
-        try {
-            String sql = "INSERT INTO forma_pagamento ( descricao, maximo_parcelas ) VALUES (?, ?)";
+    public Long inserir(FormaPagamento formaPagamento) throws Exception {
+        String sql = "INSERT INTO forma_pagamento ( descricao, maximo_parcelas ) VALUES (?, ?)";
 
-            stm = getConector().prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
+        stm = getConector().prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
 
-            stm.setString(1, formaPagamento.getDescricao());
-            stm.setInt(2, formaPagamento.getMaximoParcelas());
+        stm.setString(1, formaPagamento.getDescricao());
+        stm.setInt(2, formaPagamento.getMaximoParcelas());
 
-            return super.inserir();
-        } catch (Exception ex) {
-            chamarAlertaErro("Erro ao inserir categoria na base de dados", ex.toString());
-        }
+        return super.inserir();
 
-        return null;
     }
 
     /**
      * Atualizar dados categoria na base de dados
      */
-    public boolean editar(FormaPagamento formaPagamento) {
-        try {
-            String sql = "UPDATE forma_pagamento SET descricao =?, maximo_parcelas WHERE id =?";
+    public boolean editar(FormaPagamento formaPagamento) throws SQLException {
+        String sql = "UPDATE forma_pagamento SET descricao =?, maximo_parcelas WHERE id =?";
 
-            stm = getConector().prepareStatement(sql);
+        stm = getConector().prepareStatement(sql);
 
-            stm.setString(1, formaPagamento.getDescricao());
-            stm.setInt(2, formaPagamento.getMaximoParcelas());
+        stm.setString(1, formaPagamento.getDescricao());
+        stm.setInt(2, formaPagamento.getMaximoParcelas());
 
-            stm.setInt(3, formaPagamento.getId().intValue());
+        stm.setInt(3, formaPagamento.getId().intValue());
 
-            stm.executeUpdate();
-            stm.close();
-
-        } catch (SQLException ex) {
-            chamarAlertaErro("Erro ao atualizar categoria na base de dados!", ex.toString());
-            return false;
-        }
+        stm.executeUpdate();
+        stm.close();
 
         return true;
     }
@@ -66,20 +55,15 @@ public class FormaPagamentoDAO extends DAO {
     /**
      * Excluir categoria na base de dados
      */
-    public boolean excluir(int id) {
-        try {
-            String sql = "DELETE FROM forma_pagamento WHERE id=?";
+    public boolean excluir(int id) throws SQLException {
+        String sql = "DELETE FROM forma_pagamento WHERE id=?";
 
-            stm = getConector().prepareStatement(sql);
+        stm = getConector().prepareStatement(sql);
 
-            stm.setInt(1, id);
-            stm.execute();
+        stm.setInt(1, id);
+        stm.execute();
 
-            stm.close();
-        } catch (SQLException ex) {
-            chamarAlertaErro("Erro ao excluir forma_pagamento na base de dados!", ex.toString());
-            return false;
-        }
+        stm.close();
 
         return true;
     }
@@ -87,54 +71,44 @@ public class FormaPagamentoDAO extends DAO {
     /**
      * Consultar todas categoria cadastradas na base de dados
      */
-    public List<FormaPagamento> listar() {
+    public List<FormaPagamento> listar() throws SQLException {
 
         List<FormaPagamento> formaPagamentos = new ArrayList<>();
 
-        try {
-            String sql = "SELECT forma_pagamento.* FROM forma_pagamento";
+        String sql = "SELECT forma_pagamento.* FROM forma_pagamento";
 
-            stm = getConector().prepareStatement(sql);
-            rs = stm.executeQuery(sql);
+        stm = getConector().prepareStatement(sql);
+        rs = stm.executeQuery(sql);
 
-            while (rs.next()) {
-                FormaPagamento formaPagamento = new FormaPagamento((long) rs.getInt(1), rs.getString("descricao_forma_pagamento"), rs.getInt("maximo_parcelas"));
+        while (rs.next()) {
+            FormaPagamento formaPagamento = new FormaPagamento((long) rs.getInt(1), rs.getString("descricao"), rs.getInt("maximo_parcelas"));
 
-                formaPagamentos.add(formaPagamento);
-            }
-
-            stm.close();
-            rs.close();
-
-        } catch (SQLException ex) {
-            chamarAlertaErro("Erro ao consultar categoria na base de dados!", ex.toString());
+            formaPagamentos.add(formaPagamento);
         }
+
+        stm.close();
+        rs.close();
 
         return formaPagamentos;
     }
 
-    public List<FormaPagamento> buscarPorDescricao(String descricao) {
+    public List<FormaPagamento> buscarPorDescricao(String descricao) throws SQLException {
 
         List<FormaPagamento> formaPagamentos = new ArrayList<>();
 
-        try {
-            String sql = "SELECT forma_pagamento.* FROM forma_pagamento WHERE descricao LIKE '%" + descricao + "%'";
+        String sql = "SELECT forma_pagamento.* FROM forma_pagamento WHERE descricao LIKE '%" + descricao + "%'";
 
-            stm = getConector().prepareStatement(sql);
-            rs = stm.executeQuery(sql);
+        stm = getConector().prepareStatement(sql);
+        rs = stm.executeQuery(sql);
 
-            while (rs.next()) {
-                FormaPagamento formaPagamento = new FormaPagamento((long) rs.getInt(1), rs.getString(2), rs.getInt("maximo_parcelas"));
+        while (rs.next()) {
+            FormaPagamento formaPagamento = new FormaPagamento((long) rs.getInt(1), rs.getString(2), rs.getInt("maximo_parcelas"));
 
-                formaPagamentos.add(formaPagamento);
-            }
-
-            stm.close();
-            rs.close();
-
-        } catch (SQLException ex) {
-            chamarAlertaErro("Erro ao consultar categoria na base de dados!", ex.toString());
+            formaPagamentos.add(formaPagamento);
         }
+
+        stm.close();
+        rs.close();
 
         return formaPagamentos;
     }

@@ -7,7 +7,10 @@ package controller;
 
 import banco.ControleDAO;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.time.LocalDate;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -142,14 +145,18 @@ public class TelaAdicionarVendaController extends AnchorPane {
         //Desativa os Botoes de Excluir quando nenhum item na tabela esta selecionado
         removerButton.disableProperty().bind(produtosTable.getSelectionModel().selectedItemProperty().isNull());
 
-        //Adicionando formas de pagamento no ComboBox
-        this.formarPagComboBox.getItems().addAll(ControleDAO.getBanco().getFormaPagamentoDAO().listar());
-        //Selecionando primeira forma de Pagamento
-        this.formarPagComboBox.getSelectionModel().select(0);//Selecionando o primeiro item
-        //Adicionando os Administradores no ComboBox
-        this.vendedorComboBox.setItems(FXCollections.observableArrayList(ControleDAO.getBanco().getAdministradorDAO().listar()));
-        //Selecionando o Administrador que fez o Login
-        this.vendedorComboBox.getSelectionModel().select(LoginController.admLogado);
+        try {
+            //Adicionando formas de pagamento no ComboBox
+            this.formarPagComboBox.getItems().addAll(ControleDAO.getBanco().getFormaPagamentoDAO().listar());
+            //Selecionando primeira forma de Pagamento
+            this.formarPagComboBox.getSelectionModel().select(0);//Selecionando o primeiro item
+            //Adicionando os Administradores no ComboBox
+            this.vendedorComboBox.setItems(FXCollections.observableArrayList(ControleDAO.getBanco().getAdministradorDAO().listar()));
+            //Selecionando o Administrador que fez o Login
+            this.vendedorComboBox.getSelectionModel().select(LoginController.admLogado);
+        } catch (SQLException ex) {
+            Logger.getLogger(TelaAdicionarVendaController.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
         this.dataDatePicker.setValue(LocalDate.now());//Adicionando Data do dia atual
     }
@@ -245,20 +252,28 @@ public class TelaAdicionarVendaController extends AnchorPane {
 
                 if (novoCliente) {//Criar um Novo Cliente
                     cliente = criarCliente();
-                    Long id = ControleDAO.getBanco().getClienteDAO().inserir(cliente);
-                    if (id == null) {
+                    try {
+                        Long id = ControleDAO.getBanco().getClienteDAO().inserir(cliente);
+                        if (id == null) {
+                            Alerta.erro("Erro ao cadastrar Novo Usuário");
+                        } else {
+                            cliente.setId(id);
+                            this.cliente = cliente;
+                            continuar = true;
+                        }
+                    } catch (Exception e) {
                         Alerta.erro("Erro ao cadastrar Novo Usuário");
-                    } else {
-                        cliente.setId(id);
-                        this.cliente = cliente;
-                        continuar = true;
                     }
                 } else {//Cliente selecionado
                     cliente = atualizarCliente(this.cliente);
                     if (editarClienteCheckBox.isSelected()) {//Houve modificacoes
-                        if (ControleDAO.getBanco().getClienteDAO().editar(cliente)) {
-                            continuar = true;
-                        } else {
+                        try {
+                            if (ControleDAO.getBanco().getClienteDAO().editar(cliente)) {
+                                continuar = true;
+                            } else {
+                                Alerta.erro("Erro ao atualizar informações do Cliente");
+                            }
+                        } catch (Exception e) {
                             Alerta.erro("Erro ao atualizar informações do Cliente");
                         }
                     } else {
@@ -276,14 +291,18 @@ public class TelaAdicionarVendaController extends AnchorPane {
                     this.novaVenda.setFormaPagamento(formaPagamento);
                     this.novaVenda.setData(DateUtils.getLong(data));
 
-                    Long id = ControleDAO.getBanco().getVendaDAO().inserir(novaVenda);
+                    try {
+                        Long id = ControleDAO.getBanco().getVendaDAO().inserir(novaVenda);
 
-                    if (id == null) {
-                        Alerta.erro("Erro ao adicionar nova Venda");
-                    } else {
-                        Alerta.info("Venda Realizada com sucesso!");
-                        TelaInicialController telaInicial = new TelaInicialController(painelPrincipal);
-                        this.adicionarPainelInterno(telaInicial);
+                        if (id == null) {
+                            Alerta.erro("Erro ao adicionar nova Venda");
+                        } else {
+                            Alerta.info("Venda Realizada com sucesso!");
+                            TelaInicialController telaInicial = new TelaInicialController(painelPrincipal);
+                            this.adicionarPainelInterno(telaInicial);
+                        }
+                    } catch (Exception e) {
+                        Alerta.erro("Erro ao adicionar nova Venda\n" + e.toString());
                     }
                 }
             }

@@ -21,42 +21,30 @@ public class CategoriaSaidaDAO extends DAO {
     /**
      * Inserir categoria na base de dados
      */
-    public Long inserir(CategoriaSaida categoria) {
-        try {
-            String sql = "INSERT INTO categoria_saida ( descricao ) VALUES (?)";
+    public Long inserir(CategoriaSaida categoria) throws Exception {
+        String sql = "INSERT INTO categoria_saida ( descricao ) VALUES (?)";
 
-            stm = getConector().prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
+        stm = getConector().prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
 
-            stm.setString(1, categoria.getDescricao());
+        stm.setString(1, categoria.getDescricao());
 
-            return super.inserir();
-        } catch (Exception ex) {
-            chamarAlertaErro("Erro ao inserir categoria na base de dados", ex.toString());
-        }
-
-        return null;
+        return super.inserir();
     }
 
     /**
      * Atualizar dados categoria na base de dados
      */
-    public boolean editar(CategoriaProduto categoria) {
-        try {
-            String sql = "UPDATE categoria_saida SET descricao =? WHERE id =?";
+    public boolean editar(CategoriaProduto categoria) throws SQLException {
+        String sql = "UPDATE categoria_saida SET descricao =? WHERE id =?";
 
-            stm = getConector().prepareStatement(sql);
+        stm = getConector().prepareStatement(sql);
 
-            stm.setString(1, categoria.getDescricao());
+        stm.setString(1, categoria.getDescricao());
 
-            stm.setInt(2, categoria.getId().intValue());
+        stm.setInt(2, categoria.getId().intValue());
 
-            stm.executeUpdate();
-            stm.close();
-
-        } catch (SQLException ex) {
-            chamarAlertaErro("Erro ao atualizar categoria na base de dados!", ex.toString());
-            return false;
-        }
+        stm.executeUpdate();
+        stm.close();
 
         return true;
     }
@@ -64,20 +52,15 @@ public class CategoriaSaidaDAO extends DAO {
     /**
      * Excluir categoria na base de dados
      */
-    public boolean excluir(int id) {
-        try {
-            String sql = "DELETE FROM categoria_saida WHERE id=?";
+    public boolean excluir(int id) throws SQLException {
+        String sql = "DELETE FROM categoria_saida WHERE id=?";
 
-            stm = getConector().prepareStatement(sql);
+        stm = getConector().prepareStatement(sql);
 
-            stm.setInt(1, id);
-            stm.execute();
+        stm.setInt(1, id);
+        stm.execute();
 
-            stm.close();
-        } catch (SQLException ex) {
-            chamarAlertaErro("Erro ao excluir categoria na base de dados!", ex.toString());
-            return false;
-        }
+        stm.close();
 
         return true;
     }
@@ -85,54 +68,43 @@ public class CategoriaSaidaDAO extends DAO {
     /**
      * Consultar todas categoria cadastradas na base de dados
      */
-    public List<CategoriaSaida> listar() {
+    public List<CategoriaSaida> listar() throws SQLException {
 
         List<CategoriaSaida> categorias = new ArrayList<>();
+        String sql = "SELECT categoria_saida.* FROM categoria_saida";
 
-        try {
-            String sql = "SELECT categoria_saida.* FROM categoria_saida";
+        stm = getConector().prepareStatement(sql);
+        rs = stm.executeQuery(sql);
 
-            stm = getConector().prepareStatement(sql);
-            rs = stm.executeQuery(sql);
+        while (rs.next()) {
+            CategoriaSaida categoria = new CategoriaSaida((long) rs.getInt(1), rs.getString(2));
 
-            while (rs.next()) {
-                CategoriaSaida categoria = new CategoriaSaida((long) rs.getInt(1), rs.getString(2));
-
-                categorias.add(categoria);
-            }
-
-            stm.close();
-            rs.close();
-
-        } catch (SQLException ex) {
-            chamarAlertaErro("Erro ao consultar categoria na base de dados!", ex.toString());
+            categorias.add(categoria);
         }
+
+        stm.close();
+        rs.close();
 
         return categorias;
     }
 
-    public List<CategoriaSaida> buscarPorDescricao(String descricao) {
+    public List<CategoriaSaida> buscarPorDescricao(String descricao) throws SQLException {
 
         List<CategoriaSaida> categorias = new ArrayList<>();
 
-        try {
-            String sql = "SELECT categoria_saida.* FROM categoria_saida WHERE descricao LIKE '%" + descricao + "%'";
+        String sql = "SELECT categoria_saida.* FROM categoria_saida WHERE descricao LIKE '%" + descricao + "%'";
 
-            stm = getConector().prepareStatement(sql);
-            rs = stm.executeQuery(sql);
+        stm = getConector().prepareStatement(sql);
+        rs = stm.executeQuery(sql);
 
-            while (rs.next()) {
-                CategoriaSaida categoria = new CategoriaSaida((long) rs.getInt(1), rs.getString(2));
+        while (rs.next()) {
+            CategoriaSaida categoria = new CategoriaSaida((long) rs.getInt(1), rs.getString(2));
 
-                categorias.add(categoria);
-            }
-
-            stm.close();
-            rs.close();
-
-        } catch (SQLException ex) {
-            chamarAlertaErro("Erro ao consultar categoria na base de dados!", ex.toString());
+            categorias.add(categoria);
         }
+
+        stm.close();
+        rs.close();
 
         return categorias;
     }

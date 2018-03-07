@@ -45,4 +45,9 @@ public class UnidadeMedida {
         this.abreviacao = abreviacao;
     }
 
+    @Override
+    public String toString() {
+        return descricao;
+    }
+
 }

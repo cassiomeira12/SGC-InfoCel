@@ -29,45 +29,41 @@ public class VendaDAO extends DAO {
     /**
      * Inserir venda na base de dados
      */
-    public Long inserir(Venda venda) {
+    public Long inserir(Venda venda) throws Exception {
         Long idVenda = null;
         Long idCliente = venda.getCliente().getId();
 
-        try {
-            if (idCliente == null) {//null = cliente não cadastrado
-                idCliente = ControleDAO.getBanco().getClienteDAO().inserir(venda.getCliente());
-            }
+        if (idCliente == null) {//null = cliente não cadastrado
+            idCliente = ControleDAO.getBanco().getClienteDAO().inserir(venda.getCliente());
+        }
 
-            String sql = "INSERT INTO venda ( id_administrador, id_cliente, preco_total, id_forma_pagamento, quantidade_parcela, data ) VALUES (?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO venda ( id_administrador, id_cliente, preco_total, id_forma_pagamento, quantidade_parcela, data ) VALUES (?, ?, ?, ?, ?)";
 
-            stm = getConector().prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
+        stm = getConector().prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
 
-            stm.setInt(1, venda.getAdministrador().getId().intValue());
-            stm.setInt(2, idCliente.intValue());
-            stm.setFloat(3, venda.getPrecoTotal());
-            stm.setInt(4, venda.getFormaPagamento().getId().intValue());
-            stm.setInt(5, venda.getQuantidadeParcelas());
-            stm.setLong(6, venda.getData());
-            idVenda = super.inserir();
+        stm.setInt(1, venda.getAdministrador().getId().intValue());
+        stm.setInt(2, idCliente.intValue());
+        stm.setFloat(3, venda.getPrecoTotal());
+        stm.setInt(4, venda.getFormaPagamento().getId().intValue());
+        stm.setInt(5, venda.getQuantidadeParcelas());
+        stm.setLong(6, venda.getData());
+        idVenda = super.inserir();
 
-            //cadastrar vendaProduto
-            sql = "INSERT INTO venda_produto ( id_produto, id_venda, quantidade, preco_total ) VALUES";
-            for (VendaProduto vp : venda.getVendaProdutos()) {
-                sql = sql + "\n(" + vp.getProduto().getId() + "," + idVenda + "," + vp.getQuantidade() + "," + vp.getPrecoTotal() + "),";
-            }
-            sql = sql.substring(0, sql.length() - 1);   //remove última vírgula
-            stm = getConector().prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
+        //cadastrar vendaProduto
+        sql = "INSERT INTO venda_produto ( id_produto, id_venda, quantidade, preco_total ) VALUES";
+        for (VendaProduto vp : venda.getVendaProdutos()) {
+            sql = sql + "\n(" + vp.getProduto().getId() + "," + idVenda + "," + vp.getQuantidade() + "," + vp.getPrecoTotal() + "),";
+        }
+        sql = sql.substring(0, sql.length() - 1);   //remove última vírgula
+        stm = getConector().prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
 
-            super.inserir();
+        super.inserir();
 
-            //atualiza estoque
-            for (VendaProduto vp : venda.getVendaProdutos()) {
-                Produto produto = ControleDAO.getBanco().getProdutoDAO().buscarPorId(vp.getProduto().getId());
-                produto.setEstoque(produto.getEstoque() - vp.getQuantidade());
-                ControleDAO.getBanco().getProdutoDAO().editar(produto);
-            }
-        } catch (Exception ex) {
-            chamarAlertaErro("Erro ao inserir venda na base de dados", ex.toString());
+        //atualiza estoque
+        for (VendaProduto vp : venda.getVendaProdutos()) {
+            Produto produto = ControleDAO.getBanco().getProdutoDAO().buscarPorId(vp.getProduto().getId());
+            produto.setEstoque(produto.getEstoque() - vp.getQuantidade());
+            ControleDAO.getBanco().getProdutoDAO().editar(produto);
         }
 
         return idVenda;
@@ -76,165 +72,124 @@ public class VendaDAO extends DAO {
     /**
      * Excluir venda na base de dados
      */
-    private boolean excluir(Long id) {
-        try {
-            String sql = "DELETE FROM venda WHERE id_venda=?";
+    private boolean excluir(Long id) throws SQLException {
+        String sql = "DELETE FROM venda WHERE id=?";
 
-            stm = getConector().prepareStatement(sql);
+        stm = getConector().prepareStatement(sql);
 
-            stm.setInt(1, id.intValue());
-            stm.execute();
+        stm.setInt(1, id.intValue());
+        stm.execute();
 
-            stm.close();
+        stm.close();
 
-            excluirVendasProdutosDaVenda(id);
-        } catch (Exception ex) {
-            chamarAlertaErro("Erro ao excluir venda na base de dados!", ex.toString());
-            return false;
-        }
+        excluirVendasProdutosDaVenda(id);
 
         return true;
     }
 
     // Consultar todas vendas cadastradas na base de dados
-    public List<Venda> listar() {
+    public List<Venda> listar() throws SQLException {
 
         List<Venda> vendas = new ArrayList<>();
 
-        try {
-            String sql = "SELECT venda.*, cliente.*, administrador.*, forma_pagamento.* "
-                    + "FROM venda"
-                    + "\nINNER JOIN cliente cliente ON venda.id_cliente = cliente.id"
-                    + "\nINNER JOIN forma_pagamento forma_pagamento ON venda.id_forma_pagamento = forma_pagamento.id"
-                    + "\nINNER JOIN administrador administrador ON venda.id_administrador = administrador.id";
+        String sql = "SELECT * FROM view_venda";
 
-            stm = getConector().prepareStatement(sql);
-            rs = stm.executeQuery(sql);
+        stm = getConector().prepareStatement(sql);
+        rs = stm.executeQuery(sql);
 
-            while (rs.next()) {
-                Administrador adm = new Administrador(rs.getLong("administrador.id"), rs.getString("administrador.nome"), "", "", rs.getString("administrador.endereco"), rs.getString("administrador.email"), rs.getString("administrador.cpf"), rs.getString("administrador.rg"), null, rs.getInt("administrador.status"));
-                Cliente cliente = new Cliente(rs.getLong("cliente_id"), rs.getString("nome_cliente"), rs.getString("endereco_cliente"), rs.getString("cpf_cliente"), rs.getString("cliente.rg"), rs.getString("cliente.telefone"), rs.getString("cliente.cidade"), null, rs.getInt("cliente.status"));
-                FormaPagamento formaPagamento = new FormaPagamento(rs.getLong("forma_pagamento.id"), rs.getString("forma_pagamento.descricao"), rs.getInt("maximo_parcelas"));
+        while (rs.next()) {
+            Administrador adm = new Administrador(rs.getLong("id_administrador"), rs.getString("nome_administrador"), null, null, null, null, null, null, null, 1);
+            Cliente cliente = new Cliente(rs.getLong("id_cliente"), rs.getString("nome_cliente"), null, null, null, null, null, null, 1);
+            FormaPagamento formaPagamento = new FormaPagamento(rs.getLong("id_forma_pagamento"), rs.getString("descricao_forma_pagamento"), 1);
 
-                Venda venda = new Venda(rs.getLong("venda.id"), adm, cliente, null, formaPagamento, rs.getInt("venda.quantidade_parcela"), rs.getLong("venda.data"));
-                venda.setPrecoTotal(rs.getFloat("venda.preco_total"));
+            Venda venda = new Venda(rs.getLong("venda.id"), adm, cliente, null, formaPagamento, rs.getInt("venda.quantidade_parcela"), rs.getLong("venda.data"));
+            venda.setPrecoTotal(rs.getFloat("venda.preco_total"));
 
-                vendas.add(venda);
-            }
-
-            stm.close();
-            rs.close();
-
-        } catch (SQLException ex) {
-            chamarAlertaErro("Erro ao consultar marcas na base de dados!", ex.toString());
+            vendas.add(venda);
         }
+
+        stm.close();
+        rs.close();
 
         return vendas;
     }
 
-    public List<Venda> buscarPorIntervalo(String dataInicio, String dataFinal) {
+    public List<Venda> buscarPorIntervalo(String dataInicio, String dataFinal) throws SQLException {
         Long inicio = DateUtils.getLongFromDate(dataInicio);
         Long finall = DateUtils.getLongFromDate(dataFinal);
 
         List<Venda> vendas = new ArrayList<>();
 
-        try {
-            String sql = "SELECT venda.*, cliente.*, administrador.*, forma_pagamento.* "
-                    + "FROM venda"
-                    + "\nINNER JOIN cliente cliente ON venda.cliente_id = cliente.id_cliente"
-                    + "\nINNER JOIN forma_pagamento forma_pagamento ON venda.forma_pagamento_id = forma_pagamento.id_forma_pagamento"
-                    + "\nINNER JOIN administrador administrador ON venda.administrador_id = administrador.id_administrador"
-                    + "\nWHERE venda.data >= " + inicio + " AND venda.data < " + finall;
+        String sql = "SELECT * FROM view_venda"
+                + "\nWHERE data >= " + inicio + " AND venda.data < " + finall;
 
-            stm = getConector().prepareStatement(sql);
-            rs = stm.executeQuery(sql);
+        stm = getConector().prepareStatement(sql);
+        rs = stm.executeQuery(sql);
 
-            while (rs.next()) {
-                Administrador adm = new Administrador(rs.getLong("administrador_id"), rs.getString("nome_administrador"), "", "", rs.getString("endereco_administrador"), rs.getString("email_administrador"), rs.getString("cpf_administrador"), rs.getString("rg_administrador"), null, rs.getInt("status_administrador"));
-                Cliente cliente = new Cliente(rs.getLong("cliente_id"), rs.getString("nome_cliente"), rs.getString("endereco_cliente"), rs.getString("cpf_cliente"), rs.getString("rg_cliente"), rs.getString("telefone_cliente"), rs.getString("cidade_cliente"), null, rs.getInt("status_cliente"));
-                FormaPagamento formaPagamento = new FormaPagamento(rs.getLong("forma_pagamento_id"), rs.getString("descricao_forma_pagamento"), rs.getInt("maximo_parcelas"));
-                Venda venda = new Venda(rs.getLong("id_venda"), adm, cliente, null, formaPagamento, rs.getInt("quantidade_parcela"), rs.getLong("data"));
-                venda.setPrecoTotal(rs.getFloat("preco_total"));
+        while (rs.next()) {
+            Administrador adm = new Administrador(rs.getLong("id_administrador"), rs.getString("nome_administrador"), null, null, null, null, null, null, null, 1);
+            Cliente cliente = new Cliente(rs.getLong("id_cliente"), rs.getString("nome_cliente"), null, null, null, null, null, null, 1);
+            FormaPagamento formaPagamento = new FormaPagamento(rs.getLong("id_forma_pagamento"), rs.getString("descricao_forma_pagamento"), 1);
 
-                vendas.add(venda);
-            }
+            Venda venda = new Venda(rs.getLong("venda.id"), adm, cliente, null, formaPagamento, rs.getInt("venda.quantidade_parcela"), rs.getLong("venda.data"));
+            venda.setPrecoTotal(rs.getFloat("venda.preco_total"));
 
-            stm.close();
-            rs.close();
-
-        } catch (SQLException ex) {
-            chamarAlertaErro("Erro ao consultar marcas na base de dados!", ex.toString());
+            vendas.add(venda);
         }
+
+        stm.close();
+        rs.close();
 
         return vendas;
     }
 
-    public List<VendaProduto> buscarVendaProduto(Venda venda) {
+    public List<VendaProduto> buscarVendaProduto(Venda venda) throws SQLException {
 
         List<VendaProduto> vendaProdutos = new ArrayList<>();
 
-        try {
-            String sql = "SELECT venda_produto.*, produto.*, marca.*, categoria_produto.*, unidade_medida_produto"
-                    + "FROM venda_produto"
-                    + "\nINNER JOIN produto produto ON venda_produto.produto_id = venda_produto.id_produto"
-                    + "\nINNER JOIN unidade_medida unidade_medida ON venda_produto.unidade_medida_id = unidade_medida.id_unidade"
-                    + "\nINNER JOIN categoria_produto categoria_produto ON produto.categoria_produto_id = categoria_produto.id_categoria"
-                    + "\nINNER JOIN marca ON produto.id_marca = marca.id_marca";
+        String sql = "SELECT * FROM view_venda_produto WHERE id_venda = " + venda.getId();
 
-            stm = getConector().prepareStatement(sql);
-            rs = stm.executeQuery(sql);
+        stm = getConector().prepareStatement(sql);
+        rs = stm.executeQuery(sql);
 
-            while (rs.next()) {
-                CategoriaProduto categoria = new CategoriaProduto(rs.getLong("categoria_id"), rs.getString("descricao_categoria"));
-                Marca marca = new Marca(rs.getLong("marca_id"), rs.getString("descricao_marca"));
-                UnidadeMedida unidadeMedida = new UnidadeMedida(rs.getLong("unidade_medida_id"), rs.getString("descricao_unidade"), "");
+        while (rs.next()) {
+            CategoriaProduto categoria = new CategoriaProduto(null, rs.getString("descricao_categoria"));
+            Marca marca = new Marca(null, rs.getString("descricao_marca"));
+            UnidadeMedida unidadeMedida = new UnidadeMedida(null, null, rs.getString("abreviacao"));
 
-                Produto produto = (new Produto(rs.getLong("id_produto"), marca, rs.getString("descricao_produto"), categoria, rs.getFloat("preco_compra"), rs.getFloat("preco_venda"), rs.getFloat("estoque"), unidadeMedida));
-                produto.setPrecoVenda(rs.getFloat("preco_total") / rs.getFloat("quantidade"));
+            Produto produto = (new Produto(rs.getLong("id_produto"), marca, rs.getString("descricao_produto"), categoria, 0, rs.getFloat("preco_venda"), 0, unidadeMedida));
+            produto.setPrecoVenda(rs.getFloat("preco_total") / rs.getFloat("quantidade"));
 
-                vendaProdutos.add(new VendaProduto(rs.getFloat("quantidade"), venda, produto));
-            }
-
-            stm.close();
-            rs.close();
-
-        } catch (SQLException ex) {
-            chamarAlertaErro("Erro ao consultar marcas na base de dados!", ex.toString());
+            vendaProdutos.add(new VendaProduto(rs.getFloat("quantidade"), venda, produto));
         }
+
+        stm.close();
+        rs.close();
 
         return vendaProdutos;
     }
 
-    public List<Venda> buscarPorCliente(Cliente cliente) {
+    public List<Venda> buscarPorCliente(Cliente cliente) throws SQLException {
+
         List<Venda> vendas = new ArrayList<>();
 
-        try {
-            String sql = "SELECT venda.*, cliente.*, administrador.*, forma_pagamento.* "
-                    + "FROM venda"
-                    + "\nINNER JOIN cliente cliente ON venda.cliente_id = cliente.id_cliente"
-                    + "\nINNER JOIN forma_pagamento forma_pagamento ON venda.forma_pagamento_id = forma_pagamento.id_forma_pagamento"
-                    + "\nINNER JOIN administrador administrador ON venda.administrador_id = administrador.id_administrador"
-                    + "\nWHERE venda.id_cliente = " + cliente.getId();
+        String sql = "SELECT * FROM view_venda WHERE id_cliente = " + cliente.getId();
 
-            stm = getConector().prepareStatement(sql);
-            rs = stm.executeQuery(sql);
+        stm = getConector().prepareStatement(sql);
+        rs = stm.executeQuery(sql);
 
-            while (rs.next()) {
-                Administrador adm = new Administrador(rs.getLong("administrador_id"), rs.getString("nome_administrador"), "", "", rs.getString("endereco_administrador"), rs.getString("email_administrador"), rs.getString("cpf_administrador"), rs.getString("rg_administrador"), null, rs.getInt("status_administrador"));
-                FormaPagamento formaPagamento = new FormaPagamento(rs.getLong("forma_pagamento_id"), rs.getString("descricao_forma_pagamento"), rs.getInt("maximo_parcelas"));
-                Venda venda = new Venda(rs.getLong("id_venda"), adm, cliente, null, formaPagamento, rs.getInt("quantidade_parcela"), rs.getLong("data"));
+        while (rs.next()) {
+            Administrador adm = new Administrador(rs.getLong("id_administrador"), rs.getString("nome_administrador"), null, null, null, null, null, null, null, 1);
+            FormaPagamento formaPagamento = new FormaPagamento(rs.getLong("id_forma_pagamento"), rs.getString("descricao_forma_pagamento"), 1);
 
-                venda.setPrecoTotal(rs.getFloat("preco_total"));
+            Venda venda = new Venda(rs.getLong("venda.id"), adm, cliente, null, formaPagamento, rs.getInt("venda.quantidade_parcela"), rs.getLong("venda.data"));
+            venda.setPrecoTotal(rs.getFloat("venda.preco_total"));
 
-                vendas.add(venda);
-            }
-
-            stm.close();
-            rs.close();
-
-        } catch (SQLException ex) {
-            chamarAlertaErro("Erro ao consultar marcas na base de dados!", ex.toString());
+            vendas.add(venda);
         }
+
+        stm.close();
+        rs.close();
 
         return vendas;
     }

@@ -7,8 +7,11 @@ package controller;
 
 import banco.ControleDAO;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -38,11 +41,11 @@ import util.alerta.Dialogo;
  * @author cassio
  */
 public class TelaConsultarClientesController extends AnchorPane {
-    
+
     private BorderPane painelPrincipal;
 
     private List<Cliente> listaClientes;
-    
+
     @FXML
     private TextField pesquisaText;
     @FXML
@@ -57,10 +60,10 @@ public class TelaConsultarClientesController extends AnchorPane {
     private Button editarButton;
     @FXML
     private Button excluirButton;
-    
+
     public TelaConsultarClientesController(BorderPane painelPrincipal) {
         this.painelPrincipal = painelPrincipal;
-        
+
         try {
             FXMLLoader fxml = new FXMLLoader(getClass().getResource("/view/TelaConsultarClientes.fxml"));
             fxml.setRoot(this);
@@ -77,16 +80,16 @@ public class TelaConsultarClientesController extends AnchorPane {
         //Desativa os Botoes de Editar e Excluir quando nenhum item na tabela esta selecionado
         editarButton.disableProperty().bind(clientesTable.getSelectionModel().selectedItemProperty().isNull());
         excluirButton.disableProperty().bind(clientesTable.getSelectionModel().selectedItemProperty().isNull());
-        
+
         Formatter.toUpperCase(pesquisaText);
-        
+
         this.sincronizarBancoDados();
         //this.atualizarTabela();
-        
+
         pesquisaText.textProperty().addListener((obs, old, novo) -> {
             filtro(novo, listaClientes, clientesTable);
         });
-        
+
         clientesTable.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
@@ -97,47 +100,51 @@ public class TelaConsultarClientesController extends AnchorPane {
                 }
             }
         });
-        
+
     }
 
     private void adicionarPainelInterno(AnchorPane novaTela) {
         this.painelPrincipal.setCenter(novaTela);
     }
-    
+
     @FXML
     private void cancelarOperacao() {
         TelaInicialController telaInicial = new TelaInicialController(painelPrincipal);
         this.adicionarPainelInterno(telaInicial);
     }
-    
+
     @FXML
     private void editarCliente() {
         Cliente cliente = clientesTable.getSelectionModel().getSelectedItem();
-            
+
         TelaClienteController telaCliente = new TelaClienteController(painelPrincipal, cliente);
         this.adicionarPainelInterno(telaCliente);
     }
-    
+
     @FXML
     private void excluirCliente() {
         Cliente cliente = clientesTable.getSelectionModel().getSelectedItem();
 
         Dialogo.Resposta resposta = Alerta.confirmar("Excluir usuário " + cliente.getNome() + " ?");
-            
+
         if (resposta == Dialogo.Resposta.YES) {
-            ControleDAO.getBanco().getClienteDAO().excluir(cliente.getId().intValue());
+            try {
+                ControleDAO.getBanco().getClienteDAO().excluir(cliente.getId().intValue());
+            } catch (SQLException ex) {
+                Logger.getLogger(TelaConsultarClientesController.class.getName()).log(Level.SEVERE, null, ex);
+            }
             this.sincronizarBancoDados();
             this.atualizarTabela();
         }
 
         clientesTable.getSelectionModel().clearSelection();
     }
-    
+
     private void filtro(String texto, List lista, TableView tabela) {
         ObservableList data = FXCollections.observableArrayList(lista);
-        
+
         FilteredList<Cliente> dadosFiltrados = new FilteredList(data, filtro -> true);
-        
+
         dadosFiltrados.setPredicate(filtro -> {
             if (texto == null || texto.isEmpty()) {
                 return true;
@@ -146,26 +153,26 @@ public class TelaConsultarClientesController extends AnchorPane {
             if (filtro.getNome().toLowerCase().contains(texto.toLowerCase())) {
                 return true;
             }
-            
+
             return false;
         });
-        
+
         SortedList dadosOrdenados = new SortedList(dadosFiltrados);
         dadosOrdenados.comparatorProperty().bind(tabela.comparatorProperty());
         tabela.setItems(dadosOrdenados);
     }
-    
+
     private void atualizarTabela() {
         //Transforma a lista em uma Lista Observavel
         ObservableList data = FXCollections.observableArrayList(listaClientes);
-        
+
         this.nomeColumn.setCellValueFactory(new PropertyValueFactory<>("nome"));//Adiciona o valor da variavel Nome
         this.enderecoColumn.setCellValueFactory(new PropertyValueFactory<>("endereco"));//Adiciona o valor da variavel Endereco
         this.telefoneColumn.setCellValueFactory(new PropertyValueFactory<>("telefone"));//Adiciona o valor da variavel Telefone
-        
+
         this.clientesTable.setItems(data);//Adiciona a lista de clientes na Tabela
     }
-    
+
     private void sincronizarBancoDados() {
         //Metodo executado numa Thread separada
         SwingWorker<List, List> worker = new SwingWorker<List, List>() {
@@ -173,7 +180,7 @@ public class TelaConsultarClientesController extends AnchorPane {
             protected List<Cliente> doInBackground() throws Exception {
                 return ControleDAO.getBanco().getClienteDAO().listar();
             }
-            
+
             //Metodo chamado apos terminar a execucao numa Thread separada
             @Override
             protected void done() {
@@ -189,7 +196,7 @@ public class TelaConsultarClientesController extends AnchorPane {
 
         worker.execute();
     }
-    
+
     private void chamarAlerta(String mensagem) {
         Platform.runLater(new Runnable() {
             @Override
@@ -198,5 +205,5 @@ public class TelaConsultarClientesController extends AnchorPane {
             }
         });
     }
-    
+
 }

@@ -175,7 +175,7 @@ public class TelaSelecionarProdutoController extends AnchorPane {
                     listaProdutos = this.get();
                     atualizarTabela();
                 } catch (InterruptedException | ExecutionException ex) {
-                    chamarAlerta("Erro ao consultar Banco de Dados");
+                    chamarAlerta("Erro ao consultar Banco de Dados\n" + ex.toString());
                 }
             }
         };

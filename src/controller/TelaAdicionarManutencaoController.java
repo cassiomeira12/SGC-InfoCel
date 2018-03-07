@@ -7,7 +7,10 @@ package controller;
 
 import banco.ControleDAO;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.time.LocalDate;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -72,7 +75,7 @@ public class TelaAdicionarManutencaoController extends AnchorPane {
     private ComboBox<FormaPagamento> formaPagamentoComboBox;
     @FXML
     private Spinner parcelasSpinner;
-    
+
     @FXML
     private TextArea descricaoArea;
     @FXML
@@ -137,8 +140,11 @@ public class TelaAdicionarManutencaoController extends AnchorPane {
         this.estadoComboBox.getItems().add("Finalizado");
         //Selecionando o primeiro Item
         this.estadoComboBox.getSelectionModel().select(0);//Selecionando o primeiro item
-
-        this.formaPagamentoComboBox.getItems().addAll(ControleDAO.getBanco().getFormaPagamentoDAO().listar());
+        try {
+            this.formaPagamentoComboBox.getItems().addAll(ControleDAO.getBanco().getFormaPagamentoDAO().listar());
+        } catch (SQLException ex) {
+            Alerta.erro(ex.toString());
+        }
 
         corColorPicker.setOnAction(new EventHandler<ActionEvent>() {
             @Override
@@ -188,21 +194,29 @@ public class TelaAdicionarManutencaoController extends AnchorPane {
 
                 if (novoCliente) {//Criar um Novo Cliente
                     cliente = criarCliente();
-                    Long id = ControleDAO.getBanco().getClienteDAO().inserir(cliente);
-                    if (id == null) {
-                        Alerta.erro("Erro ao cadastrar Novo Usuário");
-                    } else {
-                        cliente.setId(id);
-                        this.cliente = cliente;
-                        continuar = true;
+                    try {
+                        Long id = ControleDAO.getBanco().getClienteDAO().inserir(cliente);
+                        if (id == null) {
+                            Alerta.erro("Erro ao cadastrar Novo Usuário");
+                        } else {
+                            cliente.setId(id);
+                            this.cliente = cliente;
+                            continuar = true;
+                        }
+                    } catch (Exception e) {
+                        Alerta.erro("Erro ao cadastrar Novo Usuário\n" + e.toString());
                     }
                 } else {//Cliente selecionado
                     cliente = atualizarCliente(this.cliente);
                     if (editarClienteCheckBox.isSelected()) {//Houve modificacoes
-                        if (ControleDAO.getBanco().getClienteDAO().editar(cliente)) {
-                            continuar = true;
-                        } else {
-                            Alerta.erro("Erro ao atualizar informações do Cliente");
+                        try {
+                            if (ControleDAO.getBanco().getClienteDAO().editar(cliente)) {
+                                continuar = true;
+                            } else {
+                                Alerta.erro("Erro ao atualizar informações do Cliente");
+                            }
+                        } catch (Exception e) {
+                            Alerta.erro("Erro ao atualizar informações do Cliente\n" + e.toString());
                         }
                     } else {
                         continuar = true;
@@ -237,17 +251,20 @@ public class TelaAdicionarManutencaoController extends AnchorPane {
                     this.novaManutencao.setModelo(modeloText.getText());
                     this.novaManutencao.setImei(imeiText.getText());
 
-                    System.out.println("antes do id");
-                    Long id = ControleDAO.getBanco().getManutencaoDAO().inserir(novaManutencao);
+                    try {
+                        Long id = ControleDAO.getBanco().getManutencaoDAO().inserir(novaManutencao);
 
-                    // id esta ficando nulo
-                    if (id == null) {
-                        System.out.println("id null");
-                        Alerta.erro("Erro ao adicionar nova Manutenção!");
-                    } else {
-                        Alerta.info("Manutenção cadastrada com sucesso!");
-                        TelaInicialController telaInicial = new TelaInicialController(painelPrincipal);
-                        this.adicionarPainelInterno(telaInicial);
+                        // id esta ficando nulo
+                        if (id == null) {
+                            System.out.println("id null");
+                            Alerta.erro("Erro ao adicionar nova Manutenção!");
+                        } else {
+                            Alerta.info("Manutenção cadastrada com sucesso!");
+                            TelaInicialController telaInicial = new TelaInicialController(painelPrincipal);
+                            this.adicionarPainelInterno(telaInicial);
+                        }
+                    } catch (Exception e) {
+                        Alerta.erro("Erro ao adicionar nova Manutenção!\n" + e.toString());
                     }
 
                 }
@@ -306,9 +323,13 @@ public class TelaAdicionarManutencaoController extends AnchorPane {
 
     @FXML
     private void salvarNovaFormaPagamento() {
-        //ControleDAO.getBanco().getFormaPagamentoDAO().inserir(new FormaPagamento(null, novaFormaPagamentoText.getText(), 12));
+        try {
+            //ControleDAO.getBanco().getFormaPagamentoDAO().inserir(new FormaPagamento(null, novaFormaPagamentoText.getText(), 12));
 
-        this.formaPagamentoComboBox.getItems().addAll(ControleDAO.getBanco().getFormaPagamentoDAO().listar());
+            this.formaPagamentoComboBox.getItems().addAll(ControleDAO.getBanco().getFormaPagamentoDAO().listar());
+        } catch (SQLException ex) {
+            Logger.getLogger(TelaAdicionarManutencaoController.class.getName()).log(Level.SEVERE, null, ex);
+        }
         this.formaPagamentoComboBox.setVisible(true);
         //this.novaFormaPagamentoButton.setVisible(true);
 

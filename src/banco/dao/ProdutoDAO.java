@@ -24,54 +24,42 @@ public class ProdutoDAO extends DAO {
     /**
      * Inserir produto na base de dados
      */
-    public Long inserir(Produto produto) {
-        try {
-            String sql = "INSERT INTO produto ( descricao_produto, categoria_produto_id, marca_id, preco_compra, preco_venda, estoque, unidade_medida_id ) VALUES (?, ?, ?, ?, ?, ?)";
+    public Long inserir(Produto produto) throws Exception {
+        String sql = "INSERT INTO produto ( descricao, id_categoria_produto, id_marca, preco_compra, preco_venda, estoque, id_unidade_medida ) VALUES (?, ?, ?, ?, ?, ?)";
 
-            stm = getConector().prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
+        stm = getConector().prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
 
-            stm.setString(1, produto.getDescricao());
-            stm.setInt(2, produto.getCategoria().getId().intValue());
-            stm.setInt(3, produto.getMarca().getId().intValue());
-            stm.setFloat(4, produto.getPrecoCompra());
-            stm.setFloat(5, produto.getPrecoVenda());
-            stm.setFloat(6, produto.getEstoque());
-            stm.setInt(7, produto.getUnidadeMedida().getId().intValue());
+        stm.setString(1, produto.getDescricao());
+        stm.setInt(2, produto.getCategoria().getId().intValue());
+        stm.setInt(3, produto.getMarca().getId().intValue());
+        stm.setFloat(4, produto.getPrecoCompra());
+        stm.setFloat(5, produto.getPrecoVenda());
+        stm.setFloat(6, produto.getEstoque());
+        stm.setInt(7, produto.getUnidadeMedida().getId().intValue());
 
-            return super.inserir();
-        } catch (Exception ex) {
-            chamarAlertaErro("Erro ao inserir produto na base de dados", ex.toString());
-        }
-
-        return null;
+        return super.inserir();
     }
 
     /**
      * Atualizar dados produto na base de dados
      */
-    public boolean editar(Produto produto) {
-        try {
-            String sql = "UPDATE produto SET  descricao_produto =?, categoria_produto_id =?, marca_id =?, preco_compra =?, preco_venda =?, estoque =?, unidade_medida_id WHERE id_produto =?";
+    public boolean editar(Produto produto) throws SQLException {
+        String sql = "UPDATE produto SET  descricao =?, id_categoria_produto =?, id_marca =?, preco_compra =?, preco_venda =?, estoque =?, id_unidade_medida WHERE id =?";
 
-            stm = getConector().prepareStatement(sql);
+        stm = getConector().prepareStatement(sql);
 
-            stm.setString(1, produto.getDescricao());
-            stm.setInt(2, produto.getCategoria().getId().intValue());
-            stm.setInt(3, produto.getMarca().getId().intValue());
-            stm.setFloat(4, produto.getPrecoCompra());
-            stm.setFloat(5, produto.getPrecoVenda());
-            stm.setFloat(6, produto.getEstoque());
-            stm.setInt(7, produto.getUnidadeMedida().getId().intValue());
+        stm.setString(1, produto.getDescricao());
+        stm.setInt(2, produto.getCategoria().getId().intValue());
+        stm.setInt(3, produto.getMarca().getId().intValue());
+        stm.setFloat(4, produto.getPrecoCompra());
+        stm.setFloat(5, produto.getPrecoVenda());
+        stm.setFloat(6, produto.getEstoque());
+        stm.setInt(7, produto.getUnidadeMedida().getId().intValue());
 
-            stm.setInt(7, produto.getId().intValue());
+        stm.setInt(7, produto.getId().intValue());
 
-            stm.executeUpdate();
-            stm.close();
-
-        } catch (SQLException ex) {
-            chamarAlertaErro("Erro ao atualizar produto na base de dados!", ex.toString());
-            return false;
-        }
+        stm.executeUpdate();
+        stm.close();
 
         return true;
     }
@@ -79,199 +67,113 @@ public class ProdutoDAO extends DAO {
     /**
      * Excluir produto na base de dados
      */
-    public boolean excluir(int id) {
-        try {
-            String sql = "DELETE FROM produto WHERE id_produto=?";
+    public boolean excluir(int id) throws SQLException {
+        String sql = "DELETE FROM produto WHERE id=?";
 
-            stm = getConector().prepareStatement(sql);
+        stm = getConector().prepareStatement(sql);
 
-            stm.setInt(1, id);
-            stm.execute();
+        stm.setInt(1, id);
+        stm.execute();
 
-            stm.close();
-        } catch (SQLException ex) {
-            chamarAlertaErro("Erro ao excluir produto na base de dados!", ex.toString());
-            return false;
-        }
-
+        stm.close();
         return true;
     }
 
     /**
      * Consultar todos produtos cadastrados na base de dados
      */
-    public List<Produto> listar() {
+    public List<Produto> listar() throws SQLException {
 
         List<Produto> produtos = new ArrayList<>();
 
-        try {
-            String sql = "SELECT produto.*, marca.descricao_marca, categoria_produto.descricao_categoria, unidade_medida.descricao_unidade "
-                    + "FROM produto"
-                    + "\nINNER JOIN marca marca ON produto.marca_id = marca.id_marca"
-                    + "\nINNER JOIN unidade_medida unidade_medida ON produto.unidade_medida_id = unidade_medida.id_unidade_medida"
-                    + "\nINNER JOIN categoria_produto categoria_produto ON produto.categoria_produto_id = categoria_produto.id_categoria_produto";
+        String sql = "SELECT * FROM view_produto";
 
-            //System.out.println(sql);
-            stm = getConector().prepareStatement(sql);
-            rs = stm.executeQuery(sql);
+        stm = getConector().prepareStatement(sql);
+        rs = stm.executeQuery(sql);
 
-            while (rs.next()) {
-                CategoriaProduto categoria = new CategoriaProduto(rs.getLong("categoria_id"), rs.getString("descricao_categoria"));
-                Marca marca = new Marca(rs.getLong("marca_id"), rs.getString("descricao_marca"));
-                UnidadeMedida unidadeMedida = new UnidadeMedida(rs.getLong("unidade_medida_id"), rs.getString("descricao_unidade"), "");
+        while (rs.next()) {
+            CategoriaProduto categoria = new CategoriaProduto(null, rs.getString("descricao_categoria"));
+            Marca marca = new Marca(null, rs.getString("descricao_marca"));
+            UnidadeMedida unidadeMedida = new UnidadeMedida(null, rs.getString("descricao_unidade"), null);
 
-                produtos.add(new Produto(rs.getLong("id_produto"), marca, rs.getString("descricao_produto"), categoria, rs.getFloat("preco_compra"), rs.getFloat("preco_venda"), rs.getFloat("estoque"), unidadeMedida));
-            }
-
-            stm.close();
-            rs.close();
-
-            return produtos;
-        } catch (Exception ex) {
-            chamarAlertaErro("Erro ao consultar produtos na base de dados!", ex.toString());
+            Produto produto = new Produto(rs.getLong("id"), marca, rs.getString("descricao"), categoria, rs.getFloat("preco_compra"), rs.getFloat("preco_venda"), rs.getFloat("estoque"), unidadeMedida);
+            produtos.add(produto);
         }
+
+        stm.close();
+        rs.close();
 
         return produtos;
     }
 
-    /* public List<Produto> listarParaVender() {
-
+    public List<Produto> buscarPorDescricaoModelo(String busca) throws SQLException {
         List<Produto> produtos = new ArrayList<>();
 
-        try {
-            String sql = "SELECT produto.*, marca.descricao_marca, categoria_produto.descricao_categoria "
-                    + "FROM produto"
-                    + "\nINNER JOIN marca marca ON produto.id_marca = marca.id_marca"
-                    + "\nINNER JOIN categoria_produto categoria_produto ON produto.id_categoria = categoria_produto.id_categoria";
+        String sql = "SELECT * FROM view_produto"
+                + "\nWHERE produto.descricao LIKE '%" + busca + "%'"
+                + "\n OR produto.modelo LIKE '%" + busca + "%'";;
 
-            //System.out.println(sql);
-            stm = getConector().prepareStatement(sql);
-            rs = stm.executeQuery(sql);
+        stm = getConector().prepareStatement(sql);
+        rs = stm.executeQuery(sql);
 
-            while (rs.next()) {
-                CategoriaProduto categoria = new CategoriaProduto(rs.getLong("id_categoria"), rs.getString("descricao_categoria"));
-                Marca marca = new Marca(rs.getLong("id_marca"), rs.getString("descricao_marca"));
-                Produto produto = new Produto(rs.getLong("id_produto"), marca, rs.getString("descricao_produto"), categoria, rs.getFloat("preco_compra"), rs.getFloat("preco_venda"), rs.getFloat("estoque"));
+        while (rs.next()) {
+            CategoriaProduto categoria = new CategoriaProduto(null, rs.getString("descricao_categoria"));
+            Marca marca = new Marca(null, rs.getString("descricao_marca"));
+            UnidadeMedida unidadeMedida = new UnidadeMedida(null, rs.getString("descricao_unidade"), null);
 
-                if (produto.getEstoque() > 0) {
-                    produtos.add(new Produto(rs.getLong("id_produto"), marca, rs.getString("descricao_produto"), categoria, rs.getFloat("preco_compra"), rs.getFloat("preco_venda"), rs.getFloat("estoque")));
-                }
-
-            }
-
-            stm.close();
-            rs.close();
-
-            return produtos;
-        } catch (Exception ex) {
-            chamarAlertaErro("Erro ao consultar produtos na base de dados!", ex.toString());
+            Produto produto = new Produto(rs.getLong("id"), marca, rs.getString("descricao"), categoria, rs.getFloat("preco_compra"), rs.getFloat("preco_venda"), rs.getFloat("estoque"), unidadeMedida);
+            produtos.add(produto);
         }
 
-        return produtos;
-    }
-     */
-    public List<Produto> buscarPorDescricaoModelo(String busca) {
-
-        List<Produto> produtos = new ArrayList<>();
-
-        try {
-            String sql = "SELECT produto.*, marca.descricao_marca, categoria_produto.descricao_categoria, unidade_medida.descricao_unidade "
-                    + "FROM produto"
-                    + "\nINNER JOIN marca marca ON produto.marca_id = marca.id_marca"
-                    + "\nINNER JOIN unidade_medida unidade_medida ON produto.unidade_id = unidade_medida.id_unidade_medida"
-                    + "\nINNER JOIN categoria_produto categoria_produto ON produto.categoria_id = categoria_produto.id_categoria_produto"
-                    + "\nWHERE produto.descricao_produto LIKE '%" + busca + "%'"
-                    + "\n OR produto.modelo LIKE '%" + busca + "%'";
-
-            System.out.println(sql);
-            stm = getConector().prepareStatement(sql);
-            rs = stm.executeQuery(sql);
-
-            while (rs.next()) {
-                CategoriaProduto categoria = new CategoriaProduto(rs.getLong("categoria_id"), rs.getString("descricao_categoria"));
-                Marca marca = new Marca(rs.getLong("marca_id"), rs.getString("descricao_marca"));
-                UnidadeMedida unidadeMedida = new UnidadeMedida(rs.getLong("unidade_medida_id"), rs.getString("descricao_unidade"), "");
-
-                produtos.add(new Produto(rs.getLong("id_produto"), marca, rs.getString("descricao_produto"), categoria, rs.getFloat("preco_compra"), rs.getFloat("preco_venda"), rs.getFloat("estoque"), unidadeMedida));
-            }
-
-            stm.close();
-            rs.close();
-
-            return produtos;
-        } catch (Exception ex) {
-            chamarAlertaErro("Erro ao consultar produtos na base de dados!", ex.toString());
-        }
+        stm.close();
+        rs.close();
 
         return produtos;
     }
 
-    public List<Produto> buscarPorCategoria(CategoriaProduto categoria) {
-
+    public List<Produto> buscarPorCategoria(CategoriaProduto categoria) throws SQLException {
         List<Produto> produtos = new ArrayList<>();
 
-        try {
-            String sql = "SELECT produto.*, marca.descricao_marca, categoria_produto.descricao_categoria, unidade_medida.descricao_unidade "
-                    + "FROM produto"
-                    + "\nINNER JOIN marca marca ON produto.marca_id = marca.id_marca"
-                    + "\nINNER JOIN unidade_medida unidade_medida ON produto.unidade_id = unidade_medida.id_unidade_medida"
-                    + "\nINNER JOIN categoria_produto categoria_produto ON produto.categoria_id = categoria_produto.id_categoria_produto"
-                    + "\nWHERE categoria_produto.descricao_categoria LIKE '%" + categoria.getDescricao() + "%'";
+        String sql = "SELECT * FROM view_produto"
+                + "\nWHERE produto.id_categoria_produto = " + categoria.getId();
 
-            System.out.println(sql);
-            stm = getConector().prepareStatement(sql);
-            rs = stm.executeQuery(sql);
+        stm = getConector().prepareStatement(sql);
+        rs = stm.executeQuery(sql);
 
-            while (rs.next()) {
-                Marca marca = new Marca(rs.getLong("marca_id"), rs.getString("descricao_marca"));
-                UnidadeMedida unidadeMedida = new UnidadeMedida(rs.getLong("unidade_medida_id"), rs.getString("descricao_unidade"), "");
+        while (rs.next()) {
+            Marca marca = new Marca(null, rs.getString("descricao_marca"));
+            UnidadeMedida unidadeMedida = new UnidadeMedida(null, rs.getString("descricao_unidade"), null);
 
-                produtos.add(new Produto(rs.getLong("id_produto"), marca, rs.getString("descricao_produto"), categoria, rs.getFloat("preco_compra"), rs.getFloat("preco_venda"), rs.getFloat("estoque"), unidadeMedida));
-            }
-
-            stm.close();
-            rs.close();
-
-            return produtos;
-        } catch (Exception ex) {
-            chamarAlertaErro("Erro ao consultar produtos na base de dados!", ex.toString());
+            Produto produto = new Produto(rs.getLong("id"), marca, rs.getString("descricao"), categoria, rs.getFloat("preco_compra"), rs.getFloat("preco_venda"), rs.getFloat("estoque"), unidadeMedida);
+            produtos.add(produto);
         }
+
+        stm.close();
+        rs.close();
 
         return produtos;
     }
 
-    public Produto buscarPorId(Long id) {
+    public Produto buscarPorId(Long id) throws SQLException {
         Produto produto = null;
-        try {
-            String sql = "SELECT produto.*, marca.descricao_marca, categoria_produto.descricao_categoria, unidade_medida.descricao_unidade "
-                    + "FROM produto"
-                    + "\nINNER JOIN marca marca ON produto.marca_id = marca.id_marca"
-                    + "\nINNER JOIN unidade_medida unidade_medida ON produto.unidade_medida_id = unidade_medida.id_unidade_medida"
-                    + "\nINNER JOIN categoria_produto categoria_produto ON produto.categoria_id = categoria_produto.id_categoria"
-                    + "\nWHERE produto.id_produto = " + id;
 
-            System.out.println(sql);
-            stm = getConector().prepareStatement(sql);
-            rs = stm.executeQuery(sql);
+        String sql = "SELECT * FROM view_produto WHERE id = " + id;
 
-            while (rs.next()) {
-                CategoriaProduto categoria = new CategoriaProduto(rs.getLong("categoria_id"), rs.getString("descricao_categoria"));
-                Marca marca = new Marca(rs.getLong("marca_id"), rs.getString("descricao_marca"));
-                UnidadeMedida unidadeMedida = new UnidadeMedida(rs.getLong("unidade_medida_id"), rs.getString("descricao_unidade"), "");
+        stm = getConector().prepareStatement(sql);
+        rs = stm.executeQuery(sql);
 
-                produto = new Produto(rs.getLong("id_produto"), marca, rs.getString("descricao_produto"), categoria, rs.getFloat("preco_compra"), rs.getFloat("preco_venda"), rs.getFloat("estoque"), unidadeMedida);
+        while (rs.next()) {
+            CategoriaProduto categoria = new CategoriaProduto(null, rs.getString("descricao_categoria"));
+            Marca marca = new Marca(null, rs.getString("descricao_marca"));
+            UnidadeMedida unidadeMedida = new UnidadeMedida(null, rs.getString("descricao_unidade"), null);
 
-            }
-
-            stm.close();
-            rs.close();
-
-            return produto;
-        } catch (Exception ex) {
-            chamarAlertaErro("Erro ao consultar produtos na base de dados!", ex.toString());
+            produto = new Produto(rs.getLong("id"), marca, rs.getString("descricao"), categoria, rs.getFloat("preco_compra"), rs.getFloat("preco_venda"), rs.getFloat("estoque"), unidadeMedida);
         }
 
-        return null;
+        stm.close();
+        rs.close();
+
+        return produto;
     }
 
 }

@@ -23,57 +23,47 @@ public class AdministradorDAO extends DAO {
     /**
      * Inserir usuário na base de dados
      */
-    public Long inserir(Administrador adm) {
-        try {
-            String sql = "INSERT INTO administrador ( nome, login, senha, endereco, email, cpf, rg, data_cadastror, statusr) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    public Long inserir(Administrador adm) throws Exception {
 
-            stm = getConector().prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
+        String sql = "INSERT INTO administrador ( nome, login, senha, endereco, email, cpf, rg, data_cadastror, statusr) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
-            stm.setString(1, adm.getNome());
-            stm.setString(2, adm.getLogin());
-            stm.setString(3, adm.getSenha());
-            stm.setString(4, adm.getEndereco());
-            stm.setString(5, adm.getEmail());
-            stm.setString(6, adm.getCpf());
-            stm.setString(7, adm.getRg());
-            stm.setLong(8, System.currentTimeMillis());
-            stm.setInt(9, adm.getStatus());
+        stm = getConector().prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
 
-            return super.inserir();
-        } catch (Exception ex) {
-            chamarAlertaErro("Erro ao inserir administrador na base de dados", ex.toString());
-        }
+        stm.setString(1, adm.getNome());
+        stm.setString(2, adm.getLogin());
+        stm.setString(3, adm.getSenha());
+        stm.setString(4, adm.getEndereco());
+        stm.setString(5, adm.getEmail());
+        stm.setString(6, adm.getCpf());
+        stm.setString(7, adm.getRg());
+        stm.setLong(8, System.currentTimeMillis());
+        stm.setInt(9, adm.getStatus());
 
-        return null;
+        return super.inserir();
+
     }
 
     /**
      * Atualizar dados administrador na base de dados
      */
-    public boolean editar(Administrador adm) {
-        try {
-            String sql = "UPDATE administrador SET nome =?, login =?, senha =?, endereco = ?, email =?, cpf =?, rg =?, status =?, WHERE id =?";
+    public boolean editar(Administrador adm) throws SQLException {
+        String sql = "UPDATE administrador SET nome =?, login =?, senha =?, endereco = ?, email =?, cpf =?, rg =?, status =?, WHERE id =?";
 
-            stm = getConector().prepareStatement(sql);
+        stm = getConector().prepareStatement(sql);
 
-            stm.setString(1, adm.getNome());
-            stm.setString(2, adm.getLogin());
-            stm.setString(3, adm.getSenha());
-            stm.setString(4, adm.getEndereco());
-            stm.setString(5, adm.getEmail());
-            stm.setString(6, adm.getCpf());
-            stm.setString(7, adm.getRg());
-            stm.setInt(8, adm.getStatus());
+        stm.setString(1, adm.getNome());
+        stm.setString(2, adm.getLogin());
+        stm.setString(3, adm.getSenha());
+        stm.setString(4, adm.getEndereco());
+        stm.setString(5, adm.getEmail());
+        stm.setString(6, adm.getCpf());
+        stm.setString(7, adm.getRg());
+        stm.setInt(8, adm.getStatus());
 
-            stm.setInt(9, adm.getId().intValue());
+        stm.setInt(9, adm.getId().intValue());
 
-            stm.executeUpdate();
-            stm.close();
-
-        } catch (SQLException ex) {
-            chamarAlertaErro("Erro ao atualizar administrador na base de dados!", ex.toString());
-            return false;
-        }
+        stm.executeUpdate();
+        stm.close();
 
         return true;
     }
@@ -81,48 +71,37 @@ public class AdministradorDAO extends DAO {
     /**
      * Excluir administrador na base de dados
      */
-    public boolean excluir(int id) {
-        try {
-            String sql = "DELETE FROM administrador WHERE id=?";
+    public boolean excluir(int id) throws SQLException {
+        String sql = "DELETE FROM administrador WHERE id=?";
 
-            stm = getConector().prepareStatement(sql);
+        stm = getConector().prepareStatement(sql);
 
-            stm.setInt(1, id);
-            stm.execute();
+        stm.setInt(1, id);
+        stm.execute();
 
-            stm.close();
-        } catch (SQLException ex) {
-            chamarAlertaErro("Erro ao excluir administrador na base de dados!", ex.toString());
-            return false;
-        }
-
+        stm.close();
         return true;
     }
 
     /**
      * Consultar todos administrador cadastrados na base de dados
      */
-    public List<Administrador> listar() {
+    public List<Administrador> listar() throws SQLException {
 
         List<Administrador> administradores = new ArrayList<>();
 
-        try {
-            String sql = "SELECT administrador.* FROM administrador";
+        String sql = "SELECT administrador.* FROM administrador";
 
-            stm = getConector().prepareStatement(sql);
-            rs = stm.executeQuery(sql);
+        stm = getConector().prepareStatement(sql);
+        rs = stm.executeQuery(sql);
 
-            while (rs.next()) {
-                Administrador admin = new Administrador((long) rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7), rs.getString(8), rs.getLong(9), rs.getInt(10));
-                administradores.add(admin);
-            }
-
-            stm.close();
-            rs.close();
-
-        } catch (SQLException ex) {
-            chamarAlertaErro("Erro ao consultar administradoes na base de dados!", ex.toString());
+        while (rs.next()) {
+            Administrador admin = new Administrador((long) rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7), rs.getString(8), rs.getLong(9), rs.getInt(10));
+            administradores.add(admin);
         }
+
+        stm.close();
+        rs.close();
 
         return administradores;
     }
