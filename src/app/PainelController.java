@@ -45,9 +45,9 @@ public class PainelController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         this.barraMenu.setVisible(false);//Deixando a Barra de Menu invisivel
-        //TelaLoginController telaLogin = new TelaLoginController(painelPrincipal);
-        //this.adicionarPainelInterno(telaLogin);
-        PainelInterno.telaLogin(painelPrincipal);
+        TelaLoginController telaLogin = new TelaLoginController(painelPrincipal);
+        this.adicionarPainelInterno(telaLogin);
+        //PainelInterno.telaLogin(painelPrincipal);
     }
     
     public void setStage(Stage palco) {
@@ -55,7 +55,6 @@ public class PainelController implements Initializable {
     }
     
     private void adicionarPainelInterno(AnchorPane novaTela) {
-        painelPrincipal.getChildren().clear();
         painelPrincipal.setCenter(novaTela);
     }
     
@@ -66,9 +65,9 @@ public class PainelController implements Initializable {
     
     @FXML
     private void sair() {
-        this.barraMenu.setVisible(false);//Deixando a Barra de Menu invisivel
         TelaLoginController telaLogin = new TelaLoginController(painelPrincipal);
         this.adicionarPainelInterno(telaLogin);
+        this.barraMenu.setVisible(false);//Deixando a Barra de Menu invisivel
     }
     
     @FXML
@@ -117,6 +116,31 @@ public class PainelController implements Initializable {
     private void chamarTelaAdicionarProduto(ActionEvent event) {
         TelaAdicionarProdutoController telaAdicionarProduto = new TelaAdicionarProdutoController(painelPrincipal);
         this.adicionarPainelInterno(telaAdicionarProduto);
+    }
+
+    @FXML
+    private void chamarTelaConsultarVendas(ActionEvent event) {
+        PainelInterno.telaConsultarVendas(painelPrincipal);
+    }
+
+    @FXML
+    private void chamarTelaRelatorioDiario(ActionEvent event) {
+        PainelInterno.telaRelatorioDiario(painelPrincipal);
+    }
+
+    @FXML
+    private void chamarTelaAdministradores(ActionEvent event) {
+        PainelInterno.telaAdministradores(painelPrincipal);
+    }
+
+    @FXML
+    private void chamarTelaBancoDeDados(ActionEvent event) {
+        PainelInterno.telaBancoDeDados(painelPrincipal);
+    }
+
+    @FXML
+    private void chamarTelaConfiguracoes(ActionEvent event) {
+        PainelInterno.telaConfiguracoes(painelPrincipal);
     }
 
 }

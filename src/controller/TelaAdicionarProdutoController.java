@@ -17,6 +17,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -80,6 +81,9 @@ public class TelaAdicionarProdutoController extends AnchorPane {
     private Label percentualLabel;
     @FXML
     private TextField quantidadeText;
+    @FXML
+    private Button salvarButton;
+    
 
     public TelaAdicionarProdutoController(BorderPane painelPrincipal) {
         this.painelPrincipal = painelPrincipal;
@@ -106,6 +110,17 @@ public class TelaAdicionarProdutoController extends AnchorPane {
         Formatter.decimal(quantidadeText);
 
         Formatter.toUpperCase(descricaoText, custoProdutoText, novaCategoriaText, novaMarcaText);
+        
+        
+        salvarButton.disableProperty().bind(descricaoText.textProperty().isEmpty().or(
+                                            categoriaComboBox.selectionModelProperty().isNull().or(
+                                            marcaComboBox.selectionModelProperty().isNull().or(
+                                            custoProdutoText.textProperty().isEmpty().or(
+                                            valorProdutoText.textProperty().isEmpty().or(
+                                            unidadeMedidaComboBox.selectionModelProperty().isNull().or(
+                                            quantidadeText.textProperty().isEmpty())))))));
+        
+        
 
         this.sincronizarBancoDados();//Atualizando Listas com o Banco de Dados
         this.atualizarComboBoxs();//Adicionando itens nos ComboBox
@@ -253,6 +268,8 @@ public class TelaAdicionarProdutoController extends AnchorPane {
         this.categoriaComboBox.setItems(categoriaProdutos);
         this.marcaComboBox.setItems(categoriasMarcas);
         this.unidadeMedidaComboBox.setItems(unidadesMedidas);
+        
+        //this.unidadeMedidaComboBox.getSelectionModel().select(3);
     }
 
     private void calcularPercentual() {

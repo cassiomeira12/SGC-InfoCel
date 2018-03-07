@@ -17,8 +17,8 @@
           </Menu>
           <Menu mnemonicParsing="false" text="Vendas">
                <items>
-                  <MenuItem mnemonicParsing="false" onAction="#chamarTelaAdicionarVenda" text="Adicionar Vendas" />
-                  <MenuItem mnemonicParsing="false" text="Consultar Vendas" />
+                  <MenuItem mnemonicParsing="false" onAction="#chamarTelaAdicionarVenda" text="Adicionar Venda" />
+                  <MenuItem mnemonicParsing="false" onAction="#chamarTelaConsultarVendas" text="Consultar Vendas" />
                </items></Menu>
           <Menu mnemonicParsing="false" text="Produtos">
                <items>
@@ -36,14 +36,14 @@
                </items></Menu>
             <Menu mnemonicParsing="false" text="Relatórios">
                <items>
-                  <MenuItem mnemonicParsing="false" onAction="#chamarTelaRelatorioMensal" text="Relatório Diário" />
+                  <MenuItem mnemonicParsing="false" onAction="#chamarTelaRelatorioDiario" text="Relatório Diário" />
                   <MenuItem mnemonicParsing="false" onAction="#chamarTelaRelatorioMensal" text="Relatório Mensal" />
                </items></Menu>
             <Menu mnemonicParsing="false" text="Opções">
                <items>
-                  <MenuItem mnemonicParsing="false" onAction="#chamarTelaRelatorioMensal" text="Administradores" />
-                  <MenuItem mnemonicParsing="false" onAction="#chamarTelaRelatorioMensal" text="Banco de Dados" />
-                  <MenuItem mnemonicParsing="false" onAction="#chamarTelaRelatorioMensal" text="Configurações" />
+                  <MenuItem mnemonicParsing="false" onAction="#chamarTelaAdministradores" text="Administradores" />
+                  <MenuItem mnemonicParsing="false" onAction="#chamarTelaBancoDeDados" text="Banco de Dados" />
+                  <MenuItem mnemonicParsing="false" onAction="#chamarTelaConfiguracoes" text="Configurações" />
                </items>
             </Menu>
             <Menu mnemonicParsing="false" text="Ajuda">

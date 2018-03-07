@@ -3,15 +3,15 @@ package model;
 public class Administrador {
 
     private Long id;
-    private String nome;
+    private String nome;//
     private String login;
     private String senha;
-    private String endereco;
-    private String email;
-    private String cpf;
-    private String rg;
-    private Long dataCadastro;
-    private int status;
+    private String endereco;//
+    private String email;//
+    private String cpf;//
+    private String rg;//
+    private Long dataCadastro;//
+    private int status;//
 
     public Administrador(Long id, String nome, String login, String senha, String endereco, String email, String cpf, String rg, Long dataCadastro, int status) {
         this.id = id;

@@ -14,7 +14,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<fx:root prefHeight="650.0" prefWidth="1200.0" stylesheets="@../css/default.css" type="AnchorPane" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
+<fx:root prefHeight="650.0" prefWidth="1200.0" stylesheets="@../css/default.css" type="AnchorPane" xmlns="http://javafx.com/javafx/9" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <BorderPane layoutX="270.0" layoutY="182.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
          <top>
@@ -37,7 +37,7 @@
                   </HBox>
                   <HBox alignment="CENTER" prefHeight="44.0" prefWidth="600.0">
                      <children>
-                        <Button alignment="CENTER" focusTraversable="false" mnemonicParsing="false" onAction="#salvarProduto" styleClass="button-salvar" text="Salvar" />
+                        <Button fx:id="salvarButton" alignment="CENTER" focusTraversable="false" mnemonicParsing="false" onAction="#salvarProduto" styleClass="button-salvar" text="Salvar" />
                      </children>
                      <HBox.margin>
                         <Insets />
@@ -111,6 +111,7 @@
                               </Label>
                            </children>
                         </HBox>
+                        <ComboBox fx:id="unidadeMedidaComboBox" prefWidth="200.0" GridPane.columnSpan="2" GridPane.rowIndex="5" />
                         <TextField fx:id="quantidadeText" GridPane.columnIndex="2" GridPane.rowIndex="5" />
                         <Label text="Descrição do Produto" GridPane.columnSpan="2" />
                         <Label fx:id="categoriaLabel" text="Categoria" GridPane.columnIndex="5" />
@@ -119,7 +120,6 @@
                         <Label text="Quantidade" GridPane.columnIndex="2" GridPane.rowIndex="4" />
                         <Label fx:id="marcaLabel" text="Marca" GridPane.columnSpan="2" GridPane.rowIndex="2" />
                         <Label text="Unidade de Medida" GridPane.columnSpan="2" GridPane.rowIndex="4" />
-                        <ComboBox fx:id="unidadeMedidaComboBox" prefWidth="200.0" GridPane.columnSpan="2" GridPane.rowIndex="5" />
                      </children>
                      <VBox.margin>
                         <Insets top="80.0" />
