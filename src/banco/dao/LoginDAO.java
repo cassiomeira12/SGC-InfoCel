@@ -16,8 +16,7 @@ public class LoginDAO extends DAO {
     /**
      * Autenticar e validar nome do usuário informado
      */
-    public boolean autenticarLogin(String nome) throws SQLException {
-
+    public boolean autenticarLogin(String nome) throws Exception {
         String sql = "SELECT login FROM administrador WHERE login=? AND status = 1 ";
 
         stm = getConector().prepareStatement(sql);
@@ -38,7 +37,6 @@ public class LoginDAO extends DAO {
      * Autenticar e validar senha do usuário informada
      */
     public boolean autenticarSenha(String nome, String senha) throws SQLException {
-
         String sql = "SELECT login, senha FROM administrador WHERE login=? AND senha=? ";
 
         stm = getConector().prepareStatement(sql);
