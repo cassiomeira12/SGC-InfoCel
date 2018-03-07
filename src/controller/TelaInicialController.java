@@ -32,6 +32,7 @@ import model.Receita;
 import model.Saida;
 import model.Venda;
 import util.DateUtils;
+import util.PainelInterno;
 
 /**
  * FXML Controller class
@@ -111,6 +112,7 @@ public class TelaInicialController extends AnchorPane {
     private void chamarTelaAdicionarManutencao() {
         TelaAdicionarManutencaoController telaAdicionarManutencao = new TelaAdicionarManutencaoController(painelPrincipal);
         this.adicionarPainelInterno(telaAdicionarManutencao);
+        //PainelInterno.telaAdicionarManutencao(painelPrincipal);
     }
     
     @FXML

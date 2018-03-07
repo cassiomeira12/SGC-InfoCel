@@ -30,8 +30,7 @@ public class Painel extends Application {
 
         BorderPane painel = FXMLLoader.load(getClass().getResource("Painel.fxml"));
         
-        Scene scene = new Scene(painel);
-        palco.setScene(scene);
+        palco.setScene(new Scene(painel));
         palco.centerOnScreen();
         palco.setMaximized(true);//Deixando a tela Maximizada
         palco.setTitle(SoftwareSpecifications.TITULO);

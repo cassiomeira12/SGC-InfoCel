@@ -5,7 +5,7 @@
  */
 package app;
 
-import controller.LoginController;
+import controller.TelaLoginController;
 import controller.TelaAdicionarProdutoController;
 import controller.TelaConsultarClientesController;
 import controller.TelaConsultarManutencoesController;
@@ -23,6 +23,7 @@ import javafx.scene.control.MenuBar;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
+import util.PainelInterno;
 
 /**
  * FXML Controller class
@@ -44,8 +45,9 @@ public class PainelController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         this.barraMenu.setVisible(false);//Deixando a Barra de Menu invisivel
-        LoginController telaLogin = new LoginController(painelPrincipal);
-        this.adicionarPainelInterno(telaLogin);
+        //TelaLoginController telaLogin = new TelaLoginController(painelPrincipal);
+        //this.adicionarPainelInterno(telaLogin);
+        PainelInterno.telaLogin(painelPrincipal);
     }
     
     public void setStage(Stage palco) {
@@ -53,6 +55,7 @@ public class PainelController implements Initializable {
     }
     
     private void adicionarPainelInterno(AnchorPane novaTela) {
+        painelPrincipal.getChildren().clear();
         painelPrincipal.setCenter(novaTela);
     }
     
@@ -64,7 +67,7 @@ public class PainelController implements Initializable {
     @FXML
     private void sair() {
         this.barraMenu.setVisible(false);//Deixando a Barra de Menu invisivel
-        LoginController telaLogin = new LoginController(painelPrincipal);
+        TelaLoginController telaLogin = new TelaLoginController(painelPrincipal);
         this.adicionarPainelInterno(telaLogin);
     }
     
