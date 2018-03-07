@@ -22,6 +22,7 @@ import javafx.scene.layout.StackPane;
 import javax.swing.SwingWorker;
 import model.Administrador;
 import util.Formatter;
+import util.PainelInterno;
 import util.alerta.Alerta;
 
 /**
@@ -29,7 +30,7 @@ import util.alerta.Alerta;
  *
  * @author cassio
  */
-public class LoginController extends AnchorPane {
+public class TelaLoginController extends AnchorPane {
 
     private BorderPane painelPrincipal;
     private ControleDAO dao;
@@ -45,7 +46,7 @@ public class LoginController extends AnchorPane {
     private StackPane stackPane;
     private ProgressIndicator indicator = new ProgressIndicator();
 
-    public LoginController(BorderPane painelPrincipal) {
+    public TelaLoginController(BorderPane painelPrincipal) {
 
         this.painelPrincipal = painelPrincipal;
 
@@ -90,6 +91,8 @@ public class LoginController extends AnchorPane {
             usuarioText.setDisable(true);
             senhaPassword.setDisable(true);
             autenticarLogin(login, senha);
+            //PainelInterno.telaInicial(painelPrincipal);
+            //painelPrincipal.getTop().setVisible(true);//Deixando a Barra de menu visivel
         }
     }
 

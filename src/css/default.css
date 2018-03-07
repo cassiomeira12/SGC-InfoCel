@@ -42,7 +42,7 @@ and open the template in the editor.
 .button-pesquisar {
     -fx-min-height: 40px;
     -fx-min-width: 150px;
-    -fx-background-color: #b2bec3;
+    -fx-background-color: #c8d6e5;
     -fx-text-fill: #fff;
     -fx-graphic: url("../img/icons/pesquisar.png");
     -fx-content-display: left;
@@ -109,14 +109,14 @@ and open the template in the editor.
 /*Botao Cancelar | Botao Voltar*/
 .button-cancelar,
 .button-voltar {
-/*    -fx-background-color: linear-gradient(to top right, #ff5b5b, #ff5359);
-    -fx-border-color: linear-gradient(to top right, #ff5b5b, #ff5359);
+    -fx-background-color: linear-gradient(to top right, #95a5a6, #7f8c8d);
+/*    -fx-border-color: linear-gradient(to top right, #576574, #576574);*/
     
     -fx-min-height: 40px;
     -fx-min-width: 150px;
     
     -fx-font-size: 16px;
-    -fx-font-family: "Open Sans";
+/*    -fx-font-family: "Open Sans";*/
     -fx-content-display: left;
     -fx-graphic-text-gap: 8;
     -fx-border-insets: 0;
@@ -124,18 +124,19 @@ and open the template in the editor.
     -fx-border-radius: 4;
     -fx-background-radius: 4;
     -fx-text-fill: #fff;
-    -fx-cursor: hand;*/
+    -fx-cursor: hand;
 }
 
 .button-cancelar:hover,
 .button-voltar:hover {
-/*    -fx-effect: innershadow(two-pass-box, rgba(0, 0, 0, 0.2), 6, 0.1, 0, 2);*/
+    -fx-effect: innershadow(two-pass-box, rgba(0, 0, 0, 0.2), 6, 0.1, 0, 2);
+    -fx-background-color: #576574;
 }
 
 .button-cancelar:pressed,
 .button-voltar:pressed {
-/*    -fx-background-color: #ff5b5b;
-    -fx-border-color: #ff5b5b;*/
+    -fx-background-color: #576574;
+    -fx-border-color: #576574;
 }
 
 
@@ -196,13 +197,13 @@ and open the template in the editor.
     -fx-background-radius: 4;
     -fx-text-fill: #fff;
     -fx-cursor: hand;
-    
 }
 
 /*Passar o mouse por cima*/
 .button-salvar:hover,
 .button-finalizar:hover {
     -fx-effect: innershadow(two-pass-box, rgba(0, 0, 0, 0.2), 6, 0.1, 0, 2);
+    -fx-background-color: #0abde3
 }
 
 .button-salvar:pressed,

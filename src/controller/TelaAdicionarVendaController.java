@@ -149,7 +149,7 @@ public class TelaAdicionarVendaController extends AnchorPane {
         //Adicionando os Administradores no ComboBox
         this.vendedorComboBox.setItems(FXCollections.observableArrayList(ControleDAO.getBanco().getAdministradorDAO().listar()));
         //Selecionando o Administrador que fez o Login
-        this.vendedorComboBox.getSelectionModel().select(LoginController.admLogado);
+        this.vendedorComboBox.getSelectionModel().select(TelaLoginController.admLogado);
 
         this.dataDatePicker.setValue(LocalDate.now());//Adicionando Data do dia atual
     }

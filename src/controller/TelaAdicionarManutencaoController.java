@@ -225,7 +225,7 @@ public class TelaAdicionarManutencaoController extends AnchorPane {
                     }
 
                     this.novaManutencao.setCliente(cliente);
-                    this.novaManutencao.setAdministrador(LoginController.admLogado);
+                    this.novaManutencao.setAdministrador(TelaLoginController.admLogado);
                     this.novaManutencao.setDescricao(descricaoArea.getText());
                     this.novaManutencao.setPreco(Integer.parseInt(precoText.getText()));
                     // nao sei se essa data esta sendo pega corretamente
