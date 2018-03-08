@@ -95,7 +95,7 @@ public class ReceitaDAO extends DAO {
 
         while (rs.next()) {
             Administrador adm = new Administrador(rs.getLong("id_administrador"), rs.getString("nome_administrador"), null, null, null, null, null, null, null, true);
-            Cliente cliente = new Cliente(rs.getLong("id_cliente"), rs.getString("nome_cliente"), null, null, null, null, null, null, 1);
+            Cliente cliente = new Cliente(rs.getLong("id_cliente"), rs.getString("nome_cliente"), null, null, null, null, null, null, true);
 
             Receita receita = new Receita(rs.getLong(1), cliente, adm, rs.getString(4), rs.getLong(5), rs.getFloat(6));
 
@@ -121,7 +121,7 @@ public class ReceitaDAO extends DAO {
 
         while (rs.next()) {
             Administrador adm = new Administrador(rs.getLong("id_administrador"), rs.getString("nome_administrador"), null, null, null, null, null, null, null, true);
-            Cliente cliente = new Cliente(rs.getLong("id_cliente"), rs.getString("nome_cliente"), null, null, null, null, null, null, 1);
+            Cliente cliente = new Cliente(rs.getLong("id_cliente"), rs.getString("nome_cliente"), null, null, null, null, null, null, true);
 
             Receita receita = new Receita(rs.getLong(1), cliente, adm, rs.getString(4), rs.getLong(5), rs.getFloat(6));
 

@@ -10,9 +10,9 @@ public class Cliente {
     private String telefone;
     private String cidade;
     private Long dataCadastro;
-    private int status;
+    private boolean status;
 
-    public Cliente(Long id, String nome, String endereco, String cpf, String rg, String telefone, String cidade, Long dataCadastro, int status) {
+    public Cliente(Long id, String nome, String endereco, String cpf, String rg, String telefone, String cidade, Long dataCadastro, boolean status) {
         this.id = id;
         this.nome = nome;
         this.endereco = endereco;
@@ -88,14 +88,14 @@ public class Cliente {
         this.dataCadastro = dataCadastro;
     }
 
-    public int getStatus() {
+    public boolean getStatus() {
         return status;
     }
 
-    public void setStatus(int status) {
+    public void setStatus(boolean status) {
         this.status = status;
     }
-    
+
     @Override
     public String toString() {
         return nome;

@@ -34,7 +34,7 @@ import util.alerta.Alerta;
  * @author cassio
  */
 public class TelaAdicionarReceitaController extends AnchorPane {
-    
+
     private BorderPane painelPrincipal;
 
     @FXML
@@ -57,12 +57,12 @@ public class TelaAdicionarReceitaController extends AnchorPane {
     private TextArea descricaoText;
     @FXML
     private DatePicker dataDatePicker;
-    
+
     private Cliente cliente;
-            
+
     public TelaAdicionarReceitaController(BorderPane painelPrincipal) {
         this.painelPrincipal = painelPrincipal;
-        
+
         try {
             FXMLLoader fxml = new FXMLLoader(getClass().getResource("/view/TelaAdicionarReceita.fxml"));
             fxml.setRoot(this);
@@ -77,14 +77,14 @@ public class TelaAdicionarReceitaController extends AnchorPane {
     @FXML
     public void initialize() {
         this.dataDatePicker.setValue(LocalDate.now());//Adicionando Data do dia atual
-        
+
         Formatter.mascaraCPF(cpfText);//Formatador para CPF
         Formatter.mascaraRG(rgText);//Formatador para Rg
         Formatter.mascaraTelefone(telefoneText);//Formatador para Telefone
         Formatter.decimal(valorText);//Formatador para Dinheiro
-        
+
         Formatter.toUpperCase(nomeText, cidadeText, enderecoText);
-        
+
         this.editarClienteCheckBox.setVisible(false);//Ocultando componente
         this.editarClienteCheckBox.setSelected(true);//Deixando o CheckBox selecionado
         this.editarClienteCheckBox.setOnAction(new EventHandler<ActionEvent>() {
@@ -101,21 +101,21 @@ public class TelaAdicionarReceitaController extends AnchorPane {
         rgText.disableProperty().bind(editarClienteCheckBox.selectedProperty().not());
         cidadeText.disableProperty().bind(editarClienteCheckBox.selectedProperty().not());
         enderecoText.disableProperty().bind(editarClienteCheckBox.selectedProperty().not());
-        
+
     }
-    
+
     private void adicionarPainelInterno(AnchorPane novaTela) {
         this.painelPrincipal.setCenter(novaTela);
     }
-    
+
     @FXML
     private void cancelarOperacao() {
         TelaInicialController telaInicial = new TelaInicialController(painelPrincipal);
         this.adicionarPainelInterno(telaInicial);
     }
-    
+
     @FXML
-    private void salvarReceita(){
+    private void salvarReceita() {
 //        if(cliente == null){
 //        cliente = new Cliente(null, nomeText.getText(), enderecoText.getText(), cpfText.getText(), rgText.getText(), telefoneText.getText(), cidadeText.getText(), System.currentTimeMillis(), 1);
 //        }
@@ -143,9 +143,9 @@ public class TelaAdicionarReceitaController extends AnchorPane {
 //            decricaoText.setText("");
 //            
 //        }
-    
+
     }
-    
+
     @FXML
     private void pesquisarCliente() {
         Stage palco = new Stage();
@@ -154,10 +154,10 @@ public class TelaAdicionarReceitaController extends AnchorPane {
         palco.initStyle(StageStyle.UNDECORATED);//Remove a barra de menu
 
         TelaPesquisarClienteController telaPesquisarCliente = new TelaPesquisarClienteController(palco);
-        
+
         palco.setScene(new Scene(telaPesquisarCliente));
         palco.showAndWait();
-        
+
         if (telaPesquisarCliente.RESULTADO) {//Selecionou Produto
             this.cliente = telaPesquisarCliente.getCliente();
             this.adicionarDadosCliente(cliente);
@@ -166,7 +166,7 @@ public class TelaAdicionarReceitaController extends AnchorPane {
             Platform.runLater(() -> dataDatePicker.requestFocus());//Colocando o Foco
         }
     }
-    
+
     private Cliente criarCliente() {
         String nome = nomeText.getText();
         String telefone = telefoneText.getText();
@@ -174,10 +174,10 @@ public class TelaAdicionarReceitaController extends AnchorPane {
         String rg = rgText.getText();
         String cidade = cidadeText.getText();
         String endereco = enderecoText.getText();
-        
-        return new Cliente(null, nome, endereco, cpf, rg, telefone, cidade, null, 0);
+
+        return new Cliente(null, nome, endereco, cpf, rg, telefone, cidade, null, true);
     }
-    
+
     private Cliente atualizarCliente(Cliente cliente) {
         cliente.setNome(nomeText.getText());
         cliente.setTelefone(telefoneText.getText());
@@ -187,7 +187,7 @@ public class TelaAdicionarReceitaController extends AnchorPane {
         cliente.setEndereco(enderecoText.getText());
         return cliente;
     }
-    
+
     private void adicionarDadosCliente(Cliente cliente) {
         this.nomeText.setText(cliente.getNome());
         this.telefoneText.setText(cliente.getTelefone());

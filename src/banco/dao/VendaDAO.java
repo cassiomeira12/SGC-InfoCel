@@ -99,7 +99,7 @@ public class VendaDAO extends DAO {
 
         while (rs.next()) {
             Administrador adm = new Administrador(rs.getLong("id_administrador"), rs.getString("nome_administrador"), null, null, null, null, null, null, null, true);
-            Cliente cliente = new Cliente(rs.getLong("id_cliente"), rs.getString("nome_cliente"), null, null, null, null, null, null, 1);
+            Cliente cliente = new Cliente(rs.getLong("id_cliente"), rs.getString("nome_cliente"), null, null, null, null, null, null, true);
             FormaPagamento formaPagamento = new FormaPagamento(rs.getLong("id_forma_pagamento"), rs.getString("descricao_forma_pagamento"), 1);
 
             Venda venda = new Venda(rs.getLong("venda.id"), adm, cliente, null, formaPagamento, rs.getInt("venda.quantidade_parcela"), rs.getLong("venda.data"));
@@ -128,7 +128,7 @@ public class VendaDAO extends DAO {
 
         while (rs.next()) {
             Administrador adm = new Administrador(rs.getLong("id_administrador"), rs.getString("nome_administrador"), null, null, null, null, null, null, null, true);
-            Cliente cliente = new Cliente(rs.getLong("id_cliente"), rs.getString("nome_cliente"), null, null, null, null, null, null, 1);
+            Cliente cliente = new Cliente(rs.getLong("id_cliente"), rs.getString("nome_cliente"), null, null, null, null, null, null, true);
             FormaPagamento formaPagamento = new FormaPagamento(rs.getLong("id_forma_pagamento"), rs.getString("descricao_forma_pagamento"), 1);
 
             Venda venda = new Venda(rs.getLong("venda.id"), adm, cliente, null, formaPagamento, rs.getInt("venda.quantidade_parcela"), rs.getLong("venda.data"));

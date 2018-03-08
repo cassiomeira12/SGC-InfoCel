@@ -345,7 +345,7 @@ public class TelaAdicionarManutencaoController extends AnchorPane {
         String cidade = cidadeText.getText();
         String endereco = enderecoText.getText();
 
-        return new Cliente(null, nome, endereco, cpf, rg, telefone, cidade, null, 0);
+        return new Cliente(null, nome, endereco, cpf, rg, telefone, cidade, null, true);
     }
 
     private Cliente atualizarCliente(Cliente cliente) {
