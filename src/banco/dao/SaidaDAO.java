@@ -89,7 +89,7 @@ public class SaidaDAO extends DAO {
         rs = stm.executeQuery(sql);
 
         while (rs.next()) {
-            Administrador adm = new Administrador(rs.getLong("id_administrador"), rs.getString("nome_administrador"), null, null, null, null, null, null, null, 1);
+            Administrador adm = new Administrador(rs.getLong("id_administrador"), rs.getString("nome_administrador"), null, null, null, null, null, null, null, true);
             CategoriaSaida categoria = new CategoriaSaida(rs.getLong("id_categoria_saida"), rs.getString("descricao_categoria_saida"));
 
             Saida saida = new Saida(rs.getLong("id"), adm, rs.getString("descricao"), categoria, rs.getFloat("valor"), rs.getLong("data"));
@@ -115,7 +115,7 @@ public class SaidaDAO extends DAO {
         rs = stm.executeQuery(sql);
 
         while (rs.next()) {
-            Administrador adm = new Administrador(rs.getLong("id_administrador"), rs.getString("nome_administrador"), null, null, null, null, null, null, null, 1);
+            Administrador adm = new Administrador(rs.getLong("id_administrador"), rs.getString("nome_administrador"), null, null, null, null, null, null, null, true);
             CategoriaSaida categoria = new CategoriaSaida(rs.getLong("id_categoria_saida"), rs.getString("descricao_categoria_saida"));
 
             Saida saida = new Saida(rs.getLong("id"), adm, rs.getString("descricao"), categoria, rs.getFloat("valor"), rs.getLong("data"));

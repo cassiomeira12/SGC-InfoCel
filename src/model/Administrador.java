@@ -11,9 +11,9 @@ public class Administrador {
     private String cpf;//
     private String rg;//
     private Long dataCadastro;//
-    private int status;//
+    private boolean status;//
 
-    public Administrador(Long id, String nome, String login, String senha, String endereco, String email, String cpf, String rg, Long dataCadastro, int status) {
+    public Administrador(Long id, String nome, String login, String senha, String endereco, String email, String cpf, String rg, Long dataCadastro, boolean status) {
         this.id = id;
         this.nome = nome;
         this.login = login;
@@ -90,11 +90,11 @@ public class Administrador {
         this.dataCadastro = dataCadastro;
     }
 
-    public int getStatus() {
+    public boolean getStatus() {
         return status;
     }
 
-    public void setStatus(int status) {
+    public void setStatus(boolean status) {
         this.status = status;
     }
 
@@ -105,7 +105,7 @@ public class Administrador {
     public void setRg(String rg) {
         this.rg = rg;
     }
-    
+
     @Override
     public String toString() {
         return this.nome;

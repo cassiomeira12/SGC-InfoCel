@@ -37,7 +37,7 @@ public class AdministradorDAO extends DAO {
         stm.setString(6, adm.getCpf());
         stm.setString(7, adm.getRg());
         stm.setLong(8, System.currentTimeMillis());
-        stm.setInt(9, adm.getStatus());
+        stm.setBoolean(9, adm.getStatus());
 
         return super.inserir();
 
@@ -58,7 +58,7 @@ public class AdministradorDAO extends DAO {
         stm.setString(5, adm.getEmail());
         stm.setString(6, adm.getCpf());
         stm.setString(7, adm.getRg());
-        stm.setInt(8, adm.getStatus());
+        stm.setBoolean(8, adm.getStatus());
 
         stm.setInt(9, adm.getId().intValue());
 
@@ -96,7 +96,7 @@ public class AdministradorDAO extends DAO {
         rs = stm.executeQuery(sql);
 
         while (rs.next()) {
-            Administrador admin = new Administrador((long) rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7), rs.getString(8), rs.getLong(9), rs.getInt(10));
+            Administrador admin = new Administrador((long) rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7), rs.getString(8), rs.getLong(9), rs.getBoolean(10));
             administradores.add(admin);
         }
 
