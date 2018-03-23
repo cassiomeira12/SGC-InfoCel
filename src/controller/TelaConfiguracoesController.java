@@ -10,6 +10,8 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -106,7 +108,7 @@ public class TelaConfiguracoesController extends AnchorPane {
             fxml.load();
         } catch (IOException ex) {
             System.out.println("[ERRO] : Erro na tela Configuracoes");
-            System.out.println(ex.toString());
+            ex.printStackTrace();
         }
     }
 
@@ -116,6 +118,10 @@ public class TelaConfiguracoesController extends AnchorPane {
         editarButton.disableProperty().bind(administradoresTable.getSelectionModel().selectedItemProperty().isNull());
         excluirButton.disableProperty().bind(administradoresTable.getSelectionModel().selectedItemProperty().isNull());
 
+        Formatter.toUpperCase(nomeText, enderecoText, emailText);
+        Formatter.mascaraRG(rgText);
+        Formatter.mascaraCPF(cpfText);
+        Formatter.mascaraEmail(emailText);
         
         this.sincronizarBancoDados();
     }
@@ -126,6 +132,12 @@ public class TelaConfiguracoesController extends AnchorPane {
     
     @FXML
     private void editarAdministrador() {
+        this.editarButton.setVisible(false);
+        this.excluirButton.getStyleClass().remove("button-excluir");
+        this.excluirButton.getStyleClass().add("button-salvar");
+        this.excluirButton.setText("Salvar");
+        
+        
         this.administradorSelecionado = administradoresTable.getSelectionModel().getSelectedItem();
         this.administradoresTable.setVisible(false);//Ocultando tabela de administradores
         
@@ -147,6 +159,7 @@ public class TelaConfiguracoesController extends AnchorPane {
     }
     
     private void adicionarDados(Administrador administrador) {
+        this.statusCheckBox.setSelected(administrador.getStatus());
         this.dataLabel.setText(DateUtils.formatDate(administrador.getDataCadastro()));
         this.nomeText.setText(administrador.getNome());
         this.enderecoText.setText(administrador.getEndereco());
@@ -158,6 +171,46 @@ public class TelaConfiguracoesController extends AnchorPane {
 
     @FXML
     private void excluirAdministrador() {
+        
+        if (excluirButton.getText().equals("Salvar")) {
+            
+            boolean vazio = Formatter.isEmpty(nomeText,enderecoText,emailText,rgText,cpfText,loginText);
+            
+            if (vazio) {
+                Alerta.alerta("Prencha todos os compos do Administrador");
+                return;
+            }
+            
+            Dialogo.Resposta resposta = Alerta.confirmar("Deseja salvar as alterações do Administrador " + administradorSelecionado.getNome() + " ?");
+
+            if (resposta == Dialogo.Resposta.YES) {
+                
+                this.atualizarDadosAdministrador();
+                
+                try {
+                    if (ControleDAO.getBanco().getAdministradorDAO().editar(administradorSelecionado)) {
+                        Alerta.info("Administrador Alterado com sucesso");
+                    }
+                } catch (SQLException ex) {
+                    //Logger.getLogger(TelaConsultarClientesController.class.getName()).log(Level.SEVERE, null, ex);
+                    Alerta.erro(ex.toString());
+                }
+                this.sincronizarBancoDados();
+            }
+            
+            this.editarButton.setVisible(true);
+            this.excluirButton.getStyleClass().remove("button-salvar");
+            this.excluirButton.getStyleClass().add("button-excluir");
+            this.excluirButton.setText("Excluir");
+            
+            this.voltar();
+            
+        } else {
+            
+        }
+        
+        
+        
 //        Cliente cliente = clientesTable.getSelectionModel().getSelectedItem();
 //
 //        Dialogo.Resposta resposta = Alerta.confirmar("Excluir usuário " + cliente.getNome() + " ?");
@@ -173,6 +226,35 @@ public class TelaConfiguracoesController extends AnchorPane {
 //        }
 //
 //        clientesTable.getSelectionModel().clearSelection();
+    }
+    
+    private void atualizarDadosAdministrador() {
+       boolean status = statusCheckBox.isSelected();
+       String nome = nomeText.getText();
+       String endereco = enderecoText.getText();
+       String email = emailText.getText();
+       String rg = rgText.getText();
+       String cpf = cpfText.getText();
+       String login = loginText.getText();
+       
+       this.administradorSelecionado.setStatus(status);
+       this.administradorSelecionado.setNome(nome);
+       this.administradorSelecionado.setEndereco(endereco);
+       this.administradorSelecionado.setEmail(email);
+       this.administradorSelecionado.setRg(rg);
+       this.administradorSelecionado.setCpf(cpf);
+       this.administradorSelecionado.setLogin(login);
+    }
+    
+    @FXML
+    private void voltar() {
+        if (administradorPane.isVisible()) {
+            administradorPane.setVisible(false);
+            administradoresTable.setVisible(true);
+        } else {
+            TelaInicialController telaInicial = new TelaInicialController(painelPrincipal);
+            this.adicionarPainelInterno(telaInicial);
+        }
     }
     
     @FXML

@@ -101,7 +101,7 @@ public class TelaAdicionarManutencaoController extends AnchorPane {
             fxml.load();
         } catch (IOException ex) {
             System.out.println("[ERRO] : Erro na tela Adicionar Manutencao");
-            System.out.println(ex.toString());
+            ex.printStackTrace();
         }
     }
 

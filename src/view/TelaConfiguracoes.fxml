@@ -113,7 +113,7 @@
                      <children>
                         <HBox alignment="CENTER" prefWidth="400.0">
                            <children>
-                              <Button alignment="CENTER" focusTraversable="false" mnemonicParsing="false" styleClass="button-voltar" text="Voltar" />
+                              <Button alignment="CENTER" focusTraversable="false" mnemonicParsing="false" onAction="#voltar" styleClass="button-voltar" text="Voltar" />
                            </children>
                         </HBox>
                         <HBox alignment="CENTER" prefWidth="400.0">

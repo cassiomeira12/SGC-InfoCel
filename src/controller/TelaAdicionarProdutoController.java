@@ -95,7 +95,7 @@ public class TelaAdicionarProdutoController extends AnchorPane {
             fxml.load();
         } catch (IOException ex) {
             System.out.println("[ERRO] : Erro na tela Adicionar Produto");
-            System.out.println(ex.toString());
+            ex.printStackTrace();
         }
     }
 
