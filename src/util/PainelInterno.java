@@ -32,7 +32,7 @@ public class PainelInterno {
     private static TelaRelatorioDiarioController relatorioDiario;
     private static TelaRelatorioMensalController relatorioMensal;
     private static TelaAdministradoresController administradores;
-    private static TelaBancoDadosController bancoDeDados;
+    private static TelaBackupRecuperacaoController bancoDeDados;
     private static TelaConfiguracoesController configuracoes;
     private static TelaSobreController sobre;
     
@@ -116,7 +116,7 @@ public class PainelInterno {
     }
     
     public static void telaBancoDeDados(BorderPane painel) {
-        bancoDeDados = new TelaBancoDadosController(painel);
+        bancoDeDados = new TelaBackupRecuperacaoController(painel);
         trocarPainel(painel, bancoDeDados);
     }
     

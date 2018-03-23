@@ -46,7 +46,7 @@ public class LoginController extends AnchorPane {
     private ProgressIndicator indicator = new ProgressIndicator();
 
     public LoginController(BorderPane painelPrincipal) {
-
+        
         this.painelPrincipal = painelPrincipal;
 
         try {

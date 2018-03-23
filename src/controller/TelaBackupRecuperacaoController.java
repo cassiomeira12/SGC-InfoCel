@@ -16,21 +16,21 @@ import javafx.scene.layout.BorderPane;
  *
  * @author cassio
  */
-public class TelaBancoDadosController extends AnchorPane {
+public class TelaBackupRecuperacaoController extends AnchorPane {
     
     private BorderPane painelPrincipal;
 
   
-    public TelaBancoDadosController(BorderPane painelPrincipal) {
+    public TelaBackupRecuperacaoController(BorderPane painelPrincipal) {
         this.painelPrincipal = painelPrincipal;
         
         try {
-            FXMLLoader fxml = new FXMLLoader(getClass().getResource("/view/TelaBancoDados.fxml"));
+            FXMLLoader fxml = new FXMLLoader(getClass().getResource("/view/TelaBackupRecuperacao.fxml"));
             fxml.setRoot(this);
             fxml.setController(this);
             fxml.load();
         } catch (IOException ex) {
-            System.out.println("[ERRO] : Erro na tela Banco de Dados");
+            System.out.println("[ERRO] : Erro na tela Backup e Recuperacao");
             System.out.println(ex.toString());
         }
     }
