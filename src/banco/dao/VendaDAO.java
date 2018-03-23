@@ -37,7 +37,7 @@ public class VendaDAO extends DAO {
             idCliente = ControleDAO.getBanco().getClienteDAO().inserir(venda.getCliente());
         }
 
-        String sql = "INSERT INTO venda ( id_administrador, id_cliente, preco_total, id_forma_pagamento, quantidade_parcela, data ) VALUES (?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO venda ( id_administrador, id_cliente, preco_total, id_forma_pagamento, quantidade_parcela, data ) VALUES (?, ?, ?, ?, ?, ?)";
 
         stm = getConector().prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
 
