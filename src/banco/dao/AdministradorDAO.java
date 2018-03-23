@@ -47,7 +47,7 @@ public class AdministradorDAO extends DAO {
      * Atualizar dados administrador na base de dados
      */
     public boolean editar(Administrador adm) throws SQLException {
-        String sql = "UPDATE administrador SET nome =?, login =?, senha =?, endereco = ?, email =?, cpf =?, rg =?, status =?, WHERE id =?";
+        String sql = "UPDATE administrador SET nome =?, login =?, senha =?, endereco = ?, email =?, cpf =?, rg =?, status =? WHERE id =?";
 
         stm = getConector().prepareStatement(sql);
 
