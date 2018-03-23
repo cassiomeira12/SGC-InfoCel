@@ -4,6 +4,7 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TableColumn?>
@@ -48,7 +49,7 @@
                                           <TableColumn fx:id="enderecoColumn" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefWidth="200.0" text="Endereço" />
                                       </columns>
                                     </TableView>
-                                    <GridPane hgap="10.0" layoutX="325.0" layoutY="146.0" prefHeight="321.0" visible="false" AnchorPane.bottomAnchor="140.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                    <GridPane fx:id="administradorPane" hgap="10.0" layoutX="325.0" layoutY="146.0" prefHeight="321.0" visible="false" AnchorPane.bottomAnchor="140.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                       <columnConstraints>
                                           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                                           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -67,23 +68,29 @@
                                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                       </rowConstraints>
                                        <children>
-                                          <CheckBox mnemonicParsing="false" text="Editar informações do Administrador" GridPane.columnSpan="2" />
+                                          <CheckBox fx:id="editarCheckBox" mnemonicParsing="false" text="Editar informações do Administrador" GridPane.columnSpan="2" />
                                           <Label text="Nome" GridPane.rowIndex="1" />
-                                          <TextField GridPane.columnSpan="4" GridPane.rowIndex="2" />
+                                          <TextField fx:id="nomeText" GridPane.columnSpan="4" GridPane.rowIndex="2" />
                                           <Label text="Data Cadastro" GridPane.columnIndex="4" GridPane.rowIndex="1" />
-                                          <Label text="00/00/00" GridPane.columnIndex="4" GridPane.rowIndex="2" />
+                                          <Label fx:id="dataLabel" text="00/00/00" GridPane.columnIndex="4" GridPane.rowIndex="2" />
                                           <Label text="Endereço" GridPane.rowIndex="3" />
-                                          <TextField GridPane.columnSpan="3" GridPane.rowIndex="4" />
+                                          <TextField fx:id="enderecoText" GridPane.columnSpan="3" GridPane.rowIndex="4" />
                                           <Label text="Email" GridPane.columnIndex="3" GridPane.rowIndex="3" />
-                                          <TextField GridPane.columnIndex="3" GridPane.columnSpan="2" GridPane.rowIndex="4" />
+                                          <TextField fx:id="emailText" GridPane.columnIndex="3" GridPane.columnSpan="2" GridPane.rowIndex="4" />
                                           <Label text="RG" GridPane.rowIndex="5" />
                                           <Label text="CPF" GridPane.columnIndex="1" GridPane.rowIndex="5" />
-                                          <TextField GridPane.rowIndex="6" />
-                                          <TextField GridPane.columnIndex="1" GridPane.rowIndex="6" />
-                                          <CheckBox mnemonicParsing="false" text="Status" GridPane.columnIndex="4" />
+                                          <TextField fx:id="rgText" GridPane.rowIndex="6" />
+                                          <TextField fx:id="cpfText" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+                                          <CheckBox fx:id="statusCheckBox" mnemonicParsing="false" text="Status" GridPane.columnIndex="4" />
                                           <Label text="Login" GridPane.columnIndex="2" GridPane.rowIndex="5" />
-                                          <TextField GridPane.columnIndex="2" GridPane.rowIndex="6" />
-                                          <Button mnemonicParsing="false" text="Alterar Senha" GridPane.columnIndex="3" GridPane.rowIndex="6" />
+                                          <TextField fx:id="loginText" GridPane.columnIndex="2" GridPane.rowIndex="6" />
+                                          <Button fx:id="alterarSenhaButton" mnemonicParsing="false" onAction="#alterarSenha" text="Alterar Senha" GridPane.columnIndex="3" GridPane.rowIndex="6" />
+                                          <Label fx:id="senhaAntigaLabel" text="Senha Antiga" visible="false" GridPane.columnIndex="3" GridPane.rowIndex="5" />
+                                          <Label fx:id="novaSenhaLabel" text="Nova Senha" visible="false" GridPane.columnIndex="4" GridPane.rowIndex="5" />
+                                          <Button fx:id="salvarSenhaButton" mnemonicParsing="false" onAction="#salvarNovaSenha" text="Salvar" visible="false" GridPane.columnIndex="4" GridPane.rowIndex="7" />
+                                          <Button fx:id="cancelarSenhaButton" mnemonicParsing="false" onAction="#cancelarNovaSenha" text="Cancelar" visible="false" GridPane.columnIndex="3" GridPane.rowIndex="7" />
+                                          <PasswordField fx:id="senhaAntigaText" visible="false" GridPane.columnIndex="3" GridPane.rowIndex="6" />
+                                          <PasswordField fx:id="novaSenhaText" visible="false" GridPane.columnIndex="4" GridPane.rowIndex="6" />
                                        </children>
                                     </GridPane>
                                  </children>
@@ -111,7 +118,7 @@
                         </HBox>
                         <HBox alignment="CENTER" prefWidth="400.0">
                            <children>
-                              <Button fx:id="editarButton" alignment="CENTER" focusTraversable="false" mnemonicParsing="false" styleClass="button-editar" text="Editar" />
+                              <Button fx:id="editarButton" alignment="CENTER" focusTraversable="false" mnemonicParsing="false" onAction="#editarAdministrador" styleClass="button-editar" text="Editar" />
                            </children>
                         </HBox>
                         <HBox alignment="CENTER" prefWidth="400.0">
@@ -119,7 +126,7 @@
                               <Insets />
                            </HBox.margin>
                            <children>
-                              <Button fx:id="excluirButton" alignment="CENTER" focusTraversable="false" mnemonicParsing="false" styleClass="button-excluir" text="Excluir" />
+                              <Button fx:id="excluirButton" alignment="CENTER" focusTraversable="false" mnemonicParsing="false" onAction="#excluirAdministrador" styleClass="button-excluir" text="Excluir" />
                            </children>
                         </HBox>
                      </children>
