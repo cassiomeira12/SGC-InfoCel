@@ -4,7 +4,7 @@ public class Cliente {
 
     private Long id;
     private String nome;
-    private String endereco;
+    private Endereco endereco;
     private String cpf;
     private String rg;
     private String telefone;
@@ -12,7 +12,7 @@ public class Cliente {
     private Long dataCadastro;
     private boolean status;
 
-    public Cliente(Long id, String nome, String endereco, String cpf, String rg, String telefone, String cidade, Long dataCadastro, boolean status) {
+    public Cliente(Long id, String nome, Endereco endereco, String cpf, String rg, String telefone, String cidade, Long dataCadastro, boolean status) {
         this.id = id;
         this.nome = nome;
         this.endereco = endereco;
@@ -40,11 +40,11 @@ public class Cliente {
         this.nome = nome;
     }
 
-    public String getEndereco() {
+    public Endereco getEndereco() {
         return endereco;
     }
 
-    public void setEndereco(String endereco) {
+    public void setEndereco(Endereco endereco) {
         this.endereco = endereco;
     }
 

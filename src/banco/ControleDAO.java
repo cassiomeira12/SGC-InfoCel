@@ -25,6 +25,9 @@ public class ControleDAO {
     private VendaDAO vendaDAO = new VendaDAO();
     private FormaPagamentoDAO formaPagamentoDAO = new FormaPagamentoDAO();
     private UnidadeMedidaDAO unidadeMedidaDAO = new UnidadeMedidaDAO();
+    private CidadeDAO cidadeDAO = new CidadeDAO();
+    private BairroDAO bairroDAO = new BairroDAO();
+    private EnderecoDAO enderecoDAO = new EnderecoDAO();
 
     public static ControleDAO getBanco() {
         return banco;
@@ -92,6 +95,18 @@ public class ControleDAO {
 
     public VendaDAO getVendaDAO() {
         return vendaDAO;
+    }
+
+    public CidadeDAO getCidadeDAO() {
+        return cidadeDAO;
+    }
+
+    public BairroDAO getBairroDAO() {
+        return bairroDAO;
+    }
+
+    public EnderecoDAO getEnderecoDAO() {
+        return enderecoDAO;
     }
 
 }//Fim class

@@ -1,10 +1,14 @@
 package banco.dao;
 
+import banco.ControleDAO;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import model.Bairro;
+import model.Cidade;
 import model.Cliente;
+import model.Endereco;
 
 /**
  * DAO responsável pela ações realizadas na base de dados referentes aos
@@ -20,12 +24,16 @@ public class ClienteDAO extends DAO {
      * Inserir cliente na base de dados
      */
     public Long inserir(Cliente cliente) throws Exception {
-        String sql = "INSERT INTO cliente ( nome, endereco, cpf, rg, telefone, cidade, data_cadastro, status ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO cliente ( nome, id_endereco, cpf, rg, telefone, cidade, data_cadastro, status ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
+         Long id_endereco = ControleDAO.getBanco().getEnderecoDAO().inserir(cliente.getEndereco());
+        if(id_endereco == null)
+            return null;
+        
         stm = getConector().prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
 
         stm.setString(1, cliente.getNome());
-        stm.setString(2, cliente.getEndereco());
+        stm.setLong(2, cliente.getEndereco().getId());
         stm.setString(3, cliente.getCpf());
         stm.setString(4, cliente.getRg());
         stm.setString(5, cliente.getTelefone());
@@ -41,12 +49,15 @@ public class ClienteDAO extends DAO {
      * Atualizar dados cliente na base de dados
      */
     public boolean editar(Cliente cliente) throws SQLException {
-        String sql = "UPDATE cliente SET nome =?, endereco =?, cpf =?, rg =?, telefone =?, cidade =?, status =? WHERE id =?";
+        String sql = "UPDATE cliente SET nome =?, id_endereco =?, cpf =?, rg =?, telefone =?, cidade =?, status =? WHERE id =?";
 
+         //caso haja alterações no endereço
+        ControleDAO.getBanco().getEnderecoDAO().editar(cliente.getEndereco());
+        
         stm = getConector().prepareStatement(sql);
 
         stm.setString(1, cliente.getNome());
-        stm.setString(2, cliente.getEndereco());
+        stm.setLong(2, cliente.getEndereco().getId());
         stm.setString(3, cliente.getCpf());
         stm.setString(4, cliente.getRg());
         stm.setString(5, cliente.getTelefone());
@@ -84,13 +95,17 @@ public class ClienteDAO extends DAO {
 
         List<Cliente> clientes = new ArrayList<>();
 
-        String sql = "SELECT cliente.* FROM cliente";
+        String sql = "SELECT view_cliente.* FROM view_cliente";
 
         stm = getConector().prepareStatement(sql);
         rs = stm.executeQuery(sql);
 
         while (rs.next()) {
-            Cliente cliente = new Cliente((long) rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7), rs.getLong(8), rs.getBoolean(9));
+            Cidade cidade = new Cidade(rs.getLong("id_cidade"), rs.getString("nome_cidade"));
+            Bairro bairro = new Bairro(rs.getLong("id_bairro"), rs.getString("nome_bairro"), cidade);
+            Endereco endereco = new Endereco(rs.getLong("id_endereco"), bairro, rs.getString("rua"), rs.getString("numero"));
+            
+            Cliente cliente = new Cliente((long) rs.getInt(1), rs.getString(2), endereco, rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getLong(7), rs.getBoolean(8));
 
             clientes.add(cliente);
         }
@@ -105,13 +120,17 @@ public class ClienteDAO extends DAO {
 
         List<Cliente> clientes = new ArrayList<>();
 
-        String sql = "SELECT cliente.* FROM cliente WHERE nome LIKE '%" + busca + "%'";
+        String sql = "SELECT view_cliente.* FROM view_cliente WHERE nome LIKE '%" + busca + "%'";
 
         stm = getConector().prepareStatement(sql);
         rs = stm.executeQuery(sql);
 
         while (rs.next()) {
-            Cliente cliente = new Cliente((long) rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7), rs.getLong(8), rs.getBoolean(9));
+             Cidade cidade = new Cidade(rs.getLong("id_cidade"), rs.getString("nome_cidade"));
+            Bairro bairro = new Bairro(rs.getLong("id_bairro"), rs.getString("nome_bairro"), cidade);
+            Endereco endereco = new Endereco(rs.getLong("id_endereco"), bairro, rs.getString("rua"), rs.getString("numero"));
+            
+            Cliente cliente = new Cliente((long) rs.getInt(1), rs.getString(2), endereco, rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getLong(7), rs.getBoolean(8));
 
             clientes.add(cliente);
         }

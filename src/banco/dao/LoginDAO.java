@@ -2,6 +2,9 @@ package banco.dao;
 
 import java.sql.SQLException;
 import model.Administrador;
+import model.Bairro;
+import model.Cidade;
+import model.Endereco;
 
 /**
  * Criado por Pedro Cordeiro DAO responsável pela ações realizadas na base de
@@ -68,7 +71,11 @@ public class LoginDAO extends DAO {
         rs = stm.executeQuery();
 
         while (rs.next()) {
-            admin = new Administrador((long) rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7), rs.getString(8), rs.getLong(9), rs.getBoolean(10));
+            Cidade cidade = new Cidade(rs.getLong("id_cidade"), rs.getString("nome_cidade"));
+            Bairro bairro = new Bairro(rs.getLong("id_bairro"), rs.getString("nome_bairro"), cidade);
+            Endereco endereco = new Endereco(rs.getLong("id_endereco"), bairro, rs.getString("rua"), rs.getString("numero"));
+
+            admin = new Administrador((long) rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), endereco, rs.getString(5), rs.getString(6), rs.getString(7), rs.getLong(8), rs.getBoolean(9));
         }
         stm.close();
         rs.close();

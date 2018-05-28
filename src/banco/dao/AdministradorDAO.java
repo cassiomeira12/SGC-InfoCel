@@ -1,11 +1,15 @@
 package banco.dao;
 
+import banco.ControleDAO;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import model.Administrador;
+import model.Bairro;
+import model.Cidade;
+import model.Endereco;
 
 /**
  * DAO responsável pela ações realizadas na base de dados referentes as login do
@@ -25,14 +29,18 @@ public class AdministradorDAO extends DAO {
      */
     public Long inserir(Administrador adm) throws Exception {
 
-        String sql = "INSERT INTO administrador ( nome, login, senha, endereco, email, cpf, rg, data_cadastror, statusr) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO administrador ( nome, login, senha, id_endereco, email, cpf, rg, data_cadastror, statusr) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
+        Long id_endereco = ControleDAO.getBanco().getEnderecoDAO().inserir(adm.getEndereco());
+        if(id_endereco == null)
+            return null;
+        
         stm = getConector().prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
 
         stm.setString(1, adm.getNome());
         stm.setString(2, adm.getLogin());
         stm.setString(3, adm.getSenha());
-        stm.setString(4, adm.getEndereco());
+        stm.setLong(4, id_endereco);
         stm.setString(5, adm.getEmail());
         stm.setString(6, adm.getCpf());
         stm.setString(7, adm.getRg());
@@ -47,14 +55,17 @@ public class AdministradorDAO extends DAO {
      * Atualizar dados administrador na base de dados
      */
     public boolean editar(Administrador adm) throws SQLException {
-        String sql = "UPDATE administrador SET nome =?, login =?, senha =?, endereco = ?, email =?, cpf =?, rg =?, status =? WHERE id =?";
-
+        String sql = "UPDATE administrador SET nome =?, login =?, senha =?, id_endereco = ?, email =?, cpf =?, rg =?, status =? WHERE id =?";
+        
+        //caso haja alterações no endereço
+        ControleDAO.getBanco().getEnderecoDAO().editar(adm.getEndereco());
+        
         stm = getConector().prepareStatement(sql);
 
         stm.setString(1, adm.getNome());
         stm.setString(2, adm.getLogin());
         stm.setString(3, adm.getSenha());
-        stm.setString(4, adm.getEndereco());
+        stm.setLong(4, adm.getEndereco().getId());
         stm.setString(5, adm.getEmail());
         stm.setString(6, adm.getCpf());
         stm.setString(7, adm.getRg());
@@ -90,13 +101,17 @@ public class AdministradorDAO extends DAO {
 
         List<Administrador> administradores = new ArrayList<>();
 
-        String sql = "SELECT administrador.* FROM administrador";
+        String sql = "SELECT * FROM view_administrador";
 
         stm = getConector().prepareStatement(sql);
         rs = stm.executeQuery(sql);
 
         while (rs.next()) {
-            Administrador admin = new Administrador((long) rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7), rs.getString(8), rs.getLong(9), rs.getBoolean(10));
+            Cidade cidade = new Cidade(rs.getLong("id_cidade"), rs.getString("nome_cidade"));
+            Bairro bairro = new Bairro(rs.getLong("id_bairro"), rs.getString("nome_bairro"), cidade);
+            Endereco endereco = new Endereco(rs.getLong("id_endereco"), bairro, rs.getString("rua"), rs.getString("numero"));
+            
+            Administrador admin = new Administrador((long) rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), endereco, rs.getString(5), rs.getString(6), rs.getString(7), rs.getLong(8), rs.getBoolean(9));
             administradores.add(admin);
         }
 

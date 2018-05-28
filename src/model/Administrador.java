@@ -6,14 +6,14 @@ public class Administrador {
     private String nome;//
     private String login;
     private String senha;
-    private String endereco;//
     private String email;//
     private String cpf;//
     private String rg;//
     private Long dataCadastro;//
+    private Endereco endereco;
     private boolean status;//
 
-    public Administrador(Long id, String nome, String login, String senha, String endereco, String email, String cpf, String rg, Long dataCadastro, boolean status) {
+    public Administrador(Long id, String nome, String login, String senha, Endereco endereco, String email, String cpf, String rg, Long dataCadastro, boolean status) {
         this.id = id;
         this.nome = nome;
         this.login = login;
@@ -58,11 +58,11 @@ public class Administrador {
         this.senha = senha;
     }
 
-    public String getEndereco() {
+    public Endereco getEndereco() {
         return endereco;
     }
 
-    public void setEndereco(String endereco) {
+    public void setEndereco(Endereco endereco) {
         this.endereco = endereco;
     }
 
