@@ -85,6 +85,8 @@ public class TelaAdicionarVendaController extends AnchorPane {
     private Button removerButton;
     @FXML
     private Label totalLabel;
+    @FXML
+    private Label parcelasLabel;
 
     @FXML
     private TableView<VendaProduto> produtosTable;
@@ -134,6 +136,7 @@ public class TelaAdicionarVendaController extends AnchorPane {
                 Platform.runLater(() -> nomeText.requestFocus());//Colocando o Foco
             }
         });
+        
         //Campos ficam desativados enquanto CheckBox esta desativado
         nomeText.disableProperty().bind(editarClienteCheckBox.selectedProperty().not());
         telefoneText.disableProperty().bind(editarClienteCheckBox.selectedProperty().not());
@@ -159,6 +162,17 @@ public class TelaAdicionarVendaController extends AnchorPane {
         }
 
         this.dataDatePicker.setValue(LocalDate.now());//Adicionando Data do dia atual
+        
+        formarPagComboBox.setOnAction((e) -> {
+            FormaPagamento formaPagamento = formarPagComboBox.getSelectionModel().getSelectedItem();
+            if (formaPagamento.getDescricao().equals("À VISTA")) {
+                parcelasLabel.setVisible(false);//Ocultando Label de Parcelas
+                parcelasSpinner.setVisible(false);//Ocultando Spinner de Parcelas
+            } else {
+                parcelasLabel.setVisible(true);//Ocultando Label de Parcelas
+                parcelasSpinner.setVisible(true);//Ocultando Spinner de Parcelas
+            }
+        });
     }
 
     private void adicionarPainelInterno(AnchorPane novaTela) {
@@ -284,7 +298,7 @@ public class TelaAdicionarVendaController extends AnchorPane {
                 if (continuar) {
                     LocalDate data = dataDatePicker.getValue();
                     Administrador vendedor = vendedorComboBox.getValue();
-                    FormaPagamento formaPagamento = null;
+                    FormaPagamento formaPagamento = formarPagComboBox.getValue();
 
                     this.novaVenda.setAdministrador(vendedor);
                     this.novaVenda.setCliente(cliente);

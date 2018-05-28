@@ -92,7 +92,8 @@ public class TelaConfiguracoesController extends AnchorPane {
     @FXML
     private Button salvarSenhaButton;
     
-    
+    @FXML
+    private Button adicionarButton;
     @FXML
     private Button editarButton;
     @FXML
@@ -129,6 +130,13 @@ public class TelaConfiguracoesController extends AnchorPane {
     private void adicionarPainelInterno(AnchorPane novaTela) {
         this.painelPrincipal.setCenter(novaTela);
     }
+    
+    @FXML
+    private void adicionarAdministrador() {
+        
+    }
+    
+    
     
     @FXML
     private void editarAdministrador() {

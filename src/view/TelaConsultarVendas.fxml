@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<fx:root prefHeight="650.0" prefWidth="1200.0" stylesheets="@../css/default.css" type="AnchorPane" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <BorderPane layoutX="270.0" layoutY="182.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
+         <top>
+            <Label styleClass="label-titulo" text="Consultar Vendas" BorderPane.alignment="CENTER">
+               <font>
+                  <Font size="27.0" />
+               </font>
+               <BorderPane.margin>
+                  <Insets bottom="10.0" />
+               </BorderPane.margin>
+            </Label>
+         </top>
+         <bottom>
+            <HBox alignment="CENTER" prefWidth="1200.0" BorderPane.alignment="CENTER">
+               <children>
+                  <HBox alignment="CENTER" prefWidth="400.0">
+                     <children>
+                        <Button alignment="CENTER" focusTraversable="false" mnemonicParsing="false" onAction="#cancelarOperacao" styleClass="button-voltar" text="Voltar" />
+                     </children>
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin>
+                  </HBox>
+                  <HBox alignment="CENTER" prefWidth="400.0">
+                     <children>
+                        <Button fx:id="visualizarButton" alignment="CENTER" focusTraversable="false" mnemonicParsing="false" onAction="#visualizarVenda" styleClass="button-editar" text="Visualizar" />
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER" prefWidth="400.0">
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin>
+                  </HBox>
+               </children>
+               <BorderPane.margin>
+                  <Insets top="10.0" />
+               </BorderPane.margin>
+            </HBox>
+         </bottom>
+         <center>
+            <VBox alignment="TOP_CENTER" BorderPane.alignment="CENTER">
+               <children>
+                  <VBox alignment="TOP_RIGHT" spacing="20.0">
+                     <children>
+                        <HBox alignment="BOTTOM_RIGHT" spacing="30.0">
+                           <children>
+                              <VBox>
+                                 <children>
+                                    <Label text="Mês" />
+                                    <ComboBox fx:id="mesComboBox" prefWidth="150.0" />
+                                 </children>
+                              </VBox>
+                              <VBox layoutX="1040.0" layoutY="10.0">
+                                 <children>
+                                    <Label text="Ano" />
+                                    <ComboBox fx:id="anoComboBox" prefWidth="150.0" />
+                                 </children>
+                              </VBox>
+                              <Button alignment="CENTER" mnemonicParsing="false" onAction="#pesquisarCliente" styleClass="button-pesquisar" text="Pesquisar Cliente" />
+                           </children>
+                        </HBox>
+                        <TableView fx:id="vendasTable" focusTraversable="false" prefHeight="450.0">
+                           <columns>
+                              <TableColumn fx:id="clineteColumn" maxWidth="250.0" minWidth="250.0" prefWidth="250.0" text="Cliente" />
+                              <TableColumn fx:id="vendedorColumn" maxWidth="250.0" minWidth="250.0" prefWidth="250.0" text="Vendedor" />
+                              <TableColumn fx:id="dataColumn" maxWidth="100.0" minWidth="100.0" prefWidth="100.0" text="Data" />
+                              <TableColumn fx:id="totalColumn" maxWidth="100.0" minWidth="100.0" prefWidth="100.0" text="Total R$" />
+                           </columns>
+                           <VBox.margin>
+                              <Insets />
+                           </VBox.margin>
+                        </TableView>
+                     </children>
+                  </VBox>
+               </children></VBox>
+         </center>
+      </BorderPane>
+   </children>
+</fx:root>

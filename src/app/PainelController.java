@@ -14,6 +14,7 @@ import controller.TelaAdicionarManutencaoController;
 import controller.TelaRelatorioMensalController;
 import controller.TelaSobreController;
 import controller.TelaAdicionarVendaController;
+import controller.TelaConsultarVendasController;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
@@ -120,27 +121,28 @@ public class PainelController implements Initializable {
 
     @FXML
     private void chamarTelaConsultarVendas(ActionEvent event) {
-        PainelInterno.telaConsultarVendas(painelPrincipal);
+        TelaConsultarVendasController telaConsultarVenda = new TelaConsultarVendasController(painelPrincipal);
+        this.adicionarPainelInterno(telaConsultarVenda);
     }
 
     @FXML
     private void chamarTelaRelatorioDiario(ActionEvent event) {
-        PainelInterno.telaRelatorioDiario(painelPrincipal);
+        //PainelInterno.telaRelatorioDiario(painelPrincipal);
     }
 
     @FXML
     private void chamarTelaAdministradores(ActionEvent event) {
-        PainelInterno.telaAdministradores(painelPrincipal);
+       // PainelInterno.telaAdministradores(painelPrincipal);
     }
 
     @FXML
     private void chamarTelaBancoDeDados(ActionEvent event) {
-        PainelInterno.telaBancoDeDados(painelPrincipal);
+        //PainelInterno.telaBancoDeDados(painelPrincipal);
     }
 
     @FXML
     private void chamarTelaConfiguracoes(ActionEvent event) {
-        PainelInterno.telaConfiguracoes(painelPrincipal);
+        //PainelInterno.telaConfiguracoes(painelPrincipal);
     }
 
 }
