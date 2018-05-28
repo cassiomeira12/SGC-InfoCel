@@ -281,7 +281,7 @@ public class TelaAdicionarProdutoController extends AnchorPane {
                 percentualLabel.setText("0%");
                 return;
             }
-
+            
             if (!valorProdutoText.getText().isEmpty()) {
                 float custoProduto = Float.parseFloat(custoProdutoText.getText());
                 float valorVenda = Float.parseFloat(valorProdutoText.getText());

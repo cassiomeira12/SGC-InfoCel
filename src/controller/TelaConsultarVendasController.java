@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package controller;
 
 import banco.ControleDAO;
@@ -30,7 +25,9 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javax.swing.SwingWorker;
+import model.Administrador;
 import model.Cliente;
+import model.Venda;
 import util.Formatter;
 import util.alerta.Alerta;
 import util.alerta.Dialogo;
@@ -40,37 +37,36 @@ import util.alerta.Dialogo;
  *
  * @author cassio
  */
-public class TelaConsultarClientesController extends AnchorPane {
+public class TelaConsultarVendasController extends AnchorPane {
 
     private BorderPane painelPrincipal;
 
-    private List<Cliente> listaClientes;
+    private List<Venda> listaVendas;
 
     @FXML
-    private TextField pesquisaText;
+    private TableView<Venda> vendasTable;
     @FXML
-    private TableView<Cliente> clientesTable;
+    private TableColumn<Venda, Cliente> clienteColumn;
     @FXML
-    private TableColumn<Cliente, String> nomeColumn;
+    private TableColumn<Administrador, String> vendedorColumn;
     @FXML
-    private TableColumn<Cliente, String> enderecoColumn;
+    private TableColumn<Venda, Long> dataColumn;
     @FXML
-    private TableColumn<Cliente, String> telefoneColumn;
+    private TableColumn<Venda, Float> totalColumn;
     @FXML
-    private Button editarButton;
-    @FXML
-    private Button excluirButton;
+    private Button visualizarButton;
 
-    public TelaConsultarClientesController(BorderPane painelPrincipal) {
+
+    public TelaConsultarVendasController(BorderPane painelPrincipal) {
         this.painelPrincipal = painelPrincipal;
 
         try {
-            FXMLLoader fxml = new FXMLLoader(getClass().getResource("/view/TelaConsultarClientes.fxml"));
+            FXMLLoader fxml = new FXMLLoader(getClass().getResource("/view/TelaConsultarVendas.fxml"));
             fxml.setRoot(this);
             fxml.setController(this);
             fxml.load();
         } catch (IOException ex) {
-            System.out.println("[ERRO] : Erro na tela Consultar Clientes");
+            System.out.println("[ERRO] : Erro na tela Consultar Vendas");
             System.out.println(ex.toString());
         }
     }
@@ -78,24 +74,23 @@ public class TelaConsultarClientesController extends AnchorPane {
     @FXML
     public void initialize() {
         //Desativa os Botoes de Editar e Excluir quando nenhum item na tabela esta selecionado
-        editarButton.disableProperty().bind(clientesTable.getSelectionModel().selectedItemProperty().isNull());
-        excluirButton.disableProperty().bind(clientesTable.getSelectionModel().selectedItemProperty().isNull());
-
-        Formatter.toUpperCase(pesquisaText);
+        visualizarButton.disableProperty().bind(vendasTable.getSelectionModel().selectedItemProperty().isNull());
+        
+        //Formatter.toUpperCase(pesquisaText);
 
         this.sincronizarBancoDados();
         //this.atualizarTabela();
 
-        pesquisaText.textProperty().addListener((obs, old, novo) -> {
-            filtro(novo, listaClientes, clientesTable);
-        });
+        //pesquisaText.textProperty().addListener((obs, old, novo) -> {
+        //    filtro(novo, listaVendas, vendasTable);
+        //});
 
-        clientesTable.setOnMouseClicked(new EventHandler<MouseEvent>() {
+        vendasTable.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
                 if (event.getButton().equals(MouseButton.PRIMARY)) {
                     if (event.getClickCount() == 2) {
-                        editarCliente();
+                        visualizarVenda();
                     }
                 }
             }
@@ -103,6 +98,11 @@ public class TelaConsultarClientesController extends AnchorPane {
 
     }
 
+    @FXML
+    private void pesquisarCliente() {
+        
+    }
+    
     private void adicionarPainelInterno(AnchorPane novaTela) {
         this.painelPrincipal.setCenter(novaTela);
     }
@@ -114,30 +114,11 @@ public class TelaConsultarClientesController extends AnchorPane {
     }
 
     @FXML
-    private void editarCliente() {
-        Cliente cliente = clientesTable.getSelectionModel().getSelectedItem();
-
-        TelaClienteController telaCliente = new TelaClienteController(painelPrincipal, cliente);
-        this.adicionarPainelInterno(telaCliente);
-    }
-
-    @FXML
-    private void excluirCliente() {
-        Cliente cliente = clientesTable.getSelectionModel().getSelectedItem();
-
-        Dialogo.Resposta resposta = Alerta.confirmar("Excluir usuário " + cliente.getNome() + " ?");
-
-        if (resposta == Dialogo.Resposta.YES) {
-            try {
-                ControleDAO.getBanco().getClienteDAO().excluir(cliente.getId().intValue());
-            } catch (SQLException ex) {
-                Logger.getLogger(TelaConsultarClientesController.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            this.sincronizarBancoDados();
-            this.atualizarTabela();
-        }
-
-        clientesTable.getSelectionModel().clearSelection();
+    private void visualizarVenda() {
+//        Cliente cliente = vendasTable.getSelectionModel().getSelectedItem();
+//
+//        TelaClienteController telaCliente = new TelaClienteController(painelPrincipal, cliente);
+//        this.adicionarPainelInterno(telaCliente);
     }
 
     private void filtro(String texto, List lista, TableView tabela) {
@@ -164,20 +145,21 @@ public class TelaConsultarClientesController extends AnchorPane {
 
     private void atualizarTabela() {
         //Transforma a lista em uma Lista Observavel
-        ObservableList data = FXCollections.observableArrayList(listaClientes);
+        ObservableList data = FXCollections.observableArrayList(listaVendas);
         
-        this.nomeColumn.setCellValueFactory(new PropertyValueFactory<>("nome"));//Adiciona o valor da variavel Nome
-        this.enderecoColumn.setCellValueFactory(new PropertyValueFactory<>("endereco"));//Adiciona o valor da variavel Endereco
-        this.telefoneColumn.setCellValueFactory(new PropertyValueFactory<>("telefone"));//Adiciona o valor da variavel Telefone
-        this.clientesTable.setItems(data);//Adiciona a lista de clientes na Tabela
+        //this.clienteColumn.setCellValueFactory(new PropertyValueFactory<>("cliente"));//Adiciona o valor da variavel Nome
+        //this.vendedorColumn.setCellValueFactory(new PropertyValueFactory<>("administrador"));
+        this.dataColumn.setCellValueFactory(new PropertyValueFactory<>("data"));//Adiciona o valor da variavel Telefone
+        this.totalColumn.setCellValueFactory(new PropertyValueFactory<>("precoTotal"));
+        this.vendasTable.setItems(data);//Adiciona a lista de clientes na Tabela
     }
 
     private void sincronizarBancoDados() {
         //Metodo executado numa Thread separada
         SwingWorker<List, List> worker = new SwingWorker<List, List>() {
             @Override
-            protected List<Cliente> doInBackground() throws Exception {
-                return ControleDAO.getBanco().getClienteDAO().listar();
+            protected List<Venda> doInBackground() throws Exception {
+                return ControleDAO.getBanco().getVendaDAO().listar();
             }
 
             //Metodo chamado apos terminar a execucao numa Thread separada
@@ -185,7 +167,7 @@ public class TelaConsultarClientesController extends AnchorPane {
             protected void done() {
                 super.done(); //To change body of generated methods, choose Tools | Templates.
                 try {
-                    listaClientes = this.get();
+                    listaVendas = this.get();
                     atualizarTabela();
                 } catch (InterruptedException | ExecutionException ex) {
                     chamarAlerta("Erro ao consultar Banco de Dados");
