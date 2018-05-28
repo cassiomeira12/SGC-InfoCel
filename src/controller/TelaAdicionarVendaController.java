@@ -35,8 +35,11 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import model.Administrador;
+import model.Bairro;
 import model.CategoriaProduto;
+import model.Cidade;
 import model.Cliente;
+import model.Endereco;
 import model.FormaPagamento;
 import model.Marca;
 import model.Produto;
@@ -57,6 +60,7 @@ public class TelaAdicionarVendaController extends AnchorPane {
     private BorderPane painelPrincipal;
 
     private Cliente cliente;
+    Endereco endereco = new Endereco(1l, new Bairro(1l, "Centro", new Cidade(1l, "Vitória da Conquista")), "Rua francisco santos", "149 A");
     private Venda novaVenda;
 
     @FXML
@@ -350,7 +354,6 @@ public class TelaAdicionarVendaController extends AnchorPane {
         String cpf = cpfText.getText();
         String rg = rgText.getText();
         String cidade = cidadeText.getText();
-        String endereco = enderecoText.getText();
 
         return new Cliente(null, nome, endereco, cpf, rg, telefone, cidade, null, true);
     }
@@ -361,7 +364,7 @@ public class TelaAdicionarVendaController extends AnchorPane {
         cliente.setCpf(cpfText.getText());
         cliente.setRg(rgText.getText());
         cliente.setCidade(cidadeText.getText());
-        cliente.setEndereco(enderecoText.getText());
+        cliente.setEndereco(endereco);
         return cliente;
     }
 
@@ -371,7 +374,7 @@ public class TelaAdicionarVendaController extends AnchorPane {
         this.cpfText.setText(cliente.getCpf());
         this.rgText.setText(cliente.getRg());
         this.cidadeText.setText(cliente.getCidade());
-        this.enderecoText.setText(cliente.getEndereco());
+        this.enderecoText.setText(cliente.getEndereco().toString());
     }
 
     private void atualizarTabela() {

@@ -32,7 +32,10 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import model.Administrador;
+import model.Bairro;
+import model.Cidade;
 import model.Cliente;
+import model.Endereco;
 import model.FormaPagamento;
 import model.Manutencao;
 import util.DateUtils;
@@ -50,6 +53,8 @@ public class TelaAdicionarManutencaoController extends AnchorPane {
     private BorderPane painelPrincipal;
     private Cliente cliente;
     private Manutencao novaManutencao;
+    
+    Endereco endereco = new Endereco(1l, new Bairro(1l, "Centro", new Cidade(1l, "Vitória da Conquista")), "Rua francisco santos", "149 A");
 
     @FXML
     private CheckBox editarClienteCheckBox;
@@ -342,8 +347,7 @@ public class TelaAdicionarManutencaoController extends AnchorPane {
         String telefone = telefoneText.getText();
         String cpf = cpfText.getText();
         String rg = rgText.getText();
-        String cidade = cidadeText.getText();
-        String endereco = enderecoText.getText();
+        String cidade = cidadeText.getText(); 
 
         return new Cliente(null, nome, endereco, cpf, rg, telefone, cidade, null, true);
     }
@@ -354,7 +358,7 @@ public class TelaAdicionarManutencaoController extends AnchorPane {
         cliente.setCpf(cpfText.getText());
         cliente.setRg(rgText.getText());
         cliente.setCidade(cidadeText.getText());
-        cliente.setEndereco(enderecoText.getText());
+        cliente.setEndereco(endereco);
         return cliente;
     }
 
@@ -364,6 +368,6 @@ public class TelaAdicionarManutencaoController extends AnchorPane {
         this.cpfText.setText(cliente.getCpf());
         this.rgText.setText(cliente.getRg());
         this.cidadeText.setText(cliente.getCidade());
-        this.enderecoText.setText(cliente.getEndereco());
+        this.enderecoText.setText(cliente.getEndereco().toString());
     }
 }

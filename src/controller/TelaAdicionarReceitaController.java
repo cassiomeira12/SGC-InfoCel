@@ -23,7 +23,10 @@ import javafx.scene.layout.BorderPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import model.Bairro;
+import model.Cidade;
 import model.Cliente;
+import model.Endereco;
 import model.Receita;
 import util.Formatter;
 import util.alerta.Alerta;
@@ -59,8 +62,11 @@ public class TelaAdicionarReceitaController extends AnchorPane {
     private DatePicker dataDatePicker;
 
     private Cliente cliente;
+    Endereco endereco = new Endereco(1l, new Bairro(1l, "Centro", new Cidade(1l, "Vitória da Conquista")), "Rua francisco santos", "149 A");
 
     public TelaAdicionarReceitaController(BorderPane painelPrincipal) {
+        cliente.setEndereco(endereco);
+        
         this.painelPrincipal = painelPrincipal;
 
         try {
@@ -173,8 +179,7 @@ public class TelaAdicionarReceitaController extends AnchorPane {
         String cpf = cpfText.getText();
         String rg = rgText.getText();
         String cidade = cidadeText.getText();
-        String endereco = enderecoText.getText();
-
+       
         return new Cliente(null, nome, endereco, cpf, rg, telefone, cidade, null, true);
     }
 
@@ -184,7 +189,7 @@ public class TelaAdicionarReceitaController extends AnchorPane {
         cliente.setCpf(cpfText.getText());
         cliente.setRg(rgText.getText());
         cliente.setCidade(cidadeText.getText());
-        cliente.setEndereco(enderecoText.getText());
+        cliente.setEndereco(endereco);
         return cliente;
     }
 
@@ -194,6 +199,6 @@ public class TelaAdicionarReceitaController extends AnchorPane {
         this.cpfText.setText(cliente.getCpf());
         this.rgText.setText(cliente.getRg());
         this.cidadeText.setText(cliente.getCidade());
-        this.enderecoText.setText(cliente.getEndereco());
+        this.enderecoText.setText(cliente.getEndereco().toString());
     }
 }

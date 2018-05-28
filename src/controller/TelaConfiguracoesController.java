@@ -30,6 +30,9 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javax.swing.SwingWorker;
 import model.Administrador;
+import model.Bairro;
+import model.Cidade;
+import model.Endereco;
 import util.DateUtils;
 import util.Formatter;
 import util.alerta.Alerta;
@@ -45,6 +48,7 @@ public class TelaConfiguracoesController extends AnchorPane {
     private BorderPane painelPrincipal;
     private Administrador administradorSelecionado;
     private List<Administrador> administradorList;
+    Endereco endereco = new Endereco(1l, new Bairro(1l, "Centro", new Cidade(1l, "Vitória da Conquista")), "Rua francisco santos", "149 A");
     
     @FXML
     private TableView<Administrador> administradoresTable;
@@ -170,7 +174,7 @@ public class TelaConfiguracoesController extends AnchorPane {
         this.statusCheckBox.setSelected(administrador.getStatus());
         this.dataLabel.setText(DateUtils.formatDate(administrador.getDataCadastro()));
         this.nomeText.setText(administrador.getNome());
-        this.enderecoText.setText(administrador.getEndereco());
+        this.enderecoText.setText(administrador.getEndereco().toString());
         this.emailText.setText(administrador.getEmail());
         this.rgText.setText(administrador.getRg());
         this.cpfText.setText(administrador.getCpf());
@@ -239,7 +243,6 @@ public class TelaConfiguracoesController extends AnchorPane {
     private void atualizarDadosAdministrador() {
        boolean status = statusCheckBox.isSelected();
        String nome = nomeText.getText();
-       String endereco = enderecoText.getText();
        String email = emailText.getText();
        String rg = rgText.getText();
        String cpf = cpfText.getText();

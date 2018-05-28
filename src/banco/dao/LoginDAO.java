@@ -64,7 +64,7 @@ public class LoginDAO extends DAO {
 
         Administrador admin = null;
 
-        String sql = "SELECT administrador.* FROM administrador WHERE login = ?";
+        String sql = "SELECT view_administrador.* FROM view_administrador WHERE login = ?";
 
         stm = getConector().prepareStatement(sql);
         stm.setString(1, login);

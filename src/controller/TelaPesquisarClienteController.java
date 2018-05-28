@@ -146,6 +146,7 @@ public class TelaPesquisarClienteController extends AnchorPane {
                     listaClientes = this.get();
                     atualizarListView();
                 } catch (InterruptedException | ExecutionException ex) {
+                    ex.printStackTrace();
                     chamarAlerta("Erro ao consultar Banco de Dados");
                 }
             }
