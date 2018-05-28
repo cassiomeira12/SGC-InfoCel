@@ -116,6 +116,11 @@
                               <Button alignment="CENTER" focusTraversable="false" mnemonicParsing="false" onAction="#voltar" styleClass="button-voltar" text="Voltar" />
                            </children>
                         </HBox>
+                        <HBox alignment="CENTER" layoutX="10.0" layoutY="10.0" prefWidth="400.0">
+                           <children>
+                              <Button fx:id="adicionarButton" alignment="CENTER" focusTraversable="false" mnemonicParsing="false" onAction="#adicionarAdministrador" styleClass="button-finalizar" text="Adicionar" />
+                           </children>
+                        </HBox>
                         <HBox alignment="CENTER" prefWidth="400.0">
                            <children>
                               <Button fx:id="editarButton" alignment="CENTER" focusTraversable="false" mnemonicParsing="false" onAction="#editarAdministrador" styleClass="button-editar" text="Editar" />
