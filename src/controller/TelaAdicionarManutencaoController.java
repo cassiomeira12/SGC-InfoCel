@@ -17,7 +17,6 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.ComboBox;
@@ -38,7 +37,6 @@ import model.Cliente;
 import model.Endereco;
 import model.FormaPagamento;
 import model.Manutencao;
-import util.DateUtils;
 import util.Formatter;
 import util.alerta.Alerta;
 import util.alerta.Dialogo;
@@ -53,7 +51,7 @@ public class TelaAdicionarManutencaoController extends AnchorPane {
     private BorderPane painelPrincipal;
     private Cliente cliente;
     private Manutencao novaManutencao;
-    
+
     Endereco endereco = new Endereco(1l, new Bairro(1l, "Centro", new Cidade(1l, "Vitória da Conquista")), "Rua francisco santos", "149 A");
 
     @FXML
@@ -347,9 +345,8 @@ public class TelaAdicionarManutencaoController extends AnchorPane {
         String telefone = telefoneText.getText();
         String cpf = cpfText.getText();
         String rg = rgText.getText();
-        String cidade = cidadeText.getText(); 
 
-        return new Cliente(null, nome, endereco, cpf, rg, telefone, cidade, null, true);
+        return new Cliente(null, nome, endereco, cpf, rg, telefone, null, true);
     }
 
     private Cliente atualizarCliente(Cliente cliente) {
@@ -357,7 +354,6 @@ public class TelaAdicionarManutencaoController extends AnchorPane {
         cliente.setTelefone(telefoneText.getText());
         cliente.setCpf(cpfText.getText());
         cliente.setRg(rgText.getText());
-        cliente.setCidade(cidadeText.getText());
         cliente.setEndereco(endereco);
         return cliente;
     }
@@ -367,7 +363,7 @@ public class TelaAdicionarManutencaoController extends AnchorPane {
         this.telefoneText.setText(cliente.getTelefone());
         this.cpfText.setText(cliente.getCpf());
         this.rgText.setText(cliente.getRg());
-        this.cidadeText.setText(cliente.getCidade());
+        this.cidadeText.setText(cliente.getEndereco().getBairro().getCidade().toString());
         this.enderecoText.setText(cliente.getEndereco().toString());
     }
 }

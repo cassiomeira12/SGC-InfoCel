@@ -24,12 +24,13 @@ public class ClienteDAO extends DAO {
      * Inserir cliente na base de dados
      */
     public Long inserir(Cliente cliente) throws Exception {
-        String sql = "INSERT INTO cliente ( nome, id_endereco, cpf, rg, telefone, cidade, data_cadastro, status ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO cliente ( nome, id_endereco, cpf, rg, telefone, data_cadastro, status ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
-         Long id_endereco = ControleDAO.getBanco().getEnderecoDAO().inserir(cliente.getEndereco());
-        if(id_endereco == null)
+        Long id_endereco = ControleDAO.getBanco().getEnderecoDAO().inserir(cliente.getEndereco());
+        if (id_endereco == null) {
             return null;
-        
+        }
+
         stm = getConector().prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
 
         stm.setString(1, cliente.getNome());
@@ -37,8 +38,7 @@ public class ClienteDAO extends DAO {
         stm.setString(3, cliente.getCpf());
         stm.setString(4, cliente.getRg());
         stm.setString(5, cliente.getTelefone());
-        stm.setString(6, cliente.getCidade());
-        stm.setLong(7, System.currentTimeMillis());
+        stm.setLong(6, System.currentTimeMillis());
         stm.setBoolean(8, cliente.getStatus());
 
         return super.inserir();
@@ -49,11 +49,11 @@ public class ClienteDAO extends DAO {
      * Atualizar dados cliente na base de dados
      */
     public boolean editar(Cliente cliente) throws SQLException {
-        String sql = "UPDATE cliente SET nome =?, id_endereco =?, cpf =?, rg =?, telefone =?, cidade =?, status =? WHERE id =?";
+        String sql = "UPDATE cliente SET nome =?, id_endereco =?, cpf =?, rg =?, telefone =?, status =? WHERE id =?";
 
-         //caso haja alterações no endereço
+        //caso haja alterações no endereço
         ControleDAO.getBanco().getEnderecoDAO().editar(cliente.getEndereco());
-        
+
         stm = getConector().prepareStatement(sql);
 
         stm.setString(1, cliente.getNome());
@@ -61,8 +61,7 @@ public class ClienteDAO extends DAO {
         stm.setString(3, cliente.getCpf());
         stm.setString(4, cliente.getRg());
         stm.setString(5, cliente.getTelefone());
-        stm.setString(6, cliente.getCidade());
-        stm.setBoolean(7, cliente.getStatus());
+        stm.setBoolean(6, cliente.getStatus());
 
         stm.setInt(8, cliente.getId().intValue());
 
@@ -104,8 +103,8 @@ public class ClienteDAO extends DAO {
             Cidade cidade = new Cidade(rs.getLong("id_cidade"), rs.getString("nome_cidade"));
             Bairro bairro = new Bairro(rs.getLong("id_bairro"), rs.getString("nome_bairro"), cidade);
             Endereco endereco = new Endereco(rs.getLong("id_endereco"), bairro, rs.getString("rua"), rs.getString("numero"));
-            
-            Cliente cliente = new Cliente((long) rs.getInt(1), rs.getString(2), endereco, rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getLong(7), rs.getBoolean(8));
+
+            Cliente cliente = new Cliente((long) rs.getInt(1), rs.getString(2), endereco, rs.getString(3), rs.getString(4), rs.getString(5), rs.getLong(6), rs.getBoolean(7));
 
             clientes.add(cliente);
         }
@@ -126,11 +125,11 @@ public class ClienteDAO extends DAO {
         rs = stm.executeQuery(sql);
 
         while (rs.next()) {
-             Cidade cidade = new Cidade(rs.getLong("id_cidade"), rs.getString("nome_cidade"));
+            Cidade cidade = new Cidade(rs.getLong("id_cidade"), rs.getString("nome_cidade"));
             Bairro bairro = new Bairro(rs.getLong("id_bairro"), rs.getString("nome_bairro"), cidade);
             Endereco endereco = new Endereco(rs.getLong("id_endereco"), bairro, rs.getString("rua"), rs.getString("numero"));
-            
-            Cliente cliente = new Cliente((long) rs.getInt(1), rs.getString(2), endereco, rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getLong(7), rs.getBoolean(8));
+
+            Cliente cliente = new Cliente((long) rs.getInt(1), rs.getString(2), endereco, rs.getString(3), rs.getString(4), rs.getString(5), rs.getLong(6), rs.getBoolean(7));
 
             clientes.add(cliente);
         }

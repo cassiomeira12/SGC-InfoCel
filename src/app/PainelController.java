@@ -25,7 +25,6 @@ import javafx.scene.control.MenuBar;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
-import util.PainelInterno;
 
 /**
  * FXML Controller class

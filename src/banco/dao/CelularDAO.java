@@ -5,11 +5,9 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import model.Administrador;
 import model.CategoriaProduto;
 import model.Celular;
 import model.Marca;
-import model.Produto;
 import model.UnidadeMedida;
 
 /**

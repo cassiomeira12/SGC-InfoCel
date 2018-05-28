@@ -3,18 +3,7 @@ package banco.dao;
 import banco.ControleDAO;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
-import model.Administrador;
-import model.Bairro;
-import model.Celular;
-import model.Cidade;
-import model.Cliente;
 import model.Endereco;
-import model.Marca;
-import model.Produto;
-import model.Receita;
-import util.DateUtils;
 
 /**
  * DAO responsável pela ações realizadas na base de dados referentes as receitas

@@ -1,13 +1,10 @@
 package banco.dao;
 
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import model.Celular;
 import model.Marca;
-import model.Produto;
 
 /**
  * DAO responsável pela ações realizadas na base de dados referentes as marcas

@@ -6,8 +6,11 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import model.Administrador;
+import model.Bairro;
 import model.CategoriaProduto;
+import model.Cidade;
 import model.Cliente;
+import model.Endereco;
 import model.FormaPagamento;
 import model.Marca;
 import model.Produto;
@@ -98,12 +101,24 @@ public class VendaDAO extends DAO {
         rs = stm.executeQuery(sql);
 
         while (rs.next()) {
-            Administrador adm = new Administrador(rs.getLong("id_administrador"), rs.getString("nome_administrador"), null, null, null, null, null, null, null, true);
-            Cliente cliente = new Cliente(rs.getLong("id_cliente"), rs.getString("nome_cliente"), null, null, null, null, null, null, true);
+            Cidade cidadeAdm = new Cidade(rs.getLong("id_cidade_administrador"), rs.getString("nome_cidade_administrador"));
+            Bairro bairroAdm = new Bairro(rs.getLong("id_bairro_administrador"), rs.getString("nome_bairro_administrador"), cidadeAdm);
+            Endereco enderecoAdm = new Endereco(rs.getLong("id_endereco_administrador"), bairroAdm, rs.getString("rua_administrador"), rs.getString("numero_administrador"));
+
+            Administrador adm = new Administrador(rs.getLong("id_administrador"), rs.getString("nome_administrador"),
+                    null, null, enderecoAdm, null, rs.getString("cpf_administrador"), null, null, true);
+
+            Cidade cidadeC = new Cidade(rs.getLong("id_cidade_cliente"), rs.getString("nome_cidade_cliente"));
+            Bairro bairroC = new Bairro(rs.getLong("id_bairro_cliente"), rs.getString("nome_bairro_cliente"), cidadeAdm);
+            Endereco enderecoC = new Endereco(rs.getLong("id_endereco_cliente"), bairroAdm, rs.getString("rua_cliente"), rs.getString("numero_cliente"));
+
+            Cliente cliente = new Cliente(rs.getLong("id_cliente"), rs.getString("nome_cliente"), enderecoC,
+                    rs.getString("cpf_cliente"), rs.getString("rg_cliente"), rs.getString("telefone_cliente"), null, true);
+
             FormaPagamento formaPagamento = new FormaPagamento(rs.getLong("id_forma_pagamento"), rs.getString("descricao_forma_pagamento"), 1);
 
-            Venda venda = new Venda(rs.getLong("venda.id"), adm, cliente, null, formaPagamento, rs.getInt("venda.quantidade_parcela"), rs.getLong("venda.data"));
-            venda.setPrecoTotal(rs.getFloat("venda.preco_total"));
+            Venda venda = new Venda(rs.getLong("id"), adm, cliente, null, formaPagamento, rs.getInt("quantidade_parcela"), rs.getLong("data"));
+            venda.setPrecoTotal(rs.getFloat("preco_total"));
 
             vendas.add(venda);
         }
@@ -127,12 +142,24 @@ public class VendaDAO extends DAO {
         rs = stm.executeQuery(sql);
 
         while (rs.next()) {
-            Administrador adm = new Administrador(rs.getLong("id_administrador"), rs.getString("nome_administrador"), null, null, null, null, null, null, null, true);
-            Cliente cliente = new Cliente(rs.getLong("id_cliente"), rs.getString("nome_cliente"), null, null, null, null, null, null, true);
+            Cidade cidadeAdm = new Cidade(rs.getLong("id_cidade_administrador"), rs.getString("nome_cidade_administrador"));
+            Bairro bairroAdm = new Bairro(rs.getLong("id_bairro_administrador"), rs.getString("nome_bairro_administrador"), cidadeAdm);
+            Endereco enderecoAdm = new Endereco(rs.getLong("id_endereco_administrador"), bairroAdm, rs.getString("rua_administrador"), rs.getString("numero_administrador"));
+
+            Administrador adm = new Administrador(rs.getLong("id_administrador"), rs.getString("nome_administrador"),
+                    null, null, enderecoAdm, null, rs.getString("cpf_administrador"), null, null, true);
+
+            Cidade cidadeC = new Cidade(rs.getLong("id_cidade_cliente"), rs.getString("nome_cidade_cliente"));
+            Bairro bairroC = new Bairro(rs.getLong("id_bairro_cliente"), rs.getString("nome_bairro_cliente"), cidadeAdm);
+            Endereco enderecoC = new Endereco(rs.getLong("id_endereco_cliente"), bairroAdm, rs.getString("rua_cliente"), rs.getString("numero_cliente"));
+
+            Cliente cliente = new Cliente(rs.getLong("id_cliente"), rs.getString("nome_cliente"), enderecoC,
+                    rs.getString("cpf_cliente"), rs.getString("rg_cliente"), rs.getString("telefone_cliente"), null, true);
+
             FormaPagamento formaPagamento = new FormaPagamento(rs.getLong("id_forma_pagamento"), rs.getString("descricao_forma_pagamento"), 1);
 
-            Venda venda = new Venda(rs.getLong("venda.id"), adm, cliente, null, formaPagamento, rs.getInt("venda.quantidade_parcela"), rs.getLong("venda.data"));
-            venda.setPrecoTotal(rs.getFloat("venda.preco_total"));
+            Venda venda = new Venda(rs.getLong("id"), adm, cliente, null, formaPagamento, rs.getInt("quantidade_parcela"), rs.getLong("data"));
+            venda.setPrecoTotal(rs.getFloat("preco_total"));
 
             vendas.add(venda);
         }
@@ -179,11 +206,17 @@ public class VendaDAO extends DAO {
         rs = stm.executeQuery(sql);
 
         while (rs.next()) {
-            Administrador adm = new Administrador(rs.getLong("id_administrador"), rs.getString("nome_administrador"), null, null, null, null, null, null, null, true);
+            Cidade cidadeAdm = new Cidade(rs.getLong("id_cidade_administrador"), rs.getString("nome_cidade_administrador"));
+            Bairro bairroAdm = new Bairro(rs.getLong("id_bairro_administrador"), rs.getString("nome_bairro_administrador"), cidadeAdm);
+            Endereco enderecoAdm = new Endereco(rs.getLong("id_endereco_administrador"), bairroAdm, rs.getString("rua_administrador"), rs.getString("numero_administrador"));
+
+            Administrador adm = new Administrador(rs.getLong("id_administrador"), rs.getString("nome_administrador"),
+                    null, null, enderecoAdm, null, rs.getString("cpf_administrador"), null, null, true);
+
             FormaPagamento formaPagamento = new FormaPagamento(rs.getLong("id_forma_pagamento"), rs.getString("descricao_forma_pagamento"), 1);
 
-            Venda venda = new Venda(rs.getLong("venda.id"), adm, cliente, null, formaPagamento, rs.getInt("venda.quantidade_parcela"), rs.getLong("venda.data"));
-            venda.setPrecoTotal(rs.getFloat("venda.preco_total"));
+            Venda venda = new Venda(rs.getLong("id"), adm, cliente, null, formaPagamento, rs.getInt("quantidade_parcela"), rs.getLong("data"));
+            venda.setPrecoTotal(rs.getFloat("preco_total"));
 
             vendas.add(venda);
         }

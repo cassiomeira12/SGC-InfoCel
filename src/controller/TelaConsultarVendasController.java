@@ -2,11 +2,8 @@ package controller;
 
 import banco.ControleDAO;
 import java.io.IOException;
-import java.sql.SQLException;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -18,7 +15,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
@@ -28,9 +24,7 @@ import javax.swing.SwingWorker;
 import model.Administrador;
 import model.Cliente;
 import model.Venda;
-import util.Formatter;
 import util.alerta.Alerta;
-import util.alerta.Dialogo;
 
 /**
  * FXML Controller class
@@ -151,8 +145,8 @@ public class TelaConsultarVendasController extends AnchorPane {
         //Transforma a lista em uma Lista Observavel
         ObservableList data = FXCollections.observableArrayList(listaVendas);
         
-        //this.clienteColumn.setCellValueFactory(new PropertyValueFactory<>("cliente"));//Adiciona o valor da variavel Nome
-        //this.vendedorColumn.setCellValueFactory(new PropertyValueFactory<>("administrador"));
+       // this.clienteColumn.setCellValueFactory(new PropertyValueFactory<>("venda.cliente.nome"));//Adiciona o valor da variavel Nome
+        //this.vendedorColumn.setCellValueFactory(new PropertyValueFactory<>("nome"));
         this.dataColumn.setCellValueFactory(new PropertyValueFactory<>("data"));//Adiciona o valor da variavel Telefone
         this.totalColumn.setCellValueFactory(new PropertyValueFactory<>("precoTotal"));
         this.vendasTable.setItems(data);//Adiciona a lista de clientes na Tabela

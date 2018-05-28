@@ -6,10 +6,10 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import model.Administrador;
-import model.Celular;
+import model.Bairro;
+import model.Cidade;
 import model.Cliente;
-import model.Marca;
-import model.Produto;
+import model.Endereco;
 import model.Receita;
 import util.DateUtils;
 
@@ -94,8 +94,19 @@ public class ReceitaDAO extends DAO {
         rs = stm.executeQuery(sql);
 
         while (rs.next()) {
-            Administrador adm = new Administrador(rs.getLong("id_administrador"), rs.getString("nome_administrador"), null, null, null, null, null, null, null, true);
-            Cliente cliente = new Cliente(rs.getLong("id_cliente"), rs.getString("nome_cliente"), null, null, null, null, null, null, true);
+            Cidade cidadeAdm = new Cidade(rs.getLong("id_cidade_administrador"), rs.getString("nome_cidadea_dministrador"));
+            Bairro bairroAdm = new Bairro(rs.getLong("id_bairro_administrador"), rs.getString("nome_bairro_administrador"), cidadeAdm);
+            Endereco enderecoAdm = new Endereco(rs.getLong("id_endereco_administrador"), bairroAdm, rs.getString("rua_administrador"), rs.getString("numero_administrador"));
+
+            Administrador adm = new Administrador(rs.getLong("id_administrador"), rs.getString("nome_administrador"),
+                    null, null, enderecoAdm, null, rs.getString("cpf_administrador"), null, null, true);
+
+            Cidade cidadeC = new Cidade(rs.getLong("id_cidade_clienter"), rs.getString("nome_cidadea_cliente"));
+            Bairro bairroC = new Bairro(rs.getLong("id_bairro_cliente"), rs.getString("nome_bairro_cliente"), cidadeAdm);
+            Endereco enderecoC = new Endereco(rs.getLong("id_endereco_cliente"), bairroAdm, rs.getString("rua_cliente"), rs.getString("numero_cliente"));
+
+            Cliente cliente = new Cliente(rs.getLong("id_cliente"), rs.getString("nome_cliente"), enderecoC,
+                    rs.getString("cpf_cliente"), rs.getString("rg_cliente"), rs.getString("telefone_cliente"), null, true);
 
             Receita receita = new Receita(rs.getLong(1), cliente, adm, rs.getString(4), rs.getLong(5), rs.getFloat(6));
 
@@ -120,8 +131,19 @@ public class ReceitaDAO extends DAO {
         rs = stm.executeQuery(sql);
 
         while (rs.next()) {
-            Administrador adm = new Administrador(rs.getLong("id_administrador"), rs.getString("nome_administrador"), null, null, null, null, null, null, null, true);
-            Cliente cliente = new Cliente(rs.getLong("id_cliente"), rs.getString("nome_cliente"), null, null, null, null, null, null, true);
+            Cidade cidadeAdm = new Cidade(rs.getLong("id_cidade_administrador"), rs.getString("nome_cidadea_dministrador"));
+            Bairro bairroAdm = new Bairro(rs.getLong("id_bairro_administrador"), rs.getString("nome_bairro_administrador"), cidadeAdm);
+            Endereco enderecoAdm = new Endereco(rs.getLong("id_endereco_administrador"), bairroAdm, rs.getString("rua_administrador"), rs.getString("numero_administrador"));
+
+            Administrador adm = new Administrador(rs.getLong("id_administrador"), rs.getString("nome_administrador"),
+                    null, null, enderecoAdm, null, rs.getString("cpf_administrador"), null, null, true);
+
+            Cidade cidadeC = new Cidade(rs.getLong("id_cidade_clienter"), rs.getString("nome_cidadea_cliente"));
+            Bairro bairroC = new Bairro(rs.getLong("id_bairro_cliente"), rs.getString("nome_bairro_cliente"), cidadeAdm);
+            Endereco enderecoC = new Endereco(rs.getLong("id_endereco_cliente"), bairroAdm, rs.getString("rua_cliente"), rs.getString("numero_cliente"));
+
+            Cliente cliente = new Cliente(rs.getLong("id_cliente"), rs.getString("nome_cliente"), enderecoC,
+                    rs.getString("cpf_cliente"), rs.getString("rg_cliente"), rs.getString("telefone_cliente"), null, true);
 
             Receita receita = new Receita(rs.getLong(1), cliente, adm, rs.getString(4), rs.getLong(5), rs.getFloat(6));
 
