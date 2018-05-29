@@ -124,17 +124,21 @@ public class TelaConsultarVendasController extends AnchorPane {
     private void filtro(String texto, List lista, TableView tabela) {
         ObservableList data = FXCollections.observableArrayList(lista);
 
-        FilteredList<Cliente> dadosFiltrados = new FilteredList(data, filtro -> true);
+        FilteredList<Venda> dadosFiltrados = new FilteredList(data, filtro -> true);
 
         dadosFiltrados.setPredicate(filtro -> {
             if (texto == null || texto.isEmpty()) {
                 return true;
             }
             //Coloque aqui as verificacoes da Pesquisa
-            if (filtro.getNome().toLowerCase().contains(texto.toLowerCase())) {
+//            if (filtro.getNome().toLowerCase().contains(texto.toLowerCase())) {
+//                return true;
+//            }
+            if (filtro.getCliente().getNome().toLowerCase().contains(texto.toLowerCase())) {
                 return true;
             }
-
+            
+            
             return false;
         });
 

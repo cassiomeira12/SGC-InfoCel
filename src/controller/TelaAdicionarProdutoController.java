@@ -65,14 +65,25 @@ public class TelaAdicionarProdutoController extends AnchorPane {
     @FXML
     private ComboBox<Marca> marcaComboBox;
 
-    @FXML
-    private ComboBox<UnidadeMedida> unidadeMedidaComboBox;
 
     @FXML
     private HBox novaMarcaBox;
     @FXML
     private TextField novaMarcaText;
 
+    @FXML
+    private Label unidadeLabel;
+    @FXML
+    private HBox unidadeBox;
+    @FXML
+    private ComboBox<UnidadeMedida> unidadeMedidaCombo;
+    
+    @FXML
+    private HBox novaUnidadeBox;
+    @FXML
+    private TextField novaUnidadeText;
+    
+    
     @FXML
     private TextField custoProdutoText;
     @FXML
@@ -103,6 +114,7 @@ public class TelaAdicionarProdutoController extends AnchorPane {
     public void initialize() {
         this.novaCategoriaBox.setVisible(false);//Ocultando Nova Categoria
         this.novaMarcaBox.setVisible(false);//Ocultando Nova Marca
+        this.novaUnidadeBox.setVisible(false);//Ocultando Nova Unidade
 
         //Adicionando Formatador de Texto
         Formatter.decimal(custoProdutoText);
@@ -117,7 +129,7 @@ public class TelaAdicionarProdutoController extends AnchorPane {
                                             marcaComboBox.selectionModelProperty().isNull().or(
                                             custoProdutoText.textProperty().isEmpty().or(
                                             valorProdutoText.textProperty().isEmpty().or(
-                                            unidadeMedidaComboBox.selectionModelProperty().isNull().or(
+                                            unidadeMedidaCombo.selectionModelProperty().isNull().or(
                                             quantidadeText.textProperty().isEmpty())))))));
         
         
@@ -219,6 +231,45 @@ public class TelaAdicionarProdutoController extends AnchorPane {
     }
 
     @FXML
+    private void adicionarNovaUnidade() {
+        this.unidadeLabel.setText("Nova Unidade");
+        this.unidadeBox.setVisible(false);
+        this.novaUnidadeBox.setVisible(true);
+    }
+    
+    @FXML
+    private void salvarNovaUnidade() {
+        this.unidadeLabel.setText("Unidade de Medida");
+        this.novaUnidadeBox.setVisible(false);
+        this.unidadeBox.setVisible(true);
+        
+        boolean vazio = Formatter.isEmpty(novaUnidadeText);
+        String novaUnidade = novaUnidadeText.getText();
+        
+        if (!vazio) {
+            UnidadeMedida unidade = new UnidadeMedida(null, novaUnidade, novaUnidade);
+
+            Long id = null;
+            try {
+                id = ControleDAO.getBanco().getUnidadeMedidaDAO().inserir(unidade);
+            } catch (Exception ex) {
+                Logger.getLogger(TelaAdicionarProdutoController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+            if (id == null) {//Erro ao inserir item no Banco de Dados
+                Alerta.erro("Erro ao criar nova Unidade de Medida");
+            } else {
+                unidade.setId(id);
+                this.unidadeMedidaCombo.getItems().add(unidade);
+                this.unidadeMedidaCombo.getSelectionModel().select(unidade);
+            }
+        }
+
+        Formatter.limpar(novaUnidadeText);
+        Platform.runLater(() -> unidadeMedidaCombo.requestFocus());//Colocando o Foco
+    }
+    
+    @FXML
     private void salvarNovaMarca() {
         this.marcaLabel.setText("Marca");
         this.novaMarcaBox.setVisible(false);
@@ -267,7 +318,7 @@ public class TelaAdicionarProdutoController extends AnchorPane {
 
         this.categoriaComboBox.setItems(categoriaProdutos);
         this.marcaComboBox.setItems(categoriasMarcas);
-        this.unidadeMedidaComboBox.setItems(unidadesMedidas);
+        this.unidadeMedidaCombo.setItems(unidadesMedidas);
         
         //this.unidadeMedidaComboBox.getSelectionModel().select(3);
     }

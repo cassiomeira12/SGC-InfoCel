@@ -8,6 +8,9 @@ package controller;
 import java.io.IOException;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.chart.BarChart;
+import javafx.scene.chart.CategoryAxis;
+import javafx.scene.chart.NumberAxis;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 
@@ -20,6 +23,9 @@ public class TelaRelatorioMensalController extends AnchorPane {
     
     private BorderPane painelPrincipal;
 
+    @FXML
+    private BarChart<String, Number> graficoBar;
+    
   
     public TelaRelatorioMensalController(BorderPane painelPrincipal) {
         this.painelPrincipal = painelPrincipal;
@@ -38,6 +44,16 @@ public class TelaRelatorioMensalController extends AnchorPane {
     @FXML
     public void initialize() {
         // TODO
+        
+       CategoryAxis xAxis = new CategoryAxis();
+       xAxis.setLabel("Programming Language");
+ 
+       NumberAxis yAxis = new NumberAxis();
+       yAxis.setLabel("Percent");
+       
+       
+       
+       BarChart<String, Number> barChart = new BarChart<String, Number>(xAxis, yAxis);
     }
     
     private void adicionarPainelInterno(AnchorPane novaTela) {

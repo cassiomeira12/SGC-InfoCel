@@ -15,6 +15,7 @@ import controller.TelaRelatorioMensalController;
 import controller.TelaSobreController;
 import controller.TelaAdicionarVendaController;
 import controller.TelaConsultarVendasController;
+import controller.TelaRelatorioDiarioController;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
@@ -127,7 +128,8 @@ public class PainelController implements Initializable {
 
     @FXML
     private void chamarTelaRelatorioDiario(ActionEvent event) {
-        //PainelInterno.telaRelatorioDiario(painelPrincipal);
+        TelaRelatorioDiarioController telaRelatorioDiario = new TelaRelatorioDiarioController(painelPrincipal);
+        this.adicionarPainelInterno(telaRelatorioDiario);
     }
 
     @FXML

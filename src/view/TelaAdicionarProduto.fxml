@@ -14,7 +14,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<fx:root prefHeight="650.0" prefWidth="1200.0" stylesheets="@../css/default.css" type="AnchorPane" xmlns="http://javafx.com/javafx/9" xmlns:fx="http://javafx.com/fxml/1">
+<fx:root prefHeight="650.0" prefWidth="1200.0" stylesheets="@../css/default.css" type="AnchorPane" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <BorderPane layoutX="270.0" layoutY="182.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
          <top>
@@ -111,7 +111,12 @@
                               </Label>
                            </children>
                         </HBox>
-                        <ComboBox fx:id="unidadeMedidaComboBox" prefWidth="200.0" GridPane.columnSpan="2" GridPane.rowIndex="5" />
+                        <HBox fx:id="unidadeBox" alignment="CENTER" spacing="5.0" GridPane.columnSpan="2" GridPane.rowIndex="5">
+                           <children>
+                              <ComboBox fx:id="unidadeMedidaCombo" prefWidth="200.0" />
+                              <Button focusTraversable="false" mnemonicParsing="false" onAction="#adicionarNovaUnidade" styleClass="button-add" />
+                           </children>
+                        </HBox>
                         <TextField fx:id="quantidadeText" GridPane.columnIndex="2" GridPane.rowIndex="5" />
                         <Label text="Descrição do Produto" GridPane.columnSpan="2" />
                         <Label fx:id="categoriaLabel" text="Categoria" GridPane.columnIndex="5" />
@@ -119,7 +124,13 @@
                         <Label text="Valor para Venda R$" GridPane.columnIndex="3" GridPane.rowIndex="2" />
                         <Label text="Quantidade" GridPane.columnIndex="2" GridPane.rowIndex="4" />
                         <Label fx:id="marcaLabel" text="Marca" GridPane.columnSpan="2" GridPane.rowIndex="2" />
-                        <Label text="Unidade de Medida" GridPane.columnSpan="2" GridPane.rowIndex="4" />
+                        <Label fx:id="unidadeLabel" text="Unidade de Medida" GridPane.columnSpan="2" GridPane.rowIndex="4" />
+                        <HBox fx:id="novaUnidadeBox" alignment="CENTER" spacing="5.0" GridPane.columnSpan="2" GridPane.rowIndex="5">
+                           <children>
+                              <TextField fx:id="novaUnidadeText" prefWidth="170.0" />
+                              <Button focusTraversable="false" mnemonicParsing="false" onAction="#salvarNovaUnidade" styleClass="button-confirmar" />
+                           </children>
+                        </HBox>
                      </children>
                      <VBox.margin>
                         <Insets top="80.0" />

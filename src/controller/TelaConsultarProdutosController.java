@@ -160,7 +160,7 @@ public class TelaConsultarProdutosController extends AnchorPane {
     private void atualizarTabela() {
         //Transforma a lista em uma Lista Observavel
         ObservableList data = FXCollections.observableArrayList(listaProdutos);
-
+        
         this.categoriaColumn.setCellValueFactory(new PropertyValueFactory<>("categoria"));
         this.descricaoColumn.setCellValueFactory(new PropertyValueFactory<>("descricao"));
         this.marcaColumn.setCellValueFactory(new PropertyValueFactory<>("marca"));

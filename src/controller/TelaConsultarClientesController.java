@@ -63,7 +63,7 @@ public class TelaConsultarClientesController extends AnchorPane {
 
     public TelaConsultarClientesController(BorderPane painelPrincipal) {
         this.painelPrincipal = painelPrincipal;
-
+        
         try {
             FXMLLoader fxml = new FXMLLoader(getClass().getResource("/view/TelaConsultarClientes.fxml"));
             fxml.setRoot(this);
