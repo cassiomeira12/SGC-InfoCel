@@ -8,10 +8,9 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-
-<HBox spacing="20.0" stylesheets="@../css/default.css" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ProdutosConfiguracoes">
+<HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="20.0" stylesheets="@../css/default.css" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ProdutosConfiguracoes">
    <children>
-      <VBox alignment="CENTER" prefHeight="423.0" prefWidth="401.0" spacing="10.0">
+      <VBox alignment="CENTER" prefHeight="423.0" prefWidth="401.0" spacing="10.0" HBox.hgrow="ALWAYS">
          <children>
             <Label text="Categoria de Produtos" />
             <TableView fx:id="categoriaTable">
@@ -24,13 +23,14 @@
             </TableView>
             <HBox alignment="CENTER" spacing="35.0">
                <children>
-                  <Button mnemonicParsing="false" styleClass="button-add" text="Adicionar" />
+                  <Button mnemonicParsing="false" onAction="#adicionarCategoria" styleClass="button-add" text="Adicionar" />
+                  <Button fx:id="editarCategoriaButton" mnemonicParsing="false" onAction="#editarCategoria" text="Editar" />
                   <Button fx:id="removerCategoriaButton" mnemonicParsing="false" onAction="#removerCategoria" styleClass="button-deletar" text="Remover" />
                </children>
             </HBox>
          </children>
       </VBox>
-      <VBox alignment="CENTER" layoutX="10.0" layoutY="10.0" prefHeight="423.0" prefWidth="401.0" spacing="10.0">
+      <VBox alignment="CENTER" layoutX="10.0" layoutY="10.0" prefHeight="423.0" prefWidth="401.0" spacing="10.0" HBox.hgrow="ALWAYS">
          <children>
             <Label text="Marca de Produtos" />
             <TableView fx:id="marcaTable">
@@ -43,13 +43,14 @@
             </TableView>
             <HBox alignment="CENTER" spacing="35.0">
                <children>
-                  <Button mnemonicParsing="false" styleClass="button-add" text="Adicionar" />
+                  <Button mnemonicParsing="false" onAction="#adicionarMarca" styleClass="button-add" text="Adicionar" />
+                  <Button fx:id="editarMarcaButton" mnemonicParsing="false" onAction="#editarMarca" text="Editar" />
                   <Button fx:id="removerMarcaButton" mnemonicParsing="false" onAction="#removerMarca" styleClass="button-deletar" text="Remover" />
                </children>
             </HBox>
          </children>
       </VBox>
-      <VBox alignment="CENTER" layoutX="411.0" layoutY="10.0" prefHeight="423.0" prefWidth="401.0" spacing="10.0">
+      <VBox alignment="CENTER" layoutX="411.0" layoutY="10.0" prefHeight="423.0" prefWidth="401.0" spacing="10.0" HBox.hgrow="ALWAYS">
          <children>
             <Label text="Unidades de Medida" />
             <TableView fx:id="unidadesTable">
@@ -63,7 +64,8 @@
             </TableView>
             <HBox alignment="CENTER" spacing="35.0">
                <children>
-                  <Button mnemonicParsing="false" styleClass="button-add" text="Adicionar" />
+                  <Button mnemonicParsing="false" onAction="#adicionarUnidade" styleClass="button-add" text="Adicionar" />
+                  <Button fx:id="editarUnidadeButton" mnemonicParsing="false" onAction="#editarUnidade" text="Editar" />
                   <Button fx:id="removerUnidadeButton" mnemonicParsing="false" onAction="#removerUnidade" styleClass="button-deletar" text="Remover" />
                </children>
             </HBox>
@@ -71,6 +73,6 @@
       </VBox>
    </children>
    <padding>
-      <Insets top="20.0" />
+      <Insets bottom="10.0" top="20.0" />
    </padding>
 </HBox>

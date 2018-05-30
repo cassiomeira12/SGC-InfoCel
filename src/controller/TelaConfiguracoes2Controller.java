@@ -69,7 +69,7 @@ public class TelaConfiguracoes2Controller extends AnchorPane {
     
     @FXML
     private void produtosTab() throws IOException {
-        AnchorPane painel = FXMLLoader.load(getClass().getResource("/view/ProdutosConfiguracoes.fxml"));
+        HBox painel = FXMLLoader.load(getClass().getResource("/view/ProdutosConfiguracoes.fxml"));
         produtosTab.setContent(painel);
     }
     

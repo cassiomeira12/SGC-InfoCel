@@ -43,10 +43,10 @@ public class TelaAdicionarProdutoController extends AnchorPane {
     private List<CategoriaProduto> listaCategoriaProdutos;
     private List<Marca> listaMarcas;
     private List<UnidadeMedida> listaUnidadeMedidas;
-
+    
     @FXML
     private TextField descricaoText;
-
+    
     @FXML
     private Label categoriaLabel;
     @FXML
