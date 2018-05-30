@@ -65,7 +65,6 @@ public class TelaAdicionarProdutoController extends AnchorPane {
     @FXML
     private ComboBox<Marca> marcaComboBox;
 
-
     @FXML
     private HBox novaMarcaBox;
     @FXML
@@ -77,13 +76,12 @@ public class TelaAdicionarProdutoController extends AnchorPane {
     private HBox unidadeBox;
     @FXML
     private ComboBox<UnidadeMedida> unidadeMedidaCombo;
-    
+
     @FXML
     private HBox novaUnidadeBox;
     @FXML
     private TextField novaUnidadeText;
-    
-    
+
     @FXML
     private TextField custoProdutoText;
     @FXML
@@ -94,7 +92,6 @@ public class TelaAdicionarProdutoController extends AnchorPane {
     private TextField quantidadeText;
     @FXML
     private Button salvarButton;
-    
 
     public TelaAdicionarProdutoController(BorderPane painelPrincipal) {
         this.painelPrincipal = painelPrincipal;
@@ -122,17 +119,14 @@ public class TelaAdicionarProdutoController extends AnchorPane {
         Formatter.decimal(quantidadeText);
 
         Formatter.toUpperCase(descricaoText, custoProdutoText, novaCategoriaText, novaMarcaText);
-        
-        
+
         salvarButton.disableProperty().bind(descricaoText.textProperty().isEmpty().or(
-                                            categoriaComboBox.selectionModelProperty().isNull().or(
-                                            marcaComboBox.selectionModelProperty().isNull().or(
-                                            custoProdutoText.textProperty().isEmpty().or(
-                                            valorProdutoText.textProperty().isEmpty().or(
-                                            unidadeMedidaCombo.selectionModelProperty().isNull().or(
-                                            quantidadeText.textProperty().isEmpty())))))));
-        
-        
+                categoriaComboBox.selectionModelProperty().isNull().or(
+                        marcaComboBox.selectionModelProperty().isNull().or(
+                                custoProdutoText.textProperty().isEmpty().or(
+                                        valorProdutoText.textProperty().isEmpty().or(
+                                                unidadeMedidaCombo.selectionModelProperty().isNull().or(
+                                                        quantidadeText.textProperty().isEmpty())))))));
 
         this.sincronizarBancoDados();//Atualizando Listas com o Banco de Dados
         this.atualizarComboBoxs();//Adicionando itens nos ComboBox
@@ -157,6 +151,7 @@ public class TelaAdicionarProdutoController extends AnchorPane {
         String descricao = descricaoText.getText();
         CategoriaProduto categoria;
         Marca marca;
+        UnidadeMedida unidadeMedida;
 
         float custoProduto = Float.parseFloat(custoProdutoText.getText());
         float valorVenda = Float.parseFloat(valorProdutoText.getText());
@@ -167,8 +162,9 @@ public class TelaAdicionarProdutoController extends AnchorPane {
         } else {
             categoria = categoriaComboBox.getValue();
             marca = marcaComboBox.getValue();
+            unidadeMedida = unidadeMedidaCombo.getValue();
 
-            Produto novoProduto = new Produto(null, marca, descricao, categoria, custoProduto, valorVenda, quantidade, null);
+            Produto novoProduto = new Produto(null, marca, descricao, categoria, custoProduto, valorVenda, quantidade, unidadeMedida);
 
             try {
                 if (ControleDAO.getBanco().getProdutoDAO().inserir(novoProduto) == null) {
@@ -236,16 +232,16 @@ public class TelaAdicionarProdutoController extends AnchorPane {
         this.unidadeBox.setVisible(false);
         this.novaUnidadeBox.setVisible(true);
     }
-    
+
     @FXML
     private void salvarNovaUnidade() {
         this.unidadeLabel.setText("Unidade de Medida");
         this.novaUnidadeBox.setVisible(false);
         this.unidadeBox.setVisible(true);
-        
+
         boolean vazio = Formatter.isEmpty(novaUnidadeText);
         String novaUnidade = novaUnidadeText.getText();
-        
+
         if (!vazio) {
             UnidadeMedida unidade = new UnidadeMedida(null, novaUnidade, novaUnidade);
 
@@ -268,7 +264,7 @@ public class TelaAdicionarProdutoController extends AnchorPane {
         Formatter.limpar(novaUnidadeText);
         Platform.runLater(() -> unidadeMedidaCombo.requestFocus());//Colocando o Foco
     }
-    
+
     @FXML
     private void salvarNovaMarca() {
         this.marcaLabel.setText("Marca");
@@ -319,7 +315,7 @@ public class TelaAdicionarProdutoController extends AnchorPane {
         this.categoriaComboBox.setItems(categoriaProdutos);
         this.marcaComboBox.setItems(categoriasMarcas);
         this.unidadeMedidaCombo.setItems(unidadesMedidas);
-        
+
         //this.unidadeMedidaComboBox.getSelectionModel().select(3);
     }
 
@@ -332,7 +328,7 @@ public class TelaAdicionarProdutoController extends AnchorPane {
                 percentualLabel.setText("0%");
                 return;
             }
-            
+
             if (!valorProdutoText.getText().isEmpty()) {
                 float custoProduto = Float.parseFloat(custoProdutoText.getText());
                 float valorVenda = Float.parseFloat(valorProdutoText.getText());

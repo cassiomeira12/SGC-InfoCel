@@ -9,6 +9,7 @@ public class Bairro {
     public Bairro(Long id, String descricao, Cidade cidade) {
         this.id = id;
         this.nome = descricao;
+        this.cidade = cidade;
     }
 
     public Long getId() {

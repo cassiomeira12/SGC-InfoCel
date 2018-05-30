@@ -140,7 +140,7 @@ public class TelaAdicionarVendaController extends AnchorPane {
                 Platform.runLater(() -> nomeText.requestFocus());//Colocando o Foco
             }
         });
-        
+
         //Campos ficam desativados enquanto CheckBox esta desativado
         nomeText.disableProperty().bind(editarClienteCheckBox.selectedProperty().not());
         telefoneText.disableProperty().bind(editarClienteCheckBox.selectedProperty().not());
@@ -166,7 +166,7 @@ public class TelaAdicionarVendaController extends AnchorPane {
         }
 
         this.dataDatePicker.setValue(LocalDate.now());//Adicionando Data do dia atual
-        
+
         formarPagComboBox.setOnAction((e) -> {
             FormaPagamento formaPagamento = formarPagComboBox.getSelectionModel().getSelectedItem();
             if (formaPagamento.getDescricao().equals("À VISTA")) {
@@ -355,7 +355,7 @@ public class TelaAdicionarVendaController extends AnchorPane {
         String rg = rgText.getText();
         String cidade = cidadeText.getText();
 
-        return new Cliente(null, nome, endereco, cpf, rg, telefone, cidade, null, true);
+        return new Cliente(null, nome, endereco, cpf, rg, telefone, null, true);
     }
 
     private Cliente atualizarCliente(Cliente cliente) {
@@ -363,7 +363,6 @@ public class TelaAdicionarVendaController extends AnchorPane {
         cliente.setTelefone(telefoneText.getText());
         cliente.setCpf(cpfText.getText());
         cliente.setRg(rgText.getText());
-        cliente.setCidade(cidadeText.getText());
         cliente.setEndereco(endereco);
         return cliente;
     }
@@ -373,7 +372,7 @@ public class TelaAdicionarVendaController extends AnchorPane {
         this.telefoneText.setText(cliente.getTelefone());
         this.cpfText.setText(cliente.getCpf());
         this.rgText.setText(cliente.getRg());
-        this.cidadeText.setText(cliente.getCidade());
+        this.cidadeText.setText(cliente.getEndereco().getBairro().getCidade().getNome());
         this.enderecoText.setText(cliente.getEndereco().toString());
     }
 

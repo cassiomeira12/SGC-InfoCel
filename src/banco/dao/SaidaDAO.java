@@ -1,17 +1,14 @@
 package banco.dao;
 
-import banco.ControleDAO;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import model.Administrador;
+import model.Bairro;
 import model.CategoriaSaida;
-import model.Celular;
-import model.Cliente;
-import model.Marca;
-import model.Produto;
-import model.Receita;
+import model.Cidade;
+import model.Endereco;
 import model.Saida;
 import util.DateUtils;
 
@@ -89,7 +86,13 @@ public class SaidaDAO extends DAO {
         rs = stm.executeQuery(sql);
 
         while (rs.next()) {
-            Administrador adm = new Administrador(rs.getLong("id_administrador"), rs.getString("nome_administrador"), null, null, null, null, null, null, null, true);
+            Cidade cidadeAdm = new Cidade(rs.getLong("id_cidade_administrador"), rs.getString("nome_cidadea_dministrador"));
+            Bairro bairroAdm = new Bairro(rs.getLong("id_bairro_administrador"), rs.getString("nome_bairro_administrador"), cidadeAdm);
+            Endereco enderecoAdm = new Endereco(rs.getLong("id_endereco_administrador"), bairroAdm, rs.getString("rua_administrador"), rs.getString("numero_administrador"));
+
+            Administrador adm = new Administrador(rs.getLong("id_administrador"), rs.getString("nome_administrador"),
+                    null, null, enderecoAdm, null, rs.getString("cpf_administrador"), null, null, true);
+
             CategoriaSaida categoria = new CategoriaSaida(rs.getLong("id_categoria_saida"), rs.getString("descricao_categoria_saida"));
 
             Saida saida = new Saida(rs.getLong("id"), adm, rs.getString("descricao"), categoria, rs.getFloat("valor"), rs.getLong("data"));
@@ -115,7 +118,13 @@ public class SaidaDAO extends DAO {
         rs = stm.executeQuery(sql);
 
         while (rs.next()) {
-            Administrador adm = new Administrador(rs.getLong("id_administrador"), rs.getString("nome_administrador"), null, null, null, null, null, null, null, true);
+            Cidade cidadeAdm = new Cidade(rs.getLong("id_cidade_administrador"), rs.getString("nome_cidadea_dministrador"));
+            Bairro bairroAdm = new Bairro(rs.getLong("id_bairro_administrador"), rs.getString("nome_bairro_administrador"), cidadeAdm);
+            Endereco enderecoAdm = new Endereco(rs.getLong("id_endereco_administrador"), bairroAdm, rs.getString("rua_administrador"), rs.getString("numero_administrador"));
+
+            Administrador adm = new Administrador(rs.getLong("id_administrador"), rs.getString("nome_administrador"),
+                    null, null, enderecoAdm, null, rs.getString("cpf_administrador"), null, null, true);
+
             CategoriaSaida categoria = new CategoriaSaida(rs.getLong("id_categoria_saida"), rs.getString("descricao_categoria_saida"));
 
             Saida saida = new Saida(rs.getLong("id"), adm, rs.getString("descricao"), categoria, rs.getFloat("valor"), rs.getLong("data"));

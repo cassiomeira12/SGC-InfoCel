@@ -5,17 +5,7 @@
  */
 package app;
 
-import controller.TelaLoginController;
-import controller.TelaAdicionarProdutoController;
-import controller.TelaConsultarClientesController;
-import controller.TelaConsultarManutencoesController;
-import controller.TelaConsultarProdutosController;
-import controller.TelaAdicionarManutencaoController;
-import controller.TelaRelatorioMensalController;
-import controller.TelaSobreController;
-import controller.TelaAdicionarVendaController;
-import controller.TelaConsultarVendasController;
-import controller.TelaRelatorioDiarioController;
+import controller.*;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
@@ -25,7 +15,6 @@ import javafx.scene.control.MenuBar;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
-import util.PainelInterno;
 
 /**
  * FXML Controller class
@@ -144,7 +133,8 @@ public class PainelController implements Initializable {
 
     @FXML
     private void chamarTelaConfiguracoes(ActionEvent event) {
-        //PainelInterno.telaConfiguracoes(painelPrincipal);
+        TelaConfiguracoes2Controller telaConfiguracoes = new TelaConfiguracoes2Controller(painelPrincipal);
+        this.adicionarPainelInterno(telaConfiguracoes);
     }
 
 }

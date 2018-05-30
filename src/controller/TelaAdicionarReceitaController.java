@@ -5,7 +5,6 @@
  */
 package controller;
 
-import banco.ControleDAO;
 import java.io.IOException;
 import java.time.LocalDate;
 import javafx.application.Platform;
@@ -27,9 +26,7 @@ import model.Bairro;
 import model.Cidade;
 import model.Cliente;
 import model.Endereco;
-import model.Receita;
 import util.Formatter;
-import util.alerta.Alerta;
 
 /**
  * FXML Controller class
@@ -66,7 +63,7 @@ public class TelaAdicionarReceitaController extends AnchorPane {
 
     public TelaAdicionarReceitaController(BorderPane painelPrincipal) {
         cliente.setEndereco(endereco);
-        
+
         this.painelPrincipal = painelPrincipal;
 
         try {
@@ -179,8 +176,8 @@ public class TelaAdicionarReceitaController extends AnchorPane {
         String cpf = cpfText.getText();
         String rg = rgText.getText();
         String cidade = cidadeText.getText();
-       
-        return new Cliente(null, nome, endereco, cpf, rg, telefone, cidade, null, true);
+
+        return new Cliente(null, nome, endereco, cpf, rg, telefone, null, true);
     }
 
     private Cliente atualizarCliente(Cliente cliente) {
@@ -188,7 +185,6 @@ public class TelaAdicionarReceitaController extends AnchorPane {
         cliente.setTelefone(telefoneText.getText());
         cliente.setCpf(cpfText.getText());
         cliente.setRg(rgText.getText());
-        cliente.setCidade(cidadeText.getText());
         cliente.setEndereco(endereco);
         return cliente;
     }
@@ -198,7 +194,7 @@ public class TelaAdicionarReceitaController extends AnchorPane {
         this.telefoneText.setText(cliente.getTelefone());
         this.cpfText.setText(cliente.getCpf());
         this.rgText.setText(cliente.getRg());
-        this.cidadeText.setText(cliente.getCidade());
+        this.cidadeText.setText(cliente.getEndereco().getBairro().getCidade().toString());
         this.enderecoText.setText(cliente.getEndereco().toString());
     }
 }

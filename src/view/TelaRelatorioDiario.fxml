@@ -32,7 +32,7 @@
                   </HBox>
                   <HBox alignment="CENTER" prefHeight="44.0" prefWidth="600.0">
                      <children>
-                        <Button alignment="CENTER" focusTraversable="false" mnemonicParsing="false" styleClass="button-finalizar" text="Finalizar" />
+                        <Button alignment="CENTER" focusTraversable="false" mnemonicParsing="false" onAction="#gerarRelatorio" styleClass="button-finalizar" text="Finalizar" />
                      </children>
                      <HBox.margin>
                         <Insets />

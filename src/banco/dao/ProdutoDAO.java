@@ -1,12 +1,10 @@
 package banco.dao;
 
-import banco.ControleDAO;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import model.CategoriaProduto;
-import model.Celular;
 import model.Marca;
 import model.Produto;
 import model.UnidadeMedida;
@@ -25,7 +23,7 @@ public class ProdutoDAO extends DAO {
      * Inserir produto na base de dados
      */
     public Long inserir(Produto produto) throws Exception {
-        String sql = "INSERT INTO produto ( descricao, id_categoria_produto, id_marca, preco_compra, preco_venda, estoque, id_unidade_medida ) VALUES (?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO produto ( descricao, id_categoria_produto, id_marca, preco_compra, preco_venda, estoque, id_unidade_medida ) VALUES (?, ?, ?, ?,?, ?, ?)";
 
         stm = getConector().prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
 

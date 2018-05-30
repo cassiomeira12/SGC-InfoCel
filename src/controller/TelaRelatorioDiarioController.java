@@ -5,9 +5,18 @@
  */
 package controller;
 
+import banco.ConexaoBanco;
 import banco.ControleDAO;
+import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ExecutionException;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -20,6 +29,11 @@ import model.Manutencao;
 import model.Receita;
 import model.Saida;
 import model.Venda;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRResultSetDataSource;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.view.JasperViewer;
 import util.alerta.Alerta;
 
 /**
@@ -28,9 +42,9 @@ import util.alerta.Alerta;
  * @author cassio
  */
 public class TelaRelatorioDiarioController extends AnchorPane {
-    
+
     private BorderPane painelPrincipal;
-    
+
     private List<Venda> listaVendas;
     private List<Manutencao> listaManutencoes;
     private List<Receita> listaReceitas;
@@ -38,11 +52,10 @@ public class TelaRelatorioDiarioController extends AnchorPane {
 
     @FXML
     private PieChart graficoPie;
-    
-  
+
     public TelaRelatorioDiarioController(BorderPane painelPrincipal) {
         this.painelPrincipal = painelPrincipal;
-        
+
         try {
             FXMLLoader fxml = new FXMLLoader(getClass().getResource("/view/TelaRelatorioDiario.fxml"));
             fxml.setRoot(this);
@@ -57,18 +70,16 @@ public class TelaRelatorioDiarioController extends AnchorPane {
     @FXML
     public void initialize() {
         // TODO
-        
-       PieChart.Data slice1 = new PieChart.Data("USA", 17947195);
-       PieChart.Data slice2 = new PieChart.Data("EU", 11540278);
-       PieChart.Data slice3 = new PieChart.Data("China", 10982829);
-       PieChart.Data slice4 = new PieChart.Data("Japan", 4116242);
-       PieChart.Data slice5 = new PieChart.Data("Others", 28584442);
-       
-       
-       
-       graficoPie.getData().addAll(slice1, slice2, slice3, slice4, slice5);
+
+        PieChart.Data slice1 = new PieChart.Data("USA", 17947195);
+        PieChart.Data slice2 = new PieChart.Data("EU", 11540278);
+        PieChart.Data slice3 = new PieChart.Data("China", 10982829);
+        PieChart.Data slice4 = new PieChart.Data("Japan", 4116242);
+        PieChart.Data slice5 = new PieChart.Data("Others", 28584442);
+
+        graficoPie.getData().addAll(slice1, slice2, slice3, slice4, slice5);
     }
-    
+
     private void sincronizarBancoDadosVendas() {
         //Metodo executado numa Thread separada
         SwingWorker<List, List> worker = new SwingWorker<List, List>() {
@@ -92,7 +103,7 @@ public class TelaRelatorioDiarioController extends AnchorPane {
 
         worker.execute();
     }
-    
+
     private void sincronizarBancoDadosManutencoes() {
         //Metodo executado numa Thread separada
         SwingWorker<List, List> worker = new SwingWorker<List, List>() {
@@ -116,9 +127,7 @@ public class TelaRelatorioDiarioController extends AnchorPane {
 
         worker.execute();
     }
-    
 
-    
     private void chamarAlerta(String mensagem) {
         Platform.runLater(new Runnable() {
             @Override
@@ -127,15 +136,41 @@ public class TelaRelatorioDiarioController extends AnchorPane {
             }
         });
     }
-    
+
     private void adicionarPainelInterno(AnchorPane novaTela) {
         this.painelPrincipal.setCenter(novaTela);
     }
-    
+
     @FXML
     private void cancelarOperacao() {
         TelaInicialController telaInicial = new TelaInicialController(painelPrincipal);
         this.adicionarPainelInterno(telaInicial);
     }
-    
+
+    @FXML
+    private void gerarRelatorio(Date data) throws SQLException, JRException, IOException {
+        
+        
+        
+        ConexaoBanco conn = new ConexaoBanco();
+        Statement stm = conn.getConnection().createStatement();
+        String query;
+        query = "select * from produto";
+        ResultSet rs = stm.executeQuery(query);
+        JRResultSetDataSource jrRS = new JRResultSetDataSource(rs);
+        Map parameters = new HashMap();
+        String src2 = new File("src/relatorio/produtos.jasper").getCanonicalPath();
+        JasperPrint jp = null;
+
+        try {
+            jp = JasperFillManager.fillReport(src2, parameters, jrRS);
+        } catch (JRException ex) {
+            System.out.println("Error: " + ex);
+        }
+
+        JasperViewer view = new JasperViewer(jp, false);
+
+        view.setVisible(true);
+    }
+
 }

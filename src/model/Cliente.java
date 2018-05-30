@@ -8,18 +8,16 @@ public class Cliente {
     private String cpf;
     private String rg;
     private String telefone;
-    private String cidade;
     private Long dataCadastro;
     private boolean status;
 
-    public Cliente(Long id, String nome, Endereco endereco, String cpf, String rg, String telefone, String cidade, Long dataCadastro, boolean status) {
+    public Cliente(Long id, String nome, Endereco endereco, String cpf, String rg, String telefone, Long dataCadastro, boolean status) {
         this.id = id;
         this.nome = nome;
         this.endereco = endereco;
         this.cpf = cpf;
         this.rg = rg;
         this.telefone = telefone;
-        this.cidade = cidade;
         this.dataCadastro = dataCadastro;
         this.status = status;
     }
@@ -70,14 +68,6 @@ public class Cliente {
 
     public void setTelefone(String telefone) {
         this.telefone = telefone;
-    }
-
-    public String getCidade() {
-        return cidade;
-    }
-
-    public void setCidade(String cidade) {
-        this.cidade = cidade;
     }
 
     public Long getDataCadastro() {

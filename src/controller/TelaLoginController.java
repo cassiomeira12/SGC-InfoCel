@@ -22,7 +22,6 @@ import javafx.scene.layout.StackPane;
 import javax.swing.SwingWorker;
 import model.Administrador;
 import util.Formatter;
-import util.PainelInterno;
 import util.alerta.Alerta;
 
 /**
