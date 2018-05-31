@@ -44,6 +44,7 @@ import model.Marca;
 import model.Produto;
 import model.Venda;
 import model.VendaProduto;
+import relatorio.RelatorioVenda;
 import util.DateUtils;
 import util.Formatter;
 import util.alerta.Alerta;
@@ -345,6 +346,9 @@ public class TelaAdicionarVendaController extends AnchorPane {
                         if (id == null) {
                             Alerta.erro("Erro ao adicionar nova Venda");
                         } else {
+                            // gerar relatorio PDF
+                            RelatorioVenda rv = new RelatorioVenda(id.toString());
+                            
                             Alerta.info("Venda Realizada com sucesso!");
                             TelaInicialController telaInicial = new TelaInicialController(painelPrincipal);
                             this.adicionarPainelInterno(telaInicial);
