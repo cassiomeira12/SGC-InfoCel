@@ -151,7 +151,8 @@ public class TelaAdicionarVendaController extends AnchorPane {
         Formatter.mascaraCPF(cpfText);//Formatador para CPF
         Formatter.mascaraRG(rgText);//Formatador para Rg
         Formatter.mascaraTelefone(telefoneText);//Formatador para Telefone
-
+        Formatter.mascaraNumero(ruaText);
+        
         Formatter.toUpperCase(nomeText, adicionarCidadeText, ruaText, adicionarBairroText);
 
         this.editarClienteCheckBox.setVisible(false);//Ocultando componente
@@ -187,7 +188,7 @@ public class TelaAdicionarVendaController extends AnchorPane {
         } catch (SQLException ex) {
             Logger.getLogger(TelaAdicionarVendaController.class.getName()).log(Level.SEVERE, null, ex);
         }
-
+        
         this.dataDatePicker.setValue(LocalDate.now());//Adicionando Data do dia atual
 
         formarPagComboBox.setOnAction((e) -> {
@@ -201,10 +202,12 @@ public class TelaAdicionarVendaController extends AnchorPane {
             }
         });
         
-
+        adicionarCidadeBox.setVisible(false);
+        adicionarBairroBox.setVisible(false);
+        
         cidadeComboBox.setOnAction((e) -> {
             Cidade c = cidadeComboBox.getValue();
-            System.out.println(c.toString());
+            sincronizarBancoDadosBairro(c);
         });
         
         sincronizarBancoDadosCidade();
@@ -269,7 +272,7 @@ public class TelaAdicionarVendaController extends AnchorPane {
             }
         }
     }
-
+    
     @FXML
     private void removerProduto() {
         VendaProduto vendaProduto = produtosTable.getSelectionModel().getSelectedItem();
@@ -287,13 +290,24 @@ public class TelaAdicionarVendaController extends AnchorPane {
     @FXML
     private void finalizarCompra() {
         boolean novoCliente = this.cliente == null;
-        boolean vazio = Formatter.isEmpty(nomeText, telefoneText, cpfText, rgText, ruaText);
+        boolean vazio = Formatter.isEmpty(nomeText, telefoneText, cpfText, rgText, ruaText, numeroText);
+        boolean enderecoVazio = false;// = Formatter.isEmpty(cidadeComboBox, bairroComboBox);
         boolean carrinhoVazio = novaVenda.isEmpty();
 
+        if (cidadeBox.isVisible() && bairroBox.isVisible()) {
+            enderecoVazio = Formatter.isEmpty(cidadeComboBox, bairroComboBox);
+        } else if (adicionarCidadeBox.isVisible() && bairroBox.isVisible()) {
+            enderecoVazio = adicionarCidadeText.getText().isEmpty() && Formatter.isEmpty(bairroComboBox);
+        } else if (cidadeBox.isVisible() && adicionarBairroBox.isVisible()) {
+            enderecoVazio = Formatter.isEmpty(cidadeComboBox) && adicionarBairroText.getText().isEmpty();
+        } else if (adicionarCidadeBox.isVisible() && adicionarBairroBox.isVisible()) {
+            enderecoVazio = adicionarCidadeText.getText().isEmpty() && adicionarBairroText.getText().isEmpty();
+        }
+        
         Cliente cliente = null;
         boolean continuar = false;
 
-        if (vazio || carrinhoVazio) {
+        if (vazio || carrinhoVazio || enderecoVazio) {
             Alerta.alerta("Não é possivel finalizar essa Venda", "Erro");
         } else {
             Dialogo.Resposta resposta = Alerta.confirmar("Deseja concluir esta Venda ?");
@@ -424,25 +438,35 @@ public class TelaAdicionarVendaController extends AnchorPane {
         this.produtosTable.setItems(data);
         this.totalLabel.setText(String.valueOf(novaVenda.getPrecoTotal()));
     }
-
+    
     @FXML
     private void adicionarCidade() {
-        
+        cidadeBox.setVisible(false);
+        adicionarCidadeBox.setVisible(true);
+        Platform.runLater(() -> adicionarCidadeText.requestFocus());//Colocando o Foco
     }
     
     @FXML
     private void selecionarCidade() {
-        
+        cidadeBox.setVisible(true);
+        adicionarCidadeBox.setVisible(false);
+        Formatter.limpar(adicionarCidadeText);
+        Platform.runLater(() -> cidadeComboBox.requestFocus());//Colocando o Foco
     }
     
     @FXML
     private void adicionarBairro() {
-        
+        bairroBox.setVisible(false);
+        adicionarBairroBox.setVisible(true);
+        Platform.runLater(() -> adicionarBairroText.requestFocus());//Colocando o Foco
     }
     
     @FXML
     private void selecionarBairro() {
-        
+        bairroBox.setVisible(true);
+        adicionarBairroBox.setVisible(false);
+        Formatter.limpar(adicionarBairroText);
+        Platform.runLater(() -> bairroComboBox.requestFocus());//Colocando o Foco
     }
     
     private void sincronizarBancoDadosCidade() {
@@ -497,7 +521,7 @@ public class TelaAdicionarVendaController extends AnchorPane {
         worker.execute();
     }
     
-     private void chamarAlerta(String mensagem) {
+    private void chamarAlerta(String mensagem) {
         Platform.runLater(new Runnable() {
             @Override
             public void run() {
