@@ -63,11 +63,15 @@ public class ProdutosConfiguracoes implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+
+        editarCategoriaButton.disableProperty().bind(categoriaTable.getSelectionModel().selectedItemProperty().isNull());
+        editarMarcaButton.disableProperty().bind(marcaTable.getSelectionModel().selectedItemProperty().isNull());
+        editarUnidadeButton.disableProperty().bind(unidadesTable.getSelectionModel().selectedItemProperty().isNull());
         
         removerCategoriaButton.disableProperty().bind(categoriaTable.getSelectionModel().selectedItemProperty().isNull());
         removerMarcaButton.disableProperty().bind(marcaTable.getSelectionModel().selectedItemProperty().isNull());
         removerUnidadeButton.disableProperty().bind(unidadesTable.getSelectionModel().selectedItemProperty().isNull());
-
+        
         sincronizarBancoDadosCategoria();
         sincronizarBancoDadosMarca();
         sincronizarBancoDadosUnidade();
@@ -79,26 +83,30 @@ public class ProdutosConfiguracoes implements Initializable {
         Stage palco = new Stage();
         palco.initModality(Modality.APPLICATION_MODAL);//Impede de clicar na tela em plano de fundo
         palco.centerOnScreen();
-        palco.initStyle(StageStyle.UNDECORATED);//Remove a barra de menu
         
-        AdicionarProdutoDescricaoController adicionarCategoria = new AdicionarProdutoDescricaoController(palco, Tipo.CATEGORIA);
+        AdicionarProdutoDescricaoController adicionarCategoria = new AdicionarProdutoDescricaoController(palco, Tipo.CATEGORIA, true);
         palco.setScene(new Scene(adicionarCategoria));
         palco.showAndWait();
         
-        CategoriaProduto novaCategoria = adicionarCategoria.getCategoriaProduto();
+        if (adicionarCategoria.RESULTADO) {
+            CategoriaProduto novaCategoria = adicionarCategoria.getCategoriaProduto();
         
-        Long id = null;
-        try {
-            id = ControleDAO.getBanco().getCategoriaProdutoDAO().inserir(novaCategoria);
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
+            Long id = null;
+            try {
+                id = ControleDAO.getBanco().getCategoriaProdutoDAO().inserir(novaCategoria);
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
 
-        if (id == null) {//Erro ao inserir item no Banco de Dados
-            Alerta.erro("Erro ao criar nova Categoria de Produto");
-        } else {
-            novaCategoria.setId(id);
+            if (id == null) {//Erro ao inserir item no Banco de Dados
+                Alerta.erro("Erro ao criar nova Categoria de Produto");
+            } else {
+                Alerta.info("Categoria de Produto adicionada com sucesso!");
+                novaCategoria.setId(id);
+                categoriaTable.getItems().add(novaCategoria);
+            }
         }
+        
     }
 
     @FXML
@@ -106,25 +114,28 @@ public class ProdutosConfiguracoes implements Initializable {
         Stage palco = new Stage();
         palco.initModality(Modality.APPLICATION_MODAL);//Impede de clicar na tela em plano de fundo
         palco.centerOnScreen();
-        palco.initStyle(StageStyle.UNDECORATED);//Remove a barra de menu
         
-        AdicionarProdutoDescricaoController adicionarMarca = new AdicionarProdutoDescricaoController(palco, Tipo.MARCA);
+        AdicionarProdutoDescricaoController adicionarMarca = new AdicionarProdutoDescricaoController(palco, Tipo.MARCA, true);
         palco.setScene(new Scene(adicionarMarca));
         palco.showAndWait();
         
-        Marca novaMarca = adicionarMarca.getMarca();
+        if (adicionarMarca.RESULTADO) {
+            Marca novaMarca = adicionarMarca.getMarca();
         
-        Long id = null;
-        try {
-            id = ControleDAO.getBanco().getMarcaDAO().inserir(novaMarca);
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
+            Long id = null;
+            try {
+                id = ControleDAO.getBanco().getMarcaDAO().inserir(novaMarca);
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
 
-        if (id == null) {//Erro ao inserir item no Banco de Dados
-            Alerta.erro("Erro ao criar nova Marca");
-        } else {
-            novaMarca.setId(id);
+            if (id == null) {//Erro ao inserir item no Banco de Dados
+                Alerta.erro("Erro ao criar nova Marca");
+            } else {
+                Alerta.info("Marca adicionada com sucesso!");
+                novaMarca.setId(id);
+                marcaTable.getItems().add(novaMarca);
+            }
         }
     }
 
@@ -133,51 +144,137 @@ public class ProdutosConfiguracoes implements Initializable {
         Stage palco = new Stage();
         palco.initModality(Modality.APPLICATION_MODAL);//Impede de clicar na tela em plano de fundo
         palco.centerOnScreen();
-        palco.initStyle(StageStyle.UNDECORATED);//Remove a barra de menu
         
-        AdicionarProdutoDescricaoController adicionarUnidade = new AdicionarProdutoDescricaoController(palco, Tipo.UNIDADE);
+        AdicionarProdutoDescricaoController adicionarUnidade = new AdicionarProdutoDescricaoController(palco, Tipo.UNIDADE, true);
         palco.setScene(new Scene(adicionarUnidade));
         palco.showAndWait();
         
-        UnidadeMedida novaUnidade = adicionarUnidade.getUnidadeMedida();
+        if (adicionarUnidade.RESULTADO) {
+            UnidadeMedida novaUnidade = adicionarUnidade.getUnidadeMedida();
         
-        Long id = null;
-        try {
-            id = ControleDAO.getBanco().getUnidadeMedidaDAO().inserir(novaUnidade);
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
+            Long id = null;
+            try {
+                id = ControleDAO.getBanco().getUnidadeMedidaDAO().inserir(novaUnidade);
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
 
-        if (id == null) {//Erro ao inserir item no Banco de Dados
-            Alerta.erro("Erro ao criar nova Unidade de Medida");
-        } else {
-            novaUnidade.setId(id);
+            if (id == null) {//Erro ao inserir item no Banco de Dados
+                Alerta.erro("Erro ao criar nova Unidade de Medida");
+            } else {
+                Alerta.info("Unidade de Medida adicionada com sucesso!");
+                novaUnidade.setId(id);
+                unidadesTable.getItems().add(novaUnidade);
+            }
         }
     }
     
     @FXML
     private void editarCategoria(ActionEvent event) {
+        CategoriaProduto categoria = categoriaTable.getSelectionModel().getSelectedItem();
+        
+        Stage palco = new Stage();
+        palco.initModality(Modality.APPLICATION_MODAL);//Impede de clicar na tela em plano de fundo
+        palco.centerOnScreen();
+        
+        AdicionarProdutoDescricaoController editarCategoria = new AdicionarProdutoDescricaoController(palco, Tipo.CATEGORIA, false);
+        editarCategoria.setCategoriaProduto(categoria);
+        
+        palco.setScene(new Scene(editarCategoria));
+        palco.showAndWait();
+        
+        if (editarCategoria.RESULTADO) {
+            categoria = editarCategoria.getCategoriaProduto();
+            
+            try {
+                if (ControleDAO.getBanco().getCategoriaProdutoDAO().editar(categoria)) {
+                    Alerta.info("Dados alterados com sucesso!");
+                    sincronizarBancoDadosCategoria();
+                } else {
+                    Alerta.erro("Erro ao elterar dados!");
+                }
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        }
     }
 
     @FXML
     private void editarMarca(ActionEvent event) {
+        Marca marca = marcaTable.getSelectionModel().getSelectedItem();
+        
+        Stage palco = new Stage();
+        palco.initModality(Modality.APPLICATION_MODAL);//Impede de clicar na tela em plano de fundo
+        palco.centerOnScreen();
+        
+        AdicionarProdutoDescricaoController editarMarca = new AdicionarProdutoDescricaoController(palco, Tipo.MARCA, false);
+        editarMarca.setMarca(marca);
+        
+        palco.setScene(new Scene(editarMarca));
+        palco.showAndWait();
+        
+        if (editarMarca.RESULTADO) {
+            marca = editarMarca.getMarca();
+            
+            try {
+                if (ControleDAO.getBanco().getMarcaDAO().editar(marca)) {
+                    Alerta.info("Dados alterados com sucesso!");
+                    sincronizarBancoDadosMarca();
+                } else {
+                    Alerta.erro("Erro ao elterar dados!");
+                }
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        }
     }
 
     @FXML
     private void editarUnidade(ActionEvent event) {
+        UnidadeMedida unidade = unidadesTable.getSelectionModel().getSelectedItem();
+        
+        Stage palco = new Stage();
+        palco.initModality(Modality.APPLICATION_MODAL);//Impede de clicar na tela em plano de fundo
+        palco.centerOnScreen();
+        
+        AdicionarProdutoDescricaoController editarUnidade = new AdicionarProdutoDescricaoController(palco, Tipo.UNIDADE, false);
+        editarUnidade.setUnidadeMedida(unidade);
+        
+        palco.setScene(new Scene(editarUnidade));
+        palco.showAndWait();
+        
+        if (editarUnidade.RESULTADO) {
+            unidade = editarUnidade.getUnidadeMedida();
+            
+            try {
+                if (ControleDAO.getBanco().getUnidadeMedidaDAO().editar(unidade)) {
+                    Alerta.info("Dados alterados com sucesso!");
+                    sincronizarBancoDadosCategoria();
+                } else {
+                    Alerta.erro("Erro ao elterar dados!");
+                }
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        }
     }
     
     @FXML
     private void removerCategoria(ActionEvent event) {
         CategoriaProduto categoria = categoriaTable.getSelectionModel().getSelectedItem();
 
-        Dialogo.Resposta resposta = Alerta.confirmar("Excluir categoria " + categoria.getDescricao() + " ?");
+        String alerta = "Deseja excluir categoria " + categoria.getDescricao() + " ? "
+                + "Todas os produtos com essa categoria também serão excluídos!";
+        Dialogo.Resposta resposta = Alerta.confirmar(alerta);
 
         if (resposta == Dialogo.Resposta.YES) {
             try {
-                ControleDAO.getBanco().getCategoriaProdutoDAO().excluir(categoria.getId().intValue());
+                if (ControleDAO.getBanco().getCategoriaProdutoDAO().excluir(categoria.getId().intValue())) {
+                    Alerta.info("Categoria de Produto removida com sucesso!");
+                } else {
+                    Alerta.erro("Erro ao remover Categoria de Produto");
+                }
             } catch (SQLException ex) {
-                //Logger.getLogger(TelaConsultarClientesController.class.getName()).log(Level.SEVERE, null, ex);
                 ex.printStackTrace();
             }
             this.sincronizarBancoDadosCategoria();
@@ -191,13 +288,18 @@ public class ProdutosConfiguracoes implements Initializable {
     private void removerMarca(ActionEvent event) {
         Marca marca = marcaTable.getSelectionModel().getSelectedItem();
 
-        Dialogo.Resposta resposta = Alerta.confirmar("Excluir marca " + marca.getDescricao() + " ?");
+        String alerta = "Deseja excluir marca " + marca.getDescricao() + " ? "
+                + "Todas os produtos com essa marca também serão excluídos!";
+        Dialogo.Resposta resposta = Alerta.confirmar(alerta);
 
         if (resposta == Dialogo.Resposta.YES) {
             try {
-                ControleDAO.getBanco().getMarcaDAO().excluir(marca.getId().intValue());
+                if (ControleDAO.getBanco().getMarcaDAO().excluir(marca.getId().intValue())) {
+                    Alerta.info("Marca removida com sucesso!");
+                } else {
+                    Alerta.erro("Erro ao remover Marca");
+                }
             } catch (SQLException ex) {
-                //Logger.getLogger(TelaConsultarClientesController.class.getName()).log(Level.SEVERE, null, ex);
                 ex.printStackTrace();
             }
             this.sincronizarBancoDadosMarca();
@@ -211,13 +313,18 @@ public class ProdutosConfiguracoes implements Initializable {
     private void removerUnidade(ActionEvent event) {
         UnidadeMedida unidade = unidadesTable.getSelectionModel().getSelectedItem();
 
-        Dialogo.Resposta resposta = Alerta.confirmar("Excluir unidade " + unidade.getDescricao() + " ?");
+        String alerta = "Deseja excluir unidade " + unidade.getDescricao() + " ? "
+                + "Todas os produtos com essa unidade também serão excluídos!";
+        Dialogo.Resposta resposta = Alerta.confirmar(alerta);
 
         if (resposta == Dialogo.Resposta.YES) {
             try {
-                ControleDAO.getBanco().getUnidadeMedidaDAO().excluir(unidade.getId().intValue());
+                if (ControleDAO.getBanco().getUnidadeMedidaDAO().excluir(unidade.getId().intValue())) {
+                    Alerta.info("Unidade de Medida removida com sucesso!");
+                } else {
+                    Alerta.erro("Erro ao remover Unidade de Medida");
+                }
             } catch (SQLException ex) {
-                //Logger.getLogger(TelaConsultarClientesController.class.getName()).log(Level.SEVERE, null, ex);
                 ex.printStackTrace();
             }
             this.sincronizarBancoDadosUnidade();
@@ -319,8 +426,8 @@ public class ProdutosConfiguracoes implements Initializable {
         //Transforma a lista em uma Lista Observavel
         ObservableList data = FXCollections.observableArrayList(listaUnidadeMedidas);
         
-        this.descricaoMarcaColumn.setCellValueFactory(new PropertyValueFactory<>("descricao"));
         this.abreviaturaUnidadeColumn.setCellValueFactory(new PropertyValueFactory<>("abreviacao"));
+        this.descricaoUnidadeColumn.setCellValueFactory(new PropertyValueFactory<>("descricao"));
         this.unidadesTable.setItems(data);
     }
     
@@ -333,6 +440,4 @@ public class ProdutosConfiguracoes implements Initializable {
         });
     }
 
-    
-    
 }

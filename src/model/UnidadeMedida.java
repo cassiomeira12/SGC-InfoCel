@@ -47,7 +47,7 @@ public class UnidadeMedida {
 
     @Override
     public String toString() {
-        return descricao;
+        return abreviacao + " - " + descricao;
     }
 
 }
