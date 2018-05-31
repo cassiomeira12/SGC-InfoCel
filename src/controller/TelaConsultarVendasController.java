@@ -13,6 +13,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -26,16 +27,14 @@ import model.Cliente;
 import model.Venda;
 import util.alerta.Alerta;
 
-/**
- * FXML Controller class
- *
- * @author cassio
- */
 public class TelaConsultarVendasController extends AnchorPane {
 
     private BorderPane painelPrincipal;
 
     private List<Venda> listaVendas;
+    
+    private List<String> listaMes;
+    private List<String> listaAno;
 
     @FXML
     private TableView<Venda> vendasTable;
@@ -49,7 +48,11 @@ public class TelaConsultarVendasController extends AnchorPane {
     private TableColumn<Venda, Float> totalColumn;
     @FXML
     private Button visualizarButton;
-
+    @FXML
+    private ComboBox<String> mesComboBox;
+    @FXML
+    private ComboBox<String> anoComboBox;
+    
 
     public TelaConsultarVendasController(BorderPane painelPrincipal) {
         this.painelPrincipal = painelPrincipal;
@@ -145,13 +148,57 @@ public class TelaConsultarVendasController extends AnchorPane {
         //Transforma a lista em uma Lista Observavel
         ObservableList data = FXCollections.observableArrayList(listaVendas);
         
-       // this.clienteColumn.setCellValueFactory(new PropertyValueFactory<>("venda.cliente.nome"));//Adiciona o valor da variavel Nome
-        //this.vendedorColumn.setCellValueFactory(new PropertyValueFactory<>("nome"));
-        this.dataColumn.setCellValueFactory(new PropertyValueFactory<>("data"));//Adiciona o valor da variavel Telefone
+        this.clienteColumn.setCellValueFactory(new PropertyValueFactory<>("cliente"));
+        this.vendedorColumn.setCellValueFactory(new PropertyValueFactory<>("administrador"));
+        this.dataColumn.setCellValueFactory(new PropertyValueFactory<>("dataEditada"));//Adiciona o valor da variavel Telefone
         this.totalColumn.setCellValueFactory(new PropertyValueFactory<>("precoTotal"));
         this.vendasTable.setItems(data);//Adiciona a lista de clientes na Tabela
     }
 
+    private void sincronizarBancoDadosCombo() {
+        //Metodo executado numa Thread separada
+        SwingWorker<List, List> worker1 = new SwingWorker<List, List>() {
+            @Override
+            protected List<Venda> doInBackground() throws Exception {
+                return ControleDAO.getBanco().getVendaDAO().listar();
+            }
+
+            //Metodo chamado apos terminar a execucao numa Thread separada
+            @Override
+            protected void done() {
+                super.done(); //To change body of generated methods, choose Tools | Templates.
+                try {
+                    listaVendas = this.get();
+                    atualizarTabela();
+                } catch (InterruptedException | ExecutionException ex) {
+                    chamarAlerta("Erro ao consultar Banco de Dados");
+                }
+            }
+        };
+        worker1.execute();
+        
+        //Metodo executado numa Thread separada
+        SwingWorker<List, List> worker2 = new SwingWorker<List, List>() {
+            @Override
+            protected List<Venda> doInBackground() throws Exception {
+                return ControleDAO.getBanco().getVendaDAO().listar();
+            }
+
+            //Metodo chamado apos terminar a execucao numa Thread separada
+            @Override
+            protected void done() {
+                super.done(); //To change body of generated methods, choose Tools | Templates.
+                try {
+                    listaVendas = this.get();
+                    atualizarTabela();
+                } catch (InterruptedException | ExecutionException ex) {
+                    chamarAlerta("Erro ao consultar Banco de Dados");
+                }
+            }
+        };
+        worker2.execute();
+    }
+    
     private void sincronizarBancoDados() {
         //Metodo executado numa Thread separada
         SwingWorker<List, List> worker = new SwingWorker<List, List>() {

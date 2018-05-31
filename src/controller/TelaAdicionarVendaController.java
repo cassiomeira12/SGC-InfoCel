@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package controller;
 
 import banco.ControleDAO;
@@ -50,11 +45,6 @@ import util.Formatter;
 import util.alerta.Alerta;
 import util.alerta.Dialogo;
 
-/**
- * FXML Controller class
- *
- * @author cassio
- */
 public class TelaAdicionarVendaController extends AnchorPane {
 
     private BorderPane painelPrincipal;
@@ -76,7 +66,9 @@ public class TelaAdicionarVendaController extends AnchorPane {
     @FXML
     private TextField cidadeText;
     @FXML
-    private TextField enderecoText;
+    private TextField ruaText;
+    @FXML
+    private TextField numeroText;
     @FXML
     private DatePicker dataDatePicker;
     @FXML
@@ -129,7 +121,7 @@ public class TelaAdicionarVendaController extends AnchorPane {
         Formatter.mascaraRG(rgText);//Formatador para Rg
         Formatter.mascaraTelefone(telefoneText);//Formatador para Telefone
 
-        Formatter.toUpperCase(nomeText, cidadeText, enderecoText);
+        Formatter.toUpperCase(nomeText, cidadeText, ruaText);
 
         this.editarClienteCheckBox.setVisible(false);//Ocultando componente
         this.editarClienteCheckBox.setSelected(true);//Deixando o CheckBox selecionado
@@ -147,7 +139,7 @@ public class TelaAdicionarVendaController extends AnchorPane {
         cpfText.disableProperty().bind(editarClienteCheckBox.selectedProperty().not());
         rgText.disableProperty().bind(editarClienteCheckBox.selectedProperty().not());
         cidadeText.disableProperty().bind(editarClienteCheckBox.selectedProperty().not());
-        enderecoText.disableProperty().bind(editarClienteCheckBox.selectedProperty().not());
+        ruaText.disableProperty().bind(editarClienteCheckBox.selectedProperty().not());
 
         //Desativa os Botoes de Excluir quando nenhum item na tabela esta selecionado
         removerButton.disableProperty().bind(produtosTable.getSelectionModel().selectedItemProperty().isNull());
@@ -185,7 +177,7 @@ public class TelaAdicionarVendaController extends AnchorPane {
 
     @FXML
     private void cancelarOperacao() {
-        boolean vazio = Formatter.noEmpty(nomeText, telefoneText, cpfText, rgText, cidadeText, enderecoText);
+        boolean vazio = Formatter.noEmpty(nomeText, telefoneText, cpfText, rgText, cidadeText, ruaText);
         boolean carrinhoVazio = novaVenda.isEmpty();
 
         if (cliente != null || vazio || !carrinhoVazio) {
@@ -256,7 +248,7 @@ public class TelaAdicionarVendaController extends AnchorPane {
     @FXML
     private void finalizarCompra() {
         boolean novoCliente = this.cliente == null;
-        boolean vazio = Formatter.isEmpty(nomeText, telefoneText, cpfText, rgText, cidadeText, enderecoText);
+        boolean vazio = Formatter.isEmpty(nomeText, telefoneText, cpfText, rgText, cidadeText, ruaText);
         boolean carrinhoVazio = novaVenda.isEmpty();
 
         Cliente cliente = null;
@@ -373,7 +365,7 @@ public class TelaAdicionarVendaController extends AnchorPane {
         this.cpfText.setText(cliente.getCpf());
         this.rgText.setText(cliente.getRg());
         this.cidadeText.setText(cliente.getEndereco().getBairro().getCidade().getNome());
-        this.enderecoText.setText(cliente.getEndereco().toString());
+        this.ruaText.setText(cliente.getEndereco().toString());
     }
 
     private void atualizarTabela() {

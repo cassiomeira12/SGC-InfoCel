@@ -76,7 +76,7 @@
                         </HBox>
                         <TableView fx:id="vendasTable" focusTraversable="false" prefHeight="450.0">
                            <columns>
-                              <TableColumn fx:id="clineteColumn" maxWidth="250.0" minWidth="250.0" prefWidth="250.0" text="Cliente" />
+                              <TableColumn fx:id="clienteColumn" maxWidth="250.0" minWidth="250.0" prefWidth="250.0" text="Cliente" />
                               <TableColumn fx:id="vendedorColumn" maxWidth="250.0" minWidth="250.0" prefWidth="250.0" text="Vendedor" />
                               <TableColumn fx:id="dataColumn" maxWidth="100.0" minWidth="100.0" prefWidth="100.0" text="Data" />
                               <TableColumn fx:id="totalColumn" maxWidth="100.0" minWidth="100.0" prefWidth="100.0" text="Total R$" />

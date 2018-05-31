@@ -2,6 +2,7 @@ package model;
 
 import java.util.ArrayList;
 import java.util.List;
+import util.DateUtils;
 
 public class Venda {
 
@@ -84,6 +85,10 @@ public class Venda {
 
     public Long getData() {
         return data;
+    }
+    
+    public String getDataEditada() {
+        return DateUtils.formatDate(data);
     }
 
     public void setData(Long data) {

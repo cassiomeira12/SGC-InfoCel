@@ -4,7 +4,7 @@ public class Cidade {
 
     private Long id;
     private String nome;
-
+    
     public Cidade(Long id, String descricao) {
         this.id = id;
         this.nome = descricao;
