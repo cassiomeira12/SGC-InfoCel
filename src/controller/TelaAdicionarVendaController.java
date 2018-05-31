@@ -151,9 +151,8 @@ public class TelaAdicionarVendaController extends AnchorPane {
         Formatter.mascaraCPF(cpfText);//Formatador para CPF
         Formatter.mascaraRG(rgText);//Formatador para Rg
         Formatter.mascaraTelefone(telefoneText);//Formatador para Telefone
-        Formatter.mascaraNumero(ruaText);
-        
-        Formatter.toUpperCase(nomeText, adicionarCidadeText, ruaText, adicionarBairroText);
+
+        Formatter.toUpperCase(nomeText, adicionarCidadeText, ruaText, adicionarBairroText, numeroText);
 
         this.editarClienteCheckBox.setVisible(false);//Ocultando componente
         this.editarClienteCheckBox.setSelected(true);//Deixando o CheckBox selecionado
@@ -186,7 +185,7 @@ public class TelaAdicionarVendaController extends AnchorPane {
             //Selecionando o Administrador que fez o Login
             this.vendedorComboBox.getSelectionModel().select(LoginController.admLogado);
         } catch (SQLException ex) {
-            Logger.getLogger(TelaAdicionarVendaController.class.getName()).log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
         }
         
         this.dataDatePicker.setValue(LocalDate.now());//Adicionando Data do dia atual
@@ -314,8 +313,8 @@ public class TelaAdicionarVendaController extends AnchorPane {
             if (resposta == Dialogo.Resposta.YES) {
 
                 if (novoCliente) {//Criar um Novo Cliente
-                    cliente = criarCliente();
                     try {
+                        cliente = criarCliente();
                         Long id = ControleDAO.getBanco().getClienteDAO().inserir(cliente);
                         if (id == null) {
                             Alerta.erro("Erro ao cadastrar Novo Usuário");
@@ -326,9 +325,14 @@ public class TelaAdicionarVendaController extends AnchorPane {
                         }
                     } catch (Exception e) {
                         Alerta.erro("Erro ao cadastrar Novo Usuário");
+                        e.printStackTrace();
                     }
                 } else {//Cliente selecionado
-                    cliente = atualizarCliente(this.cliente);
+                    try {
+                        cliente = atualizarCliente(this.cliente);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                     if (editarClienteCheckBox.isSelected()) {//Houve modificacoes
                         try {
                             if (ControleDAO.getBanco().getClienteDAO().editar(cliente)) {
@@ -396,22 +400,72 @@ public class TelaAdicionarVendaController extends AnchorPane {
         }
     }
 
-    private Cliente criarCliente() {
+    private Cliente criarCliente() throws Exception {
         String nome = nomeText.getText();
         String telefone = telefoneText.getText();
         String cpf = cpfText.getText();
         String rg = rgText.getText();
-        //String cidade = cidadeText.getText();
+        String rua = ruaText.getText();
+        String numero = numeroText.getText();
+        LocalDate data = dataDatePicker.getValue();
+        
+        Cidade cidade = null;
+        Bairro bairro = null;
+        
+        if (cidadeBox.isVisible()) {
+            cidade = cidadeComboBox.getValue();
+        } else if (adicionarCidadeBox.isVisible()) {
+            cidade = new Cidade(null, adicionarCidadeText.getText());
+            //Long id = ControleDAO.getBanco().getCidadeDAO().inserir(cidade);
+            //cidade.setId(id);
+        }
+        
+        if (bairroBox.isVisible()) {
+            bairro = bairroComboBox.getValue();
+        } else if (adicionarBairroBox.isVisible()) {
+            bairro = new Bairro(null, adicionarBairroText.getText(), cidade);
+            //Long id = ControleDAO.getBanco().getBairroDAO().inserir(bairro);
+            //bairro.setId(id);
+        }
+        
+        Endereco endereco = new Endereco(null, bairro, rua, numero);
+        //Long id = ControleDAO.getBanco().getEnderecoDAO().inserir(endereco);
+        //endereco.setId(id);
 
-        return new Cliente(null, nome, endereco, cpf, rg, telefone, null, true);
+        return new Cliente(null, nome, endereco, cpf, rg, telefone, DateUtils.getLong(data), true);
     }
 
-    private Cliente atualizarCliente(Cliente cliente) {
+    private Cliente atualizarCliente(Cliente cliente) throws Exception {
         cliente.setNome(nomeText.getText());
         cliente.setTelefone(telefoneText.getText());
         cliente.setCpf(cpfText.getText());
         cliente.setRg(rgText.getText());
-        cliente.setEndereco(endereco);
+        String rua = ruaText.getText();
+        String numero = numeroText.getText();
+        
+        Cidade cidade = null;
+        Bairro bairro = null;
+        
+        if (cidadeBox.isVisible()) {
+            cidade = cidadeComboBox.getValue();
+        } else if (adicionarCidadeBox.isVisible()) {
+            cidade = new Cidade(null, adicionarCidadeText.getText());
+            Long id = ControleDAO.getBanco().getCidadeDAO().inserir(cidade);
+            cidade.setId(id);
+        }
+        
+        if (bairroBox.isVisible()) {
+            bairro = bairroComboBox.getValue();
+        } else if (adicionarBairroBox.isVisible()) {
+            bairro = new Bairro(null, adicionarBairroText.getText(), cidade);
+            Long id = ControleDAO.getBanco().getBairroDAO().inserir(bairro);
+            bairro.setId(id);
+        }
+        
+        cliente.getEndereco().setBairro(bairro);
+        cliente.getEndereco().setRua(rua);
+        cliente.getEndereco().setNumero(numero);
+        
         return cliente;
     }
 
@@ -421,7 +475,20 @@ public class TelaAdicionarVendaController extends AnchorPane {
         this.cpfText.setText(cliente.getCpf());
         this.rgText.setText(cliente.getRg());
         //this.cidadeText.setText(cliente.getEndereco().getBairro().getCidade().getNome());
-        this.ruaText.setText(cliente.getEndereco().toString());
+        
+        Endereco endereco = cliente.getEndereco();
+        Bairro bairro = endereco.getBairro();
+        Cidade cidade = bairro.getCidade();
+        
+        this.selecionarCidade();
+        this.cidadeComboBox.getSelectionModel().select(cidade);
+        sincronizarBancoDadosBairro(cidade);
+        
+        this.selecionarBairro();
+        this.bairroComboBox.getSelectionModel().select(bairro);
+        
+        this.ruaText.setText(endereco.getRua());
+        this.numeroText.setText(endereco.getNumero());
     }
 
     private void atualizarTabela() {
@@ -443,6 +510,7 @@ public class TelaAdicionarVendaController extends AnchorPane {
     private void adicionarCidade() {
         cidadeBox.setVisible(false);
         adicionarCidadeBox.setVisible(true);
+        adicionarBairro();
         Platform.runLater(() -> adicionarCidadeText.requestFocus());//Colocando o Foco
     }
     

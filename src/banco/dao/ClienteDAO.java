@@ -32,7 +32,7 @@ public class ClienteDAO extends DAO {
         }
 
         stm = getConector().prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
-
+        
         stm.setString(1, cliente.getNome());
         stm.setLong(2, cliente.getEndereco().getId());
         stm.setString(3, cliente.getCpf());
