@@ -72,7 +72,7 @@ public class BairroDAO extends DAO {
     /**
      * Consultar todas receita cadastradas na base de dados
      */
-    private List<Bairro> buscarPorCidade(Cidade cidade) throws SQLException {
+    public List<Bairro> buscarPorCidade(Cidade cidade) throws SQLException {
 
         List<Bairro> bairros = new ArrayList<>();
 
@@ -90,7 +90,7 @@ public class BairroDAO extends DAO {
         return bairros;
     }
 
-    private List<Bairro> buscarPorNomeECidade(String nome, Cidade cidade) throws SQLException {
+    public List<Bairro> buscarPorNomeECidade(String nome, Cidade cidade) throws SQLException {
 
         List<Bairro> bairros = new ArrayList<>();
 

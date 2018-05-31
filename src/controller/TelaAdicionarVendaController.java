@@ -4,6 +4,8 @@ import banco.ControleDAO;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.util.List;
+import java.util.concurrent.ExecutionException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Platform;
@@ -26,9 +28,11 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import javax.swing.SwingWorker;
 import model.Administrador;
 import model.Bairro;
 import model.CategoriaProduto;
@@ -52,6 +56,9 @@ public class TelaAdicionarVendaController extends AnchorPane {
     private Cliente cliente;
     Endereco endereco = new Endereco(1l, new Bairro(1l, "Centro", new Cidade(1l, "Vitória da Conquista")), "Rua francisco santos", "149 A");
     private Venda novaVenda;
+    
+    List<Cidade> listaCidades;
+    List<Bairro> listaBairros;
 
     @FXML
     private CheckBox editarClienteCheckBox;
@@ -63,12 +70,35 @@ public class TelaAdicionarVendaController extends AnchorPane {
     private TextField cpfText;
     @FXML
     private TextField rgText;
+    
+    
     @FXML
-    private TextField cidadeText;
+    private HBox cidadeBox;
+    @FXML
+    private ComboBox<Cidade> cidadeComboBox;
+    
+    @FXML
+    private HBox adicionarCidadeBox;
+    @FXML
+    private TextField adicionarCidadeText;
+    
+    @FXML
+    private HBox bairroBox;
+    @FXML
+    private ComboBox<Bairro> bairroComboBox;
+    
+    @FXML
+    private HBox adicionarBairroBox;
+    @FXML
+    private TextField adicionarBairroText;
+    
     @FXML
     private TextField ruaText;
     @FXML
     private TextField numeroText;
+    
+    
+    
     @FXML
     private DatePicker dataDatePicker;
     @FXML
@@ -121,7 +151,7 @@ public class TelaAdicionarVendaController extends AnchorPane {
         Formatter.mascaraRG(rgText);//Formatador para Rg
         Formatter.mascaraTelefone(telefoneText);//Formatador para Telefone
 
-        Formatter.toUpperCase(nomeText, cidadeText, ruaText);
+        Formatter.toUpperCase(nomeText, adicionarCidadeText, ruaText, adicionarBairroText);
 
         this.editarClienteCheckBox.setVisible(false);//Ocultando componente
         this.editarClienteCheckBox.setSelected(true);//Deixando o CheckBox selecionado
@@ -138,7 +168,7 @@ public class TelaAdicionarVendaController extends AnchorPane {
         telefoneText.disableProperty().bind(editarClienteCheckBox.selectedProperty().not());
         cpfText.disableProperty().bind(editarClienteCheckBox.selectedProperty().not());
         rgText.disableProperty().bind(editarClienteCheckBox.selectedProperty().not());
-        cidadeText.disableProperty().bind(editarClienteCheckBox.selectedProperty().not());
+        //cidadeText.disableProperty().bind(editarClienteCheckBox.selectedProperty().not());
         ruaText.disableProperty().bind(editarClienteCheckBox.selectedProperty().not());
 
         //Desativa os Botoes de Excluir quando nenhum item na tabela esta selecionado
@@ -169,6 +199,14 @@ public class TelaAdicionarVendaController extends AnchorPane {
                 parcelasSpinner.setVisible(true);//Ocultando Spinner de Parcelas
             }
         });
+        
+
+        cidadeComboBox.setOnAction((e) -> {
+            Cidade c = cidadeComboBox.getValue();
+            System.out.println(c.toString());
+        });
+        
+        sincronizarBancoDadosCidade();
     }
 
     private void adicionarPainelInterno(AnchorPane novaTela) {
@@ -177,7 +215,7 @@ public class TelaAdicionarVendaController extends AnchorPane {
 
     @FXML
     private void cancelarOperacao() {
-        boolean vazio = Formatter.noEmpty(nomeText, telefoneText, cpfText, rgText, cidadeText, ruaText);
+        boolean vazio = Formatter.noEmpty(nomeText, telefoneText, cpfText, rgText, ruaText);
         boolean carrinhoVazio = novaVenda.isEmpty();
 
         if (cliente != null || vazio || !carrinhoVazio) {
@@ -248,7 +286,7 @@ public class TelaAdicionarVendaController extends AnchorPane {
     @FXML
     private void finalizarCompra() {
         boolean novoCliente = this.cliente == null;
-        boolean vazio = Formatter.isEmpty(nomeText, telefoneText, cpfText, rgText, cidadeText, ruaText);
+        boolean vazio = Formatter.isEmpty(nomeText, telefoneText, cpfText, rgText, ruaText);
         boolean carrinhoVazio = novaVenda.isEmpty();
 
         Cliente cliente = null;
@@ -345,7 +383,7 @@ public class TelaAdicionarVendaController extends AnchorPane {
         String telefone = telefoneText.getText();
         String cpf = cpfText.getText();
         String rg = rgText.getText();
-        String cidade = cidadeText.getText();
+        //String cidade = cidadeText.getText();
 
         return new Cliente(null, nome, endereco, cpf, rg, telefone, null, true);
     }
@@ -364,7 +402,7 @@ public class TelaAdicionarVendaController extends AnchorPane {
         this.telefoneText.setText(cliente.getTelefone());
         this.cpfText.setText(cliente.getCpf());
         this.rgText.setText(cliente.getRg());
-        this.cidadeText.setText(cliente.getEndereco().getBairro().getCidade().getNome());
+        //this.cidadeText.setText(cliente.getEndereco().getBairro().getCidade().getNome());
         this.ruaText.setText(cliente.getEndereco().toString());
     }
 
@@ -383,4 +421,85 @@ public class TelaAdicionarVendaController extends AnchorPane {
         this.totalLabel.setText(String.valueOf(novaVenda.getPrecoTotal()));
     }
 
+    @FXML
+    private void adicionarCidade() {
+        
+    }
+    
+    @FXML
+    private void selecionarCidade() {
+        
+    }
+    
+    @FXML
+    private void adicionarBairro() {
+        
+    }
+    
+    @FXML
+    private void selecionarBairro() {
+        
+    }
+    
+    private void sincronizarBancoDadosCidade() {
+        //Metodo executado numa Thread separada
+        SwingWorker<List, List> worker = new SwingWorker<List, List>() {
+            @Override
+            protected List<Cidade> doInBackground() throws Exception {
+                return ControleDAO.getBanco().getCidadeDAO().listar();
+            }
+
+            //Metodo chamado apos terminar a execucao numa Thread separada
+            @Override
+            protected void done() {
+                super.done(); //To change body of generated methods, choose Tools | Templates.
+                try {
+                    listaCidades = this.get();
+                    ObservableList cidades = FXCollections.observableArrayList(listaCidades);
+                    cidadeComboBox.setItems(cidades);
+                } catch (InterruptedException | ExecutionException ex) {
+                    chamarAlerta("Erro ao consultar Banco de Dados");
+                    ex.printStackTrace();
+                }
+            }
+        };
+
+        worker.execute();
+    }
+    
+    private void sincronizarBancoDadosBairro(Cidade cidade) {
+        //Metodo executado numa Thread separada
+        SwingWorker<List, List> worker = new SwingWorker<List, List>() {
+            @Override
+            protected List<Bairro> doInBackground() throws Exception {
+                return ControleDAO.getBanco().getBairroDAO().buscarPorCidade(cidade);
+            }
+
+            //Metodo chamado apos terminar a execucao numa Thread separada
+            @Override
+            protected void done() {
+                super.done(); //To change body of generated methods, choose Tools | Templates.
+                try {
+                    listaBairros = this.get();
+                    ObservableList bairros = FXCollections.observableArrayList(listaBairros);
+                    bairroComboBox.setItems(bairros);
+                } catch (InterruptedException | ExecutionException ex) {
+                    chamarAlerta("Erro ao consultar Banco de Dados");
+                    ex.printStackTrace();
+                }
+            }
+        };
+
+        worker.execute();
+    }
+    
+     private void chamarAlerta(String mensagem) {
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                Alerta.erro(mensagem);
+            }
+        });
+    }
+    
 }

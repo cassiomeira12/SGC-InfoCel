@@ -61,7 +61,7 @@
                      <columnConstraints>
                         <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="130.0" />
                         <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="120.0" />
-                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="200.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="220.0" />
                         <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="-Infinity" />
                         <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="100.0" />
                         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
@@ -79,20 +79,19 @@
                      <children>
                         <CheckBox fx:id="editarClienteCheckBox" focusTraversable="false" mnemonicParsing="false" text="Editar informações do Cliente" GridPane.columnSpan="3" />
                         <Button alignment="CENTER" mnemonicParsing="false" onAction="#pesquisarCliente" styleClass="button-pesquisar" text="Pesquisar Cliente" GridPane.columnIndex="6" />
-                        <TextField fx:id="nomeText" GridPane.columnSpan="6" GridPane.rowIndex="2" />
-                        <TextField fx:id="telefoneText" promptText="(XX)XXXXX-XXXX" GridPane.columnIndex="6" GridPane.rowIndex="2">
+                        <TextField fx:id="nomeText" maxWidth="1.7976931348623157E308" GridPane.columnSpan="6" GridPane.rowIndex="2" />
+                        <TextField fx:id="telefoneText" maxWidth="1.7976931348623157E308" promptText="(XX)XXXXX-XXXX" GridPane.columnIndex="6" GridPane.rowIndex="2">
                            <font>
                               <Font size="14.0" />
                            </font>
                         </TextField>
-                        <TextField fx:id="cpfText" promptText="XXX.XXX.XXX-XX" GridPane.rowIndex="4" />
-                        <TextField fx:id="rgText" promptText="XX.XXX.XXX-XX" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-                        <TextField fx:id="cidadeText" GridPane.columnIndex="2" GridPane.rowIndex="4" />
-                        <TextField fx:id="ruaText" GridPane.columnIndex="5" GridPane.rowIndex="4" />
-                        <DatePicker fx:id="dataDatePicker" GridPane.rowIndex="6" />
-                        <ComboBox fx:id="vendedorComboBox" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="6" />
-                        <ComboBox fx:id="formarPagComboBox" prefWidth="170.0" GridPane.columnIndex="3" GridPane.rowIndex="6" />
-                        <Spinner fx:id="parcelasSpinner" prefWidth="100.0" GridPane.columnIndex="4" GridPane.rowIndex="6" />
+                        <TextField fx:id="cpfText" maxWidth="1.7976931348623157E308" promptText="XXX.XXX.XXX-XX" GridPane.rowIndex="4" />
+                        <TextField fx:id="rgText" maxWidth="1.7976931348623157E308" promptText="XX.XXX.XXX-XX" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                        <TextField fx:id="ruaText" maxWidth="1.7976931348623157E308" GridPane.columnIndex="5" GridPane.rowIndex="4" />
+                        <DatePicker fx:id="dataDatePicker" maxWidth="1.7976931348623157E308" GridPane.rowIndex="6" />
+                        <ComboBox fx:id="vendedorComboBox" maxWidth="1.7976931348623157E308" GridPane.columnIndex="2" GridPane.rowIndex="6" />
+                        <ComboBox fx:id="formarPagComboBox" maxWidth="1.7976931348623157E308" GridPane.columnIndex="3" GridPane.rowIndex="6" />
+                        <Spinner fx:id="parcelasSpinner" maxWidth="1.7976931348623157E308" GridPane.columnIndex="4" GridPane.rowIndex="6" />
                         <Label text="Nome Completo" GridPane.rowIndex="1" />
                         <Label text="Telefone" GridPane.columnIndex="6" GridPane.rowIndex="1" />
                         <Label text="CPF" GridPane.rowIndex="3" />
@@ -103,10 +102,33 @@
                         <Label text="Vendedor" GridPane.columnIndex="2" GridPane.rowIndex="5" />
                         <Label text="Forma de Pagamento" GridPane.columnIndex="3" GridPane.rowIndex="5" />
                         <Label fx:id="parcelasLabel" text="Parcelas" GridPane.columnIndex="4" GridPane.rowIndex="5" />
-                        <TextField fx:id="bairroText" GridPane.columnIndex="3" GridPane.columnSpan="2" GridPane.rowIndex="4" />
                         <Label text="Bairro" GridPane.columnIndex="3" GridPane.rowIndex="3" />
                         <Label text="Número" GridPane.columnIndex="6" GridPane.rowIndex="3" />
-                        <TextField fx:id="numeroText" GridPane.columnIndex="6" GridPane.rowIndex="4" />
+                        <TextField fx:id="numeroText" maxWidth="1.7976931348623157E308" GridPane.columnIndex="6" GridPane.rowIndex="4" />
+                        <HBox fx:id="cidadeBox" alignment="CENTER" maxWidth="1.7976931348623157E308" spacing="5.0" GridPane.columnIndex="2" GridPane.rowIndex="4">
+                           <children>
+                              <ComboBox fx:id="cidadeComboBox" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS" />
+                              <Button mnemonicParsing="false" onAction="#adicionarCidade" styleClass="button-add" />
+                           </children>
+                        </HBox>
+                        <HBox fx:id="bairroBox" alignment="CENTER" maxWidth="1.7976931348623157E308" spacing="5.0" GridPane.columnIndex="3" GridPane.columnSpan="2" GridPane.rowIndex="4">
+                           <children>
+                              <ComboBox fx:id="bairroComboBox" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS" />
+                              <Button mnemonicParsing="false" onAction="#adicionarBairro" styleClass="button-add" />
+                           </children>
+                        </HBox>
+                        <HBox fx:id="adicionarCidadeBox" alignment="CENTER" spacing="5.0" GridPane.columnIndex="5" GridPane.rowIndex="6">
+                           <children>
+                              <TextField fx:id="adicionarCidadeText" maxWidth="1.7976931348623157E308" />
+                              <Button mnemonicParsing="false" onAction="#selecionarCidade" styleClass="button-deletar" />
+                           </children>
+                        </HBox>
+                        <HBox fx:id="adicionarBairrroBox" alignment="CENTER" layoutX="803.0" layoutY="200.0" spacing="5.0" GridPane.columnIndex="6" GridPane.rowIndex="6">
+                           <children>
+                              <TextField fx:id="adicionarBairroText" maxWidth="1.7976931348623157E308" />
+                              <Button mnemonicParsing="false" onAction="#selecionarBairro" styleClass="button-deletar" />
+                           </children>
+                        </HBox>
                      </children>
                      <VBox.margin>
                         <Insets top="10.0" />

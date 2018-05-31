@@ -69,7 +69,7 @@ public class CidadeDAO extends DAO {
 
         List<Cidade> cidades = new ArrayList<>();
 
-        String sql = "SELECT cidade* FROM cidade";
+        String sql = "SELECT cidade.* FROM cidade";
 
         stm = getConector().prepareStatement(sql);
         rs = stm.executeQuery(sql);
