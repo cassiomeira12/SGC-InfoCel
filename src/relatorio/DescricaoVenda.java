@@ -20,7 +20,7 @@ import net.sf.jasperreports.view.JasperViewer;
  *
  * @author dhonl
  */
-public class RelatorioVenda {
+public class DescricaoVenda {
 
     ConexaoBanco conn = new ConexaoBanco();
     Statement stm;
@@ -34,11 +34,11 @@ public class RelatorioVenda {
 
     JasperViewer view = new JasperViewer(jp, false);
 
-    public RelatorioVenda(String id) {
+    public DescricaoVenda(String id) {
         try {
             this.stm = conn.getConnection().createStatement();
         } catch (SQLException ex) {
-            Logger.getLogger(RelatorioVenda.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DescricaoVenda.class.getName()).log(Level.SEVERE, null, ex);
         }
         // consulta a ser mostrada no relatorio
         query = "select * from venda where id = " + id;
@@ -46,15 +46,20 @@ public class RelatorioVenda {
         try {
             rs = stm.executeQuery(query);
         } catch (SQLException ex) {
-            Logger.getLogger(RelatorioVenda.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DescricaoVenda.class.getName()).log(Level.SEVERE, null, ex);
         }
         jrRS = new JRResultSetDataSource(rs);
         parameters = new HashMap();
+        parameters.put("1", "1");
+        parameters.put("1", "1");
+        parameters.put("1", "1");
+        parameters.put("1", "1");
+        
         
         try { // caminho do arquivo jasper
-            src = new File("src/relatorio/relatorioVenda.jasper").getCanonicalPath();
+            src = new File("src/relatorio/descricaoVenda.jasper").getCanonicalPath();
         } catch (IOException ex) {
-            Logger.getLogger(RelatorioVenda.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DescricaoVenda.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         try {
