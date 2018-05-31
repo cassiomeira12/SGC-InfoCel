@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Platform;
@@ -24,6 +25,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import javax.swing.SwingWorker;
 import model.CategoriaProduto;
 import model.Marca;
 import model.Produto;
@@ -46,42 +48,12 @@ public class TelaAdicionarProdutoController extends AnchorPane {
     
     @FXML
     private TextField descricaoText;
-    
-    @FXML
-    private Label categoriaLabel;
-    @FXML
-    private HBox categoriaBox;
     @FXML
     private ComboBox<CategoriaProduto> categoriaComboBox;
     @FXML
-    private HBox novaCategoriaBox;
-    @FXML
-    private TextField novaCategoriaText;
-
-    @FXML
-    private Label marcaLabel;
-    @FXML
-    private HBox marcaBox;
-    @FXML
     private ComboBox<Marca> marcaComboBox;
-
-    @FXML
-    private HBox novaMarcaBox;
-    @FXML
-    private TextField novaMarcaText;
-
-    @FXML
-    private Label unidadeLabel;
-    @FXML
-    private HBox unidadeBox;
     @FXML
     private ComboBox<UnidadeMedida> unidadeMedidaCombo;
-
-    @FXML
-    private HBox novaUnidadeBox;
-    @FXML
-    private TextField novaUnidadeText;
-
     @FXML
     private TextField custoProdutoText;
     @FXML
@@ -109,27 +81,26 @@ public class TelaAdicionarProdutoController extends AnchorPane {
 
     @FXML
     public void initialize() {
-        this.novaCategoriaBox.setVisible(false);//Ocultando Nova Categoria
-        this.novaMarcaBox.setVisible(false);//Ocultando Nova Marca
-        this.novaUnidadeBox.setVisible(false);//Ocultando Nova Unidade
 
         //Adicionando Formatador de Texto
         Formatter.decimal(custoProdutoText);
         Formatter.decimal(valorProdutoText);
         Formatter.decimal(quantidadeText);
 
-        Formatter.toUpperCase(descricaoText, custoProdutoText, novaCategoriaText, novaMarcaText);
+        Formatter.toUpperCase(descricaoText, custoProdutoText);
 
         salvarButton.disableProperty().bind(descricaoText.textProperty().isEmpty().or(
-                categoriaComboBox.selectionModelProperty().isNull().or(
-                        marcaComboBox.selectionModelProperty().isNull().or(
-                                custoProdutoText.textProperty().isEmpty().or(
-                                        valorProdutoText.textProperty().isEmpty().or(
-                                                unidadeMedidaCombo.selectionModelProperty().isNull().or(
-                                                        quantidadeText.textProperty().isEmpty())))))));
+                                            categoriaComboBox.selectionModelProperty().isNull().or(
+                                            marcaComboBox.selectionModelProperty().isNull().or(
+                                            custoProdutoText.textProperty().isEmpty().or(
+                                            valorProdutoText.textProperty().isEmpty().or(
+                                            unidadeMedidaCombo.selectionModelProperty().isNull().or(
+                                            quantidadeText.textProperty().isEmpty())))))));
 
-        this.sincronizarBancoDados();//Atualizando Listas com o Banco de Dados
-        this.atualizarComboBoxs();//Adicionando itens nos ComboBox
+        sincronizarBancoDadosCategoria();
+        sincronizarBancoDadosMarca();
+        sincronizarBancoDadosUnidade();
+        
         calcularPercentual();
     }
 
@@ -180,145 +151,6 @@ public class TelaAdicionarProdutoController extends AnchorPane {
         }
     }
 
-    @FXML
-    private void adicionarNovaCategoria() {
-        this.categoriaLabel.setText("Nova Categoria");
-        this.categoriaBox.setVisible(false);
-        this.novaCategoriaBox.setVisible(true);
-    }
-
-    @FXML
-    private void salvarNovaCategoria() {
-        this.categoriaLabel.setText("Categoria");
-        this.novaCategoriaBox.setVisible(false);
-        this.categoriaBox.setVisible(true);
-
-        boolean vazio = Formatter.isEmpty(novaCategoriaText);
-        String novaCategoria = novaCategoriaText.getText();
-
-        if (!vazio) {
-            CategoriaProduto categoria = new CategoriaProduto(null, novaCategoria);
-
-            Long id = null;
-            try {
-                id = ControleDAO.getBanco().getCategoriaProdutoDAO().inserir(categoria);
-            } catch (Exception ex) {
-                Logger.getLogger(TelaAdicionarProdutoController.class.getName()).log(Level.SEVERE, null, ex);
-            }
-
-            if (id == null) {//Erro ao inserir item no Banco de Dados
-                Alerta.erro("Erro ao criar nova Categoria de Produto");
-            } else {
-                categoria.setId(id);
-                this.categoriaComboBox.getItems().add(categoria);
-                this.categoriaComboBox.getSelectionModel().select(categoria);
-            }
-        }
-
-        Formatter.limpar(novaCategoriaText);
-        Platform.runLater(() -> categoriaComboBox.requestFocus());//Colocando o Foco
-    }
-
-    @FXML
-    private void adicionarNovaMarca() {
-        this.marcaLabel.setText("Nova Marca");
-        this.marcaBox.setVisible(false);
-        this.novaMarcaBox.setVisible(true);
-    }
-
-    @FXML
-    private void adicionarNovaUnidade() {
-        this.unidadeLabel.setText("Nova Unidade");
-        this.unidadeBox.setVisible(false);
-        this.novaUnidadeBox.setVisible(true);
-    }
-
-    @FXML
-    private void salvarNovaUnidade() {
-        this.unidadeLabel.setText("Unidade de Medida");
-        this.novaUnidadeBox.setVisible(false);
-        this.unidadeBox.setVisible(true);
-
-        boolean vazio = Formatter.isEmpty(novaUnidadeText);
-        String novaUnidade = novaUnidadeText.getText();
-
-        if (!vazio) {
-            UnidadeMedida unidade = new UnidadeMedida(null, novaUnidade, novaUnidade);
-
-            Long id = null;
-            try {
-                id = ControleDAO.getBanco().getUnidadeMedidaDAO().inserir(unidade);
-            } catch (Exception ex) {
-                Logger.getLogger(TelaAdicionarProdutoController.class.getName()).log(Level.SEVERE, null, ex);
-            }
-
-            if (id == null) {//Erro ao inserir item no Banco de Dados
-                Alerta.erro("Erro ao criar nova Unidade de Medida");
-            } else {
-                unidade.setId(id);
-                this.unidadeMedidaCombo.getItems().add(unidade);
-                this.unidadeMedidaCombo.getSelectionModel().select(unidade);
-            }
-        }
-
-        Formatter.limpar(novaUnidadeText);
-        Platform.runLater(() -> unidadeMedidaCombo.requestFocus());//Colocando o Foco
-    }
-
-    @FXML
-    private void salvarNovaMarca() {
-        this.marcaLabel.setText("Marca");
-        this.novaMarcaBox.setVisible(false);
-        this.marcaBox.setVisible(true);
-
-        boolean vazio = Formatter.isEmpty(novaMarcaText);
-        String novaMarca = novaMarcaText.getText();
-
-        if (!vazio) {
-            Marca marca = new Marca(null, novaMarca);
-
-            try {
-                Long id = ControleDAO.getBanco().getMarcaDAO().inserir(marca);
-                if (id == null) {
-                    Alerta.erro("Erro ao criar um nova Categoria de Marca");
-                } else {
-                    marca.setId(id);
-                    this.marcaComboBox.getItems().add(marca);
-                    this.marcaComboBox.getSelectionModel().select(marca);
-                }
-
-            } catch (Exception ex) {
-                Logger.getLogger(TelaAdicionarProdutoController.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-
-        Formatter.limpar(novaMarcaText);
-        Platform.runLater(() -> marcaComboBox.requestFocus());//Colocando o Foco
-    }
-
-    private void sincronizarBancoDados() {
-        try {
-            this.listaCategoriaProdutos = ControleDAO.getBanco().getCategoriaProdutoDAO().listar();
-            this.listaMarcas = ControleDAO.getBanco().getMarcaDAO().listar();
-            this.listaUnidadeMedidas = ControleDAO.getBanco().getUnidadeMedidaDAO().listar();
-        } catch (SQLException ex) {
-            Alerta.erro("Ocorreu um erro:\n" + ex.toString());
-        }
-    }
-
-    private void atualizarComboBoxs() {
-        //Transforma a lista em uma Lista Observavel
-        ObservableList categoriaProdutos = FXCollections.observableArrayList(listaCategoriaProdutos);
-        ObservableList categoriasMarcas = FXCollections.observableArrayList(listaMarcas);
-        ObservableList unidadesMedidas = FXCollections.observableArrayList(listaUnidadeMedidas);
-
-        this.categoriaComboBox.setItems(categoriaProdutos);
-        this.marcaComboBox.setItems(categoriasMarcas);
-        this.unidadeMedidaCombo.setItems(unidadesMedidas);
-
-        //this.unidadeMedidaComboBox.getSelectionModel().select(3);
-    }
-
     private void calcularPercentual() {
         valorProdutoText.textProperty().addListener((ov, oldValue, newValue) -> {
 
@@ -345,6 +177,91 @@ public class TelaAdicionarProdutoController extends AnchorPane {
                 }
             }
 
+        });
+    }
+
+    private void sincronizarBancoDadosCategoria() {
+        //Metodo executado numa Thread separada
+        SwingWorker<List, List> worker = new SwingWorker<List, List>() {
+            @Override
+            protected List<CategoriaProduto> doInBackground() throws Exception {
+                return ControleDAO.getBanco().getCategoriaProdutoDAO().listar();
+            }
+
+            //Metodo chamado apos terminar a execucao numa Thread separada
+            @Override
+            protected void done() {
+                super.done(); //To change body of generated methods, choose Tools | Templates.
+                try {
+                    listaCategoriaProdutos = this.get();
+                    ObservableList categoriaProdutos = FXCollections.observableArrayList(listaCategoriaProdutos);
+                    categoriaComboBox.setItems(categoriaProdutos);
+                } catch (InterruptedException | ExecutionException ex) {
+                    chamarAlerta("Erro ao consultar Banco de Dados");
+                }
+            }
+        };
+
+        worker.execute();
+    }
+        
+    private void sincronizarBancoDadosMarca() {
+        //Metodo executado numa Thread separada
+        SwingWorker<List, List> worker = new SwingWorker<List, List>() {
+            @Override
+            protected List<Marca> doInBackground() throws Exception {
+                return ControleDAO.getBanco().getMarcaDAO().listar();
+            }
+
+            //Metodo chamado apos terminar a execucao numa Thread separada
+            @Override
+            protected void done() {
+                super.done(); //To change body of generated methods, choose Tools | Templates.
+                try {
+                    listaMarcas = this.get();
+                    ObservableList categoriasMarcas = FXCollections.observableArrayList(listaMarcas);
+                    marcaComboBox.setItems(categoriasMarcas);
+                    
+                } catch (InterruptedException | ExecutionException ex) {
+                    chamarAlerta("Erro ao consultar Banco de Dados");
+                }
+            }
+        };
+
+        worker.execute();
+    }
+    
+    private void sincronizarBancoDadosUnidade() {
+        //Metodo executado numa Thread separada
+        SwingWorker<List, List> worker = new SwingWorker<List, List>() {
+            @Override
+            protected List<UnidadeMedida> doInBackground() throws Exception {
+                return ControleDAO.getBanco().getUnidadeMedidaDAO().listar();
+            }
+
+            //Metodo chamado apos terminar a execucao numa Thread separada
+            @Override
+            protected void done() {
+                super.done(); //To change body of generated methods, choose Tools | Templates.
+                try {
+                    listaUnidadeMedidas = this.get();
+                    ObservableList unidadesMedidas = FXCollections.observableArrayList(listaUnidadeMedidas);
+                    unidadeMedidaCombo.setItems(unidadesMedidas);
+                } catch (InterruptedException | ExecutionException ex) {
+                    chamarAlerta("Erro ao consultar Banco de Dados");
+                }
+            }
+        };
+
+        worker.execute();
+    }
+
+    private void chamarAlerta(String mensagem) {
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                Alerta.erro(mensagem);
+            }
         });
     }
 }
