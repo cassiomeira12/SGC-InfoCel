@@ -90,9 +90,9 @@ public class ProdutoDAO extends DAO {
         rs = stm.executeQuery(sql);
 
         while (rs.next()) {
-            CategoriaProduto categoria = new CategoriaProduto(null, rs.getString("descricao_categoria"));
-            Marca marca = new Marca(null, rs.getString("descricao_marca"));
-            UnidadeMedida unidadeMedida = new UnidadeMedida(null, rs.getString("descricao_unidade"), null);
+            CategoriaProduto categoria = new CategoriaProduto(rs.getLong("id_categoria_produto"), rs.getString("descricao_categoria"));
+            Marca marca = new Marca(rs.getLong("id_marca"), rs.getString("descricao_marca"));
+            UnidadeMedida unidadeMedida = new UnidadeMedida(rs.getLong("id_unidade_medida"), rs.getString("descricao_unidade"), rs.getString("abreviacao_unidade"));
 
             Produto produto = new Produto(rs.getLong("id"), marca, rs.getString("descricao"), categoria, rs.getFloat("preco_compra"), rs.getFloat("preco_venda"), rs.getFloat("estoque"), unidadeMedida);
             produtos.add(produto);
@@ -115,9 +115,9 @@ public class ProdutoDAO extends DAO {
         rs = stm.executeQuery(sql);
 
         while (rs.next()) {
-            CategoriaProduto categoria = new CategoriaProduto(null, rs.getString("descricao_categoria"));
-            Marca marca = new Marca(null, rs.getString("descricao_marca"));
-            UnidadeMedida unidadeMedida = new UnidadeMedida(null, rs.getString("descricao_unidade"), null);
+            CategoriaProduto categoria = new CategoriaProduto(rs.getLong("id_categoria_produto"), rs.getString("descricao_categoria"));
+            Marca marca = new Marca(rs.getLong("id_marca"), rs.getString("descricao_marca"));
+            UnidadeMedida unidadeMedida = new UnidadeMedida(rs.getLong("id_unidade_medida"), rs.getString("descricao_unidade"), rs.getString("abreviacao_unidade"));
 
             Produto produto = new Produto(rs.getLong("id"), marca, rs.getString("descricao"), categoria, rs.getFloat("preco_compra"), rs.getFloat("preco_venda"), rs.getFloat("estoque"), unidadeMedida);
             produtos.add(produto);
@@ -139,8 +139,8 @@ public class ProdutoDAO extends DAO {
         rs = stm.executeQuery(sql);
 
         while (rs.next()) {
-            Marca marca = new Marca(null, rs.getString("descricao_marca"));
-            UnidadeMedida unidadeMedida = new UnidadeMedida(null, rs.getString("descricao_unidade"), null);
+            Marca marca = new Marca(rs.getLong("id_marca"), rs.getString("descricao_marca"));
+            UnidadeMedida unidadeMedida = new UnidadeMedida(rs.getLong("id_unidade_medida"), rs.getString("descricao_unidade"), rs.getString("abreviacao_unidade"));
 
             Produto produto = new Produto(rs.getLong("id"), marca, rs.getString("descricao"), categoria, rs.getFloat("preco_compra"), rs.getFloat("preco_venda"), rs.getFloat("estoque"), unidadeMedida);
             produtos.add(produto);
@@ -161,9 +161,9 @@ public class ProdutoDAO extends DAO {
         rs = stm.executeQuery(sql);
 
         while (rs.next()) {
-            CategoriaProduto categoria = new CategoriaProduto(null, rs.getString("descricao_categoria"));
-            Marca marca = new Marca(null, rs.getString("descricao_marca"));
-            UnidadeMedida unidadeMedida = new UnidadeMedida(null, rs.getString("descricao_unidade"), null);
+            CategoriaProduto categoria = new CategoriaProduto(rs.getLong("id_categoria_produto"), rs.getString("descricao_categoria"));
+            Marca marca = new Marca(rs.getLong("id_marca"), rs.getString("descricao_marca"));
+            UnidadeMedida unidadeMedida = new UnidadeMedida(rs.getLong("id_unidade_medida"), rs.getString("descricao_unidade"), rs.getString("abreviacao_unidade"));
 
             produto = new Produto(rs.getLong("id"), marca, rs.getString("descricao"), categoria, rs.getFloat("preco_compra"), rs.getFloat("preco_venda"), rs.getFloat("estoque"), unidadeMedida);
         }

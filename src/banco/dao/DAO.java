@@ -31,13 +31,14 @@ public class DAO {
     }
 
     protected Long inserir() throws Exception {
-        Long id;
+        Long id = null;
 
         stm.executeUpdate();
 
         ResultSet resultado = stm.getGeneratedKeys();
         resultado.next();
         id = (long) resultado.getInt(1);
+
         resultado.close();
 
         return id;

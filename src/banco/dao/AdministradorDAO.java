@@ -28,7 +28,7 @@ public class AdministradorDAO extends DAO {
      */
     public Long inserir(Administrador adm) throws Exception {
 
-        String sql = "INSERT INTO administrador ( nome, login, senha, id_endereco, email, cpf, rg, data_cadastror, statusr) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO administrador ( nome, login, senha, id_endereco, email, cpf, rg, data_cadastro, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         Long id_endereco = ControleDAO.getBanco().getEnderecoDAO().inserir(adm.getEndereco());
         if(id_endereco == null)

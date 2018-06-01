@@ -2,6 +2,7 @@ package banco.dao;
 
 import banco.ControleDAO;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -31,9 +32,11 @@ public class VendaDAO extends DAO {
 
     /**
      * Inserir venda na base de dados
+     * @param venda
+     * @return 
      */
     public Long inserir(Venda venda) throws Exception {
-        Long idVenda = null;
+        Long idVenda;
         Long idCliente = venda.getCliente().getId();
 
         if (idCliente == null) {//null = cliente não cadastrado
@@ -60,7 +63,9 @@ public class VendaDAO extends DAO {
         sql = sql.substring(0, sql.length() - 1);   //remove última vírgula
         stm = getConector().prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
 
-        super.inserir();
+        //inserindo vendas produtos
+        stm.execute();
+        stm.close();
 
         //atualiza estoque
         for (VendaProduto vp : venda.getVendaProdutos()) {
