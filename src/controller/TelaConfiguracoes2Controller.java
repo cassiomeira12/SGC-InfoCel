@@ -50,13 +50,8 @@ public class TelaConfiguracoes2Controller extends AnchorPane {
     
     @FXML
     private void voltar() {
-        //if (administradorPane.isVisible()) {
-        //    administradorPane.setVisible(false);
-        //    administradoresTable.setVisible(true);
-        //} else {
-            TelaInicialController telaInicial = new TelaInicialController(painelPrincipal);
-            this.adicionarPainelInterno(telaInicial);
-        //}
+        TelaInicialController telaInicial = new TelaInicialController(painelPrincipal);
+        this.adicionarPainelInterno(telaInicial);
     }
     
     @FXML
@@ -71,7 +66,12 @@ public class TelaConfiguracoes2Controller extends AnchorPane {
     
     @FXML
     private void pagamentoTab() {
-        
+        try {
+            HBox painel = FXMLLoader.load(getClass().getResource("/view/FormasPagamentoConfiguracoes.fxml"));
+            pagamentoTab.setContent(painel);
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
     }
     
     @FXML
