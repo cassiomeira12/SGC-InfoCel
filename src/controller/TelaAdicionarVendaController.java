@@ -208,7 +208,7 @@ public class TelaAdicionarVendaController extends AnchorPane {
         
         cidadeComboBox.setOnAction((e) -> {
             Cidade cidade = cidadeComboBox.getValue();
-            bairroComboBox.getSelectionModel().clearSelection();
+            bairroComboBox.getSelectionModel().select(null);
             sincronizarBancoDadosBairro(cidade);
         });
         
