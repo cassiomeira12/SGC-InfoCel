@@ -2,7 +2,7 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
@@ -62,16 +62,16 @@
                      <children>
                         <HBox alignment="BOTTOM_RIGHT" spacing="30.0">
                            <children>
-                              <VBox>
+                              <VBox prefWidth="130.0">
                                  <children>
-                                    <Label text="Mês" />
-                                    <ComboBox fx:id="mesComboBox" prefWidth="150.0" promptText="Dezembro" />
+                                    <Label text="Data de Início" />
+                                    <DatePicker fx:id="inicioDatePicker" />
                                  </children>
                               </VBox>
-                              <VBox layoutX="1040.0" layoutY="10.0">
+                              <VBox layoutX="1040.0" layoutY="10.0" prefWidth="130.0">
                                  <children>
-                                    <Label text="Ano" />
-                                    <ComboBox fx:id="anoComboBox" prefWidth="150.0" promptText="2018" />
+                                    <Label text="Data de Fim" />
+                                    <DatePicker fx:id="fimDatePicker" />
                                  </children>
                               </VBox>
                               <Button alignment="CENTER" mnemonicParsing="false" onAction="#pesquisarCliente" styleClass="button-pesquisar" text="Pesquisar Cliente" />
@@ -80,7 +80,7 @@
                         <TableView fx:id="manutencoesTable" focusTraversable="false" prefHeight="450.0">
                            <columns>
                               <TableColumn fx:id="clienteColumn" minWidth="200.0" prefWidth="300.0" text="Cliente" />
-                              <TableColumn fx:id="enderecoColumn" minWidth="200.0" prefWidth="300.0" text="Endereço" />
+                              <TableColumn fx:id="enderecoColumn" minWidth="150.0" prefWidth="150.0" text="Endereço" />
                               <TableColumn fx:id="vendedorColumn" minWidth="200.0" prefWidth="300.0" text="Vendedor" />
                               <TableColumn minWidth="200.0" prefWidth="200.0" text="Aparelho Celular">
                                  <columns>
@@ -90,6 +90,7 @@
                               </TableColumn>
                               <TableColumn fx:id="dataColumn" maxWidth="100.0" minWidth="100.0" prefWidth="100.0" text="Data" />
                               <TableColumn fx:id="precoColumn" maxWidth="100.0" minWidth="100.0" prefWidth="100.0" text="Preço R$" />
+                              <TableColumn fx:id="finalizadoColumn" maxWidth="100.0" minWidth="100.0" prefWidth="100.0" text="Finalizado" />
                            </columns>
                            <VBox.margin>
                               <Insets />

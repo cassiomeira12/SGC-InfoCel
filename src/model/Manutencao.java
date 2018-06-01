@@ -1,5 +1,7 @@
 package model;
 
+import util.DateUtils;
+
 public class Manutencao {
 
     private Long id;
@@ -120,6 +122,10 @@ public class Manutencao {
         this.dataEntrega = dataEntrega;
     }
 
+    public String getDataEditada() {
+        return DateUtils.formatDate(dataEntrega);
+    }
+    
     public float getPreco() {
         return preco;
     }
@@ -130,6 +136,14 @@ public class Manutencao {
 
     public boolean isFinalizado() {
         return finalizado;
+    }
+    
+    public String getFinalizadoEditado() {
+        return finalizado ? "Sim" : "Não";
+    }
+    
+    public String getEndereco() {
+        return cliente.getEndereco().toString();
     }
 
     public void setFinalizado(boolean finalizado) {

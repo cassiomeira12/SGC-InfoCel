@@ -103,20 +103,20 @@ public class ManutencaoDAO extends DAO {
 
         List<Manutencao> manuntencoes = new ArrayList<>();
 
-        String sql = "SELECT * FROM view_manutencao";
+        String sql = "SELECT * FROM view_manutenca";
 
         stm = getConector().prepareStatement(sql);
         rs = stm.executeQuery(sql);
 
         while (rs.next()) {
-            Cidade cidadeAdm = new Cidade(rs.getLong("id_cidade_administrador"), rs.getString("nome_cidadea_dministrador"));
+            Cidade cidadeAdm = new Cidade(rs.getLong("id_cidade_administrador"), rs.getString("nome_cidade_administrador"));
             Bairro bairroAdm = new Bairro(rs.getLong("id_bairro_administrador"), rs.getString("nome_bairro_administrador"), cidadeAdm);
             Endereco enderecoAdm = new Endereco(rs.getLong("id_endereco_administrador"), bairroAdm, rs.getString("rua_administrador"), rs.getString("numero_administrador"));
 
             Administrador adm = new Administrador(rs.getLong("id_administrador"), rs.getString("nome_administrador"),
                     null, null, enderecoAdm, null, rs.getString("cpf_administrador"), null, null, true);
 
-            Cidade cidadeC = new Cidade(rs.getLong("id_cidade_clienter"), rs.getString("nome_cidadea_cliente"));
+            Cidade cidadeC = new Cidade(rs.getLong("id_cidade_cliente"), rs.getString("nome_cidade_cliente"));
             Bairro bairroC = new Bairro(rs.getLong("id_bairro_cliente"), rs.getString("nome_bairro_cliente"), cidadeAdm);
             Endereco enderecoC = new Endereco(rs.getLong("id_endereco_cliente"), bairroAdm, rs.getString("rua_cliente"), rs.getString("numero_cliente"));
 

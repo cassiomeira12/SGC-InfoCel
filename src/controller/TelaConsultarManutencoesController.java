@@ -15,6 +15,7 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -23,6 +24,7 @@ import javafx.scene.layout.BorderPane;
 import javax.swing.SwingWorker;
 import model.Administrador;
 import model.Cliente;
+import model.Endereco;
 import model.Manutencao;
 import util.alerta.Alerta;
 
@@ -38,28 +40,28 @@ public class TelaConsultarManutencoesController extends AnchorPane {
     private List<Manutencao> listaManutencoes;
     
     @FXML
-    private ComboBox<String> mesComboBox;
+    private DatePicker inicioDatePicker;
     @FXML
-    private ComboBox<String> anoComboBox;
-    
+    private DatePicker fimDatePicker;
     
     @FXML
     private TableView<Manutencao> manutencoesTable;
     @FXML
     private TableColumn<Cliente, String> clienteColumn;
     @FXML
-    private TableColumn<Cliente, String> enderecoColumn;
+    private TableColumn<Manutencao, String> enderecoColumn;
     @FXML
     private TableColumn<Administrador, String> vendedorColumn;
     @FXML
-    private TableColumn<String, String> marcaColumn;
+    private TableColumn<Manutencao, String> marcaColumn;
     @FXML
-    private TableColumn<String, String> modeloColumn;
+    private TableColumn<Manutencao, String> modeloColumn;
     @FXML
-    private TableColumn<Long, String> dataColumn;
+    private TableColumn<Manutencao, String> dataColumn;
     @FXML
-    private TableColumn<Float, String> precoColumn;
-    
+    private TableColumn<Manutencao, String> precoColumn;
+    @FXML
+    private TableColumn<Manutencao, String> finalizadoColumn;
     
     
   
@@ -126,6 +128,7 @@ public class TelaConsultarManutencoesController extends AnchorPane {
                     atualizarTabela();
                 } catch (InterruptedException | ExecutionException ex) {
                     chamarAlerta("Erro ao consultar Banco de Dados");
+                    ex.printStackTrace();
                 }
             }
         };
@@ -138,12 +141,13 @@ public class TelaConsultarManutencoesController extends AnchorPane {
         ObservableList data = FXCollections.observableArrayList(listaManutencoes);
         
         this.clienteColumn.setCellValueFactory(new PropertyValueFactory<>("cliente"));
-        //this.enderecoColumn.setCellValueFactory(new PropertyValueFactory<>(""));
+        this.enderecoColumn.setCellValueFactory(new PropertyValueFactory<>("endereco"));
         this.vendedorColumn.setCellValueFactory(new PropertyValueFactory<>("administrador"));
         this.marcaColumn.setCellValueFactory(new PropertyValueFactory<>("marca"));
         this.modeloColumn.setCellValueFactory(new PropertyValueFactory<>("modelo"));
-        this.dataColumn.setCellValueFactory(new PropertyValueFactory<>("dataCadastro"));
+        this.dataColumn.setCellValueFactory(new PropertyValueFactory<>("dataEditada"));
         this.precoColumn.setCellValueFactory(new PropertyValueFactory<>("preco"));
+        this.finalizadoColumn.setCellValueFactory(new PropertyValueFactory<>("finalizadoEditado"));
         this.manutencoesTable.setItems(data);//Adiciona a lista de clientes na Tabela
     }
     
