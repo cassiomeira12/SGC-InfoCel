@@ -57,7 +57,7 @@ public class AdministradorDAO extends DAO {
         String sql = "UPDATE administrador SET nome =?, login =?, senha =?, id_endereco = ?, email =?, cpf =?, rg =?, status =? WHERE id =?";
         
         //caso haja alterações no endereço
-        ControleDAO.getBanco().getEnderecoDAO().editar(adm.getEndereco());
+        //ControleDAO.getBanco().getEnderecoDAO().editar(adm.getEndereco());
         
         stm = getConector().prepareStatement(sql);
 

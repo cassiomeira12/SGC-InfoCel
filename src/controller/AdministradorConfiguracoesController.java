@@ -7,6 +7,7 @@ package controller;
 
 import banco.ControleDAO;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.concurrent.ExecutionException;
@@ -151,12 +152,13 @@ public class AdministradorConfiguracoesController implements Initializable {
             sincronizarBancoDadosBairro(cidade);
         });
         
-        sincronizarBancoDadosCidade();
         sincronizarBancoDadosAdministradores();
     }    
     
     @FXML
     private void adicionar(ActionEvent event) {
+        sincronizarBancoDadosCidade();
+        
         this.painelAdministradores.setVisible(false);
         this.painelAdministrador.setVisible(true);
         this.editarCheckBox.setVisible(false);
@@ -173,11 +175,12 @@ public class AdministradorConfiguracoesController implements Initializable {
                 alertaSenhaLabel.setVisible(false);
             }
         });
-    
+        
     }
 
     @FXML
     private void editar(ActionEvent event) {
+        sincronizarBancoDadosCidade();
         this.painelAdministradores.setVisible(false);
         this.painelAdministrador.setVisible(true);
         this.administradorSelecioado = administradoresTable.getSelectionModel().getSelectedItem();
@@ -186,16 +189,49 @@ public class AdministradorConfiguracoesController implements Initializable {
         
         this.senhaLabel.setText("Senha Antiga");
         this.confirmarSenhaLabel.setText("Nova Senha");
+        this.alertaSenhaLabel.setText("Senha incorreta!");
         
-        confirmarSenhaPassword.textProperty().addListener((ov, oldValue, newValue) -> {
-//            if (senhaPassword.getText().equals(newValue)) {
-//                alertaSenhaLabel.setVisible(false);
-//            } else {
-//                alertaSenhaLabel.setVisible(true);
-//            }
-//            if (senhaPassword.getText().isEmpty()) {
-//                alertaSenhaLabel.setVisible(false);
-//            }
+        this.confirmarSenhaLabel.setDisable(true);
+        this.confirmarSenhaPassword.setDisable(true);
+        
+        Endereco endereco = administradorSelecioado.getEndereco();
+        Bairro bairro = endereco.getBairro();
+        Cidade cidade = bairro.getCidade();
+        
+        this.cidadeComboBox.getSelectionModel().select(cidade);
+        sincronizarBancoDadosBairro(cidade);
+        this.bairroComboBox.getSelectionModel().select(bairro);
+        
+        this.ruaText.setText(endereco.getRua());
+        this.numeroText.setText(endereco.getNumero());
+        
+        salvarButton.disableProperty().bind(nomeText.textProperty().isEmpty().or(
+                                            cpfText.textProperty().isEmpty().or(
+                                            rgText.textProperty().isEmpty().or(
+                                            cidadeComboBox.selectionModelProperty().isNull().or(
+                                            bairroComboBox.selectionModelProperty().isNull().or(
+                                            ruaText.textProperty().isEmpty().or(
+                                            numeroText.textProperty().isEmpty().or(
+                                            loginText.textProperty().isEmpty().or(
+                                            editarCheckBox.selectedProperty().not())))))))));
+        
+        senhaPassword.textProperty().addListener((ov, oldValue, newValue) -> {
+            String senhaAntiga = administradorSelecioado.getSenha();
+            if (senhaPassword.getText().equals(senhaAntiga)) {
+                this.alertaSenhaLabel.setVisible(false);
+                this.confirmarSenhaLabel.setDisable(false);
+                this.confirmarSenhaPassword.setDisable(false);
+                
+                this.senhaLabel.setDisable(true);
+                this.senhaPassword.setDisable(true);
+                Platform.runLater(() -> confirmarSenhaPassword.requestFocus());//Colocando o Foco
+                
+            } else {
+                this.alertaSenhaLabel.setVisible(true);
+            }
+            if (senhaPassword.getText().isEmpty()) {
+                this.alertaSenhaLabel.setVisible(false);
+            }
         });
     }
     
@@ -295,6 +331,20 @@ public class AdministradorConfiguracoesController implements Initializable {
         this.painelAdministradores.setVisible(true);
         this.painelAdministrador.setVisible(false);
         this.administradorSelecioado = null;
+        
+        this.senhaLabel.setText("Senha");
+        this.confirmarSenhaLabel.setText("Confirmar Senha");
+        this.alertaSenhaLabel.setText("As senhas não coincidem");
+        
+        this.senhaLabel.setDisable(false);
+        this.senhaPassword.setDisable(false);
+        this.confirmarSenhaLabel.setDisable(false);
+        this.confirmarSenhaPassword.setDisable(false);
+        
+        Formatter.limpar(nomeText, cpfText, rgText, ruaText, numeroText, loginText, senhaPassword, confirmarSenhaPassword);
+        cidadeComboBox.getSelectionModel().clearSelection();
+        bairroComboBox.getItems().clear();
+        bairroComboBox.getSelectionModel().select(null);
     }
 
     @FXML
@@ -311,44 +361,100 @@ public class AdministradorConfiguracoesController implements Initializable {
         Bairro bairro = null;
         Endereco endereco = null;
         
-        Dialogo.Resposta resposta = Alerta.confirmar("Deseja adicionar um novo Administrador ?");
-        if (resposta == Dialogo.Resposta.YES) {
-            
-            if (!senha.equals(confirmarSenhaPassword.getText())) {
-                Alerta.erro("Erro, as senhas digitadas não conferem");
-                return;
+        if (cidadeBox.isVisible()) {
+            cidade = cidadeComboBox.getValue();
+        } else if (adicionarCidadeBox.isVisible()) {
+            cidade = new Cidade(null, adicionarCidadeText.getText());
+        }
+
+        if (bairroBox.isVisible()) {
+            bairro = bairroComboBox.getValue();
+        } else if (adicionarBairroBox.isVisible()) {
+            bairro = new Bairro(null, adicionarBairroText.getText(), cidade);
+        }
+
+        if (administradorSelecioado == null) {
+            Dialogo.Resposta resposta = Alerta.confirmar("Deseja adicionar um novo Administrador ?");
+            if (resposta == Dialogo.Resposta.YES) {
+
+                if (!senha.equals(confirmarSenhaPassword.getText())) {
+                    Alerta.erro("Erro, as senhas digitadas não conferem");
+                    return;
+                }
+                
+                endereco = new Endereco(null, bairro, rua, numero);
+
+                Administrador novoAdministrador = new Administrador(null, nome, login, senha, endereco, null, cpf, rg, null, true);
+
+                Long id = null;
+
+                try {
+                    id = ControleDAO.getBanco().getAdministradorDAO().inserir(novoAdministrador);
+                    novoAdministrador.setId(id);
+                    administradoresTable.getItems().add(novoAdministrador);
+                    Alerta.info("Administrador adicionado com sucesso!");
+                } catch (Exception ex) {
+                    Alerta.erro("Erro ao adicionar um novo Administrador");
+                    ex.printStackTrace();
+                } finally {
+                    cancelar(null);
+                }
             }
+        } else {
+            Dialogo.Resposta resposta = Alerta.confirmar("Deseja salvar os dados editados ?");
+            if (resposta == Dialogo.Resposta.YES) {
+                String novaSenha = confirmarSenhaPassword.getText();
+                
+                endereco = administradorSelecioado.getEndereco();
+                endereco.setBairro(bairro);
+                endereco.setNumero(numero);
+                endereco.setRua(rua);
+                    
+                if (confirmarSenhaPassword.isDisable()) {
+                    
+                    administradorSelecioado.setNome(nome);
+                    administradorSelecioado.setCpf(cpf);
+                    administradorSelecioado.setRg(rg);
+                    administradorSelecioado.setEndereco(endereco);
+                    administradorSelecioado.setLogin(login);
+                    
+                    try {
+                        ControleDAO.getBanco().getAdministradorDAO().editar(administradorSelecioado);
+                        Alerta.info("Dados alterados com sucesso!");
+                        sincronizarBancoDadosAdministradores();
+                        cancelar(null);
+                    } catch (SQLException ex) {
+                        Alerta.erro("Erro ao editar informações do Administrador");
+                        ex.printStackTrace();
+                    }
+                    
+                } else {
+                    if (novaSenha.isEmpty()) {
+                        Alerta.erro("Erro, nova Senha inválida!");
+                    } else {
+                        
+                        administradorSelecioado.setNome(nome);
+                        administradorSelecioado.setCpf(cpf);
+                        administradorSelecioado.setRg(rg);
+                        administradorSelecioado.setEndereco(endereco);
+                        administradorSelecioado.setLogin(login);
+                        administradorSelecioado.setSenha(novaSenha);
 
-            if (cidadeBox.isVisible()) {
-                cidade = cidadeComboBox.getValue();
-            } else if (adicionarCidadeBox.isVisible()) {
-                cidade = new Cidade(null, adicionarCidadeText.getText());
-            }
-
-            if (bairroBox.isVisible()) {
-                bairro = bairroComboBox.getValue();
-            } else if (adicionarBairroBox.isVisible()) {
-                bairro = new Bairro(null, adicionarBairroText.getText(), cidade);
-            }
-
-            endereco = new Endereco(null, bairro, rua, numero);
-
-            Administrador novoAdministrador = new Administrador(null, nome, login, senha, endereco, null, cpf, rg, null, true);
-
-            Long id = null;
-
-            try {
-                id = ControleDAO.getBanco().getAdministradorDAO().inserir(novoAdministrador);
-                novoAdministrador.setId(id);
-                administradoresTable.getItems().add(novoAdministrador);
-                Alerta.info("Administrador adicionado com sucesso!");
-            } catch (Exception ex) {
-                Alerta.erro("Erro ao adicionar um novo Administrador");
-                ex.printStackTrace();
-            } finally {
-                cancelar(null);
+                        try {
+                            ControleDAO.getBanco().getAdministradorDAO().editar(administradorSelecioado);
+                            Alerta.info("Dados alterados com sucesso!");
+                            sincronizarBancoDadosAdministradores();
+                            cancelar(null);
+                        } catch (SQLException ex) {
+                            Alerta.erro("Erro ao editar informações do Administrador");
+                            ex.printStackTrace();
+                        }
+                    }
+                }
             }
         }
+        
+        
     }
 
     private void sincronizarBancoDadosCidade() {
