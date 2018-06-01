@@ -212,7 +212,7 @@ public class AdministradorConfiguracoesController implements Initializable {
     private void excluir(ActionEvent event) {
     }
 
-    private void atualizarTabela() {
+    private void atualizarTabelaAdministradores() {
         //Transforma a lista em uma Lista Observavel
         ObservableList data = FXCollections.observableArrayList(listaAdministrador);
         
@@ -239,7 +239,7 @@ public class AdministradorConfiguracoesController implements Initializable {
                 super.done(); //To change body of generated methods, choose Tools | Templates.
                 try {
                     listaAdministrador = this.get();
-                    atualizarTabela();
+                    atualizarTabelaAdministradores();
                 } catch (InterruptedException | ExecutionException ex) {
                     chamarAlerta("Erro ao consultar Banco de Dados");
                     ex.printStackTrace();
@@ -339,16 +339,15 @@ public class AdministradorConfiguracoesController implements Initializable {
 
             try {
                 id = ControleDAO.getBanco().getAdministradorDAO().inserir(novoAdministrador);
+                novoAdministrador.setId(id);
+                administradoresTable.getItems().add(novoAdministrador);
+                Alerta.info("Administrador adicionado com sucesso!");
             } catch (Exception ex) {
                 Alerta.erro("Erro ao adicionar um novo Administrador");
                 ex.printStackTrace();
             } finally {
                 cancelar(null);
             }
-
-            novoAdministrador.setId(id);
-            administradoresTable.getItems().add(novoAdministrador);
-            
         }
     }
 
