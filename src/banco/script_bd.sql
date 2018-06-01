@@ -26,7 +26,6 @@ CREATE TABLE IF NOT EXISTS `neoli831_teste`.`cidade` (
   PRIMARY KEY (`id`),
   UNIQUE INDEX `nome_UNIQUE` (`nome` ASC))
 ENGINE = InnoDB
-AUTO_INCREMENT = 2
 DEFAULT CHARACTER SET = utf8;
 
 
@@ -45,7 +44,6 @@ CREATE TABLE IF NOT EXISTS `neoli831_teste`.`bairro` (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
-AUTO_INCREMENT = 2
 DEFAULT CHARACTER SET = utf8;
 
 
@@ -372,7 +370,7 @@ CREATE TABLE IF NOT EXISTS `neoli831_teste`.`view_administrador` (`id` INT, `nom
 -- -----------------------------------------------------
 -- Placeholder table for view `neoli831_teste`.`view_bairro`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `neoli831_teste`.`view_bairro` (`id_bairro` INT, `nome_bairro` INT, `nome_cidade` INT, `id_cidade` INT);
+CREATE TABLE IF NOT EXISTS `neoli831_teste`.`view_bairro` (`id` INT, `nome` INT, `nome_cidade` INT, `id_cidade` INT);
 
 -- -----------------------------------------------------
 -- Placeholder table for view `neoli831_teste`.`view_cliente`
@@ -382,7 +380,7 @@ CREATE TABLE IF NOT EXISTS `neoli831_teste`.`view_cliente` (`id` INT, `nome` INT
 -- -----------------------------------------------------
 -- Placeholder table for view `neoli831_teste`.`view_endereco`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `neoli831_teste`.`view_endereco` (`id_endereco` INT, `numero` INT, `rua` INT, `id_bairro` INT, `nome_bairro` INT, `nome_cidade` INT, `id_cidade` INT);
+CREATE TABLE IF NOT EXISTS `neoli831_teste`.`view_endereco` (`id` INT, `numero` INT, `rua` INT, `id_bairro` INT, `nome_bairro` INT, `nome_cidade` INT, `id_cidade` INT);
 
 -- -----------------------------------------------------
 -- Placeholder table for view `neoli831_teste`.`view_manutenca`
@@ -419,28 +417,28 @@ CREATE TABLE IF NOT EXISTS `neoli831_teste`.`view_venda_produto` (`id_venda` INT
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `neoli831_teste`.`view_administrador`;
 USE `neoli831_teste`;
-CREATE  OR REPLACE ALGORITHM=UNDEFINED DEFINER=`neoli831`@`localhost` SQL SECURITY DEFINER VIEW `neoli831_teste`.`view_administrador` AS select `neoli831_teste`.`administrador`.`id` AS `id`,`neoli831_teste`.`administrador`.`nome` AS `nome`,`neoli831_teste`.`administrador`.`login` AS `login`,`neoli831_teste`.`administrador`.`senha` AS `senha`,`neoli831_teste`.`administrador`.`email` AS `email`,`neoli831_teste`.`administrador`.`cpf` AS `cpf`,`neoli831_teste`.`administrador`.`rg` AS `rg`,`neoli831_teste`.`administrador`.`data_cadastro` AS `data_cadastro`,`neoli831_teste`.`administrador`.`status` AS `status`,`neoli831_teste`.`administrador`.`id_endereco` AS `id_endereco`,`view_endereco`.`numero` AS `numero`,`view_endereco`.`rua` AS `rua`,`view_endereco`.`id_bairro` AS `id_bairro`,`view_endereco`.`id_cidade` AS `id_cidade`,`view_endereco`.`nome_cidade` AS `nome_cidade`,`view_endereco`.`nome_bairro` AS `nome_bairro` from (`neoli831_teste`.`administrador` join `neoli831_teste`.`view_endereco` on((`neoli831_teste`.`administrador`.`id_endereco` = `view_endereco`.`id_endereco`)));
+CREATE  OR REPLACE ALGORITHM=UNDEFINED DEFINER=`neoli831`@`localhost` SQL SECURITY DEFINER VIEW `neoli831_teste`.`view_administrador` AS select `neoli831_teste`.`administrador`.`id` AS `id`,`neoli831_teste`.`administrador`.`nome` AS `nome`,`neoli831_teste`.`administrador`.`login` AS `login`,`neoli831_teste`.`administrador`.`senha` AS `senha`,`neoli831_teste`.`administrador`.`email` AS `email`,`neoli831_teste`.`administrador`.`cpf` AS `cpf`,`neoli831_teste`.`administrador`.`rg` AS `rg`,`neoli831_teste`.`administrador`.`data_cadastro` AS `data_cadastro`,`neoli831_teste`.`administrador`.`status` AS `status`,`neoli831_teste`.`administrador`.`id_endereco` AS `id_endereco`,`view_endereco`.`numero` AS `numero`,`view_endereco`.`rua` AS `rua`,`view_endereco`.`id_bairro` AS `id_bairro`,`view_endereco`.`id_cidade` AS `id_cidade`,`view_endereco`.`nome_cidade` AS `nome_cidade`,`view_endereco`.`nome_bairro` AS `nome_bairro` from (`neoli831_teste`.`administrador` join `neoli831_teste`.`view_endereco` on((`neoli831_teste`.`administrador`.`id_endereco` = `view_endereco`.`id`)));
 
 -- -----------------------------------------------------
 -- View `neoli831_teste`.`view_bairro`
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `neoli831_teste`.`view_bairro`;
 USE `neoli831_teste`;
-CREATE  OR REPLACE ALGORITHM=UNDEFINED DEFINER=`neoli831`@`localhost` SQL SECURITY DEFINER VIEW `neoli831_teste`.`view_bairro` AS select `neoli831_teste`.`bairro`.`id` AS `id_bairro`,`neoli831_teste`.`bairro`.`nome` AS `nome_bairro`,`neoli831_teste`.`cidade`.`nome` AS `nome_cidade`,`neoli831_teste`.`cidade`.`id` AS `id_cidade` from (`neoli831_teste`.`bairro` join `neoli831_teste`.`cidade` on((`neoli831_teste`.`cidade`.`id` = `neoli831_teste`.`bairro`.`id_cidade`)));
+CREATE  OR REPLACE ALGORITHM=UNDEFINED DEFINER=`neoli831`@`localhost` SQL SECURITY DEFINER VIEW `neoli831_teste`.`view_bairro` AS select `neoli831_teste`.`bairro`.`id` AS `id`,`neoli831_teste`.`bairro`.`nome` AS `nome`,`neoli831_teste`.`cidade`.`nome` AS `nome_cidade`,`neoli831_teste`.`cidade`.`id` AS `id_cidade` from (`neoli831_teste`.`bairro` join `neoli831_teste`.`cidade` on((`neoli831_teste`.`cidade`.`id` = `neoli831_teste`.`bairro`.`id_cidade`)));
 
 -- -----------------------------------------------------
 -- View `neoli831_teste`.`view_cliente`
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `neoli831_teste`.`view_cliente`;
 USE `neoli831_teste`;
-CREATE  OR REPLACE ALGORITHM=UNDEFINED DEFINER=`neoli831`@`localhost` SQL SECURITY DEFINER VIEW `neoli831_teste`.`view_cliente` AS select `neoli831_teste`.`cliente`.`id` AS `id`,`neoli831_teste`.`cliente`.`nome` AS `nome`,`neoli831_teste`.`cliente`.`cpf` AS `cpf`,`neoli831_teste`.`cliente`.`rg` AS `rg`,`neoli831_teste`.`cliente`.`telefone` AS `telefone`,`neoli831_teste`.`cliente`.`data_cadastro` AS `data_cadastro`,`neoli831_teste`.`cliente`.`status` AS `status`,`neoli831_teste`.`cliente`.`id_endereco` AS `id_endereco`,`view_endereco`.`numero` AS `numero`,`view_endereco`.`rua` AS `rua`,`view_endereco`.`id_bairro` AS `id_bairro`,`view_endereco`.`id_cidade` AS `id_cidade`,`view_endereco`.`nome_cidade` AS `nome_cidade`,`view_endereco`.`nome_bairro` AS `nome_bairro` from (`neoli831_teste`.`cliente` join `neoli831_teste`.`view_endereco` on((`neoli831_teste`.`cliente`.`id_endereco` = `view_endereco`.`id_endereco`)));
+CREATE  OR REPLACE ALGORITHM=UNDEFINED DEFINER=`neoli831`@`localhost` SQL SECURITY DEFINER VIEW `neoli831_teste`.`view_cliente` AS select `neoli831_teste`.`cliente`.`id` AS `id`,`neoli831_teste`.`cliente`.`nome` AS `nome`,`neoli831_teste`.`cliente`.`cpf` AS `cpf`,`neoli831_teste`.`cliente`.`rg` AS `rg`,`neoli831_teste`.`cliente`.`telefone` AS `telefone`,`neoli831_teste`.`cliente`.`data_cadastro` AS `data_cadastro`,`neoli831_teste`.`cliente`.`status` AS `status`,`neoli831_teste`.`cliente`.`id_endereco` AS `id_endereco`,`view_endereco`.`numero` AS `numero`,`view_endereco`.`rua` AS `rua`,`view_endereco`.`id_bairro` AS `id_bairro`,`view_endereco`.`id_cidade` AS `id_cidade`,`view_endereco`.`nome_cidade` AS `nome_cidade`,`view_endereco`.`nome_bairro` AS `nome_bairro` from (`neoli831_teste`.`cliente` join `neoli831_teste`.`view_endereco` on((`neoli831_teste`.`cliente`.`id_endereco` = `view_endereco`.`id`)));
 
 -- -----------------------------------------------------
 -- View `neoli831_teste`.`view_endereco`
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `neoli831_teste`.`view_endereco`;
 USE `neoli831_teste`;
-CREATE  OR REPLACE ALGORITHM=UNDEFINED DEFINER=`neoli831`@`localhost` SQL SECURITY DEFINER VIEW `neoli831_teste`.`view_endereco` AS select `neoli831_teste`.`endereco`.`id` AS `id_endereco`,`neoli831_teste`.`endereco`.`numero` AS `numero`,`neoli831_teste`.`endereco`.`rua` AS `rua`,`view_bairro`.`id_bairro` AS `id_bairro`,`view_bairro`.`nome_bairro` AS `nome_bairro`,`view_bairro`.`nome_cidade` AS `nome_cidade`,`view_bairro`.`id_cidade` AS `id_cidade` from (`neoli831_teste`.`endereco` join `neoli831_teste`.`view_bairro` on((`view_bairro`.`id_bairro` = `neoli831_teste`.`endereco`.`id_bairro`)));
+CREATE  OR REPLACE ALGORITHM=UNDEFINED DEFINER=`neoli831`@`localhost` SQL SECURITY DEFINER VIEW `neoli831_teste`.`view_endereco` AS select `neoli831_teste`.`endereco`.`id` AS `id`,`neoli831_teste`.`endereco`.`numero` AS `numero`,`neoli831_teste`.`endereco`.`rua` AS `rua`,`view_bairro`.`id` AS `id_bairro`,`view_bairro`.`nome` AS `nome_bairro`,`view_bairro`.`nome_cidade` AS `nome_cidade`,`view_bairro`.`id_cidade` AS `id_cidade` from (`neoli831_teste`.`endereco` join `neoli831_teste`.`view_bairro` on((`view_bairro`.`id` = `neoli831_teste`.`endereco`.`id_bairro`)));
 
 -- -----------------------------------------------------
 -- View `neoli831_teste`.`view_manutenca`
