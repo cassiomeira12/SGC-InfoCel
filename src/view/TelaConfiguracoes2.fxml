@@ -29,6 +29,7 @@
                 <Tab fx:id="administradoresTab" onSelectionChanged="#administradoresTab" text="Administradores" />
                 <Tab fx:id="pagamentoTab" onSelectionChanged="#pagamentoTab" text="Formas de pagamento" />
                   <Tab fx:id="produtosTab" onSelectionChanged="#produtosTab" text="Características dos Produtos" />
+                  <Tab fx:id="enderecosTab" onSelectionChanged="#enderecosTab" text="Endereços" />
               </tabs>
             </TabPane>
          </center>

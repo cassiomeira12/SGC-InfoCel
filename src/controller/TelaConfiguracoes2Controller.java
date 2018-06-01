@@ -23,6 +23,8 @@ public class TelaConfiguracoes2Controller extends AnchorPane {
     private Tab pagamentoTab;
     @FXML
     private Tab produtosTab;
+    @FXML
+    private Tab enderecosTab;
     
     
     public TelaConfiguracoes2Controller(BorderPane painelPrincipal) {
@@ -79,6 +81,16 @@ public class TelaConfiguracoes2Controller extends AnchorPane {
         try {
             HBox painel = FXMLLoader.load(getClass().getResource("/view/ProdutosConfiguracoes.fxml"));
             produtosTab.setContent(painel);
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }
+    
+    @FXML
+    private void enderecosTab() {
+        try {
+            HBox painel = FXMLLoader.load(getClass().getResource("/view/EnderecosConfiguracoes.fxml"));
+            enderecosTab.setContent(painel);
         } catch (IOException ex) {
             ex.printStackTrace();
         }
