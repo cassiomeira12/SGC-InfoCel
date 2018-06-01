@@ -74,7 +74,7 @@ public class TelaConsultarClientesController extends AnchorPane {
             System.out.println(ex.toString());
         }
     }
-
+    
     @FXML
     public void initialize() {
         //Desativa os Botoes de Editar e Excluir quando nenhum item na tabela esta selecionado

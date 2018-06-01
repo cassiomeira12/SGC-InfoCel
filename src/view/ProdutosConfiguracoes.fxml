@@ -25,7 +25,7 @@
                <children>
                   <Button mnemonicParsing="false" onAction="#adicionarCategoria" styleClass="button-add" text="Adicionar" />
                   <Button fx:id="editarCategoriaButton" mnemonicParsing="false" onAction="#editarCategoria" text="Editar" />
-                  <Button fx:id="removerCategoriaButton" mnemonicParsing="false" onAction="#removerCategoria" styleClass="button-deletar" text="Remover" />
+                  <Button fx:id="removerCategoriaButton" mnemonicParsing="false" onAction="#removerCategoria" styleClass="button-deletar" text="Excluir" />
                </children>
             </HBox>
          </children>
@@ -45,7 +45,7 @@
                <children>
                   <Button mnemonicParsing="false" onAction="#adicionarMarca" styleClass="button-add" text="Adicionar" />
                   <Button fx:id="editarMarcaButton" mnemonicParsing="false" onAction="#editarMarca" text="Editar" />
-                  <Button fx:id="removerMarcaButton" mnemonicParsing="false" onAction="#removerMarca" styleClass="button-deletar" text="Remover" />
+                  <Button fx:id="removerMarcaButton" mnemonicParsing="false" onAction="#removerMarca" styleClass="button-deletar" text="Excluir" />
                </children>
             </HBox>
          </children>
@@ -66,7 +66,7 @@
                <children>
                   <Button mnemonicParsing="false" onAction="#adicionarUnidade" styleClass="button-add" text="Adicionar" />
                   <Button fx:id="editarUnidadeButton" mnemonicParsing="false" onAction="#editarUnidade" text="Editar" />
-                  <Button fx:id="removerUnidadeButton" mnemonicParsing="false" onAction="#removerUnidade" styleClass="button-deletar" text="Remover" />
+                  <Button fx:id="removerUnidadeButton" mnemonicParsing="false" onAction="#removerUnidade" styleClass="button-deletar" text="Excluir" />
                </children>
             </HBox>
          </children>

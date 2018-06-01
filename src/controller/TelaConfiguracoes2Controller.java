@@ -1,6 +1,8 @@
 package controller;
 
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Tab;
@@ -39,7 +41,7 @@ public class TelaConfiguracoes2Controller extends AnchorPane {
     
     @FXML
     public void initialize() {
-        
+        administradoresTab();
     }
     
     private void adicionarPainelInterno(AnchorPane novaTela) {
@@ -59,7 +61,12 @@ public class TelaConfiguracoes2Controller extends AnchorPane {
     
     @FXML
     private void administradoresTab() {
-        
+        try {
+            AnchorPane painel = FXMLLoader.load(getClass().getResource("/view/AdministradorConfiguracoes.fxml"));
+            administradoresTab.setContent(painel);
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
     }
     
     @FXML
@@ -68,9 +75,13 @@ public class TelaConfiguracoes2Controller extends AnchorPane {
     }
     
     @FXML
-    private void produtosTab() throws IOException {
-        HBox painel = FXMLLoader.load(getClass().getResource("/view/ProdutosConfiguracoes.fxml"));
-        produtosTab.setContent(painel);
+    private void produtosTab() {
+        try {
+            HBox painel = FXMLLoader.load(getClass().getResource("/view/ProdutosConfiguracoes.fxml"));
+            produtosTab.setContent(painel);
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
     }
     
 }

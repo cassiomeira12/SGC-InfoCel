@@ -1,5 +1,7 @@
 package model;
 
+import util.DateUtils;
+
 public class Administrador {
 
     private Long id;
@@ -88,6 +90,10 @@ public class Administrador {
 
     public void setDataCadastro(Long dataCadastro) {
         this.dataCadastro = dataCadastro;
+    }
+    
+    public String getDataEditada() {
+        return DateUtils.formatDate(dataCadastro);
     }
 
     public boolean getStatus() {
