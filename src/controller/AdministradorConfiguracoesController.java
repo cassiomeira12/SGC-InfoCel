@@ -232,7 +232,7 @@ public class AdministradorConfiguracoesController implements Initializable {
             protected List<Administrador> doInBackground() throws Exception {
                 return ControleDAO.getBanco().getAdministradorDAO().listar();
             }
-
+            
             //Metodo chamado apos terminar a execucao numa Thread separada
             @Override
             protected void done() {
@@ -342,6 +342,8 @@ public class AdministradorConfiguracoesController implements Initializable {
             } catch (Exception ex) {
                 Alerta.erro("Erro ao adicionar um novo Administrador");
                 ex.printStackTrace();
+            } finally {
+                cancelar(null);
             }
 
             novoAdministrador.setId(id);

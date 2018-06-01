@@ -166,7 +166,7 @@ public class TelaSelecionarProdutoController extends AnchorPane {
             protected List<Produto> doInBackground() throws Exception {
                 return ControleDAO.getBanco().getProdutoDAO().listar();
             }
-
+            
             //Metodo chamado apos terminar a execucao numa Thread separada
             @Override
             protected void done() {
@@ -175,7 +175,8 @@ public class TelaSelecionarProdutoController extends AnchorPane {
                     listaProdutos = this.get();
                     atualizarTabela();
                 } catch (InterruptedException | ExecutionException ex) {
-                    chamarAlerta("Erro ao consultar Banco de Dados\n" + ex.toString());
+                    chamarAlerta("Erro ao consultar Banco de Dados");
+                    ex.printStackTrace();
                 }
             }
         };

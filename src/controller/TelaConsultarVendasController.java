@@ -14,6 +14,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -49,10 +50,9 @@ public class TelaConsultarVendasController extends AnchorPane {
     @FXML
     private Button visualizarButton;
     @FXML
-    private ComboBox<String> mesComboBox;
+    private DatePicker inicioDatePicker;
     @FXML
-    private ComboBox<String> anoComboBox;
-    
+    private DatePicker fimDatePicker;
 
     public TelaConsultarVendasController(BorderPane painelPrincipal) {
         this.painelPrincipal = painelPrincipal;

@@ -108,11 +108,23 @@
                   <TextField fx:id="ruaText" GridPane.columnIndex="2" GridPane.columnSpan="3" GridPane.rowIndex="3" />
                   <TextField fx:id="numeroText" GridPane.columnIndex="5" GridPane.rowIndex="3" />
                   <Label text="Login" GridPane.rowIndex="4" />
-                  <TextField fx:id="loginText" GridPane.rowIndex="5" />
+                  <TextField fx:id="loginText" styleClass="text-field-usuario" GridPane.rowIndex="5">
+                     <opaqueInsets>
+                        <Insets />
+                     </opaqueInsets>
+                     <padding>
+                        <Insets left="25.0" />
+                     </padding></TextField>
                   <Label fx:id="senhaLabel" text="Senha" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-                  <PasswordField fx:id="senhaPassword" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                  <PasswordField fx:id="senhaPassword" styleClass="text-field-senha" GridPane.columnIndex="1" GridPane.rowIndex="5">
+                     <padding>
+                        <Insets left="25.0" />
+                     </padding></PasswordField>
                   <Label fx:id="confirmarSenhaLabel" text="Confirmar Senha" GridPane.columnIndex="2" GridPane.rowIndex="4" />
-                  <PasswordField fx:id="confirmarSenhaPassword" GridPane.columnIndex="2" GridPane.rowIndex="5" />
+                  <PasswordField fx:id="confirmarSenhaPassword" styleClass="text-field-senha" GridPane.columnIndex="2" GridPane.rowIndex="5">
+                     <padding>
+                        <Insets left="25.0" />
+                     </padding></PasswordField>
                   <HBox alignment="TOP_RIGHT" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="6">
                      <children>
                         <Label fx:id="alertaSenhaLabel" text="As senhas não conincidem" textFill="RED" />
