@@ -358,7 +358,7 @@ public class TelaAdicionarVendaController extends AnchorPane {
                     this.novaVenda.setCliente(cliente);
                     this.novaVenda.setFormaPagamento(formaPagamento);
                     this.novaVenda.setData(DateUtils.getLong(data));
-
+                    
                     try {
                         Long id = ControleDAO.getBanco().getVendaDAO().inserir(novaVenda);
 
@@ -413,6 +413,7 @@ public class TelaAdicionarVendaController extends AnchorPane {
         
         Cidade cidade = null;
         Bairro bairro = null;
+        Endereco endereco = null;
         
         if (cidadeBox.isVisible()) {
             cidade = cidadeComboBox.getValue();
@@ -430,9 +431,9 @@ public class TelaAdicionarVendaController extends AnchorPane {
             //bairro.setId(id);
         }
         
-        Endereco endereco = new Endereco(null, bairro, rua, numero);
-        Long id = ControleDAO.getBanco().getEnderecoDAO().inserir(endereco);
-        endereco.setId(id);
+        endereco = new Endereco(null, bairro, rua, numero);
+        //Long id = ControleDAO.getBanco().getEnderecoDAO().inserir(endereco);
+        //endereco.setId(id);
 
         return new Cliente(null, nome, endereco, cpf, rg, telefone, DateUtils.getLong(data), true);
     }

@@ -35,7 +35,7 @@ public class AdministradorDAO extends DAO {
             return null;
         
         stm = getConector().prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
-
+        
         stm.setString(1, adm.getNome());
         stm.setString(2, adm.getLogin());
         stm.setString(3, adm.getSenha());
