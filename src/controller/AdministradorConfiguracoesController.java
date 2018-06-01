@@ -148,7 +148,7 @@ public class AdministradorConfiguracoesController implements Initializable {
         
         cidadeComboBox.setOnAction((e) -> {
             Cidade cidade = cidadeComboBox.getValue();
-            bairroComboBox.getSelectionModel().clearSelection();
+            bairroComboBox.getSelectionModel().select(null);
             sincronizarBancoDadosBairro(cidade);
         });
         
@@ -246,6 +246,22 @@ public class AdministradorConfiguracoesController implements Initializable {
     
     @FXML
     private void excluir(ActionEvent event) {
+        Administrador administrador = administradoresTable.getSelectionModel().getSelectedItem();
+        
+        Dialogo.Resposta resposta = Alerta.confirmar("Deseja remover o Administrador  " + administrador.getNome() + " ?");
+
+        if (resposta == Dialogo.Resposta.YES) {
+            try {
+                ControleDAO.getBanco().getAdministradorDAO().excluir(administrador.getId().intValue());
+                Alerta.info("Administrador desativado com sucesso!");
+                sincronizarBancoDadosAdministradores();
+            } catch (SQLException ex) {
+                Alerta.erro("Erro ao exlucir Administrador");
+                ex.printStackTrace();
+            }
+        }
+
+        administradoresTable.getSelectionModel().clearSelection();
     }
 
     private void atualizarTabelaAdministradores() {
@@ -342,7 +358,7 @@ public class AdministradorConfiguracoesController implements Initializable {
         this.confirmarSenhaPassword.setDisable(false);
         
         Formatter.limpar(nomeText, cpfText, rgText, ruaText, numeroText, loginText, senhaPassword, confirmarSenhaPassword);
-        cidadeComboBox.getSelectionModel().clearSelection();
+        cidadeComboBox.getSelectionModel().select(null);
         bairroComboBox.getItems().clear();
         bairroComboBox.getSelectionModel().select(null);
     }
