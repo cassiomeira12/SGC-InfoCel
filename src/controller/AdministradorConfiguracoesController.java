@@ -10,6 +10,8 @@ import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.concurrent.ExecutionException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -35,6 +37,7 @@ import model.Cidade;
 import model.Endereco;
 import util.Formatter;
 import util.alerta.Alerta;
+import util.alerta.Dialogo;
 
 /**
  * FXML Controller class
@@ -45,6 +48,9 @@ public class AdministradorConfiguracoesController implements Initializable {
 
     private List<Administrador> listaAdministrador;
     private Administrador administradorSelecioado;
+    
+    private List<Cidade> listaCidades;
+    private List<Bairro> listaBairro;
     
     @FXML
     private Button editarButton;
@@ -120,9 +126,7 @@ public class AdministradorConfiguracoesController implements Initializable {
         //Desativa os Botoes de Editar e Excluir quando nenhum item na tabela esta selecionado
         editarButton.disableProperty().bind(administradoresTable.getSelectionModel().selectedItemProperty().isNull());
         excluirButton.disableProperty().bind(administradoresTable.getSelectionModel().selectedItemProperty().isNull());
-        
         dadosGridPane.disableProperty().bind(editarCheckBox.selectedProperty().not());
-        
         salvarButton.disableProperty().bind(nomeText.textProperty().isEmpty().or(
                                             cpfText.textProperty().isEmpty().or(
                                             rgText.textProperty().isEmpty().or(
@@ -136,7 +140,19 @@ public class AdministradorConfiguracoesController implements Initializable {
         
         alertaSenhaLabel.setVisible(false);
         
-        sincronizarBancoDados();
+        Formatter.mascaraCPF(cpfText);//Formatador para CPF
+        Formatter.mascaraRG(rgText);//Formatador para Rg
+        
+        Formatter.toUpperCase(nomeText, cpfText, rgText, ruaText, numeroText, adicionarCidadeText, adicionarBairroText);
+        
+        cidadeComboBox.setOnAction((e) -> {
+            Cidade cidade = cidadeComboBox.getValue();
+            bairroComboBox.getSelectionModel().clearSelection();
+            sincronizarBancoDadosBairro(cidade);
+        });
+        
+        sincronizarBancoDadosCidade();
+        sincronizarBancoDadosAdministradores();
     }    
     
     @FXML
@@ -209,7 +225,7 @@ public class AdministradorConfiguracoesController implements Initializable {
         this.administradoresTable.setItems(data);//Adiciona a lista de clientes na Tabela
     }
 
-    private void sincronizarBancoDados() {
+    private void sincronizarBancoDadosAdministradores() {
         //Metodo executado numa Thread separada
         SwingWorker<List, List> worker = new SwingWorker<List, List>() {
             @Override
@@ -283,8 +299,107 @@ public class AdministradorConfiguracoesController implements Initializable {
 
     @FXML
     private void salvar(ActionEvent event) {
+        String nome = nomeText.getText();
+        String cpf = cpfText.getText();
+        String rg = rgText.getText();
+        String rua = ruaText.getText();
+        String numero = numeroText.getText();
+        String login = loginText.getText();
+        String senha = senhaPassword.getText();
         
+        Cidade cidade = null;
+        Bairro bairro = null;
+        Endereco endereco = null;
+        
+        Dialogo.Resposta resposta = Alerta.confirmar("Deseja adicionar um novo Administrador ?");
+        if (resposta == Dialogo.Resposta.YES) {
+            
+            if (!senha.equals(confirmarSenhaPassword.getText())) {
+                Alerta.erro("Erro, as senhas digitadas não conferem");
+                return;
+            }
+
+            if (cidadeBox.isVisible()) {
+                cidade = cidadeComboBox.getValue();
+            } else if (adicionarCidadeBox.isVisible()) {
+                cidade = new Cidade(null, adicionarCidadeText.getText());
+            }
+
+            if (bairroBox.isVisible()) {
+                bairro = bairroComboBox.getValue();
+            } else if (adicionarBairroBox.isVisible()) {
+                bairro = new Bairro(null, adicionarBairroText.getText(), cidade);
+            }
+
+            endereco = new Endereco(null, bairro, rua, numero);
+
+            Administrador novoAdministrador = new Administrador(null, nome, login, senha, endereco, null, cpf, rg, null, true);
+
+            Long id = null;
+
+            try {
+                id = ControleDAO.getBanco().getAdministradorDAO().inserir(novoAdministrador);
+            } catch (Exception ex) {
+                Alerta.erro("Erro ao adicionar um novo Administrador");
+                ex.printStackTrace();
+            }
+
+            novoAdministrador.setId(id);
+            administradoresTable.getItems().add(novoAdministrador);
+            
+        }
     }
 
+    private void sincronizarBancoDadosCidade() {
+        //Metodo executado numa Thread separada
+        SwingWorker<List, List> worker = new SwingWorker<List, List>() {
+            @Override
+            protected List<Cidade> doInBackground() throws Exception {
+                return ControleDAO.getBanco().getCidadeDAO().listar();
+            }
+
+            //Metodo chamado apos terminar a execucao numa Thread separada
+            @Override
+            protected void done() {
+                super.done(); //To change body of generated methods, choose Tools | Templates.
+                try {
+                    listaCidades = this.get();
+                    ObservableList cidades = FXCollections.observableArrayList(listaCidades);
+                    cidadeComboBox.setItems(cidades);
+                } catch (InterruptedException | ExecutionException ex) {
+                    chamarAlerta("Erro ao consultar Banco de Dados");
+                    ex.printStackTrace();
+                }
+            }
+        };
+
+        worker.execute();
+    }
+    
+    private void sincronizarBancoDadosBairro(Cidade cidade) {
+        //Metodo executado numa Thread separada
+        SwingWorker<List, List> worker = new SwingWorker<List, List>() {
+            @Override
+            protected List<Bairro> doInBackground() throws Exception {
+                return ControleDAO.getBanco().getBairroDAO().buscarPorCidade(cidade);
+            }
+
+            //Metodo chamado apos terminar a execucao numa Thread separada
+            @Override
+            protected void done() {
+                super.done(); //To change body of generated methods, choose Tools | Templates.
+                try {
+                    listaBairro = this.get();
+                    ObservableList bairros = FXCollections.observableArrayList(listaBairro);
+                    bairroComboBox.setItems(bairros);
+                } catch (InterruptedException | ExecutionException ex) {
+                    chamarAlerta("Erro ao consultar Banco de Dados");
+                    ex.printStackTrace();
+                }
+            }
+        };
+
+        worker.execute();
+    }
     
 }
