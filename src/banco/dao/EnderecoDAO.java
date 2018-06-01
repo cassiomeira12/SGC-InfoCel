@@ -33,7 +33,7 @@ public class EnderecoDAO extends DAO {
         stm = getConector().prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
 
         stm.setString(1, endereco.getRua());
-         stm.setString(2, endereco.getNumero());
+        stm.setString(2, endereco.getNumero());
         stm.setInt(3, endereco.getBairro().getId().intValue());
 
         return super.inserir();

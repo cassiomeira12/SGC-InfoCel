@@ -85,7 +85,7 @@ public class Formatter {
     public static boolean isEmpty(ComboBox... box) {
         boolean vazio = false;
         for (ComboBox combo : box) {
-            if (combo.getSelectionModel().isEmpty()) {
+            if (combo.getSelectionModel().getSelectedItem() == null) {
                 vazio = true;
             }
         }

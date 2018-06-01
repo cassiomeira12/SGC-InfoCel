@@ -169,8 +169,10 @@ public class TelaAdicionarVendaController extends AnchorPane {
         telefoneText.disableProperty().bind(editarClienteCheckBox.selectedProperty().not());
         cpfText.disableProperty().bind(editarClienteCheckBox.selectedProperty().not());
         rgText.disableProperty().bind(editarClienteCheckBox.selectedProperty().not());
-        //cidadeText.disableProperty().bind(editarClienteCheckBox.selectedProperty().not());
+        cidadeBox.disableProperty().bind(editarClienteCheckBox.selectedProperty().not());
+        bairroBox.disableProperty().bind(editarClienteCheckBox.selectedProperty().not());
         ruaText.disableProperty().bind(editarClienteCheckBox.selectedProperty().not());
+        numeroText.disableProperty().bind(editarClienteCheckBox.selectedProperty().not());
 
         //Desativa os Botoes de Excluir quando nenhum item na tabela esta selecionado
         removerButton.disableProperty().bind(produtosTable.getSelectionModel().selectedItemProperty().isNull());
@@ -205,8 +207,9 @@ public class TelaAdicionarVendaController extends AnchorPane {
         adicionarBairroBox.setVisible(false);
         
         cidadeComboBox.setOnAction((e) -> {
-            Cidade c = cidadeComboBox.getValue();
-            sincronizarBancoDadosBairro(c);
+            Cidade cidade = cidadeComboBox.getValue();
+            bairroComboBox.getSelectionModel().clearSelection();
+            sincronizarBancoDadosBairro(cidade);
         });
         
         sincronizarBancoDadosCidade();
@@ -290,22 +293,20 @@ public class TelaAdicionarVendaController extends AnchorPane {
     private void finalizarCompra() {
         boolean novoCliente = this.cliente == null;
         boolean vazio = Formatter.isEmpty(nomeText, telefoneText, cpfText, rgText, ruaText, numeroText);
-        boolean enderecoVazio = false;// = Formatter.isEmpty(cidadeComboBox, bairroComboBox);
+        boolean enderecoVazio = true;// = Formatter.isEmpty(cidadeComboBox, bairroComboBox);
         boolean carrinhoVazio = novaVenda.isEmpty();
-
+        
         if (cidadeBox.isVisible() && bairroBox.isVisible()) {
             enderecoVazio = Formatter.isEmpty(cidadeComboBox, bairroComboBox);
-        } else if (adicionarCidadeBox.isVisible() && bairroBox.isVisible()) {
-            enderecoVazio = adicionarCidadeText.getText().isEmpty() && Formatter.isEmpty(bairroComboBox);
         } else if (cidadeBox.isVisible() && adicionarBairroBox.isVisible()) {
-            enderecoVazio = Formatter.isEmpty(cidadeComboBox) && adicionarBairroText.getText().isEmpty();
+            enderecoVazio = Formatter.isEmpty(cidadeComboBox) || adicionarBairroText.getText().isEmpty();
         } else if (adicionarCidadeBox.isVisible() && adicionarBairroBox.isVisible()) {
-            enderecoVazio = adicionarCidadeText.getText().isEmpty() && adicionarBairroText.getText().isEmpty();
+            enderecoVazio = adicionarCidadeText.getText().isEmpty() || adicionarBairroText.getText().isEmpty();
         }
         
         Cliente cliente = null;
         boolean continuar = false;
-
+        
         if (vazio || carrinhoVazio || enderecoVazio) {
             Alerta.alerta("Não é possivel finalizar essa Venda", "Erro");
         } else {
@@ -372,7 +373,8 @@ public class TelaAdicionarVendaController extends AnchorPane {
                             this.adicionarPainelInterno(telaInicial);
                         }
                     } catch (Exception e) {
-                        Alerta.erro("Erro ao adicionar nova Venda\n" + e.toString());
+                        Alerta.erro("Erro ao adicionar nova Venda");
+                        e.printStackTrace();
                     }
                 }
             }
@@ -429,8 +431,8 @@ public class TelaAdicionarVendaController extends AnchorPane {
         }
         
         Endereco endereco = new Endereco(null, bairro, rua, numero);
-        //Long id = ControleDAO.getBanco().getEnderecoDAO().inserir(endereco);
-        //endereco.setId(id);
+        Long id = ControleDAO.getBanco().getEnderecoDAO().inserir(endereco);
+        endereco.setId(id);
 
         return new Cliente(null, nome, endereco, cpf, rg, telefone, DateUtils.getLong(data), true);
     }
@@ -474,7 +476,6 @@ public class TelaAdicionarVendaController extends AnchorPane {
         this.telefoneText.setText(cliente.getTelefone());
         this.cpfText.setText(cliente.getCpf());
         this.rgText.setText(cliente.getRg());
-        //this.cidadeText.setText(cliente.getEndereco().getBairro().getCidade().getNome());
         
         Endereco endereco = cliente.getEndereco();
         Bairro bairro = endereco.getBairro();
