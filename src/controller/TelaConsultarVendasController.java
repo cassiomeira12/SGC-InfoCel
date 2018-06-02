@@ -2,6 +2,7 @@ package controller;
 
 import banco.ControleDAO;
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 import javafx.application.Platform;
@@ -26,6 +27,7 @@ import javax.swing.SwingWorker;
 import model.Administrador;
 import model.Cliente;
 import model.Venda;
+import util.DateUtils;
 import util.alerta.Alerta;
 
 public class TelaConsultarVendasController extends AnchorPane {
@@ -34,8 +36,13 @@ public class TelaConsultarVendasController extends AnchorPane {
 
     private List<Venda> listaVendas;
     
-    private List<String> listaMes;
-    private List<String> listaAno;
+    private LocalDate dataInicio;
+    private LocalDate dataFim;
+    
+    @FXML
+    private DatePicker inicioDatePicker;
+    @FXML
+    private DatePicker fimDatePicker;
 
     @FXML
     private TableView<Venda> vendasTable;
@@ -49,10 +56,7 @@ public class TelaConsultarVendasController extends AnchorPane {
     private TableColumn<Venda, Float> totalColumn;
     @FXML
     private Button visualizarButton;
-    @FXML
-    private DatePicker inicioDatePicker;
-    @FXML
-    private DatePicker fimDatePicker;
+    
 
     public TelaConsultarVendasController(BorderPane painelPrincipal) {
         this.painelPrincipal = painelPrincipal;
@@ -70,18 +74,12 @@ public class TelaConsultarVendasController extends AnchorPane {
 
     @FXML
     public void initialize() {
+        this.dataInicio = LocalDate.now();
+        this.dataFim = LocalDate.now().plusDays(1);
+        
         //Desativa os Botoes de Editar e Excluir quando nenhum item na tabela esta selecionado
         visualizarButton.disableProperty().bind(vendasTable.getSelectionModel().selectedItemProperty().isNull());
         
-        //Formatter.toUpperCase(pesquisaText);
-
-        this.sincronizarBancoDados();
-        //this.atualizarTabela();
-
-        //pesquisaText.textProperty().addListener((obs, old, novo) -> {
-        //    filtro(novo, listaVendas, vendasTable);
-        //});
-
         vendasTable.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
@@ -92,6 +90,21 @@ public class TelaConsultarVendasController extends AnchorPane {
                 }
             }
         });
+        
+        inicioDatePicker.setValue(dataInicio);
+        fimDatePicker.setValue(dataFim);
+        
+        inicioDatePicker.setOnAction((e) -> {
+            this.dataInicio = inicioDatePicker.getValue();
+            sincronizarBancoDados(DateUtils.formatDate(dataInicio), DateUtils.formatDate(dataFim));
+        });
+        
+        fimDatePicker.setOnAction((e) -> {
+            this.dataFim = fimDatePicker.getValue();
+            sincronizarBancoDados(DateUtils.formatDate(dataInicio), DateUtils.formatDate(dataFim));
+        });
+        
+        sincronizarBancoDados(DateUtils.formatDate(dataInicio), DateUtils.formatDate(dataFim));
 
     }
 
@@ -100,24 +113,6 @@ public class TelaConsultarVendasController extends AnchorPane {
         
     }
     
-    private void adicionarPainelInterno(AnchorPane novaTela) {
-        this.painelPrincipal.setCenter(novaTela);
-    }
-
-    @FXML
-    private void cancelarOperacao() {
-        TelaInicialController telaInicial = new TelaInicialController(painelPrincipal);
-        this.adicionarPainelInterno(telaInicial);
-    }
-
-    @FXML
-    private void visualizarVenda() {
-//        Cliente cliente = vendasTable.getSelectionModel().getSelectedItem();
-//
-//        TelaClienteController telaCliente = new TelaClienteController(painelPrincipal, cliente);
-//        this.adicionarPainelInterno(telaCliente);
-    }
-
     private void filtro(String texto, List lista, TableView tabela) {
         ObservableList data = FXCollections.observableArrayList(lista);
 
@@ -143,6 +138,24 @@ public class TelaConsultarVendasController extends AnchorPane {
         dadosOrdenados.comparatorProperty().bind(tabela.comparatorProperty());
         tabela.setItems(dadosOrdenados);
     }
+    
+    private void adicionarPainelInterno(AnchorPane novaTela) {
+        this.painelPrincipal.setCenter(novaTela);
+    }
+
+    @FXML
+    private void cancelarOperacao() {
+        TelaInicialController telaInicial = new TelaInicialController(painelPrincipal);
+        this.adicionarPainelInterno(telaInicial);
+    }
+
+    @FXML
+    private void visualizarVenda() {
+//        Cliente cliente = vendasTable.getSelectionModel().getSelectedItem();
+//
+//        TelaClienteController telaCliente = new TelaClienteController(painelPrincipal, cliente);
+//        this.adicionarPainelInterno(telaCliente);
+    }
 
     private void atualizarTabela() {
         //Transforma a lista em uma Lista Observavel
@@ -155,55 +168,12 @@ public class TelaConsultarVendasController extends AnchorPane {
         this.vendasTable.setItems(data);//Adiciona a lista de clientes na Tabela
     }
 
-    private void sincronizarBancoDadosCombo() {
-        //Metodo executado numa Thread separada
-        SwingWorker<List, List> worker1 = new SwingWorker<List, List>() {
-            @Override
-            protected List<Venda> doInBackground() throws Exception {
-                return ControleDAO.getBanco().getVendaDAO().listar();
-            }
-
-            //Metodo chamado apos terminar a execucao numa Thread separada
-            @Override
-            protected void done() {
-                super.done(); //To change body of generated methods, choose Tools | Templates.
-                try {
-                    listaVendas = this.get();
-                    atualizarTabela();
-                } catch (InterruptedException | ExecutionException ex) {
-                    chamarAlerta("Erro ao consultar Banco de Dados");
-                }
-            }
-        };
-        worker1.execute();
-        
-        //Metodo executado numa Thread separada
-        SwingWorker<List, List> worker2 = new SwingWorker<List, List>() {
-            @Override
-            protected List<Venda> doInBackground() throws Exception {
-                return ControleDAO.getBanco().getVendaDAO().listar();
-            }
-
-            //Metodo chamado apos terminar a execucao numa Thread separada
-            @Override
-            protected void done() {
-                super.done(); //To change body of generated methods, choose Tools | Templates.
-                try {
-                    listaVendas = this.get();
-                    atualizarTabela();
-                } catch (InterruptedException | ExecutionException ex) {
-                    chamarAlerta("Erro ao consultar Banco de Dados");
-                }
-            }
-        };
-        worker2.execute();
-    }
-    
-    private void sincronizarBancoDados() {
+    private void sincronizarBancoDados(String dataInicio, String dataFinal) {
         //Metodo executado numa Thread separada
         SwingWorker<List, List> worker = new SwingWorker<List, List>() {
             @Override
             protected List<Venda> doInBackground() throws Exception {
+                //return ControleDAO.getBanco().getVendaDAO().buscarPorIntervalo(dataInicio, dataFinal);
                 return ControleDAO.getBanco().getVendaDAO().listar();
             }
 
@@ -216,6 +186,7 @@ public class TelaConsultarVendasController extends AnchorPane {
                     atualizarTabela();
                 } catch (InterruptedException | ExecutionException ex) {
                     chamarAlerta("Erro ao consultar Banco de Dados");
+                    ex.printStackTrace();
                 }
             }
         };
