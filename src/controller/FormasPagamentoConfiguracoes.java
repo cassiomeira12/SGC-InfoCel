@@ -7,9 +7,12 @@ package controller;
 
 import banco.ControleDAO;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.concurrent.ExecutionException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -18,6 +21,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.Spinner;
+import javafx.scene.control.SpinnerValueFactory;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -25,7 +30,9 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.VBox;
 import javax.swing.SwingWorker;
 import model.FormaPagamento;
+import util.Formatter;
 import util.alerta.Alerta;
+import util.alerta.Dialogo;
 
 /**
  * FXML Controller class
@@ -34,18 +41,18 @@ import util.alerta.Alerta;
  */
 public class FormasPagamentoConfiguracoes implements Initializable {
 
-    List<FormaPagamento> listaFormasPagamento;
+    private List<FormaPagamento> listaFormasPagamento;
+    
+    private FormaPagamento pagamentoSelecionado;
     
     @FXML
     private TableView<FormaPagamento> formasPagamentoTable;
     @FXML
     private TableColumn<FormaPagamento, String> descricaoColumn;
     @FXML
-    private TableColumn<FormaPagamento, String> parcelasColumn;
+    private TableColumn<FormaPagamento, String> maximoParcelasColumn;
     @FXML
     private Button editarButton;
-    @FXML
-    private Button removerButton;
     @FXML
     private VBox novaFormaPagamento;
     @FXML
@@ -53,36 +60,128 @@ public class FormasPagamentoConfiguracoes implements Initializable {
     @FXML
     private TextField descricaoText;
     @FXML
-    private TextField parcelasText;
+    private Spinner<Integer> parcelasSpinner;
     @FXML
     private Button salvarButton;
+    @FXML
+    private Button excluirButton;
 
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        this.pagamentoSelecionado = null;
+        
+        Formatter.toUpperCase(descricaoText);
+        
+        //Desativa os Botoes de Editar e Excluir quando nenhum item na tabela esta selecionado
+        editarButton.disableProperty().bind(formasPagamentoTable.getSelectionModel().selectedItemProperty().isNull());
+        excluirButton.disableProperty().bind(formasPagamentoTable.getSelectionModel().selectedItemProperty().isNull());
+        
+        salvarButton.disableProperty().bind(descricaoText.textProperty().isEmpty());
+        
+        SpinnerValueFactory<Integer> valores = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 12, 1);
+        this.parcelasSpinner.setValueFactory(valores);
+        
+        this.novaFormaPagamento.setVisible(false);
+        
         sincronizarBancoDados();
     }    
 
     @FXML
     private void adicionar(ActionEvent event) {
+        this.novaFormaPagamento.setVisible(true);
+        this.pagamentoSelecionado = null;
     }
 
     @FXML
     private void editar(ActionEvent event) {
+        this.novaFormaPagamento.setVisible(true);
+        this.pagamentoSelecionado = formasPagamentoTable.getSelectionModel().getSelectedItem();
+        adicionarDados(pagamentoSelecionado);
+    }
+    
+    private void adicionarDados(FormaPagamento pagamento) {
+        this.descricaoText.setText(pagamento.getDescricao());
+        this.parcelasSpinner.getValueFactory().setValue(pagamento.getMaximoParcelas());
     }
 
     @FXML
-    private void remover(ActionEvent event) {
+    private void excluir(ActionEvent event) {
+        FormaPagamento pagamento = formasPagamentoTable.getSelectionModel().getSelectedItem();
+        
+        Dialogo.Resposta resposta = Alerta.confirmar("Excluir Forma de Pagamento " + pagamento.getDescricao() + " ?");
+
+        if (resposta == Dialogo.Resposta.YES) {
+            try {
+                if (ControleDAO.getBanco().getFormaPagamentoDAO().excluir(pagamento.getId().intValue())) {
+                    this.sincronizarBancoDados();
+                    Alerta.info("Forma de Pagamento excluída com sucesso");
+                } else {
+                    chamarAlerta("Erro ao excluir a Forma de Pagamento");
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     @FXML
     private void cancelar(ActionEvent event) {
+        this.novaFormaPagamento.setVisible(false);
+        this.pagamentoSelecionado = null;
+        
+        this.descricaoText.setText("");
+        this.parcelasSpinner.getValueFactory().setValue(1);
     }
 
     @FXML
     private void salvar(ActionEvent event) {
+        String descricao = descricaoText.getText();
+        int maxParcelas = parcelasSpinner.getValue();
+        
+        FormaPagamento novaFormaPagamento = null;
+        
+        if (pagamentoSelecionado == null) {
+            novaFormaPagamento = new FormaPagamento(null, descricao, maxParcelas);
+            Long id = null;
+
+            try {
+                id = ControleDAO.getBanco().getFormaPagamentoDAO().inserir(novaFormaPagamento);
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+
+            if (id == null) {
+                chamarAlerta("Erro ao adicionar nova Forma de Pagamento");
+                return;
+            } 
+
+            novaFormaPagamento.setId(id);
+            formasPagamentoTable.getItems().add(novaFormaPagamento);
+            formasPagamentoTable.refresh();
+            Alerta.info("Nova Forma de Pagamento adicionada com sucesso!");
+            cancelar(null);
+            
+        } else {
+            novaFormaPagamento = pagamentoSelecionado;
+            
+            novaFormaPagamento.setDescricao(descricao);
+            novaFormaPagamento.setMaximoParcelas(maxParcelas);
+            
+            try {
+                if (ControleDAO.getBanco().getFormaPagamentoDAO().editar(novaFormaPagamento)) {
+                    Alerta.info("Dados alterados com sucesso!");
+                    cancelar(null);
+                    sincronizarBancoDados();
+                } else {
+                    chamarAlerta("Erro ao alterar informações");
+                }
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+        }
     }
     
     private void atualizarTabela() {
@@ -90,7 +189,7 @@ public class FormasPagamentoConfiguracoes implements Initializable {
         ObservableList data = FXCollections.observableArrayList(listaFormasPagamento);
         
         this.descricaoColumn.setCellValueFactory(new PropertyValueFactory<>("descricao"));//Adiciona o valor da variavel Nome
-        this.parcelasColumn.setCellValueFactory(new PropertyValueFactory<>("parcelas"));//Adiciona o valor da variavel Endereco
+        this.maximoParcelasColumn.setCellValueFactory(new PropertyValueFactory<>("maximoParcelas"));//Adiciona o valor da variavel Endereco
         this.formasPagamentoTable.setItems(data);//Adiciona a lista de clientes na Tabela
     }
 
@@ -126,5 +225,5 @@ public class FormasPagamentoConfiguracoes implements Initializable {
             }
         });
     }
-    
+
 }
