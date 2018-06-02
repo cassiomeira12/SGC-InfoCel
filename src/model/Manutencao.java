@@ -18,8 +18,9 @@ public class Manutencao {
     private Long dataEntrega;
     private float preco;
     private boolean finalizado;
+    private int quantidadeParcelas;
 
-    public Manutencao(Long id, String descricao, Cliente cliente, Administrador administrador, String marca, String modelo, String imei, String cor, Long dataCadastro, Long dataPrevisaoEntrega, Long dataEntrega, float preco, boolean finalizado, FormaPagamento formaPagamento) {
+    public Manutencao(Long id, String descricao, Cliente cliente, Administrador administrador, String marca, String modelo, String imei, String cor, Long dataCadastro, Long dataPrevisaoEntrega, Long dataEntrega, float preco, boolean finalizado, FormaPagamento formaPagamento, int quantidadeParcelas) {
         this.id = id;
         this.descricao = descricao;
         this.cliente = cliente;
@@ -34,6 +35,7 @@ public class Manutencao {
         this.preco = preco;
         this.finalizado = finalizado;
         this.formaPagamento = formaPagamento;
+        this.quantidadeParcelas = quantidadeParcelas;
     }
 
     public Long getId() {
@@ -158,6 +160,14 @@ public class Manutencao {
 
     public void setFormaPagamento(FormaPagamento formaPagamento) {
         this.formaPagamento = formaPagamento;
+    }
+
+    public int getQuantidadeParcelas() {
+        return quantidadeParcelas;
+    }
+
+    public void setQuantidadeParcelas(int quantidadeParcelas) {
+        this.quantidadeParcelas = quantidadeParcelas;
     }
 
 }

@@ -33,7 +33,7 @@ public class ManutencaoDAO extends DAO {
             manutencao.getCliente().setId(id);
         }
 
-        String sql = "INSERT INTO manutencao ( id_cliente, id_administrador,id_forma_pagamento, descricao, data_cadastro, data_previsao, data_entrega, preco, finalizado, marca, modelo, imei, cor) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO manutencao ( id_cliente, id_administrador,id_forma_pagamento, descricao, data_cadastro, data_previsao, data_entrega, preco, finalizado, marca, modelo, imei, cor, quantidade_parcelas) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         stm = getConector().prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
 
@@ -50,6 +50,7 @@ public class ManutencaoDAO extends DAO {
         stm.setString(11, manutencao.getModelo());
         stm.setString(12, manutencao.getImei());
         stm.setString(13, manutencao.getCor());
+        stm.setInt(14, manutencao.getQuantidadeParcelas());
 
         return super.inserir();
 
@@ -59,7 +60,7 @@ public class ManutencaoDAO extends DAO {
      * Atualizar dados marca na base de dados
      */
     public boolean editar(Manutencao manutencao) throws SQLException {
-        String sql = "UPDATE manutencao SET id_cliente =?, id_administrador =?, id_forma_pagamento = ?, descricao =?, data_previsao =?, data_entrega =?, preco =?, finalizado =?, marca =?, modelo =?, imei =?, cor =? WHERE id =?";
+        String sql = "UPDATE manutencao SET id_cliente =?, id_administrador =?, id_forma_pagamento = ?, descricao =?, data_previsao =?, data_entrega =?, preco =?, finalizado =?, marca =?, modelo =?, imei =?, cor =?, quantidade_parcelas =? WHERE id =?";
 
         stm = getConector().prepareStatement(sql);
 
@@ -76,8 +77,9 @@ public class ManutencaoDAO extends DAO {
         stm.setString(11, manutencao.getModelo());
         stm.setString(12, manutencao.getImei());
         stm.setString(13, manutencao.getCor());
+        stm.setInt(14, manutencao.getQuantidadeParcelas());
 
-        stm.setInt(9, manutencao.getId().intValue());
+        stm.setInt(15, manutencao.getId().intValue());
 
         stm.executeUpdate();
         stm.close();
@@ -128,7 +130,7 @@ public class ManutencaoDAO extends DAO {
 
             FormaPagamento formaPagamento = new FormaPagamento(rs.getLong("id_forma_pagamento"), rs.getString("descricao_forma_pagamento"), 1);
 
-            manuntencoes.add(new Manutencao(rs.getLong("id"), rs.getString("descricao"), cliente, adm, rs.getString("marca"), rs.getString("modelo"), rs.getString("imei"), rs.getString("cor"), rs.getLong("data_cadastro"), rs.getLong("data_previsao"), rs.getLong("data_entrega"), rs.getFloat("preco"), rs.getBoolean("finalizado"), formaPagamento));
+            manuntencoes.add(new Manutencao(rs.getLong("id"), rs.getString("descricao"), cliente, adm, rs.getString("marca"), rs.getString("modelo"), rs.getString("imei"), rs.getString("cor"), rs.getLong("data_cadastro"), rs.getLong("data_previsao"), rs.getLong("data_entrega"), rs.getFloat("preco"), rs.getBoolean("finalizado"), formaPagamento, rs.getInt("quantidade_parcelas")));
         }
 
         stm.close();
@@ -163,7 +165,7 @@ public class ManutencaoDAO extends DAO {
 
             FormaPagamento formaPagamento = new FormaPagamento(rs.getLong("id_forma_pagamento"), rs.getString("descricao_forma_pagamento"), 1);
 
-            manuntencoes.add(new Manutencao(rs.getLong("id"), rs.getString("descricao"), cliente, adm, rs.getString("marca"), rs.getString("modelo"), rs.getString("imei"), rs.getString("cor"), rs.getLong("data_cadastro"), rs.getLong("data_previsao"), rs.getLong("data_entrega"), rs.getFloat("preco"), rs.getBoolean("finalizado"), formaPagamento));
+            manuntencoes.add(new Manutencao(rs.getLong("id"), rs.getString("descricao"), cliente, adm, rs.getString("marca"), rs.getString("modelo"), rs.getString("imei"), rs.getString("cor"), rs.getLong("data_cadastro"), rs.getLong("data_previsao"), rs.getLong("data_entrega"), rs.getFloat("preco"), rs.getBoolean("finalizado"), formaPagamento, rs.getInt("quantidade_parcelas")));
         }
 
         stm.close();
@@ -198,7 +200,7 @@ public class ManutencaoDAO extends DAO {
 
             FormaPagamento formaPagamento = new FormaPagamento(rs.getLong("id_forma_pagamento"), rs.getString("descricao_forma_pagamento"), 1);
 
-            manuntencoes.add(new Manutencao(rs.getLong("id"), rs.getString("descricao"), cliente, adm, rs.getString("marca"), rs.getString("modelo"), rs.getString("imei"), rs.getString("cor"), rs.getLong("data_cadastro"), rs.getLong("data_previsao"), rs.getLong("data_entrega"), rs.getFloat("preco"), rs.getBoolean("finalizado"), formaPagamento));
+            manuntencoes.add(new Manutencao(rs.getLong("id"), rs.getString("descricao"), cliente, adm, rs.getString("marca"), rs.getString("modelo"), rs.getString("imei"), rs.getString("cor"), rs.getLong("data_cadastro"), rs.getLong("data_previsao"), rs.getLong("data_entrega"), rs.getFloat("preco"), rs.getBoolean("finalizado"), formaPagamento, rs.getInt("quantidade_parcelas")));
         }
 
         stm.close();
@@ -233,7 +235,7 @@ public class ManutencaoDAO extends DAO {
 
             FormaPagamento formaPagamento = new FormaPagamento(rs.getLong("id_forma_pagamento"), rs.getString("descricao_forma_pagamento"), 1);
 
-            manuntencoes.add(new Manutencao(rs.getLong("id"), rs.getString("descricao"), cliente, adm, rs.getString("marca"), rs.getString("modelo"), rs.getString("imei"), rs.getString("cor"), rs.getLong("data_cadastro"), rs.getLong("data_previsao"), rs.getLong("data_entrega"), rs.getFloat("preco"), rs.getBoolean("finalizado"), formaPagamento));
+            manuntencoes.add(new Manutencao(rs.getLong("id"), rs.getString("descricao"), cliente, adm, rs.getString("marca"), rs.getString("modelo"), rs.getString("imei"), rs.getString("cor"), rs.getLong("data_cadastro"), rs.getLong("data_previsao"), rs.getLong("data_entrega"), rs.getFloat("preco"), rs.getBoolean("finalizado"), formaPagamento, rs.getInt("quantidade_parcelas")));
         }
 
         stm.close();
@@ -263,7 +265,7 @@ public class ManutencaoDAO extends DAO {
 
             FormaPagamento formaPagamento = new FormaPagamento(rs.getLong("id_forma_pagamento"), rs.getString("descricao_forma_pagamento"), 1);
 
-            manuntencoes.add(new Manutencao(rs.getLong("id"), rs.getString("descricao"), cliente, adm, rs.getString("marca"), rs.getString("modelo"), rs.getString("imei"), rs.getString("cor"), rs.getLong("data_cadastro"), rs.getLong("data_previsao"), rs.getLong("data_entrega"), rs.getFloat("preco"), rs.getBoolean("finalizado"), formaPagamento));
+            manuntencoes.add(new Manutencao(rs.getLong("id"), rs.getString("descricao"), cliente, adm, rs.getString("marca"), rs.getString("modelo"), rs.getString("imei"), rs.getString("cor"), rs.getLong("data_cadastro"), rs.getLong("data_previsao"), rs.getLong("data_entrega"), rs.getFloat("preco"), rs.getBoolean("finalizado"), formaPagamento, rs.getInt("quantidade_parcelas")));
         }
 
         stm.close();
