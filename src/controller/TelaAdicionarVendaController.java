@@ -22,6 +22,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.Spinner;
+import javafx.scene.control.SpinnerValueFactory;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -61,6 +62,8 @@ public class TelaAdicionarVendaController extends AnchorPane {
     
     List<Cidade> listaCidades;
     List<Bairro> listaBairros;
+    List<FormaPagamento> listaPagamentos;
+    List<Administrador> listaAdministrador;
 
     @FXML
     private CheckBox editarClienteCheckBox;
@@ -108,7 +111,7 @@ public class TelaAdicionarVendaController extends AnchorPane {
     @FXML
     private ComboBox<FormaPagamento> formarPagComboBox;
     @FXML
-    private Spinner parcelasSpinner;
+    private Spinner<Integer> parcelasSpinner;
     @FXML
     private Button removerButton;
     @FXML
@@ -178,30 +181,12 @@ public class TelaAdicionarVendaController extends AnchorPane {
         //Desativa os Botoes de Excluir quando nenhum item na tabela esta selecionado
         removerButton.disableProperty().bind(produtosTable.getSelectionModel().selectedItemProperty().isNull());
 
-        try {
-            //Adicionando formas de pagamento no ComboBox
-            this.formarPagComboBox.getItems().addAll(ControleDAO.getBanco().getFormaPagamentoDAO().listar());
-            //Selecionando primeira forma de Pagamento
-            this.formarPagComboBox.getSelectionModel().select(0);//Selecionando o primeiro item
-            //Adicionando os Administradores no ComboBox
-            this.vendedorComboBox.setItems(FXCollections.observableArrayList(ControleDAO.getBanco().getAdministradorDAO().listar()));
-            //Selecionando o Administrador que fez o Login
-            this.vendedorComboBox.getSelectionModel().select(0);
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-        }
-        
         this.dataDatePicker.setValue(LocalDate.now());//Adicionando Data do dia atual
-
+        
         formarPagComboBox.setOnAction((e) -> {
-            FormaPagamento formaPagamento = formarPagComboBox.getSelectionModel().getSelectedItem();
-            if (formaPagamento.getDescricao().equals("À VISTA")) {
-                parcelasLabel.setVisible(false);//Ocultando Label de Parcelas
-                parcelasSpinner.setVisible(false);//Ocultando Spinner de Parcelas
-            } else {
-                parcelasLabel.setVisible(true);//Ocultando Label de Parcelas
-                parcelasSpinner.setVisible(true);//Ocultando Spinner de Parcelas
-            }
+            FormaPagamento pagamento = formarPagComboBox.getSelectionModel().getSelectedItem();
+            SpinnerValueFactory<Integer> valores = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, pagamento.getMaximoParcelas(), 1);
+            parcelasSpinner.setValueFactory(valores);
         });
         
         adicionarCidadeBox.setVisible(false);
@@ -213,6 +198,8 @@ public class TelaAdicionarVendaController extends AnchorPane {
             sincronizarBancoDadosBairro(cidade);
         });
         
+        sincronizarBancoDadosAdministrador();
+        sincronizarBancoDadosPagamento();
         sincronizarBancoDadosCidade();
     }
 
@@ -240,7 +227,6 @@ public class TelaAdicionarVendaController extends AnchorPane {
 
     @FXML
     private void adicionarProduto() {
-
         Stage palco = new Stage();
         palco.initModality(Modality.APPLICATION_MODAL);//Impede de clicar na tela em plano de fundo
         palco.centerOnScreen();
@@ -253,6 +239,7 @@ public class TelaAdicionarVendaController extends AnchorPane {
 
         if (telaSelecionarProduto.RESULTADO) {//Selecionou Produto
             Produto produto = telaSelecionarProduto.getProduto();
+
             float quantidadeVendida = telaSelecionarProduto.getQuantidade();
 
             VendaProduto vendaProduto = novaVenda.containsProduto(produto);
@@ -294,7 +281,7 @@ public class TelaAdicionarVendaController extends AnchorPane {
     private void finalizarCompra() {
         boolean novoCliente = this.cliente == null;
         boolean vazio = Formatter.isEmpty(nomeText, telefoneText, cpfText, rgText, ruaText, numeroText);
-        boolean enderecoVazio = true;// = Formatter.isEmpty(cidadeComboBox, bairroComboBox);
+        boolean enderecoVazio = true;
         boolean carrinhoVazio = novaVenda.isEmpty();
         
         if (cidadeBox.isVisible() && bairroBox.isVisible()) {
@@ -354,10 +341,12 @@ public class TelaAdicionarVendaController extends AnchorPane {
                     LocalDate data = dataDatePicker.getValue();
                     Administrador vendedor = vendedorComboBox.getValue();
                     FormaPagamento formaPagamento = formarPagComboBox.getValue();
-
+                    int parcelas = parcelasSpinner.getValue();
+                    
                     this.novaVenda.setAdministrador(vendedor);
                     this.novaVenda.setCliente(cliente);
                     this.novaVenda.setFormaPagamento(formaPagamento);
+                    this.novaVenda.setQuantidadeParcelas(parcelas);
                     this.novaVenda.setData(DateUtils.getLong(data));
                     
                     try {
@@ -422,21 +411,15 @@ public class TelaAdicionarVendaController extends AnchorPane {
             cidade = cidadeComboBox.getValue();
         } else if (adicionarCidadeBox.isVisible()) {
             cidade = new Cidade(null, adicionarCidadeText.getText());
-            //Long id = ControleDAO.getBanco().getCidadeDAO().inserir(cidade);
-            //cidade.setId(id);
         }
         
         if (bairroBox.isVisible()) {
             bairro = bairroComboBox.getValue();
         } else if (adicionarBairroBox.isVisible()) {
             bairro = new Bairro(null, adicionarBairroText.getText(), cidade);
-            //Long id = ControleDAO.getBanco().getBairroDAO().inserir(bairro);
-            //bairro.setId(id);
         }
         
         endereco = new Endereco(null, bairro, rua, numero);
-        //Long id = ControleDAO.getBanco().getEnderecoDAO().inserir(endereco);
-        //endereco.setId(id);
 
         return new Cliente(null, nome, endereco, cpf, rg, telefone, DateUtils.getLong(data), true);
     }
@@ -487,10 +470,9 @@ public class TelaAdicionarVendaController extends AnchorPane {
         
         this.selecionarCidade();
         this.cidadeComboBox.getSelectionModel().select(cidade);
-        sincronizarBancoDadosBairro(cidade);
         
-        this.selecionarBairro();
-        this.bairroComboBox.getSelectionModel().select(bairro);
+        sincronizarBancoDadosBairro(cidade);
+        bairroComboBox.setValue(bairro);
         
         this.ruaText.setText(endereco.getRua());
         this.numeroText.setText(endereco.getNumero());
@@ -564,7 +546,6 @@ public class TelaAdicionarVendaController extends AnchorPane {
                 }
             }
         };
-
         worker.execute();
     }
     
@@ -594,6 +575,56 @@ public class TelaAdicionarVendaController extends AnchorPane {
         worker.execute();
     }
     
+    private void sincronizarBancoDadosAdministrador() {
+        //Metodo executado numa Thread separada
+        SwingWorker<List, List> worker = new SwingWorker<List, List>() {
+            @Override
+            protected List<Administrador> doInBackground() throws Exception {
+                return ControleDAO.getBanco().getAdministradorDAO().listar();
+            }
+
+            //Metodo chamado apos terminar a execucao numa Thread separada
+            @Override
+            protected void done() {
+                super.done(); //To change body of generated methods, choose Tools | Templates.
+                try {
+                    listaAdministrador = this.get();
+                    ObservableList administradores = FXCollections.observableArrayList(listaAdministrador);
+                    vendedorComboBox.setItems(administradores);
+                } catch (InterruptedException | ExecutionException ex) {
+                    chamarAlerta("Erro ao consultar Banco de Dados");
+                    ex.printStackTrace();
+                }
+            }
+        };
+        worker.execute();
+    }
+    
+    private void sincronizarBancoDadosPagamento() {
+        //Metodo executado numa Thread separada
+        SwingWorker<List, List> worker = new SwingWorker<List, List>() {
+            @Override
+            protected List<FormaPagamento> doInBackground() throws Exception {
+                return ControleDAO.getBanco().getFormaPagamentoDAO().listar();
+            }
+
+            //Metodo chamado apos terminar a execucao numa Thread separada
+            @Override
+            protected void done() {
+                super.done(); //To change body of generated methods, choose Tools | Templates.
+                try {
+                    listaPagamentos = this.get();
+                    ObservableList pagamentos = FXCollections.observableArrayList(listaPagamentos);
+                    formarPagComboBox.setItems(pagamentos);
+                } catch (InterruptedException | ExecutionException ex) {
+                    chamarAlerta("Erro ao consultar Banco de Dados");
+                    ex.printStackTrace();
+                }
+            }
+        };
+        worker.execute();
+    }
+
     private void chamarAlerta(String mensagem) {
         Platform.runLater(new Runnable() {
             @Override

@@ -20,7 +20,7 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<fx:root prefHeight="650.0" prefWidth="1200.0" stylesheets="@../css/default.css" type="AnchorPane" xmlns="http://javafx.com/javafx/9" xmlns:fx="http://javafx.com/fxml/1">
+<fx:root prefHeight="650.0" prefWidth="1200.0" stylesheets="@../css/default.css" type="AnchorPane" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <BorderPane layoutX="270.0" layoutY="182.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
          <top>
@@ -56,20 +56,20 @@
             </HBox>
          </bottom>
          <center>
-            <VBox alignment="TOP_CENTER" spacing="10.0" BorderPane.alignment="CENTER">
+            <VBox alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="10.0" BorderPane.alignment="CENTER">
                <children>
-                  <GridPane hgap="10.0" minHeight="200.0">
+                  <GridPane hgap="10.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" VBox.vgrow="ALWAYS">
                      <columnConstraints>
                         <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="130.0" />
                         <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="120.0" />
-                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="150.0" />
-                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="180.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="220.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="-Infinity" />
                         <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="100.0" />
-                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
-                        <ColumnConstraints halignment="LEFT" hgrow="SOMETIMES" maxWidth="-Infinity" prefWidth="160.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefWidth="180.0" />
+                        <ColumnConstraints halignment="LEFT" hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefWidth="160.0" />
                      </columnConstraints>
                      <rowConstraints>
-                        <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="-Infinity" vgrow="SOMETIMES" />
                         <RowConstraints vgrow="SOMETIMES" />
                         <RowConstraints vgrow="SOMETIMES" />
                         <RowConstraints vgrow="SOMETIMES" />
@@ -79,7 +79,7 @@
                      </rowConstraints>
                      <children>
                         <CheckBox fx:id="editarClienteCheckBox" focusTraversable="false" mnemonicParsing="false" text="Editar informações do Cliente" GridPane.columnSpan="3" />
-                        <Button alignment="CENTER" mnemonicParsing="false" onAction="#pesquisarCliente" styleClass="button-pesquisar" text="Pesquisar Cliente" GridPane.columnIndex="6" />
+                        <Button alignment="CENTER" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#pesquisarCliente" styleClass="button-pesquisar" text="Pesquisar Cliente" GridPane.columnIndex="6" />
                         <TextField fx:id="nomeText" GridPane.columnSpan="6" GridPane.rowIndex="2" />
                         <TextField fx:id="telefoneText" promptText="(XX)XXXXX-XXXX" GridPane.columnIndex="6" GridPane.rowIndex="2">
                            <font>
@@ -88,31 +88,61 @@
                         </TextField>
                         <TextField fx:id="cpfText" promptText="XXX.XXX.XXX-XX" GridPane.rowIndex="4" />
                         <TextField fx:id="rgText" promptText="XX.XXX.XXX-XX" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-                        <TextField fx:id="cidadeText" GridPane.columnIndex="2" GridPane.rowIndex="4" />
-                        <TextField fx:id="enderecoText" GridPane.columnIndex="3" GridPane.columnSpan="4" GridPane.rowIndex="4" />
-                        <DatePicker fx:id="dataDatePicker" GridPane.rowIndex="6" />
-                        <TextField fx:id="precoText" GridPane.columnIndex="1" GridPane.rowIndex="6" />
-                        <ComboBox fx:id="vendedorComboBox" prefWidth="150.0" GridPane.columnIndex="2" GridPane.columnSpan="2" GridPane.rowIndex="6" />
-                        <ComboBox fx:id="formarPagComboBox" prefWidth="170.0" GridPane.columnIndex="3" GridPane.rowIndex="6" />
+                        <HBox fx:id="adicionarCidadeBox" alignment="CENTER" maxWidth="1.7976931348623157E308" spacing="5.0" visible="false" GridPane.columnIndex="2" GridPane.rowIndex="4">
+                           <children>
+                              <TextField fx:id="adicionarCidadeText" maxWidth="1.7976931348623157E308" />
+                              <Button focusTraversable="false" mnemonicParsing="false" onAction="#selecionarCidade" styleClass="button-deletar" />
+                           </children>
+                        </HBox>
+                        <HBox fx:id="cidadeBox" alignment="CENTER" maxWidth="1.7976931348623157E308" spacing="5.0" GridPane.columnIndex="2" GridPane.rowIndex="4">
+                           <children>
+                              <ComboBox fx:id="cidadeComboBox" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS" />
+                              <Button focusTraversable="false" mnemonicParsing="false" onAction="#adicionarCidade" styleClass="button-add" />
+                           </children>
+                        </HBox>
+                        <HBox fx:id="adicionarBairroBox" alignment="CENTER" maxWidth="1.7976931348623157E308" spacing="5.0" visible="false" GridPane.columnIndex="3" GridPane.rowIndex="4">
+                           <children>
+                              <TextField fx:id="adicionarBairroText" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS" />
+                              <Button focusTraversable="false" mnemonicParsing="false" onAction="#selecionarBairro" styleClass="button-deletar" />
+                           </children>
+                        </HBox>
+                        <HBox fx:id="bairroBox" alignment="CENTER" maxWidth="1.7976931348623157E308" spacing="5.0" GridPane.columnIndex="3" GridPane.rowIndex="4">
+                           <children>
+                              <ComboBox fx:id="bairroComboBox" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS" />
+                              <Button focusTraversable="false" mnemonicParsing="false" onAction="#adicionarBairro" styleClass="button-add" />
+                           </children>
+                        </HBox>
+                        <TextField fx:id="ruaText" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" GridPane.columnIndex="4" GridPane.columnSpan="2" GridPane.rowIndex="4" />
+                        <TextField fx:id="numeroText" GridPane.columnIndex="6" GridPane.rowIndex="4" />
+                        <ComboBox fx:id="vendedorComboBox" maxWidth="1.7976931348623157E308" prefWidth="150.0" GridPane.columnSpan="2" GridPane.rowIndex="6" />
+                        <TextField fx:id="precoText" GridPane.columnIndex="2" GridPane.rowIndex="6" />
+                        <ComboBox fx:id="formaPagamentoComboBox" maxWidth="1.7976931348623157E308" GridPane.columnIndex="3" GridPane.rowIndex="6" />
                         <Spinner fx:id="parcelasSpinner" prefWidth="100.0" GridPane.columnIndex="4" GridPane.rowIndex="6" />
+                        <DatePicker fx:id="dataDatePicker" maxWidth="1.7976931348623157E308" GridPane.columnIndex="5" GridPane.rowIndex="6" />
+                        <DatePicker fx:id="entregaDatePicker" maxWidth="1.7976931348623157E308" GridPane.columnIndex="6" GridPane.rowIndex="6" />
                         <Label text="Nome Completo" GridPane.rowIndex="1" />
                         <Label text="Telefone" GridPane.columnIndex="6" GridPane.rowIndex="1" />
                         <Label text="CPF" GridPane.rowIndex="3" />
                         <Label text="RG" GridPane.columnIndex="1" GridPane.rowIndex="3" />
                         <Label text="Cidade" GridPane.columnIndex="2" GridPane.rowIndex="3" />
-                        <Label text="Endereço" GridPane.columnIndex="3" GridPane.rowIndex="3" />
-                        <Label text="Data" GridPane.rowIndex="5" />
-                        <Label text="Vendedor" GridPane.columnIndex="2" GridPane.rowIndex="5" />
+                        <Label text="Bairro" GridPane.columnIndex="3" GridPane.rowIndex="3" />
+                        <Label text="Data" GridPane.columnIndex="5" GridPane.rowIndex="5" />
+                        <Label text="Vendedor" GridPane.rowIndex="5" />
                         <Label text="Forma de Pagamento" GridPane.columnIndex="3" GridPane.rowIndex="5" />
                         <Label fx:id="parcelasLabel" text="Parcelas" GridPane.columnIndex="4" GridPane.rowIndex="5" />
-                        <Label text="Preço R$" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                        <Label text="Preço R$" GridPane.columnIndex="2" GridPane.rowIndex="5" />
+                        <Label text="Rua" GridPane.columnIndex="4" GridPane.rowIndex="3" />
+                        <Label text="Número" GridPane.columnIndex="6" GridPane.rowIndex="3" />
+                        <Label text="Previsão Entrega" GridPane.columnIndex="6" GridPane.rowIndex="5" />
                      </children>
                   </GridPane>
                   <GridPane hgap="10.0" VBox.vgrow="ALWAYS">
                     <columnConstraints>
-                      <ColumnConstraints hgrow="SOMETIMES" minWidth="-Infinity" prefWidth="150.0" />
-                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="210.0" />
-                      <ColumnConstraints hgrow="SOMETIMES" minWidth="-Infinity" prefWidth="100.0" />
+                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="150.0" />
+                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="200.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="200.0" />
                         <ColumnConstraints />
                     </columnConstraints>
                     <rowConstraints>
@@ -125,28 +155,28 @@
                         <RowConstraints minHeight="-Infinity" prefHeight="50.0" vgrow="SOMETIMES" />
                     </rowConstraints>
                      <children>
-                        <TextArea fx:id="descricaoArea" GridPane.columnSpan="3" GridPane.rowIndex="1" />
+                        <TextArea fx:id="descricaoArea" GridPane.columnSpan="5" GridPane.rowIndex="1" />
                         <TextField fx:id="marcaText" GridPane.rowIndex="4" />
-                        <HBox alignment="TOP_CENTER" spacing="10.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
+                        <HBox spacing="10.0" GridPane.columnIndex="3" GridPane.rowIndex="4">
                            <children>
                               <Rectangle fx:id="corRectangle" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="35.0" stroke="BLACK" strokeType="INSIDE" width="35.0" />
                               <ColorPicker fx:id="corColorPicker" minHeight="35.0" />
                            </children>
                         </HBox>
-                        <TextField fx:id="modeloText" GridPane.columnIndex="2" GridPane.rowIndex="4" />
+                        <TextField fx:id="modeloText" GridPane.columnIndex="1" GridPane.rowIndex="4" />
                         <Label text="Informações do Aparelho Celular" GridPane.columnSpan="4" GridPane.rowIndex="2">
                            <font>
                               <Font size="15.0" />
                            </font>
                         </Label>
-                        <ComboBox fx:id="estadoComboBox" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+                        <ComboBox fx:id="estadoComboBox" maxWidth="1.7976931348623157E308" prefWidth="150.0" GridPane.columnIndex="4" GridPane.rowIndex="4" />
                         <Label text="Descrição da Manutenção" />
                         <Label text="Marca" GridPane.rowIndex="3" />
-                        <Label text="Cor do Celular" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                        <Label text="Modelo" GridPane.columnIndex="2" GridPane.rowIndex="3" />
-                        <Label text="Estado da Manutenção" GridPane.columnIndex="1" GridPane.rowIndex="5" />
-                        <Label text="IMEI" GridPane.rowIndex="5" />
-                        <TextField fx:id="imeiText" maxWidth="150.0" promptText="000000000000000" GridPane.rowIndex="6" />
+                        <Label text="Cor do Celular" GridPane.columnIndex="3" GridPane.rowIndex="3" />
+                        <Label text="Modelo" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                        <Label text="Estado da Manutenção" GridPane.columnIndex="4" GridPane.rowIndex="3" />
+                        <Label text="IMEI" GridPane.columnIndex="2" GridPane.rowIndex="3" />
+                        <TextField fx:id="imeiText" maxWidth="1.7976931348623157E308" promptText="000000000000000" GridPane.columnIndex="2" GridPane.rowIndex="4" />
                      </children>
                   </GridPane>
                </children>

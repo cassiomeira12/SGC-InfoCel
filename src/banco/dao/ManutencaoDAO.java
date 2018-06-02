@@ -10,6 +10,7 @@ import model.Bairro;
 import model.Cidade;
 import model.Cliente;
 import model.Endereco;
+import model.FormaPagamento;
 import model.Manutencao;
 import util.DateUtils;
 
@@ -32,22 +33,24 @@ public class ManutencaoDAO extends DAO {
             manutencao.getCliente().setId(id);
         }
 
-        String sql = "INSERT INTO manutencao ( id_cliente, id_administrador, descricao, data_cadastro, data_previsao, data_entrega, preco, finalizado, marca, modelo, imei, cor) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO manutencao ( id_cliente, id_administrador,id_forma_pagamento, descricao, data_cadastro, data_previsao, data_entrega, preco, finalizado, marca, modelo, imei, cor, quantidade_parcelas) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         stm = getConector().prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
 
         stm.setInt(1, manutencao.getCliente().getId().intValue());
         stm.setInt(2, manutencao.getAdministrador().getId().intValue());
-        stm.setString(3, manutencao.getDescricao());
-        stm.setLong(4, manutencao.getDataCadastro());
-        stm.setLong(5, manutencao.getDataPrevisaoEntrega());
-        stm.setLong(6, manutencao.getDataEntrega());
-        stm.setFloat(7, manutencao.getPreco());
-        stm.setBoolean(8, manutencao.isFinalizado());
-        stm.setString(9, manutencao.getMarca());
-        stm.setString(10, manutencao.getModelo());
-        stm.setString(11, manutencao.getImei());
-        stm.setString(12, manutencao.getCor());
+        stm.setLong(3, manutencao.getFormaPagamento().getId());
+        stm.setString(4, manutencao.getDescricao());
+        stm.setLong(5, manutencao.getDataCadastro());
+        stm.setLong(6, manutencao.getDataPrevisaoEntrega());
+        stm.setLong(7, manutencao.getDataEntrega());
+        stm.setFloat(8, manutencao.getPreco());
+        stm.setBoolean(9, manutencao.isFinalizado());
+        stm.setString(10, manutencao.getMarca());
+        stm.setString(11, manutencao.getModelo());
+        stm.setString(12, manutencao.getImei());
+        stm.setString(13, manutencao.getCor());
+        stm.setInt(14, manutencao.getQuantidadeParcelas());
 
         return super.inserir();
 
@@ -57,24 +60,26 @@ public class ManutencaoDAO extends DAO {
      * Atualizar dados marca na base de dados
      */
     public boolean editar(Manutencao manutencao) throws SQLException {
-        String sql = "UPDATE manutencao SET id_cliente =?, id_administrador =?, descricao =?, data_previsao =?, data_entrega =?, preco =?, finalizado =?, marca =?, modelo =?, imei =?, cor =? WHERE id =?";
+        String sql = "UPDATE manutencao SET id_cliente =?, id_administrador =?, id_forma_pagamento = ?, descricao =?, data_previsao =?, data_entrega =?, preco =?, finalizado =?, marca =?, modelo =?, imei =?, cor =?, quantidade_parcelas =? WHERE id =?";
 
         stm = getConector().prepareStatement(sql);
 
         stm.setInt(1, manutencao.getCliente().getId().intValue());
         stm.setInt(2, manutencao.getAdministrador().getId().intValue());
-        stm.setString(3, manutencao.getDescricao());
-        stm.setLong(4, manutencao.getDataCadastro());
-        stm.setLong(5, manutencao.getDataPrevisaoEntrega());
-        stm.setLong(6, manutencao.getDataEntrega());
-        stm.setFloat(7, manutencao.getPreco());
-        stm.setBoolean(8, manutencao.isFinalizado());
-        stm.setString(9, manutencao.getMarca());
-        stm.setString(10, manutencao.getModelo());
-        stm.setString(11, manutencao.getImei());
-        stm.setString(12, manutencao.getCor());
+        stm.setInt(3, manutencao.getFormaPagamento().getId().intValue());
+        stm.setString(4, manutencao.getDescricao());
+        stm.setLong(5, manutencao.getDataCadastro());
+        stm.setLong(6, manutencao.getDataPrevisaoEntrega());
+        stm.setLong(7, manutencao.getDataEntrega());
+        stm.setFloat(8, manutencao.getPreco());
+        stm.setBoolean(9, manutencao.isFinalizado());
+        stm.setString(10, manutencao.getMarca());
+        stm.setString(11, manutencao.getModelo());
+        stm.setString(12, manutencao.getImei());
+        stm.setString(13, manutencao.getCor());
+        stm.setInt(14, manutencao.getQuantidadeParcelas());
 
-        stm.setInt(9, manutencao.getId().intValue());
+        stm.setInt(15, manutencao.getId().intValue());
 
         stm.executeUpdate();
         stm.close();
@@ -123,7 +128,9 @@ public class ManutencaoDAO extends DAO {
             Cliente cliente = new Cliente(rs.getLong("id_cliente"), rs.getString("nome_cliente"), enderecoC,
                     rs.getString("cpf_cliente"), rs.getString("rg_cliente"), rs.getString("telefone_cliente"), null, true);
 
-            manuntencoes.add(new Manutencao(rs.getLong("id"), rs.getString("descricao"), cliente, adm, rs.getString("marca"), rs.getString("modelo"), rs.getString("imei"), rs.getString("cor"), rs.getLong("data_cadastro"), rs.getLong("data_previsao"), rs.getLong("data_entrega"), rs.getFloat("preco"), rs.getBoolean("finalizado")));
+            FormaPagamento formaPagamento = new FormaPagamento(rs.getLong("id_forma_pagamento"), rs.getString("descricao_forma_pagamento"), 1);
+
+            manuntencoes.add(new Manutencao(rs.getLong("id"), rs.getString("descricao"), cliente, adm, rs.getString("marca"), rs.getString("modelo"), rs.getString("imei"), rs.getString("cor"), rs.getLong("data_cadastro"), rs.getLong("data_previsao"), rs.getLong("data_entrega"), rs.getFloat("preco"), rs.getBoolean("finalizado"), formaPagamento, rs.getInt("quantidade_parcelas")));
         }
 
         stm.close();
@@ -156,7 +163,9 @@ public class ManutencaoDAO extends DAO {
             Cliente cliente = new Cliente(rs.getLong("id_cliente"), rs.getString("nome_cliente"), enderecoC,
                     rs.getString("cpf_cliente"), rs.getString("rg_cliente"), rs.getString("telefone_cliente"), null, true);
 
-            manuntencoes.add(new Manutencao(rs.getLong("id"), rs.getString("descricao"), cliente, adm, rs.getString("marca"), rs.getString("modelo"), rs.getString("imei"), rs.getString("cor"), rs.getLong("data_cadastro"), rs.getLong("data_previsao"), rs.getLong("data_entrega"), rs.getFloat("preco"), rs.getBoolean("finalizado")));
+            FormaPagamento formaPagamento = new FormaPagamento(rs.getLong("id_forma_pagamento"), rs.getString("descricao_forma_pagamento"), 1);
+
+            manuntencoes.add(new Manutencao(rs.getLong("id"), rs.getString("descricao"), cliente, adm, rs.getString("marca"), rs.getString("modelo"), rs.getString("imei"), rs.getString("cor"), rs.getLong("data_cadastro"), rs.getLong("data_previsao"), rs.getLong("data_entrega"), rs.getFloat("preco"), rs.getBoolean("finalizado"), formaPagamento, rs.getInt("quantidade_parcelas")));
         }
 
         stm.close();
@@ -189,7 +198,9 @@ public class ManutencaoDAO extends DAO {
             Cliente cliente = new Cliente(rs.getLong("id_cliente"), rs.getString("nome_cliente"), enderecoC,
                     rs.getString("cpf_cliente"), rs.getString("rg_cliente"), rs.getString("telefone_cliente"), null, true);
 
-            manuntencoes.add(new Manutencao(rs.getLong("id"), rs.getString("descricao"), cliente, adm, rs.getString("marca"), rs.getString("modelo"), rs.getString("imei"), rs.getString("cor"), rs.getLong("data_cadastro"), rs.getLong("data_previsao"), rs.getLong("data_entrega"), rs.getFloat("preco"), rs.getBoolean("finalizado")));
+            FormaPagamento formaPagamento = new FormaPagamento(rs.getLong("id_forma_pagamento"), rs.getString("descricao_forma_pagamento"), 1);
+
+            manuntencoes.add(new Manutencao(rs.getLong("id"), rs.getString("descricao"), cliente, adm, rs.getString("marca"), rs.getString("modelo"), rs.getString("imei"), rs.getString("cor"), rs.getLong("data_cadastro"), rs.getLong("data_previsao"), rs.getLong("data_entrega"), rs.getFloat("preco"), rs.getBoolean("finalizado"), formaPagamento, rs.getInt("quantidade_parcelas")));
         }
 
         stm.close();
@@ -222,7 +233,9 @@ public class ManutencaoDAO extends DAO {
             Cliente cliente = new Cliente(rs.getLong("id_cliente"), rs.getString("nome_cliente"), enderecoC,
                     rs.getString("cpf_cliente"), rs.getString("rg_cliente"), rs.getString("telefone_cliente"), null, true);
 
-            manuntencoes.add(new Manutencao(rs.getLong("id"), rs.getString("descricao"), cliente, adm, rs.getString("marca"), rs.getString("modelo"), rs.getString("imei"), rs.getString("cor"), rs.getLong("data_cadastro"), rs.getLong("data_previsao"), rs.getLong("data_entrega"), rs.getFloat("preco"), rs.getBoolean("finalizado")));
+            FormaPagamento formaPagamento = new FormaPagamento(rs.getLong("id_forma_pagamento"), rs.getString("descricao_forma_pagamento"), 1);
+
+            manuntencoes.add(new Manutencao(rs.getLong("id"), rs.getString("descricao"), cliente, adm, rs.getString("marca"), rs.getString("modelo"), rs.getString("imei"), rs.getString("cor"), rs.getLong("data_cadastro"), rs.getLong("data_previsao"), rs.getLong("data_entrega"), rs.getFloat("preco"), rs.getBoolean("finalizado"), formaPagamento, rs.getInt("quantidade_parcelas")));
         }
 
         stm.close();
@@ -250,7 +263,9 @@ public class ManutencaoDAO extends DAO {
             Administrador adm = new Administrador(rs.getLong("id_administrador"), rs.getString("nome_administrador"), null, null, null, null, null, null, null, true);
             Cliente cliente = new Cliente(rs.getLong("id_cliente"), rs.getString("nome_cliente"), null, null, null, null, null, true);
 
-            manuntencoes.add(new Manutencao(rs.getLong("id"), rs.getString("descricao"), cliente, adm, rs.getString("marca"), rs.getString("modelo"), rs.getString("imei"), rs.getString("cor"), rs.getLong("data_cadastro"), rs.getLong("data_previsao"), rs.getLong("data_entrega"), rs.getFloat("preco"), rs.getBoolean("finalizado")));
+            FormaPagamento formaPagamento = new FormaPagamento(rs.getLong("id_forma_pagamento"), rs.getString("descricao_forma_pagamento"), 1);
+
+            manuntencoes.add(new Manutencao(rs.getLong("id"), rs.getString("descricao"), cliente, adm, rs.getString("marca"), rs.getString("modelo"), rs.getString("imei"), rs.getString("cor"), rs.getLong("data_cadastro"), rs.getLong("data_previsao"), rs.getLong("data_entrega"), rs.getFloat("preco"), rs.getBoolean("finalizado"), formaPagamento, rs.getInt("quantidade_parcelas")));
         }
 
         stm.close();

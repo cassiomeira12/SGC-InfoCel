@@ -1,5 +1,6 @@
 package util.alerta;
 
+import javafx.application.Platform;
 import util.alerta.Dialogo.Resposta;
 
 /**
@@ -12,34 +13,76 @@ public class Alerta {
     }
 
     public static void info(String mensagem) {
-        Dialogo.mensagens("INFO", "Informação", mensagem);
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                Dialogo.mensagens("INFO", "Informação", mensagem);
+            }
+        });
     }
 
     public static void info(String mensagem, String titulo) {
-        Dialogo.mensagens("INFO", titulo, mensagem);
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                Dialogo.mensagens("INFO", titulo, mensagem);
+            }
+        });
     }
 
     public static void erro(String mensagem) {
-        Dialogo.mensagens("ERRO", "Erro", mensagem);
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                Dialogo.mensagens("ERRO", "Erro", mensagem);
+            }
+        });
     }
 
     public static void erro(String mensagem, String titulo) {
-        Dialogo.mensagens("ERRO", titulo, mensagem);
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                Dialogo.mensagens("ERRO", titulo, mensagem);
+            }
+        });
     }
 
     public static void alerta(String mensagem) {
-        Dialogo.mensagens("ALERTA", "Alerta", mensagem);
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                Dialogo.mensagens("ALERTA", "Alerta", mensagem);
+            }
+        });
     }
 
     public static void alerta(String mensagem, String titulo) {
-        Dialogo.mensagens("ALERTA", titulo, mensagem);
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                Dialogo.mensagens("ALERTA", titulo, mensagem);
+            }
+        });
     }
 
     public static Resposta confirmar(String mensagem) {
+//        Platform.runLater(new Runnable() {
+//            @Override
+//            public void run() {
+//                Dialogo.mensagens("INFO", "Informação", mensagem);
+//            }
+//        });
         return Dialogo.mensageConfirmar("Confirmar", mensagem);
     }
 
     public static Resposta confirmar(String titulo, String mensagem) {
+//        Platform.runLater(new Runnable() {
+//            @Override
+//            public void run() {
+//                Dialogo.mensagens("INFO", "Informação", mensagem);
+//            }
+//        });
         return Dialogo.mensageConfirmar(titulo, mensagem);
     }
 }
