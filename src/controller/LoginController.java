@@ -124,7 +124,7 @@ public class LoginController extends AnchorPane {
                     }
                 } catch (Exception e) {
                     chamarAlerta("Não foi possível conectar-se ao banco de dados.", "Falha de conexão");
-                    System.out.println("[ERRO]: " + e.toString());
+                    e.printStackTrace();
                 } finally {
                     entrarButton.setDisable(false);
                     usuarioText.setDisable(false);
@@ -169,7 +169,7 @@ public class LoginController extends AnchorPane {
                     }
                 } catch (Exception e) {
                     chamarAlerta("Erro", "Ocorreu um erro ao realizar o Login");
-                    System.out.println("[ERRO]: " + e);
+                    e.printStackTrace();
                     limparSenha();//Apaga o texto que esta no TextField de Login
 
                     entrarButton.setDisable(false);

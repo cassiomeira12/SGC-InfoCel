@@ -91,7 +91,6 @@ public class TelaSelecionarProdutoController extends AnchorPane {
         });
 
         this.sincronizarBancoDados();
-        //this.atualizarTabela();
 
         produtosTable.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
