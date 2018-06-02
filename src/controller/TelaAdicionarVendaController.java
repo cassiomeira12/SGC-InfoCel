@@ -280,7 +280,7 @@ public class TelaAdicionarVendaController extends AnchorPane {
     private void finalizarCompra() {
         boolean novoCliente = this.cliente == null;
         boolean vazio = Formatter.isEmpty(nomeText, telefoneText, cpfText, rgText, ruaText, numeroText);
-        boolean enderecoVazio = true;// = Formatter.isEmpty(cidadeComboBox, bairroComboBox);
+        boolean enderecoVazio = true;
         boolean carrinhoVazio = novaVenda.isEmpty();
         
         if (cidadeBox.isVisible() && bairroBox.isVisible()) {
@@ -408,21 +408,15 @@ public class TelaAdicionarVendaController extends AnchorPane {
             cidade = cidadeComboBox.getValue();
         } else if (adicionarCidadeBox.isVisible()) {
             cidade = new Cidade(null, adicionarCidadeText.getText());
-            //Long id = ControleDAO.getBanco().getCidadeDAO().inserir(cidade);
-            //cidade.setId(id);
         }
         
         if (bairroBox.isVisible()) {
             bairro = bairroComboBox.getValue();
         } else if (adicionarBairroBox.isVisible()) {
             bairro = new Bairro(null, adicionarBairroText.getText(), cidade);
-            //Long id = ControleDAO.getBanco().getBairroDAO().inserir(bairro);
-            //bairro.setId(id);
         }
         
         endereco = new Endereco(null, bairro, rua, numero);
-        //Long id = ControleDAO.getBanco().getEnderecoDAO().inserir(endereco);
-        //endereco.setId(id);
 
         return new Cliente(null, nome, endereco, cpf, rg, telefone, DateUtils.getLong(data), true);
     }
@@ -474,12 +468,8 @@ public class TelaAdicionarVendaController extends AnchorPane {
         this.selecionarCidade();
         this.cidadeComboBox.getSelectionModel().select(cidade);
         
-        
         sincronizarBancoDadosBairro(cidade);
         bairroComboBox.setValue(bairro);
-
-                //this.selecionarBairro();
-        //this.bairroComboBox.getSelectionModel().select(bairro);
         
         this.ruaText.setText(endereco.getRua());
         this.numeroText.setText(endereco.getNumero());
