@@ -24,12 +24,13 @@ public class ClienteDAO extends DAO {
      * Inserir cliente na base de dados
      */
     public Long inserir(Cliente cliente) throws Exception {
-        String sql = "INSERT INTO cliente ( nome, id_endereco, cpf, rg, telefone, data_cadastro, status ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO cliente ( nome, id_endereco, cpf, rg, telefone, data_cadastro, status ) VALUES (?, ?, ?, ?, ?, ?, ?)";
 
         Long id_endereco = ControleDAO.getBanco().getEnderecoDAO().inserir(cliente.getEndereco());
         if (id_endereco == null) {
             return null;
-        }
+        }else
+            cliente.getEndereco().setId(id_endereco);
 
         stm = getConector().prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
         
@@ -39,7 +40,7 @@ public class ClienteDAO extends DAO {
         stm.setString(4, cliente.getRg());
         stm.setString(5, cliente.getTelefone());
         stm.setLong(6, System.currentTimeMillis());
-        stm.setBoolean(8, cliente.getStatus());
+        stm.setBoolean(7, cliente.getStatus());
 
         return super.inserir();
 

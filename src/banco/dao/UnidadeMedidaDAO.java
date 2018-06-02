@@ -20,11 +20,12 @@ public class UnidadeMedidaDAO extends DAO {
      * Inserir categoria na base de dados
      */
     public Long inserir(UnidadeMedida unidadeMedida) throws Exception {
-        String sql = "INSERT INTO unidade_medida ( descricao ) VALUES (?)";
+        String sql = "INSERT INTO unidade_medida ( descricao, abreviacao ) VALUES (?, ?)";
 
         stm = getConector().prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
 
         stm.setString(1, unidadeMedida.getDescricao());
+        stm.setString(2, unidadeMedida.getAbreviacao());
 
         return super.inserir();
     }
