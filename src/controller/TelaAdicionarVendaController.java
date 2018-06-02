@@ -45,6 +45,7 @@ import model.Produto;
 import model.Venda;
 import model.VendaProduto;
 import relatorio.DescricaoVenda;
+import relatorio.ListaVenda;
 import util.DateUtils;
 import util.Formatter;
 import util.alerta.Alerta;
@@ -365,8 +366,10 @@ public class TelaAdicionarVendaController extends AnchorPane {
                         if (id == null) {
                             Alerta.erro("Erro ao adicionar nova Venda");
                         } else {
-                            // gerar relatorio PDF
-                            DescricaoVenda rv = new DescricaoVenda(id.toString());
+                            
+                            //gerar relatorio
+                            DescricaoVenda dv = new DescricaoVenda(id.toString());
+                            dv.start();
                             
                             Alerta.info("Venda Realizada com sucesso!");
                             TelaInicialController telaInicial = new TelaInicialController(painelPrincipal);

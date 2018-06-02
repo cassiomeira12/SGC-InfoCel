@@ -1,3 +1,8 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package relatorio;
 
 import banco.ConexaoBanco;
@@ -16,79 +21,77 @@ import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.view.JasperViewer;
 
+import util.DateUtils;
+
 /**
  *
  * @author dhonl
  */
-public class DescricaoVenda extends Thread{
+public class ListaVenda extends Thread {
 
     ConexaoBanco conn = new ConexaoBanco();
     Statement stm;
     String query;
-    String idVenda;
+
     ResultSet rs;
     JRResultSetDataSource jrRS;
     Map parameters;
     String src;
-    JasperPrint jp = null;
+    JasperPrint jp;
+    Long data = 1346524199000l;
+    //Venda venda;
+
     JasperViewer view;
-    
-    public DescricaoVenda(String id){
-    this.idVenda = id;
-    }
-    
+
     @Override
-    public void run(){
+    public void run() {
         try {
-            sleep(2000);
+            sleep(0);
+            listaVenda();
         } catch (InterruptedException ex) {
-            Logger.getLogger(DescricaoVenda.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ListaVenda.class.getName()).log(Level.SEVERE, null, ex);
         }
-        descricaoVenda(idVenda);
     }
-    
-    public void descricaoVenda(String id) {
+
+    public void listaVenda() {
+
         try {
             this.stm = conn.getConnection().createStatement();
         } catch (SQLException ex) {
             Logger.getLogger(DescricaoVenda.class.getName()).log(Level.SEVERE, null, ex);
         }
         // consulta a ser mostrada no relatorio
-        query = "select V.id, C.nome, C.cpf, C.rg, C.telefone, CI.nome   AS nome_cidade, B.nome AS nome_bairro, E.rua, E.numero, "+
-        "P.descricao AS descricao_produto, M.descricao AS descricao_marca, CP.descricao AS descricao_categoria, "+  
-        "VP.preco_total AS preco_total_produto, V.preco_total " +
-        "from venda V, cliente C, venda_produto VP, produto P, marca M, categoria_produto CP, cidade CI, bairro B, endereco E "+
-        "where V.id_cliente = C.id and "+
-			"V.id = VP.id_venda and "+
-			"VP.id_produto = P.id and "+
-			"CP.id = P.id_categoria_produto and "+
-			"M.id = P.id_marca and "+
-			"C.id_endereco = E.id and "+
-			"E.id_bairro = B.id and "+
-			"B.id_cidade = CI.id and V.id = " + id;
-			
+        query = "select * from venda";
+
         try {
             rs = stm.executeQuery(query);
+
         } catch (SQLException ex) {
             Logger.getLogger(DescricaoVenda.class.getName()).log(Level.SEVERE, null, ex);
         }
         jrRS = new JRResultSetDataSource(rs);
         parameters = new HashMap();
+        parameters.put("data_venda", DateUtils.formatDate(data)); //DateUtils.formatDate(data)
+        parameters.put("data_venda_2", "21/21/21");
 
         try { // caminho do arquivo jasper
-            src = new File("src/relatorio/descricaoVenda.jasper").getCanonicalPath();
+            src = new File("src/relatorio/listaVendas.jasper").getCanonicalPath();
+            //System.out.println("caminho" + src);
+
         } catch (IOException ex) {
-            Logger.getLogger(DescricaoVenda.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("[ERRO] : Erro ao gerar relatorio de vendas");
         }
 
         try {
             jp = JasperFillManager.fillReport(src, parameters, jrRS);
+
         } catch (JRException ex) {
             System.out.println("Error: " + ex);
         }
-         view = new JasperViewer(jp, false);
-         view.setVisible (true); 
+
+        view = new JasperViewer(jp, false);
+        view.setVisible(true);
+
     }
 
-   
 }
