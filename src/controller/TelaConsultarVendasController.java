@@ -14,10 +14,10 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
@@ -28,6 +28,7 @@ import model.Administrador;
 import model.Cliente;
 import model.Venda;
 import util.DateUtils;
+import util.Formatter;
 import util.alerta.Alerta;
 
 public class TelaConsultarVendasController extends AnchorPane {
@@ -39,6 +40,9 @@ public class TelaConsultarVendasController extends AnchorPane {
     private LocalDate dataInicio;
     private LocalDate dataFim;
     
+    
+    @FXML
+    private TextField filtroText;
     @FXML
     private DatePicker inicioDatePicker;
     @FXML
@@ -77,6 +81,8 @@ public class TelaConsultarVendasController extends AnchorPane {
         this.dataInicio = LocalDate.now();
         this.dataFim = LocalDate.now().plusDays(1);
         
+        Formatter.toUpperCase(filtroText);
+        
         //Desativa os Botoes de Editar e Excluir quando nenhum item na tabela esta selecionado
         visualizarButton.disableProperty().bind(vendasTable.getSelectionModel().selectedItemProperty().isNull());
         
@@ -104,15 +110,15 @@ public class TelaConsultarVendasController extends AnchorPane {
             sincronizarBancoDados(DateUtils.formatDate(dataInicio), DateUtils.formatDate(dataFim));
         });
         
+        filtroText.textProperty().addListener((e) -> {
+            String texto = filtroText.getText();
+            filtro(texto, listaVendas, vendasTable);
+        });
+        
         sincronizarBancoDados(DateUtils.formatDate(dataInicio), DateUtils.formatDate(dataFim));
 
     }
 
-    @FXML
-    private void pesquisarCliente() {
-        
-    }
-    
     private void filtro(String texto, List lista, TableView tabela) {
         ObservableList data = FXCollections.observableArrayList(lista);
 
@@ -123,13 +129,21 @@ public class TelaConsultarVendasController extends AnchorPane {
                 return true;
             }
             //Coloque aqui as verificacoes da Pesquisa
-//            if (filtro.getNome().toLowerCase().contains(texto.toLowerCase())) {
-//                return true;
-//            }
             if (filtro.getCliente().getNome().toLowerCase().contains(texto.toLowerCase())) {
                 return true;
             }
             
+            if (filtro.getCliente().getEndereco().toString().toLowerCase().contains(texto.toLowerCase())) {
+                return true;
+            }
+            
+            if (filtro.getAdministrador().getNome().toLowerCase().contains(texto.toLowerCase())) {
+                return true;
+            }
+            
+            if (DateUtils.formatDate(filtro.getData()).contains(texto.toLowerCase())) {
+                return true;
+            }
             
             return false;
         });
@@ -173,8 +187,7 @@ public class TelaConsultarVendasController extends AnchorPane {
         SwingWorker<List, List> worker = new SwingWorker<List, List>() {
             @Override
             protected List<Venda> doInBackground() throws Exception {
-                //return ControleDAO.getBanco().getVendaDAO().buscarPorIntervalo(dataInicio, dataFinal);
-                return ControleDAO.getBanco().getVendaDAO().listar();
+                return ControleDAO.getBanco().getVendaDAO().buscarPorIntervalo(dataInicio, dataFinal);
             }
 
             //Metodo chamado apos terminar a execucao numa Thread separada

@@ -6,6 +6,7 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
@@ -59,6 +60,12 @@
                      <children>
                         <HBox alignment="BOTTOM_RIGHT" spacing="30.0">
                            <children>
+                              <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS">
+                                 <children>
+                                    <Label text="Filtrar" />
+                                    <TextField fx:id="filtroText" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" />
+                                 </children>
+                              </VBox>
                               <VBox prefWidth="130.0">
                                  <children>
                                     <Label text="Data de Inicio" />
@@ -71,12 +78,12 @@
                                     <DatePicker fx:id="fimDatePicker" />
                                  </children>
                               </VBox>
-                              <Button alignment="CENTER" mnemonicParsing="false" onAction="#pesquisarCliente" styleClass="button-pesquisar" text="Pesquisar Cliente" />
                            </children>
                         </HBox>
                         <TableView fx:id="vendasTable" focusTraversable="false" prefHeight="450.0">
                            <columns>
                               <TableColumn fx:id="clienteColumn" maxWidth="250.0" minWidth="250.0" prefWidth="250.0" text="Cliente" />
+                              <TableColumn fx:id="enderecoColumn" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefWidth="250.0" text="Endereço" />
                               <TableColumn fx:id="vendedorColumn" maxWidth="250.0" minWidth="250.0" prefWidth="250.0" text="Vendedor" />
                               <TableColumn fx:id="dataColumn" maxWidth="100.0" minWidth="100.0" prefWidth="100.0" text="Data" />
                               <TableColumn fx:id="totalColumn" maxWidth="100.0" minWidth="100.0" prefWidth="100.0" text="Total R$" />
@@ -84,6 +91,9 @@
                            <VBox.margin>
                               <Insets />
                            </VBox.margin>
+                           <columnResizePolicy>
+                              <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                           </columnResizePolicy>
                         </TableView>
                      </children>
                   </VBox>
