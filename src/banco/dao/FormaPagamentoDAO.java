@@ -20,7 +20,7 @@ public class FormaPagamentoDAO extends DAO {
      * Inserir categoria na base de dados
      */
     public Long inserir(FormaPagamento formaPagamento) throws Exception {
-        String sql = "INSERT INTO forma_pagamento ( descricao, maximo_parcelas ) VALUES (?, ?)";
+        String sql = "INSERT INTO forma_pagamento ( descricao, maximo_parcelas =?) VALUES (?, ?)";
 
         stm = getConector().prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
 
@@ -35,7 +35,7 @@ public class FormaPagamentoDAO extends DAO {
      * Atualizar dados categoria na base de dados
      */
     public boolean editar(FormaPagamento formaPagamento) throws SQLException {
-        String sql = "UPDATE forma_pagamento SET descricao =?, maximo_parcelas WHERE id =?";
+        String sql = "UPDATE forma_pagamento SET descricao =?, maximo_parcelas =? WHERE id =?";
 
         stm = getConector().prepareStatement(sql);
 
