@@ -7,11 +7,13 @@ package controller;
 
 import banco.ControleDAO;
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.ComboBox;
@@ -26,6 +28,7 @@ import model.Administrador;
 import model.Cliente;
 import model.Endereco;
 import model.Manutencao;
+import util.DateUtils;
 import util.alerta.Alerta;
 
 /**
@@ -38,6 +41,9 @@ public class TelaConsultarManutencoesController extends AnchorPane {
     private BorderPane painelPrincipal;
 
     private List<Manutencao> listaManutencoes;
+    
+    private LocalDate dataInicio;
+    private LocalDate dataFim;
     
     @FXML
     private DatePicker inicioDatePicker;
@@ -81,8 +87,24 @@ public class TelaConsultarManutencoesController extends AnchorPane {
 
     @FXML
     public void initialize() {
-        // TODO
-        sincronizarBancoDados();
+        this.dataInicio = LocalDate.now();
+        this.dataFim = LocalDate.now().plusDays(1);
+
+
+        sincronizarBancoDados(DateUtils.formatDate(dataInicio), DateUtils.formatDate(dataFim));
+        
+        inicioDatePicker.setValue(dataInicio);
+        fimDatePicker.setValue(dataFim);
+        
+        inicioDatePicker.setOnAction((e) -> {
+        
+        });
+        
+        fimDatePicker.setOnAction((e) -> {
+        
+        });
+        
+        
         
     }
     
@@ -111,12 +133,13 @@ public class TelaConsultarManutencoesController extends AnchorPane {
         
     }
     
-    private void sincronizarBancoDados() {
+    private void sincronizarBancoDados(String dataInicio, String dataFinal) {
         //Metodo executado numa Thread separada
         SwingWorker<List, List> worker = new SwingWorker<List, List>() {
             @Override
             protected List<Manutencao> doInBackground() throws Exception {
                 return ControleDAO.getBanco().getManutencaoDAO().listar();
+                //return ControleDAO.getBanco().getManutencaoDAO().buscarPorIntervalo(dataInicio, dataFinal);
             }
 
             //Metodo chamado apos terminar a execucao numa Thread separada
@@ -160,4 +183,25 @@ public class TelaConsultarManutencoesController extends AnchorPane {
         });
     }
     
+    private void filtro(String texto, List lista, TableView tabela) {
+        ObservableList data = FXCollections.observableArrayList(lista);
+
+        FilteredList<Manutencao> dadosFiltrados = new FilteredList(data, filtro -> true);
+
+        dadosFiltrados.setPredicate(filtro -> {
+            if (texto == null || texto.isEmpty()) {
+                return true;
+            }
+            //Coloque aqui as verificacoes da Pesquisa
+//            if (filtro.getNome().toLowerCase().contains(texto.toLowerCase())) {
+//                return true;
+//            }
+
+            return false;
+        });
+
+        //SortedList dadosOrdenados = new SortedList(dadosFiltrados);
+        //dadosOrdenados.comparatorProperty().bind(tabela.comparatorProperty());
+        //tabela.setItems(dadosOrdenados);
+    }
 }

@@ -340,11 +340,12 @@ public class TelaAdicionarVendaController extends AnchorPane {
                     LocalDate data = dataDatePicker.getValue();
                     Administrador vendedor = vendedorComboBox.getValue();
                     FormaPagamento formaPagamento = formarPagComboBox.getValue();
-                   
+                    int parcelas = parcelasSpinner.getValue();
+                    
                     this.novaVenda.setAdministrador(vendedor);
                     this.novaVenda.setCliente(cliente);
                     this.novaVenda.setFormaPagamento(formaPagamento);
-                    this.novaVenda.setQuantidadeParcelas(parcelasSpinner.getValue());
+                    this.novaVenda.setQuantidadeParcelas(parcelas);
                     this.novaVenda.setData(DateUtils.getLong(data));
                     
                     try {
