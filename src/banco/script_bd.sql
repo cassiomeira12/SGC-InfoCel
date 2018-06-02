@@ -385,7 +385,7 @@ CREATE TABLE IF NOT EXISTS `neoli831_teste`.`view_endereco` (`id` INT, `numero` 
 -- -----------------------------------------------------
 -- Placeholder table for view `neoli831_teste`.`view_manutenca`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `neoli831_teste`.`view_manutenca` (`id` INT, `id_administrador` INT, `id_cliente` INT, `id_forma_pagamento` INT, `descricao` INT, `marca` INT, `modelo` INT, `imei` INT, `cor` INT, `data_cadastro` INT, `data_previsao` INT, `data_entrega` INT, `preco` INT, `finalizado` INT, `nome_cliente` INT, `cpf_cliente` INT, `rg_cliente` INT, `telefone_cliente` INT, `id_endereco_cliente` INT, `numero_cliente` INT, `rua_cliente` INT, `id_bairro_cliente` INT, `id_cidade_cliente` INT, `nome_cidade_cliente` INT, `nome_bairro_cliente` INT, `nome_administrador` INT, `cpf_administrador` INT, `id_endereco_administrador` INT, `numero_administrador` INT, `rua_administrador` INT, `id_bairro_administrador` INT, `id_cidade_administrador` INT, `nome_cidade_administrador` INT, `nome_bairro_administrador` INT);
+CREATE TABLE IF NOT EXISTS `neoli831_teste`.`view_manutenca` (`quantidade_parcelas` INT,`descricao_forma_pagamento` INT,`id` INT, `id_administrador` INT, `id_cliente` INT, `id_forma_pagamento` INT, `descricao` INT, `marca` INT, `modelo` INT, `imei` INT, `cor` INT, `data_cadastro` INT, `data_previsao` INT, `data_entrega` INT, `preco` INT, `finalizado` INT, `nome_cliente` INT, `cpf_cliente` INT, `rg_cliente` INT, `telefone_cliente` INT, `id_endereco_cliente` INT, `numero_cliente` INT, `rua_cliente` INT, `id_bairro_cliente` INT, `id_cidade_cliente` INT, `nome_cidade_cliente` INT, `nome_bairro_cliente` INT, `nome_administrador` INT, `cpf_administrador` INT, `id_endereco_administrador` INT, `numero_administrador` INT, `rua_administrador` INT, `id_bairro_administrador` INT, `id_cidade_administrador` INT, `nome_cidade_administrador` INT, `nome_bairro_administrador` INT);
 
 -- -----------------------------------------------------
 -- Placeholder table for view `neoli831_teste`.`view_produto`
@@ -445,7 +445,38 @@ CREATE  OR REPLACE ALGORITHM=UNDEFINED DEFINER=`neoli831`@`localhost` SQL SECURI
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `neoli831_teste`.`view_manutenca`;
 USE `neoli831_teste`;
-CREATE  OR REPLACE ALGORITHM=UNDEFINED DEFINER=`neoli831`@`localhost` SQL SECURITY DEFINER VIEW `neoli831_teste`.`view_manutenca` AS select `neoli831_teste`.`manutencao`.`id` AS `id`,`neoli831_teste`.`manutencao`.`id_administrador` AS `id_administrador`,`neoli831_teste`.`manutencao`.`id_cliente` AS `id_cliente`,`neoli831_teste`.`manutencao`.`id_forma_pagamento` AS `id_forma_pagamento`,`neoli831_teste`.`manutencao`.`descricao` AS `descricao`,`neoli831_teste`.`manutencao`.`marca` AS `marca`,`neoli831_teste`.`manutencao`.`modelo` AS `modelo`,`neoli831_teste`.`manutencao`.`imei` AS `imei`,`neoli831_teste`.`manutencao`.`cor` AS `cor`,`neoli831_teste`.`manutencao`.`data_cadastro` AS `data_cadastro`,`neoli831_teste`.`manutencao`.`data_previsao` AS `data_previsao`,`neoli831_teste`.`manutencao`.`data_entrega` AS `data_entrega`,`neoli831_teste`.`manutencao`.`preco` AS `preco`,`neoli831_teste`.`manutencao`.`finalizado` AS `finalizado`,`view_cliente`.`nome` AS `nome_cliente`,`view_cliente`.`cpf` AS `cpf_cliente`,`view_cliente`.`rg` AS `rg_cliente`,`view_cliente`.`telefone` AS `telefone_cliente`,`view_cliente`.`id_endereco` AS `id_endereco_cliente`,`view_cliente`.`numero` AS `numero_cliente`,`view_cliente`.`rua` AS `rua_cliente`,`view_cliente`.`id_bairro` AS `id_bairro_cliente`,`view_cliente`.`id_cidade` AS `id_cidade_cliente`,`view_cliente`.`nome_cidade` AS `nome_cidade_cliente`,`view_cliente`.`nome_bairro` AS `nome_bairro_cliente`,`view_administrador`.`nome` AS `nome_administrador`,`view_administrador`.`cpf` AS `cpf_administrador`,`view_administrador`.`id_endereco` AS `id_endereco_administrador`,`view_administrador`.`numero` AS `numero_administrador`,`view_administrador`.`rua` AS `rua_administrador`,`view_administrador`.`id_bairro` AS `id_bairro_administrador`,`view_administrador`.`id_cidade` AS `id_cidade_administrador`,`view_administrador`.`nome_cidade` AS `nome_cidade_administrador`,`view_administrador`.`nome_bairro` AS `nome_bairro_administrador` from ((`neoli831_teste`.`manutencao` join `neoli831_teste`.`view_cliente` on((`neoli831_teste`.`manutencao`.`id_cliente` = `view_cliente`.`id`))) join `neoli831_teste`.`view_administrador` on((`view_administrador`.`id` = `neoli831_teste`.`manutencao`.`id_administrador`)));
+CREATE  OR REPLACE ALGORITHM=UNDEFINED DEFINER=`neoli831`@`localhost` SQL SECURITY DEFINER VIEW 
+`neoli831_teste`.`view_manutenca` AS select `neoli831_teste`.`manutencao`.`id` AS `id`,
+`neoli831_teste`.`manutencao`.`id_administrador` AS `id_administrador`,
+`neoli831_teste`.`manutencao`.`quantidade_parcelas` AS `quantidade_parcelas`,
+`neoli831_teste`.`manutencao`.`id_cliente` AS `id_cliente`,
+`neoli831_teste`.`manutencao`.`id_forma_pagamento` AS `id_forma_pagamento`,
+`neoli831_teste`.`manutencao`.`descricao` AS `descricao`,`neoli831_teste`.`manutencao`.`marca` AS `marca`,
+`neoli831_teste`.`manutencao`.`modelo` AS `modelo`,`neoli831_teste`.`manutencao`.`imei` AS `imei`,
+`neoli831_teste`.`manutencao`.`cor` AS `cor`,`neoli831_teste`.`manutencao`.`data_cadastro` AS `data_cadastro`,
+`neoli831_teste`.`manutencao`.`data_previsao` AS `data_previsao`,
+`neoli831_teste`.`manutencao`.`data_entrega` AS `data_entrega`,`neoli831_teste`.`manutencao`.`preco` AS `preco`,
+`neoli831_teste`.`manutencao`.`finalizado` AS `finalizado`,`view_cliente`.`nome` AS `nome_cliente`,
+`view_cliente`.`cpf` AS `cpf_cliente`,`view_cliente`.`rg` AS `rg_cliente`,
+`view_cliente`.`telefone` AS `telefone_cliente`,`view_cliente`.`id_endereco` AS `id_endereco_cliente`,
+`view_cliente`.`numero` AS `numero_cliente`,`view_cliente`.`rua` AS `rua_cliente`,
+`view_cliente`.`id_bairro` AS `id_bairro_cliente`,`view_cliente`.`id_cidade` AS `id_cidade_cliente`,
+`view_cliente`.`nome_cidade` AS `nome_cidade_cliente`,`view_cliente`.`nome_bairro` AS `nome_bairro_cliente`,
+`view_administrador`.`nome` AS `nome_administrador`,`view_administrador`.`cpf` AS `cpf_administrador`,
+`view_administrador`.`id_endereco` AS `id_endereco_administrador`,
+`view_administrador`.`numero` AS `numero_administrador`,`view_administrador`.`rua` AS `rua_administrador`,
+`view_administrador`.`id_bairro` AS `id_bairro_administrador`,
+`view_administrador`.`id_cidade` AS `id_cidade_administrador`,
+`view_administrador`.`nome_cidade` AS `nome_cidade_administrador`,
+`view_administrador`.`nome_bairro` AS `nome_bairro_administrador`,
+`manutencao`.`descricao` AS `descricao_forma_pagamento`
+from 
+((`neoli831_teste`.`manutencao` join `neoli831_teste`.`view_cliente` 
+on((`neoli831_teste`.`manutencao`.`id_cliente` = `view_cliente`.`id`))) 
+join `neoli831_teste`.`forma_pagamento` 
+on((`neoli831_teste`.`forma_pagamento`.`id` = `manutencao`.`id`))) 
+join `neoli831_teste`.`view_administrador` 
+on((`view_administrador`.`id` = `neoli831_teste`.`manutencao`.`id_administrador`));
 
 -- -----------------------------------------------------
 -- View `neoli831_teste`.`view_produto`

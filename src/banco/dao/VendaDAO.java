@@ -141,7 +141,7 @@ public class VendaDAO extends DAO {
         List<Venda> vendas = new ArrayList<>();
 
         String sql = "SELECT * FROM view_venda"
-                + "\nWHERE data >= " + inicio + " AND venda.data < " + finall;
+                + "\nWHERE view_venda.data >= " + inicio + " AND view_venda.data < " + finall;
 
         stm = getConector().prepareStatement(sql);
         rs = stm.executeQuery(sql);
