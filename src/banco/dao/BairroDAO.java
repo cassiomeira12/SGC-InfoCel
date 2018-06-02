@@ -57,6 +57,8 @@ public class BairroDAO extends DAO {
      * Excluir marca na base de dados
      */
     public boolean excluir(int id) throws SQLException {
+        ControleDAO.getBanco().getEnderecoDAO().excluirEnderecosDoBairro(id);
+        
         String sql = "DELETE FROM bairro WHERE id=?";
 
         stm = getConector().prepareStatement(sql);
@@ -106,6 +108,19 @@ public class BairroDAO extends DAO {
         rs.close();
 
         return bairros;
+    }
+
+    public boolean excluirBairrosDaCidade(int id) throws SQLException {  
+        String sql = "DELETE FROM bairro WHERE id_cidade=?";
+
+        stm = getConector().prepareStatement(sql);
+
+        stm.setInt(1, id);
+        stm.execute();
+
+        stm.close();
+
+        return true;
     }
 
 }

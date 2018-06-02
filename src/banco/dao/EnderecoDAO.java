@@ -73,4 +73,17 @@ public class EnderecoDAO extends DAO {
 
         return true;
     }
+    
+     public boolean excluirEnderecosDoBairro(int id) throws SQLException {
+        String sql = "DELETE FROM endereco WHERE id_bairro=?";
+
+        stm = getConector().prepareStatement(sql);
+
+        stm.setInt(1, id);
+        stm.execute();
+
+        stm.close();
+
+        return true;
+    }
 }
