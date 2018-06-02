@@ -1,5 +1,6 @@
 package banco.dao;
 
+import banco.ControleDAO;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -50,6 +51,7 @@ public class CidadeDAO extends DAO {
      * Excluir marca na base de dados
      */
     public boolean excluir(int id) throws SQLException {
+        ControleDAO.getBanco().getBairroDAO().excluirBairrosDaCidade(id);
         String sql = "DELETE FROM cidade WHERE id=?";
 
         stm = getConector().prepareStatement(sql);
