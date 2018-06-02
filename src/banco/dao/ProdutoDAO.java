@@ -42,7 +42,7 @@ public class ProdutoDAO extends DAO {
      * Atualizar dados produto na base de dados
      */
     public boolean editar(Produto produto) throws SQLException {
-        String sql = "UPDATE produto SET  descricao =?, id_categoria_produto =?, id_marca =?, preco_compra =?, preco_venda =?, estoque =?, id_unidade_medida WHERE id =?";
+        String sql = "UPDATE produto SET  descricao =?, id_categoria_produto =?, id_marca =?, preco_compra =?, preco_venda =?, estoque =?, id_unidade_medida =? WHERE id =?";
 
         stm = getConector().prepareStatement(sql);
 
@@ -54,7 +54,7 @@ public class ProdutoDAO extends DAO {
         stm.setFloat(6, produto.getEstoque());
         stm.setInt(7, produto.getUnidadeMedida().getId().intValue());
 
-        stm.setInt(7, produto.getId().intValue());
+        stm.setInt(8, produto.getId().intValue());
 
         stm.executeUpdate();
         stm.close();
