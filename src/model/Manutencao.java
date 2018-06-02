@@ -8,6 +8,7 @@ public class Manutencao {
     private String descricao;
     private Cliente cliente;
     private Administrador administrador;
+    private FormaPagamento formaPagamento;
     private String marca;
     private String modelo;
     private String imei;
@@ -18,7 +19,7 @@ public class Manutencao {
     private float preco;
     private boolean finalizado;
 
-    public Manutencao(Long id, String descricao, Cliente cliente, Administrador administrador, String marca, String modelo, String imei, String cor, Long dataCadastro, Long dataPrevisaoEntrega, Long dataEntrega, float preco, boolean finalizado) {
+    public Manutencao(Long id, String descricao, Cliente cliente, Administrador administrador, String marca, String modelo, String imei, String cor, Long dataCadastro, Long dataPrevisaoEntrega, Long dataEntrega, float preco, boolean finalizado, FormaPagamento formaPagamento) {
         this.id = id;
         this.descricao = descricao;
         this.cliente = cliente;
@@ -32,6 +33,7 @@ public class Manutencao {
         this.dataEntrega = dataEntrega;
         this.preco = preco;
         this.finalizado = finalizado;
+        this.formaPagamento = formaPagamento;
     }
 
     public Long getId() {
@@ -125,7 +127,7 @@ public class Manutencao {
     public String getDataEditada() {
         return DateUtils.formatDate(dataEntrega);
     }
-    
+
     public float getPreco() {
         return preco;
     }
@@ -137,17 +139,25 @@ public class Manutencao {
     public boolean isFinalizado() {
         return finalizado;
     }
-    
+
     public String getFinalizadoEditado() {
         return finalizado ? "Sim" : "Não";
     }
-    
+
     public String getEndereco() {
         return cliente.getEndereco().toString();
     }
 
     public void setFinalizado(boolean finalizado) {
         this.finalizado = finalizado;
+    }
+
+    public FormaPagamento getFormaPagamento() {
+        return formaPagamento;
+    }
+
+    public void setFormaPagamento(FormaPagamento formaPagamento) {
+        this.formaPagamento = formaPagamento;
     }
 
 }
