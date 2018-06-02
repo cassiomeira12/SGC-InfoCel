@@ -148,7 +148,7 @@ public class TelaAdicionarManutencaoController extends AnchorPane {
 
     @FXML
     public void initialize() {
-        this.novaManutencao = new Manutencao(null, null, null, null, null, null, null, null, null, null, null, 00, false);
+        this.novaManutencao = new Manutencao(null, null, null ,null, null, null, null, null, null, null, null, 00, false, null, 0);
         this.dataDatePicker.setValue(LocalDate.now());//Adicionando Data do dia atual
 
         Formatter.toUpperCase(nomeText, adicionarCidadeText, adicionarBairroText, marcaText, modeloText);
@@ -310,7 +310,8 @@ public class TelaAdicionarManutencaoController extends AnchorPane {
                     this.novaManutencao.setAdministrador(vendedor);
                     this.novaManutencao.setDescricao(descricao);
                     this.novaManutencao.setPreco(preco);
-                    
+                    this.novaManutencao.setFormaPagamento(pagamento);
+                    this.novaManutencao.setQuantidadeParcelas(parcelas);
                     this.novaManutencao.setDataCadastro(dataCadastro);
                     this.novaManutencao.setDataEntrega(null);
                     this.novaManutencao.setDataPrevisaoEntrega(dataPrevisao);
@@ -331,16 +332,11 @@ public class TelaAdicionarManutencaoController extends AnchorPane {
                             this.adicionarPainelInterno(telaInicial);
                         }
                     } catch (Exception e) {
-                        Alerta.erro("Erro ao adicionar nova Manutenção!\n" + e.toString());
+                        Alerta.erro("Erro ao adicionar nova Manutenção!");
+                        e.printStackTrace();
                     }
-
                 }
-
-            } // não quer adicionar uma noma manutenção
-            else {
-                System.out.println("ele NÃO deseja concluir a manutenção");
             }
-
         }
     }
 
@@ -538,7 +534,7 @@ public class TelaAdicionarManutencaoController extends AnchorPane {
             protected List<Bairro> doInBackground() throws Exception {
                 return ControleDAO.getBanco().getBairroDAO().buscarPorCidade(cidade);
             }
-
+            
             //Metodo chamado apos terminar a execucao numa Thread separada
             @Override
             protected void done() {
