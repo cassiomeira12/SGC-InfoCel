@@ -14,12 +14,14 @@ import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
@@ -29,6 +31,7 @@ import model.Cliente;
 import model.Endereco;
 import model.Manutencao;
 import util.DateUtils;
+import util.Formatter;
 import util.alerta.Alerta;
 
 /**
@@ -45,6 +48,8 @@ public class TelaConsultarManutencoesController extends AnchorPane {
     private LocalDate dataInicio;
     private LocalDate dataFim;
     
+    @FXML
+    private TextField filtroText;
     @FXML
     private DatePicker inicioDatePicker;
     @FXML
@@ -89,23 +94,28 @@ public class TelaConsultarManutencoesController extends AnchorPane {
     public void initialize() {
         this.dataInicio = LocalDate.now();
         this.dataFim = LocalDate.now().plusDays(1);
-
-
-        sincronizarBancoDados(DateUtils.formatDate(dataInicio), DateUtils.formatDate(dataFim));
+        
+        Formatter.toUpperCase(filtroText);
         
         inicioDatePicker.setValue(dataInicio);
         fimDatePicker.setValue(dataFim);
         
         inicioDatePicker.setOnAction((e) -> {
-        
+            this.dataInicio = inicioDatePicker.getValue();
+            sincronizarBancoDados(DateUtils.formatDate(dataInicio), DateUtils.formatDate(dataFim));
         });
         
         fimDatePicker.setOnAction((e) -> {
-        
+            this.dataFim = fimDatePicker.getValue();
+            sincronizarBancoDados(DateUtils.formatDate(dataInicio), DateUtils.formatDate(dataFim));
         });
         
+        filtroText.textProperty().addListener((e) -> {
+            String texto = filtroText.getText();
+            filtro(texto, listaManutencoes, manutencoesTable);
+        });
         
-        
+        sincronizarBancoDados(DateUtils.formatDate(dataInicio), DateUtils.formatDate(dataFim));
     }
     
     private void adicionarPainelInterno(AnchorPane novaTela) {
@@ -125,11 +135,6 @@ public class TelaConsultarManutencoesController extends AnchorPane {
     
     @FXML
     private void excluirManutencao() {
-        
-    }
-    
-    @FXML
-    private void pesquisarCliente() {
         
     }
     
@@ -193,15 +198,31 @@ public class TelaConsultarManutencoesController extends AnchorPane {
                 return true;
             }
             //Coloque aqui as verificacoes da Pesquisa
-//            if (filtro.getNome().toLowerCase().contains(texto.toLowerCase())) {
-//                return true;
-//            }
-
+            if (filtro.getCliente().getNome().toLowerCase().contains(texto.toLowerCase())) {
+                return true;
+            }
+            
+            if (filtro.getCliente().getEndereco().toString().toLowerCase().contains(texto.toLowerCase())) {
+                return true;
+            }
+            
+            if (filtro.getAdministrador().getNome().toLowerCase().contains(texto.toLowerCase())) {
+                return true;
+            }
+            
+            if (filtro.getMarca().toLowerCase().contains(texto.toLowerCase())) {
+                return true;
+            }
+            
+            if (filtro.getModelo().toLowerCase().contains(texto.toLowerCase())) {
+                return true;
+            }
+            
             return false;
         });
 
-        //SortedList dadosOrdenados = new SortedList(dadosFiltrados);
-        //dadosOrdenados.comparatorProperty().bind(tabela.comparatorProperty());
-        //tabela.setItems(dadosOrdenados);
+        SortedList dadosOrdenados = new SortedList(dadosFiltrados);
+        dadosOrdenados.comparatorProperty().bind(tabela.comparatorProperty());
+        tabela.setItems(dadosOrdenados);
     }
 }

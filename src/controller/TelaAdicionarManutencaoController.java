@@ -151,7 +151,7 @@ public class TelaAdicionarManutencaoController extends AnchorPane {
         this.novaManutencao = new Manutencao(null, null, null ,null, null, null, null, null, null, null, null, 00, false, null, 0);
         this.dataDatePicker.setValue(LocalDate.now());//Adicionando Data do dia atual
 
-        Formatter.toUpperCase(nomeText, adicionarCidadeText, adicionarBairroText, marcaText, modeloText);
+        Formatter.toUpperCase(nomeText, adicionarCidadeText, adicionarBairroText, marcaText, modeloText, descricaoArea);
         Formatter.mascaraCPF(cpfText);//Formatador para CPF
         Formatter.mascaraRG(rgText);//Formatador para Rg
         Formatter.mascaraTelefone(telefoneText);//Formatador para Telefone

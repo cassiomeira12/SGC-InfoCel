@@ -14,7 +14,7 @@ public class Venda {
     private FormaPagamento formaPagamento;
     private int quantidadeParcelas;
     private Long data;
-
+    
     public Venda(Long id, Administrador administrador, Cliente cliente, List<VendaProduto> vendaProdutos, FormaPagamento formaPagamento, int quantidadeParcelas, Long data) {
         this.id = id;
         this.administrador = administrador;
@@ -148,5 +148,5 @@ public class Venda {
     public void atualizarVenda() {
         precoTotal = calcularPrecoTotal();
     }
-
+    
 }

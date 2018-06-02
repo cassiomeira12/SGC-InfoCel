@@ -21,7 +21,7 @@ public class Operacao implements Comparable<Operacao> {
     public Operacao(Venda venda) {
         this.categoria = "Venda";
         this.cliente = venda.getCliente().getNome();
-        //this.descricao = 
+        //this.descricao = venda.toString();
         this.funcionario = venda.getAdministrador();
         this.valor = venda.getPrecoTotal();
         this.data = venda.getData();
