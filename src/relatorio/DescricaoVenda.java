@@ -54,18 +54,13 @@ public class DescricaoVenda extends Thread{
             Logger.getLogger(DescricaoVenda.class.getName()).log(Level.SEVERE, null, ex);
         }
         // consulta a ser mostrada no relatorio
-        query = "select V.id, C.nome, C.cpf, C.rg, C.telefone, CI.nome   AS nome_cidade, B.nome AS nome_bairro, E.rua, E.numero, "+
-        "P.descricao AS descricao_produto, M.descricao AS descricao_marca, CP.descricao AS descricao_categoria, "+  
-        "VP.preco_total AS preco_total_produto, V.preco_total " +
-        "from venda V, cliente C, venda_produto VP, produto P, marca M, categoria_produto CP, cidade CI, bairro B, endereco E "+
-        "where V.id_cliente = C.id and "+
-			"V.id = VP.id_venda and "+
-			"VP.id_produto = P.id and "+
-			"CP.id = P.id_categoria_produto and "+
-			"M.id = P.id_marca and "+
-			"C.id_endereco = E.id and "+
-			"E.id_bairro = B.id and "+
-			"B.id_cidade = CI.id and V.id = " + id;
+        query = "select V.id, C.nome, C.cpf, C.rg, C.telefone, CI.nome   AS nome_cidade, B.nome AS nome_bairro, E.rua, E.numero, V.preco_total " +
+                "from venda V, cliente C, cidade CI, bairro B, endereco E " +
+                "where V.id_cliente = C.id and " +
+			"C.id_endereco = E.id and " +
+			"E.id_bairro = B.id and " +
+			"B.id_cidade = CI.id and " +
+			"V.id = " + id ;
 			
         try {
             rs = stm.executeQuery(query);
@@ -74,7 +69,8 @@ public class DescricaoVenda extends Thread{
         }
         jrRS = new JRResultSetDataSource(rs);
         parameters = new HashMap();
-
+        parameters.put("id_venda", id);
+        parameters.put("REPORT_CONNECTION",conn.getConnection());
         try { // caminho do arquivo jasper
             src = new File("src/relatorio/descricaoVenda.jasper").getCanonicalPath();
         } catch (IOException ex) {
