@@ -117,4 +117,11 @@ public class Administrador {
         return this.nome;
     }
 
+   /* @Override
+    public boolean equals(Object obj) {
+        Administrador adm = (Administrador) obj;
+        
+        return id.equals(adm.getId()); //To change body of generated methods, choose Tools | Templates.
+    }*/
+
 }

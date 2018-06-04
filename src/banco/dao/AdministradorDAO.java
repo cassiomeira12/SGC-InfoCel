@@ -82,11 +82,10 @@ public class AdministradorDAO extends DAO {
      * Excluir administrador na base de dados
      */
     public boolean excluir(int id) throws SQLException {
-        String sql = "DELETE FROM administrador WHERE id=?";
+        String sql = "UPDATE administrador SET status = 0 WHERE id =" +id;
 
         stm = getConector().prepareStatement(sql);
 
-        stm.setInt(1, id);
         stm.execute();
 
         stm.close();

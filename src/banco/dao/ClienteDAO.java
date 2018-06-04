@@ -76,11 +76,10 @@ public class ClienteDAO extends DAO {
      * Excluir cliente na base de dados
      */
     public boolean excluir(int id) throws SQLException {
-        String sql = "DELETE FROM cliente WHERE id=?";
+        String sql = "UPDATE cliente SET status = 0 WHERE id =" +id;
 
         stm = getConector().prepareStatement(sql);
-
-        stm.setInt(1, id);
+        
         stm.execute();
 
         stm.close();

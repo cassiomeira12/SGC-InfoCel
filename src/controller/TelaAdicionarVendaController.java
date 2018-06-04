@@ -2,12 +2,9 @@ package controller;
 
 import banco.ControleDAO;
 import java.io.IOException;
-import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -46,7 +43,6 @@ import model.Produto;
 import model.Venda;
 import model.VendaProduto;
 import relatorio.DescricaoVenda;
-import relatorio.ListaVenda;
 import util.DateUtils;
 import util.Formatter;
 import util.alerta.Alerta;
@@ -591,6 +587,8 @@ public class TelaAdicionarVendaController extends AnchorPane {
                     listaAdministrador = this.get();
                     ObservableList administradores = FXCollections.observableArrayList(listaAdministrador);
                     vendedorComboBox.setItems(administradores);
+                    
+                    vendedorComboBox.getSelectionModel().select(LoginController.admLogado);
                 } catch (InterruptedException | ExecutionException ex) {
                     chamarAlerta("Erro ao consultar Banco de Dados");
                     ex.printStackTrace();
