@@ -108,7 +108,7 @@ public class ManutencaoDAO extends DAO {
 
         List<Manutencao> manuntencoes = new ArrayList<>();
 
-        String sql = "SELECT * FROM view_manutenca";
+        String sql = "SELECT * FROM view_manutencao";
 
         stm = getConector().prepareStatement(sql);
         rs = stm.executeQuery(sql);
@@ -143,7 +143,7 @@ public class ManutencaoDAO extends DAO {
 
         List<Manutencao> manuntencoes = new ArrayList<>();
 
-        String sql = "SELECT * FROM view_manutenca WHERE id_cliente = " + c.getId();
+        String sql = "SELECT * FROM view_manutencao WHERE id_cliente = " + c.getId();
 
         stm = getConector().prepareStatement(sql);
         rs = stm.executeQuery(sql);
