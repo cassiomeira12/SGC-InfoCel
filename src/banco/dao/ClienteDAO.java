@@ -94,7 +94,7 @@ public class ClienteDAO extends DAO {
 
         List<Cliente> clientes = new ArrayList<>();
 
-        String sql = "SELECT * FROM view_cliente";
+        String sql = "SELECT * FROM view_cliente WHERE status = 1";
 
         stm = getConector().prepareStatement(sql);
         rs = stm.executeQuery(sql);

@@ -93,7 +93,7 @@ public class EnderecosConfiguracoesController implements Initializable {
 
         if (resposta == Dialogo.Resposta.YES) {
             try {
-                ControleDAO.getBanco().getCidadeDAO().excluir(cidade.getId().intValue());
+                ControleDAO.getBanco().getCidadeDAO().excluir(cidade);
                 Alerta.info("Cidade excluida com sucesso!");
                 sincronizarBancoDadosCidade();
             } catch (SQLException ex) {
@@ -121,7 +121,7 @@ public class EnderecosConfiguracoesController implements Initializable {
 
         if (resposta == Dialogo.Resposta.YES) {
             try {
-                ControleDAO.getBanco().getBairroDAO().excluir(bairro.getId().intValue());
+                ControleDAO.getBanco().getBairroDAO().excluir(bairro);
                 Alerta.info("Bairro excluido com sucesso!");
                 sincronizarBancoDadosCidade();
             } catch (SQLException ex) {

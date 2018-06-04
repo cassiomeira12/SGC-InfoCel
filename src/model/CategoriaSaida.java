@@ -4,6 +4,7 @@ public class CategoriaSaida {
 
     private Long id;
     private String descricao;
+    private boolean status = true;
 
     public CategoriaSaida(Long id, String descricao) {
         this.id = id;
@@ -26,6 +27,12 @@ public class CategoriaSaida {
         this.descricao = descricao;
     }
 
-    
-    
+    public boolean getStatus() {
+        return status;
+    }
+
+    public void setStatus(boolean status) {
+        this.status = status;
+    }
+
 }

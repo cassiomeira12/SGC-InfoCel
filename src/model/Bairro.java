@@ -5,6 +5,7 @@ public class Bairro {
     private Long id;
     private String nome;
     private Cidade cidade;
+    private boolean status = true;
 
     public Bairro(Long id, String descricao, Cidade cidade) {
         this.id = id;
@@ -35,7 +36,15 @@ public class Bairro {
     public void setCidade(Cidade cidade) {
         this.cidade = cidade;
     }
-    
+
+    public boolean getStatus() {
+        return status;
+    }
+
+    public void setStatus(boolean status) {
+        this.status = status;
+    }
+
     @Override
     public String toString() {
         return this.nome;

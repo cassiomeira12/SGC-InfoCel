@@ -23,7 +23,7 @@ public class CelularDAO extends DAO {
      * Inserir celular na base de dados
      */
     public Long inserir(Celular celular) throws Exception {
-        String sql = "INSERT INTO produto ( descricao, id_categoria_produto, id_marca, preco_compra, preco_venda, estoque, modelo, imei, cor, eh_celular, id_unidade_medida) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO produto ( descricao, id_categoria_produto, id_marca, preco_compra, preco_venda, estoque, modelo, imei, cor, eh_celular, id_unidade_medida, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         stm = getConector().prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
 
@@ -38,6 +38,7 @@ public class CelularDAO extends DAO {
         stm.setString(9, celular.getCor());
         stm.setBoolean(10, true);
         stm.setInt(11, celular.getUnidadeMedida().getId().intValue());
+        stm.setBoolean(12, celular.getStatus());
 
         return super.inserir();
     }
@@ -46,7 +47,7 @@ public class CelularDAO extends DAO {
      * Atualizar dados celular na base de dados
      */
     public boolean editar(Celular celular) throws SQLException {
-        String sql = "UPDATE produto SET  descricao =?, id_categoria_produto =?, id_marca =?, preco_compra =?, preco_venda =?, estoque =?, modelo =?, imei =?, cor =?, id_unidade_medida =  WHERE id =?";
+        String sql = "UPDATE produto SET  descricao =?, id_categoria_produto =?, id_marca =?, preco_compra =?, preco_venda =?, estoque =?, modelo =?, imei =?, cor =?, id_unidade_medida =?, status =?  WHERE id =?";
 
         stm = getConector().prepareStatement(sql);
 
@@ -60,8 +61,9 @@ public class CelularDAO extends DAO {
         stm.setString(8, celular.getImei());
         stm.setString(9, celular.getCor());
         stm.setInt(10, celular.getUnidadeMedida().getId().intValue());
+        stm.setBoolean(11, celular.getStatus());
 
-        stm.setInt(10, celular.getId().intValue());
+        stm.setInt(12, celular.getId().intValue());
 
         stm.executeUpdate();
         stm.close();
@@ -72,8 +74,8 @@ public class CelularDAO extends DAO {
     /**
      * Excluir celular na base de dados
      */
-    public boolean excluir(int id) throws SQLException {
-        ControleDAO.getBanco().getProdutoDAO().excluir(id);
+    public boolean excluir(Celular celular) throws SQLException {
+        ControleDAO.getBanco().getProdutoDAO().excluir(celular);
         return true;
     }
 
@@ -84,7 +86,7 @@ public class CelularDAO extends DAO {
 
         List<Celular> celulares = new ArrayList<>();
 
-        String sql = "SELECT * FROM view_produto WHERE eh_celular = true";
+        String sql = "SELECT * FROM view_produto WHERE eh_celular = true AND status = 1";
 
         stm = getConector().prepareStatement(sql);
         rs = stm.executeQuery(sql);

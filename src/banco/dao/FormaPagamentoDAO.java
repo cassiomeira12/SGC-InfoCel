@@ -1,5 +1,6 @@
 package banco.dao;
 
+import com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -20,12 +21,13 @@ public class FormaPagamentoDAO extends DAO {
      * Inserir categoria na base de dados
      */
     public Long inserir(FormaPagamento formaPagamento) throws Exception {
-        String sql = "INSERT INTO forma_pagamento ( descricao, maximo_parcelas =?) VALUES (?, ?)";
+        String sql = "INSERT INTO forma_pagamento ( descricao, maximo_parcelas, status) VALUES (?, ?, ?)";
 
         stm = getConector().prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
 
         stm.setString(1, formaPagamento.getDescricao());
         stm.setInt(2, formaPagamento.getMaximoParcelas());
+        stm.setBoolean(3, formaPagamento.getStatus());
 
         return super.inserir();
 
@@ -35,12 +37,13 @@ public class FormaPagamentoDAO extends DAO {
      * Atualizar dados categoria na base de dados
      */
     public boolean editar(FormaPagamento formaPagamento) throws SQLException {
-        String sql = "UPDATE forma_pagamento SET descricao =?, maximo_parcelas =? WHERE id =?";
+        String sql = "UPDATE forma_pagamento SET descricao =?, maximo_parcelas =?, status =? WHERE id =?";
 
         stm = getConector().prepareStatement(sql);
 
         stm.setString(1, formaPagamento.getDescricao());
         stm.setInt(2, formaPagamento.getMaximoParcelas());
+        stm.setBoolean(3, formaPagamento.getStatus());
 
         stm.setInt(3, formaPagamento.getId().intValue());
 
@@ -53,15 +56,19 @@ public class FormaPagamentoDAO extends DAO {
     /**
      * Excluir categoria na base de dados
      */
-    public boolean excluir(int id) throws SQLException {
-        String sql = "DELETE FROM forma_pagamento WHERE id=?";
+    public boolean excluir(FormaPagamento fp) throws SQLException {
+        try{String sql = "DELETE FROM forma_pagamento WHERE id=?";
 
         stm = getConector().prepareStatement(sql);
 
-        stm.setInt(1, id);
+        stm.setInt(1, fp.getId().intValue());
         stm.execute();
 
         stm.close();
+        } catch (MySQLIntegrityConstraintViolationException e) {
+            fp.setStatus(false);
+            editar(fp);
+        }
 
         return true;
     }
@@ -73,7 +80,7 @@ public class FormaPagamentoDAO extends DAO {
 
         List<FormaPagamento> formaPagamentos = new ArrayList<>();
 
-        String sql = "SELECT forma_pagamento.* FROM forma_pagamento";
+        String sql = "SELECT forma_pagamento.* FROM forma_pagamento WHERE status =1";
 
         stm = getConector().prepareStatement(sql);
         rs = stm.executeQuery(sql);
@@ -94,7 +101,7 @@ public class FormaPagamentoDAO extends DAO {
 
         List<FormaPagamento> formaPagamentos = new ArrayList<>();
 
-        String sql = "SELECT forma_pagamento.* FROM forma_pagamento WHERE descricao LIKE '%" + descricao + "%'";
+        String sql = "SELECT forma_pagamento.* FROM forma_pagamento WHERE descricao LIKE '%" + descricao + "%' AND status =1";
 
         stm = getConector().prepareStatement(sql);
         rs = stm.executeQuery(sql);

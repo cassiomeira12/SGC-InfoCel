@@ -4,7 +4,8 @@ public class Cidade {
 
     private Long id;
     private String nome;
-    
+    private boolean status = true;
+
     public Cidade(Long id, String descricao) {
         this.id = id;
         this.nome = descricao;
@@ -25,10 +26,18 @@ public class Cidade {
     public void setNome(String nome) {
         this.nome = nome;
     }
-    
+
     @Override
     public String toString() {
         return this.nome;
+    }
+
+    public boolean getStatus() {
+        return status;
+    }
+
+    public void setStatus(boolean status) {
+        this.status = status;
     }
 
 }

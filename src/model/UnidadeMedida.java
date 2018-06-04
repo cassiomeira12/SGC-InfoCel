@@ -14,6 +14,7 @@ public class UnidadeMedida {
     private Long id;
     private String descricao;
     private String abreviacao;
+    private boolean status = true;
 
     public UnidadeMedida(Long id, String descricao, String abreviacao) {
         this.id = id;
@@ -48,6 +49,14 @@ public class UnidadeMedida {
     @Override
     public String toString() {
         return abreviacao + " - " + descricao;
+    }
+
+    public boolean getStatus() {
+        return status;
+    }
+
+    public void setStatus(boolean status) {
+        this.status = status;
     }
 
 }

@@ -6,6 +6,7 @@ public class Endereco {
     private Bairro bairro;
     private String rua;
     private String numero;
+    private boolean status = true;
 
     public Endereco(Long id, Bairro bairro, String rua, String numero) {
         this.id = id;
@@ -50,4 +51,13 @@ public class Endereco {
     public String toString() {
         return bairro.getCidade().getNome() + ", " + bairro.getNome() + ", " + rua + ", " + numero;
     }
+
+    public boolean getStatus() {
+        return status;
+    }
+
+    public void setStatus(boolean status) {
+        this.status = status;
+    }
+
 }

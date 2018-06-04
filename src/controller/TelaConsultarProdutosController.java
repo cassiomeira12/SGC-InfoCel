@@ -114,7 +114,7 @@ public class TelaConsultarProdutosController extends AnchorPane {
         if (resposta == Dialogo.Resposta.YES) {
 
             try {
-                if (ControleDAO.getBanco().getProdutoDAO().excluir(produto.getId().intValue())) {
+                if (ControleDAO.getBanco().getProdutoDAO().excluir(produto)) {
                     this.sincronizarBancoDados();
                     this.atualizarTabela();
                 } else {

@@ -1,6 +1,7 @@
 package banco.dao;
 
 import banco.ControleDAO;
+import com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -81,14 +82,20 @@ public class AdministradorDAO extends DAO {
     /**
      * Excluir administrador na base de dados
      */
-    public boolean excluir(int id) throws SQLException {
-        String sql = "UPDATE administrador SET status = 0 WHERE id =" +id;
+    public boolean excluir(Administrador adm) throws SQLException {
+        try{
+            String sql = "DELETE from administrador WHERE id=" +adm.getId();
 
         stm = getConector().prepareStatement(sql);
 
         stm.execute();
 
         stm.close();
+        } catch (MySQLIntegrityConstraintViolationException e) {
+            adm.setStatus(false);
+            editar(adm);
+        }
+        
         return true;
     }
 
@@ -99,7 +106,7 @@ public class AdministradorDAO extends DAO {
 
         List<Administrador> administradores = new ArrayList<>();
 
-        String sql = "SELECT * FROM view_administrador";
+        String sql = "SELECT * FROM view_administrador WHERE status = 1";
 
         stm = getConector().prepareStatement(sql);
         rs = stm.executeQuery(sql);

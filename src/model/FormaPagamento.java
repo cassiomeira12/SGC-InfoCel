@@ -14,6 +14,7 @@ public class FormaPagamento {
     private Long id;
     private String descricao;
     private int maximoParcelas;
+    private boolean status = true;
 
     public FormaPagamento(Long id, String descricao, int maximoParcelas) {
         this.id = id;
@@ -48,6 +49,14 @@ public class FormaPagamento {
     @Override
     public String toString() {
         return getDescricao();
+    }
+
+    public boolean getStatus() {
+        return status;
+    }
+
+    public void setStatus(boolean status) {
+        this.status = status;
     }
 
 }

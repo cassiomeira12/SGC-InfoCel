@@ -4,6 +4,7 @@ public class CategoriaProduto {
 
     private Long id;
     private String descricao;
+    private boolean status = true;
 
     public CategoriaProduto(Long id, String descricao) {
         this.id = id;
@@ -25,10 +26,18 @@ public class CategoriaProduto {
     public void setDescricao(String descricao) {
         this.descricao = descricao;
     }
-    
+
     @Override
     public String toString() {
         return this.descricao;
+    }
+
+    public boolean getStatus() {
+        return status;
+    }
+
+    public void setStatus(boolean status) {
+        this.status = status;
     }
 
 }

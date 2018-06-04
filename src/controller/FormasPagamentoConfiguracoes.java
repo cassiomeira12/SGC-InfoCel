@@ -113,7 +113,7 @@ public class FormasPagamentoConfiguracoes implements Initializable {
 
         if (resposta == Dialogo.Resposta.YES) {
             try {
-                if (ControleDAO.getBanco().getFormaPagamentoDAO().excluir(pagamento.getId().intValue())) {
+                if (ControleDAO.getBanco().getFormaPagamentoDAO().excluir(pagamento)) {
                     this.sincronizarBancoDados();
                     Alerta.info("Forma de Pagamento excluída com sucesso");
                 } else {

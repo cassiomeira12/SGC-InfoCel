@@ -1,6 +1,7 @@
 package banco.dao;
 
 import banco.ControleDAO;
+import com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -26,12 +27,13 @@ public class BairroDAO extends DAO {
             bairro.getCidade().setId(id);
         }
 
-        String sql = "INSERT INTO bairro ( nome, id_cidade ) VALUES (?, ?)";
+        String sql = "INSERT INTO bairro ( nome, id_cidade, status) VALUES (?, ?, ?)";
 
         stm = getConector().prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
 
         stm.setString(1, bairro.getNome());
         stm.setInt(2, bairro.getCidade().getId().intValue());
+        stm.setBoolean(3, bairro.getStatus());
 
         return super.inserir();
     }
@@ -40,13 +42,14 @@ public class BairroDAO extends DAO {
      * Atualizar dados receita na base de dados
      */
     public boolean editar(Bairro bairro) throws SQLException {
-        String sql = "UPDATE bairro SET nome =? WHERE id=?";
+        String sql = "UPDATE bairro SET nome =?, status =? WHERE id=?";
 
         stm = getConector().prepareStatement(sql);
 
         stm.setString(1, bairro.getNome());
+        stm.setBoolean(2, bairro.getStatus());
 
-        stm.setInt(2, bairro.getId().intValue());
+        stm.setInt(3, bairro.getId().intValue());
 
         stm.executeUpdate();
         stm.close();
@@ -56,18 +59,20 @@ public class BairroDAO extends DAO {
     /**
      * Excluir marca na base de dados
      */
-    public boolean excluir(int id) throws SQLException {
-        ControleDAO.getBanco().getEnderecoDAO().excluirEnderecosDoBairro(id);
-        
-        String sql = "DELETE FROM bairro WHERE id=?";
+    public boolean excluir(Bairro bairro) throws SQLException {
+        try {
+            String sql = "DELETE FROM bairro WHERE id=?";
 
-        stm = getConector().prepareStatement(sql);
+            stm = getConector().prepareStatement(sql);
 
-        stm.setInt(1, id);
-        stm.execute();
+            stm.setInt(1, bairro.getId().intValue());
+            stm.execute();
 
-        stm.close();
-
+            stm.close();
+        } catch (MySQLIntegrityConstraintViolationException e) {
+            bairro.setStatus(false);
+            editar(bairro);
+        }
         return true;
     }
 
@@ -78,7 +83,7 @@ public class BairroDAO extends DAO {
 
         List<Bairro> bairros = new ArrayList<>();
 
-        String sql = "SELECT * FROM view_bairro WHERE id_cidade = " + cidade.getId();
+        String sql = "SELECT * FROM view_bairro WHERE id_cidade = " + cidade.getId() + " AND status = 1";
         stm = getConector().prepareStatement(sql);
         rs = stm.executeQuery(sql);
 
@@ -96,7 +101,7 @@ public class BairroDAO extends DAO {
 
         List<Bairro> bairros = new ArrayList<>();
 
-        String sql = "SELECT * FROM view_bairro WHERE id_cidade = " + cidade.getId() + " AND nome LIKE '%" + nome + "%'";
+        String sql = "SELECT * FROM view_bairro WHERE id_cidade = " + cidade.getId() + " AND nome LIKE '%" + nome + "%'" + " AND staus = 1";;
         stm = getConector().prepareStatement(sql);
         rs = stm.executeQuery(sql);
 
@@ -110,7 +115,7 @@ public class BairroDAO extends DAO {
         return bairros;
     }
 
-    public boolean excluirBairrosDaCidade(int id) throws SQLException {  
+    public boolean excluirBairrosDaCidade(int id) throws SQLException {
         String sql = "DELETE FROM bairro WHERE id_cidade=?";
 
         stm = getConector().prepareStatement(sql);

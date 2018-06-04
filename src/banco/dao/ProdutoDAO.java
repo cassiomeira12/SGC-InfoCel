@@ -1,5 +1,6 @@
 package banco.dao;
 
+import com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -23,7 +24,7 @@ public class ProdutoDAO extends DAO {
      * Inserir produto na base de dados
      */
     public Long inserir(Produto produto) throws Exception {
-        String sql = "INSERT INTO produto ( descricao, id_categoria_produto, id_marca, preco_compra, preco_venda, estoque, id_unidade_medida ) VALUES (?, ?, ?, ?,?, ?, ?)";
+        String sql = "INSERT INTO produto ( descricao, id_categoria_produto, id_marca, preco_compra, preco_venda, estoque, id_unidade_medida, status ) VALUES (?, ?, ?, ?, ?,?, ?, ?)";
 
         stm = getConector().prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
 
@@ -34,6 +35,7 @@ public class ProdutoDAO extends DAO {
         stm.setFloat(5, produto.getPrecoVenda());
         stm.setFloat(6, produto.getEstoque());
         stm.setInt(7, produto.getUnidadeMedida().getId().intValue());
+        stm.setBoolean(8, produto.getStatus());
 
         return super.inserir();
     }
@@ -42,7 +44,7 @@ public class ProdutoDAO extends DAO {
      * Atualizar dados produto na base de dados
      */
     public boolean editar(Produto produto) throws SQLException {
-        String sql = "UPDATE produto SET  descricao =?, id_categoria_produto =?, id_marca =?, preco_compra =?, preco_venda =?, estoque =?, id_unidade_medida =? WHERE id =?";
+        String sql = "UPDATE produto SET  descricao =?, id_categoria_produto =?, id_marca =?, preco_compra =?, preco_venda =?, estoque =?, id_unidade_medida =?, status =? WHERE id =?";
 
         stm = getConector().prepareStatement(sql);
 
@@ -53,8 +55,9 @@ public class ProdutoDAO extends DAO {
         stm.setFloat(5, produto.getPrecoVenda());
         stm.setFloat(6, produto.getEstoque());
         stm.setInt(7, produto.getUnidadeMedida().getId().intValue());
+        stm.setBoolean(8, produto.getStatus());
 
-        stm.setInt(8, produto.getId().intValue());
+        stm.setInt(9, produto.getId().intValue());
 
         stm.executeUpdate();
         stm.close();
@@ -65,15 +68,21 @@ public class ProdutoDAO extends DAO {
     /**
      * Excluir produto na base de dados
      */
-    public boolean excluir(int id) throws SQLException {
-        String sql = "DELETE FROM produto WHERE id=?";
+    public boolean excluir(Produto produto) throws SQLException {
+        try {
+            String sql = "DELETE FROM produto WHERE id=?";
 
-        stm = getConector().prepareStatement(sql);
+            stm = getConector().prepareStatement(sql);
 
-        stm.setInt(1, id);
-        stm.execute();
+            stm.setInt(1, produto.getId().intValue());
+            stm.execute();
 
-        stm.close();
+            stm.close();
+        } catch (MySQLIntegrityConstraintViolationException e) {
+            produto.setStatus(false);
+            editar(produto);
+        }
+
         return true;
     }
 
@@ -84,7 +93,7 @@ public class ProdutoDAO extends DAO {
 
         List<Produto> produtos = new ArrayList<>();
 
-        String sql = "SELECT * FROM view_produto";
+        String sql = "SELECT * FROM view_produto WHERE status = 1";
 
         stm = getConector().prepareStatement(sql);
         rs = stm.executeQuery(sql);
@@ -109,7 +118,7 @@ public class ProdutoDAO extends DAO {
 
         String sql = "SELECT * FROM view_produto"
                 + "\nWHERE produto.descricao LIKE '%" + busca + "%'"
-                + "\n OR produto.modelo LIKE '%" + busca + "%'";;
+                + "\n OR produto.modelo LIKE '%" + busca + "%' AND status = 1";
 
         stm = getConector().prepareStatement(sql);
         rs = stm.executeQuery(sql);
@@ -133,7 +142,7 @@ public class ProdutoDAO extends DAO {
         List<Produto> produtos = new ArrayList<>();
 
         String sql = "SELECT * FROM view_produto"
-                + "\nWHERE produto.id_categoria_produto = " + categoria.getId();
+                + "\nWHERE produto.id_categoria_produto = " + categoria.getId()  +" AND WHERE status = 1";
 
         stm = getConector().prepareStatement(sql);
         rs = stm.executeQuery(sql);
@@ -155,7 +164,7 @@ public class ProdutoDAO extends DAO {
     public Produto buscarPorId(Long id) throws SQLException {
         Produto produto = null;
 
-        String sql = "SELECT * FROM view_produto WHERE id = " + id;
+        String sql = "SELECT * FROM view_produto WHERE id = " + id + " AND status = 1";
 
         stm = getConector().prepareStatement(sql);
         rs = stm.executeQuery(sql);

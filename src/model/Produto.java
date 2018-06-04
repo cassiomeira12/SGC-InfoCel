@@ -10,6 +10,7 @@ public class Produto {
     private float precoVenda;
     private float estoque;
     private UnidadeMedida unidadeMedida;
+    private boolean status = true;
 
     public Produto(Long id, Marca marca, String descricao, CategoriaProduto categoria, float precoCompra, float precoVenda, float estoque, UnidadeMedida unidadeMedida) {
         this.id = id;
@@ -84,6 +85,14 @@ public class Produto {
 
     public void setUnidadeMedida(UnidadeMedida unidadeMedida) {
         this.unidadeMedida = unidadeMedida;
+    }
+
+    public boolean getStatus() {
+        return status;
+    }
+
+    public void setStatus(boolean status) {
+        this.status = status;
     }
 
 }

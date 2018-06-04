@@ -1,5 +1,6 @@
 package banco.dao;
 
+import com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -21,11 +22,12 @@ public class CategoriaSaidaDAO extends DAO {
      * Inserir categoria na base de dados
      */
     public Long inserir(CategoriaSaida categoria) throws Exception {
-        String sql = "INSERT INTO categoria_saida ( descricao ) VALUES (?)";
+        String sql = "INSERT INTO categoria_saida ( descricao, status ) VALUES (?, ?)";
 
         stm = getConector().prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
 
         stm.setString(1, categoria.getDescricao());
+        stm.setBoolean(2, categoria.getStatus());
 
         return super.inserir();
     }
@@ -34,13 +36,14 @@ public class CategoriaSaidaDAO extends DAO {
      * Atualizar dados categoria na base de dados
      */
     public boolean editar(CategoriaProduto categoria) throws SQLException {
-        String sql = "UPDATE categoria_saida SET descricao =? WHERE id =?";
+        String sql = "UPDATE categoria_saida SET descricao =?, status =? WHERE id =?";
 
         stm = getConector().prepareStatement(sql);
 
         stm.setString(1, categoria.getDescricao());
+        stm.setBoolean(2, categoria.getStatus());
 
-        stm.setInt(2, categoria.getId().intValue());
+        stm.setInt(3, categoria.getId().intValue());
 
         stm.executeUpdate();
         stm.close();
@@ -51,15 +54,19 @@ public class CategoriaSaidaDAO extends DAO {
     /**
      * Excluir categoria na base de dados
      */
-    public boolean excluir(int id) throws SQLException {
-        String sql = "DELETE FROM categoria_saida WHERE id=?";
+    public boolean excluir(CategoriaProduto cp) throws SQLException {
+        try{String sql = "DELETE FROM categoria_saida WHERE id=?";
 
         stm = getConector().prepareStatement(sql);
 
-        stm.setInt(1, id);
+        stm.setInt(1, cp.getId().intValue());
         stm.execute();
 
         stm.close();
+        } catch (MySQLIntegrityConstraintViolationException e) {
+            cp.setStatus(false);
+            editar(cp);
+        }
 
         return true;
     }
@@ -70,7 +77,7 @@ public class CategoriaSaidaDAO extends DAO {
     public List<CategoriaSaida> listar() throws SQLException {
 
         List<CategoriaSaida> categorias = new ArrayList<>();
-        String sql = "SELECT categoria_saida.* FROM categoria_saida";
+        String sql = "SELECT categoria_saida.* FROM categoria_saida WHERE status = 1";
 
         stm = getConector().prepareStatement(sql);
         rs = stm.executeQuery(sql);
@@ -91,7 +98,7 @@ public class CategoriaSaidaDAO extends DAO {
 
         List<CategoriaSaida> categorias = new ArrayList<>();
 
-        String sql = "SELECT categoria_saida.* FROM categoria_saida WHERE descricao LIKE '%" + descricao + "%'";
+        String sql = "SELECT categoria_saida.* FROM categoria_saida WHERE descricao LIKE '%" + descricao + "%' AND status = 1";
 
         stm = getConector().prepareStatement(sql);
         rs = stm.executeQuery(sql);

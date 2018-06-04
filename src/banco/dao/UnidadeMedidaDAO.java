@@ -1,5 +1,6 @@
 package banco.dao;
 
+import com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -20,12 +21,13 @@ public class UnidadeMedidaDAO extends DAO {
      * Inserir categoria na base de dados
      */
     public Long inserir(UnidadeMedida unidadeMedida) throws Exception {
-        String sql = "INSERT INTO unidade_medida ( descricao, abreviacao ) VALUES (?, ?)";
+        String sql = "INSERT INTO unidade_medida ( descricao, abreviacao, status ) VALUES (?, ?, ?)";
 
         stm = getConector().prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
 
         stm.setString(1, unidadeMedida.getDescricao());
         stm.setString(2, unidadeMedida.getAbreviacao());
+        stm.setBoolean(3, unidadeMedida.getStatus());
 
         return super.inserir();
     }
@@ -34,13 +36,14 @@ public class UnidadeMedidaDAO extends DAO {
      * Atualizar dados categoria na base de dados
      */
     public boolean editar(UnidadeMedida unidadeMedida) throws SQLException {
-        String sql = "UPDATE unidade_medida SET descricao =? WHERE id =?";
+        String sql = "UPDATE unidade_medida SET descricao =?, status =? WHERE id =?";
 
         stm = getConector().prepareStatement(sql);
 
         stm.setString(1, unidadeMedida.getDescricao());
+        stm.setBoolean(2, unidadeMedida.getStatus());
 
-        stm.setInt(2, unidadeMedida.getId().intValue());
+        stm.setInt(3, unidadeMedida.getId().intValue());
 
         stm.executeUpdate();
         stm.close();
@@ -51,15 +54,20 @@ public class UnidadeMedidaDAO extends DAO {
     /**
      * Excluir categoria na base de dados
      */
-    public boolean excluir(int id) throws SQLException {
-        String sql = "DELETE FROM unidade_medida WHERE id=?";
+    public boolean excluir(UnidadeMedida um) throws SQLException {
+        try{String sql = "DELETE FROM unidade_medida WHERE id=?";
 
         stm = getConector().prepareStatement(sql);
 
-        stm.setInt(1, id);
+        stm.setInt(1, um.getId().intValue());
         stm.execute();
 
         stm.close();
+        } catch (MySQLIntegrityConstraintViolationException e) {
+            um.setStatus(false);
+            editar(um);
+        }
+        
         return true;
     }
 
@@ -70,7 +78,7 @@ public class UnidadeMedidaDAO extends DAO {
 
         List<UnidadeMedida> unidadeMedidas = new ArrayList<>();
 
-        String sql = "SELECT unidade_medida.* FROM unidade_medida";
+        String sql = "SELECT unidade_medida.* FROM unidade_medida WHERE status = 1";
 
         stm = getConector().prepareStatement(sql);
         rs = stm.executeQuery(sql);

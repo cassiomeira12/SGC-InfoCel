@@ -1,6 +1,7 @@
 package banco.dao;
 
 import banco.ControleDAO;
+import com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -20,11 +21,12 @@ public class CidadeDAO extends DAO {
      * Inserir marca na base de dados
      */
     public Long inserir(Cidade cidade) throws Exception {
-        String sql = "INSERT INTO cidade ( nome ) VALUES (?)";
+        String sql = "INSERT INTO cidade ( nome, status ) VALUES (?, ?)";
 
         stm = getConector().prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
 
         stm.setString(1, cidade.getNome());
+        stm.setBoolean(2, cidade.getStatus());
 
         return super.inserir();
     }
@@ -33,13 +35,14 @@ public class CidadeDAO extends DAO {
      * Atualizar dados marca na base de dados
      */
     public boolean editar(Cidade cidade) throws SQLException {
-        String sql = "UPDATE cidade SET nome =? WHERE id =?";
+        String sql = "UPDATE cidade SET nome =?, status =? WHERE id =?";
 
         stm = getConector().prepareStatement(sql);
 
         stm.setString(1, cidade.getNome());
+        stm.setBoolean(2, cidade.getStatus());
 
-        stm.setInt(2, cidade.getId().intValue());
+        stm.setInt(3, cidade.getId().intValue());
 
         stm.executeUpdate();
         stm.close();
@@ -50,16 +53,20 @@ public class CidadeDAO extends DAO {
     /**
      * Excluir marca na base de dados
      */
-    public boolean excluir(int id) throws SQLException {
-        ControleDAO.getBanco().getBairroDAO().excluirBairrosDaCidade(id);
-        String sql = "DELETE FROM cidade WHERE id=?";
+    public boolean excluir(Cidade c) throws SQLException {
+        try {
+            String sql = "DELETE FROM cidade WHERE id=?";
 
-        stm = getConector().prepareStatement(sql);
+            stm = getConector().prepareStatement(sql);
 
-        stm.setInt(1, id);
-        stm.execute();
+            stm.setInt(1, c.getId().intValue());
+            stm.execute();
 
-        stm.close();
+            stm.close();
+        } catch (MySQLIntegrityConstraintViolationException e) {
+            c.setStatus(false);
+            editar(c);
+        }
 
         return true;
     }
@@ -71,7 +78,7 @@ public class CidadeDAO extends DAO {
 
         List<Cidade> cidades = new ArrayList<>();
 
-        String sql = "SELECT cidade.* FROM cidade";
+        String sql = "SELECT cidade.* FROM cidade WHERE status = 1";
 
         stm = getConector().prepareStatement(sql);
         rs = stm.executeQuery(sql);
@@ -92,7 +99,7 @@ public class CidadeDAO extends DAO {
 
         List<Cidade> cidades = new ArrayList<>();
 
-        String sql = "SELECT cidade.* FROM cidade WHERE nome LIKE '%" + busca + "%'";
+        String sql = "SELECT cidade.* FROM cidade WHERE nome LIKE '%" + busca + "%' AND status = 1";
 
         stm = getConector().prepareStatement(sql);
         rs = stm.executeQuery(sql);

@@ -302,14 +302,14 @@ public class TelaAdicionarVendaController extends AnchorPane {
                         cliente = criarCliente();
                         Long id = ControleDAO.getBanco().getClienteDAO().inserir(cliente);
                         if (id == null) {
-                            Alerta.erro("Erro ao cadastrar Novo Usuário");
+                            Alerta.erro("Erro ao cadastrar Novo Usuário: ");
                         } else {
                             cliente.setId(id);
                             this.cliente = cliente;
                             continuar = true;
                         }
                     } catch (Exception e) {
-                        Alerta.erro("Erro ao cadastrar Novo Usuário");
+                        Alerta.erro("Erro ao cadastrar Novo Usuário: " + e.getMessage());
                         e.printStackTrace();
                     }
                 } else {//Cliente selecionado
@@ -326,7 +326,7 @@ public class TelaAdicionarVendaController extends AnchorPane {
                                 Alerta.erro("Erro ao atualizar informações do Cliente");
                             }
                         } catch (Exception e) {
-                            Alerta.erro("Erro ao atualizar informações do Cliente");
+                            Alerta.erro("Erro ao atualizar informações do Cliente: " + e.getMessage());
                         }
                     } else {
                         continuar = true;
@@ -361,7 +361,7 @@ public class TelaAdicionarVendaController extends AnchorPane {
                             this.adicionarPainelInterno(telaInicial);
                         }
                     } catch (Exception e) {
-                        Alerta.erro("Erro ao adicionar nova Venda");
+                        Alerta.erro("Erro ao adicionar nova Venda: " + e.getMessage());
                         e.printStackTrace();
                     }
                 }

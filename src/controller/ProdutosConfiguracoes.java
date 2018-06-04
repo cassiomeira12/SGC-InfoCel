@@ -269,7 +269,7 @@ public class ProdutosConfiguracoes implements Initializable {
 
         if (resposta == Dialogo.Resposta.YES) {
             try {
-                if (ControleDAO.getBanco().getCategoriaProdutoDAO().excluir(categoria.getId().intValue())) {
+                if (ControleDAO.getBanco().getCategoriaProdutoDAO().excluir(categoria)) {
                     Alerta.info("Categoria de Produto removida com sucesso!");
                 } else {
                     Alerta.erro("Erro ao remover Categoria de Produto");
@@ -294,7 +294,7 @@ public class ProdutosConfiguracoes implements Initializable {
 
         if (resposta == Dialogo.Resposta.YES) {
             try {
-                if (ControleDAO.getBanco().getMarcaDAO().excluir(marca.getId().intValue())) {
+                if (ControleDAO.getBanco().getMarcaDAO().excluir(marca)) {
                     Alerta.info("Marca removida com sucesso!");
                 } else {
                     Alerta.erro("Erro ao remover Marca");
@@ -319,7 +319,7 @@ public class ProdutosConfiguracoes implements Initializable {
 
         if (resposta == Dialogo.Resposta.YES) {
             try {
-                if (ControleDAO.getBanco().getUnidadeMedidaDAO().excluir(unidade.getId().intValue())) {
+                if (ControleDAO.getBanco().getUnidadeMedidaDAO().excluir(unidade)) {
                     Alerta.info("Unidade de Medida removida com sucesso!");
                 } else {
                     Alerta.erro("Erro ao remover Unidade de Medida");

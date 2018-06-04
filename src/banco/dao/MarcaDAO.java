@@ -1,5 +1,6 @@
 package banco.dao;
 
+import com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -19,11 +20,12 @@ public class MarcaDAO extends DAO {
      * Inserir marca na base de dados
      */
     public Long inserir(Marca marca) throws Exception {
-        String sql = "INSERT INTO marca ( descricao ) VALUES (?)";
+        String sql = "INSERT INTO marca ( descricao, status ) VALUES (?, ?)";
 
         stm = getConector().prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
 
         stm.setString(1, marca.getDescricao());
+        stm.setBoolean(2, marca.getStatus());
 
         return super.inserir();
     }
@@ -32,13 +34,14 @@ public class MarcaDAO extends DAO {
      * Atualizar dados marca na base de dados
      */
     public boolean editar(Marca marca) throws SQLException {
-        String sql = "UPDATE marca SET descricao =? WHERE id =?";
+        String sql = "UPDATE marca SET descricao =?, status =? WHERE id =?";
 
         stm = getConector().prepareStatement(sql);
 
         stm.setString(1, marca.getDescricao());
+        stm.setBoolean(2, marca.getStatus());
 
-        stm.setInt(2, marca.getId().intValue());
+        stm.setInt(3, marca.getId().intValue());
 
         stm.executeUpdate();
         stm.close();
@@ -49,15 +52,20 @@ public class MarcaDAO extends DAO {
     /**
      * Excluir marca na base de dados
      */
-    public boolean excluir(int id) throws SQLException {
-        String sql = "DELETE FROM marca WHERE id=?";
+    public boolean excluir(Marca marca) throws SQLException {
+        try {
+            String sql = "DELETE FROM marca WHERE id=?";
 
-        stm = getConector().prepareStatement(sql);
+            stm = getConector().prepareStatement(sql);
 
-        stm.setInt(1, id);
-        stm.execute();
+            stm.setInt(1, marca.getId().intValue());
+            stm.execute();
 
-        stm.close();
+            stm.close();
+        } catch (MySQLIntegrityConstraintViolationException e) {
+            marca.setStatus(false);
+            editar(marca);
+        }
 
         return true;
     }
@@ -69,7 +77,7 @@ public class MarcaDAO extends DAO {
 
         List<Marca> marcas = new ArrayList<>();
 
-        String sql = "SELECT marca.* FROM marca";
+        String sql = "SELECT marca.* FROM marca WHERE status = 1";
 
         stm = getConector().prepareStatement(sql);
         rs = stm.executeQuery(sql);

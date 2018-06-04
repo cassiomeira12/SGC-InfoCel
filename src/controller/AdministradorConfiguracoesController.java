@@ -252,7 +252,7 @@ public class AdministradorConfiguracoesController implements Initializable {
 
         if (resposta == Dialogo.Resposta.YES) {
             try {
-                ControleDAO.getBanco().getAdministradorDAO().excluir(administrador.getId().intValue());
+                ControleDAO.getBanco().getAdministradorDAO().excluir(administrador);
                 Alerta.info("Administrador desativado com sucesso!");
                 sincronizarBancoDadosAdministradores();
             } catch (SQLException ex) {
