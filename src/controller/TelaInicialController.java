@@ -11,6 +11,9 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.application.Platform;
 import javafx.beans.property.FloatProperty;
 import javafx.beans.property.SimpleFloatProperty;
@@ -85,7 +88,7 @@ public class TelaInicialController extends AnchorPane {
 
         dinheiroLabel.textProperty().bind(this.totalDiario.asString());
         
-        atualizarOperacoes(listaOperacao, LocalDate.now());
+        atualizarOperacoes(LocalDate.now());
         
 //        relatorioTableView.setRowFactory(tv -> new TableRow<Operacao>() {
 //            @Override
@@ -132,7 +135,7 @@ public class TelaInicialController extends AnchorPane {
         this.adicionarPainelInterno(telaAdicionarVenda);
     }
     
-    private void atualizarOperacoes(List<Operacao> lista, LocalDate data) {
+    private void atualizarOperacoes(LocalDate data) {
         String dataInicio = DateUtils.formatDate(data.getYear(), data.getMonthValue(), data.getDayOfMonth());
         String dataFinal = DateUtils.formatDate(data.plusDays(1).getYear(), data.plusDays(1).getMonthValue(), data.plusDays(1).getDayOfMonth());
 
@@ -140,6 +143,8 @@ public class TelaInicialController extends AnchorPane {
         SwingWorker<List, List> worker = new SwingWorker<List, List>() {
             @Override
             protected List doInBackground() throws Exception {
+                List<Operacao> lista = new ArrayList<>();
+                
                 List<Manutencao> listaManutencao = ControleDAO.getBanco().getManutencaoDAO().listar();
                 List<Receita> listaReceita = ControleDAO.getBanco().getReceitaDAO().buscarPorIntervalo(dataInicio, dataFinal);
                 List<Saida> listaSaida = ControleDAO.getBanco().getSaidaDAO().buscarPorIntervalo(dataInicio, dataFinal);
@@ -172,8 +177,15 @@ public class TelaInicialController extends AnchorPane {
             @Override
             protected void done() {
                 super.done();
-                Collections.sort(listaOperacao);//Ordenando as Operacoes
-                atualizarTabela();
+                
+                try {
+                    listaOperacao = this.get();
+                    Collections.sort(listaOperacao);//Ordenando as Operacoes
+                    atualizarTabela();
+                } catch (InterruptedException | ExecutionException ex) {
+                    Logger.getLogger(TelaInicialController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                
             }
         };
         

@@ -5,6 +5,8 @@
  */
 package model;
 
+import util.DateUtils;
+
 /**
  *
  * @author cassio
@@ -76,6 +78,10 @@ public class Operacao implements Comparable<Operacao> {
     
     public Long getData() {
         return data;
+    }
+    
+    public String getDataEditada() {
+        return DateUtils.formatDate(data);
     }
     
     @Override
