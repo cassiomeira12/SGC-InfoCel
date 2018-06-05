@@ -32,7 +32,7 @@
                   </HBox>
                   <HBox alignment="CENTER" prefHeight="44.0" prefWidth="600.0">
                      <children>
-                        <Button alignment="CENTER" focusTraversable="false" mnemonicParsing="false" onAction="#gerarRelatorio" styleClass="button-finalizar" text="Finalizar" />
+                        <Button alignment="CENTER" focusTraversable="false" mnemonicParsing="false" styleClass="button-finalizar" text="Finalizar" />
                      </children>
                      <HBox.margin>
                         <Insets />
@@ -45,11 +45,7 @@
             </HBox>
          </bottom>
          <center>
-            <AnchorPane BorderPane.alignment="CENTER">
-               <children>
-                  <PieChart fx:id="graficoPie" layoutX="331.0" layoutY="61.0" prefHeight="530.0" prefWidth="1180.0" title="Relatório de Receita e Desapesa" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-               </children>
-            </AnchorPane>
+            <PieChart fx:id="graficoPie" BorderPane.alignment="CENTER" />
          </center>
       </BorderPane>
    </children>

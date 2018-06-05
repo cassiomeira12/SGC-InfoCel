@@ -63,7 +63,7 @@ public class TelaRelatorioDiarioController extends AnchorPane {
             fxml.load();
         } catch (IOException ex) {
             System.out.println("[ERRO] : Erro na tela Relatorio Diario");
-            System.out.println(ex.toString());
+            ex.printStackTrace();
         }
     }
 
@@ -71,18 +71,23 @@ public class TelaRelatorioDiarioController extends AnchorPane {
     public void initialize() {
         // TODO
 
-        PieChart.Data slice1 = new PieChart.Data("USA", 17947195);
-        PieChart.Data slice2 = new PieChart.Data("EU", 11540278);
-        PieChart.Data slice3 = new PieChart.Data("China", 10982829);
-        PieChart.Data slice4 = new PieChart.Data("Japan", 4116242);
-        PieChart.Data slice5 = new PieChart.Data("Others", 28584442);
-
-        graficoPie.getData().addAll(slice1, slice2, slice3, slice4, slice5);
+        PieChart.Data vendaSlice = new PieChart.Data("VENDA", 0);
+        PieChart.Data manutencaoSlice = new PieChart.Data("MANUTENÇÃO", 0);
+        PieChart.Data receitaSlice = new PieChart.Data("RECEITA", 2000);
+        PieChart.Data saidaSlice = new PieChart.Data("SAÍDA", 200);
+        
+        graficoPie.getData().addAll(vendaSlice, manutencaoSlice, receitaSlice, saidaSlice);
+        
+        sincronizarBancoDadosVendas(vendaSlice);
+        sincronizarBancoDadosManutencoes(manutencaoSlice);
+        //sincronizarBancoDadosReceita(receitaSlice);
+        //sincronizarBancoDadosSaida(saidaSlice);
     }
 
-    private void sincronizarBancoDadosVendas() {
+    private void sincronizarBancoDadosVendas(PieChart.Data slice) {
         //Metodo executado numa Thread separada
-        SwingWorker<List, List> worker = new SwingWorker<List, List>() {
+        SwingWorker<List, List> worker;
+        worker = new SwingWorker<List, List>() {
             @Override
             protected List<Venda> doInBackground() throws Exception {
                 return ControleDAO.getBanco().getVendaDAO().listar();
@@ -93,10 +98,15 @@ public class TelaRelatorioDiarioController extends AnchorPane {
             protected void done() {
                 super.done(); //To change body of generated methods, choose Tools | Templates.
                 try {
+                    Float total = 0f;
                     listaVendas = this.get();
-                    //atualizarTabela();
+                    for (Venda v : listaVendas) {
+                        total += v.getPrecoTotal();
+                    }
+                    slice.setPieValue(total.doubleValue());
                 } catch (InterruptedException | ExecutionException ex) {
                     chamarAlerta("Erro ao consultar Banco de Dados");
+                    ex.printStackTrace();
                 }
             }
         };
@@ -104,7 +114,7 @@ public class TelaRelatorioDiarioController extends AnchorPane {
         worker.execute();
     }
 
-    private void sincronizarBancoDadosManutencoes() {
+    private void sincronizarBancoDadosManutencoes(PieChart.Data slice) {
         //Metodo executado numa Thread separada
         SwingWorker<List, List> worker = new SwingWorker<List, List>() {
             @Override
@@ -118,9 +128,15 @@ public class TelaRelatorioDiarioController extends AnchorPane {
                 super.done(); //To change body of generated methods, choose Tools | Templates.
                 try {
                     listaManutencoes = this.get();
-                    //atualizarTabela();
+                    Float total = 0f;
+                    listaManutencoes = this.get();
+                    for (Manutencao v : listaManutencoes) {
+                        total += v.getPreco();
+                    }
+                    slice.setPieValue(total.doubleValue());
                 } catch (InterruptedException | ExecutionException ex) {
                     chamarAlerta("Erro ao consultar Banco de Dados");
+                    ex.printStackTrace();
                 }
             }
         };
@@ -128,6 +144,70 @@ public class TelaRelatorioDiarioController extends AnchorPane {
         worker.execute();
     }
 
+    private void sincronizarBancoDadosReceita(PieChart.Data slice) {
+        //Metodo executado numa Thread separada
+        SwingWorker<List, List> worker = new SwingWorker<List, List>() {
+            @Override
+            protected List<Receita> doInBackground() throws Exception {
+                return ControleDAO.getBanco().getReceitaDAO().listar();
+            }
+
+            //Metodo chamado apos terminar a execucao numa Thread separada
+            @Override
+            protected void done() {
+                super.done(); //To change body of generated methods, choose Tools | Templates.
+                try {
+                    listaReceitas = this.get();
+                    Float total = 0f;
+                    listaReceitas = this.get();
+                    for (Receita v : listaReceitas) {
+                        total += v.getValor();
+                    }
+                    slice.setPieValue(total.doubleValue());
+                } catch (InterruptedException | ExecutionException ex) {
+                    chamarAlerta("Erro ao consultar Banco de Dados");
+                    ex.printStackTrace();
+                }
+            }
+        };
+
+        worker.execute();
+    }
+    
+    private void sincronizarBancoDadosSaida(PieChart.Data slice) {
+        //Metodo executado numa Thread separada
+        SwingWorker<List, List> worker = new SwingWorker<List, List>() {
+            @Override
+            protected List<Saida> doInBackground() throws Exception {
+                return ControleDAO.getBanco().getSaidaDAO().listar();
+            }
+
+            //Metodo chamado apos terminar a execucao numa Thread separada
+            @Override
+            protected void done() {
+                super.done(); //To change body of generated methods, choose Tools | Templates.
+                try {
+                    listaSaidas = this.get();
+                    Float total = 0f;
+                    listaSaidas = this.get();
+                    for (Saida v : listaSaidas) {
+                        total += v.getValor();
+                    }
+                    slice.setPieValue(total.doubleValue());
+                } catch (InterruptedException | ExecutionException ex) {
+                    chamarAlerta("Erro ao consultar Banco de Dados");
+                    ex.printStackTrace();
+                }
+            }
+        };
+
+        worker.execute();
+    }
+    
+    
+    
+    
+    
     private void chamarAlerta(String mensagem) {
         Platform.runLater(new Runnable() {
             @Override
