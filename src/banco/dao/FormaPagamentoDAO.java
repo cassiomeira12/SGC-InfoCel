@@ -36,16 +36,15 @@ public class FormaPagamentoDAO extends DAO {
     /**
      * Atualizar dados categoria na base de dados
      */
-    public boolean editar(FormaPagamento formaPagamento) throws SQLException {
+    public boolean editar(FormaPagamento fm) throws SQLException {
         String sql = "UPDATE forma_pagamento SET descricao =?, maximo_parcelas =?, status =? WHERE id =?";
-
         stm = getConector().prepareStatement(sql);
 
-        stm.setString(1, formaPagamento.getDescricao());
-        stm.setInt(2, formaPagamento.getMaximoParcelas());
-        stm.setBoolean(3, formaPagamento.getStatus());
+        stm.setString(1, fm.getDescricao());
+        stm.setInt(2, fm.getMaximoParcelas());
+        stm.setBoolean(3, fm.getStatus());
 
-        stm.setInt(3, formaPagamento.getId().intValue());
+        stm.setInt(4, fm.getId().intValue());
 
         stm.executeUpdate();
         stm.close();
