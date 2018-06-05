@@ -63,7 +63,7 @@ public class ManutencaoDAO extends DAO {
      * Atualizar dados marca na base de dados
      */
     public boolean editar(Manutencao manutencao) throws SQLException {
-        String sql = "UPDATE manutencao SET id_cliente =?, id_administrador =?, id_forma_pagamento = ?, descricao =?, data_previsao =?, data_entrega =?, preco =?, finalizado =?, marca =?, modelo =?, imei =?, cor =?, quantidade_parcelas =? WHERE id =?";
+        String sql = "UPDATE manutencao SET id_cliente =?, id_administrador =?, id_forma_pagamento = ?, descricao =?, data_previsao ="+manutencao.getDataPrevisaoEntrega()+", data_entrega =" + manutencao.getDataEntrega()+", preco =?, finalizado =?, marca =?, modelo =?, imei =?, cor =?, quantidade_parcelas =? WHERE id =?";
 
         stm = getConector().prepareStatement(sql);
 
@@ -71,18 +71,15 @@ public class ManutencaoDAO extends DAO {
         stm.setInt(2, manutencao.getAdministrador().getId().intValue());
         stm.setInt(3, manutencao.getFormaPagamento().getId().intValue());
         stm.setString(4, manutencao.getDescricao());
-        stm.setLong(5, manutencao.getDataCadastro());
-        stm.setLong(6, manutencao.getDataPrevisaoEntrega());
-        stm.setLong(7, manutencao.getDataEntrega());
-        stm.setFloat(8, manutencao.getPreco());
-        stm.setBoolean(9, manutencao.isFinalizado());
-        stm.setString(10, manutencao.getMarca());
-        stm.setString(11, manutencao.getModelo());
-        stm.setString(12, manutencao.getImei());
-        stm.setString(13, manutencao.getCor());
-        stm.setInt(14, manutencao.getQuantidadeParcelas());
+        stm.setFloat(5, manutencao.getPreco());
+        stm.setBoolean(6, manutencao.isFinalizado());
+        stm.setString(7, manutencao.getMarca());
+        stm.setString(8, manutencao.getModelo());
+        stm.setString(9, manutencao.getImei());
+        stm.setString(10, manutencao.getCor());
+        stm.setInt(11, manutencao.getQuantidadeParcelas());
 
-        stm.setInt(15, manutencao.getId().intValue());
+        stm.setInt(12, manutencao.getId().intValue());
 
         stm.executeUpdate();
         stm.close();

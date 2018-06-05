@@ -268,7 +268,7 @@ public class VendaDAO extends DAO {
         return vendas;
     }
 
-    private void excluirVendasProdutosDaVenda(Long id) throws SQLException {
+    public void excluirVendasProdutosDaVenda(Long id) throws SQLException {
         String sql = "DELETE FROM venda_produto WHERE id_venda=?";
 
         stm = getConector().prepareStatement(sql);

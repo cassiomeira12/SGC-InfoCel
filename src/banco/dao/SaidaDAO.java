@@ -1,5 +1,6 @@
 package banco.dao;
 
+import banco.ControleDAO;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -25,6 +26,11 @@ public class SaidaDAO extends DAO {
      * Inserir marca na base de dados
      */
     public Long inserir(Saida saida) throws Exception {
+        if(saida.getCategoria().getId() == null){
+            Long id = ControleDAO.getBanco().getSaidaDAO().inserir(saida);
+            saida.getCategoria().setId(id);
+        }
+        
         String sql = "INSERT INTO saida ( id_categoria_saida, id_administrador, descricao, data, valor ) VALUES (?, ?, ?, ?, ?)";
         
         stm = getConector().prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);

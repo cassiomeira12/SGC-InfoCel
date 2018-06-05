@@ -64,7 +64,7 @@ public class ClienteDAO extends DAO {
         stm.setString(5, cliente.getTelefone());
         stm.setBoolean(6, cliente.getStatus());
 
-        stm.setInt(8, cliente.getId().intValue());
+        stm.setInt(7, cliente.getId().intValue());
 
         stm.executeUpdate();
         stm.close();
