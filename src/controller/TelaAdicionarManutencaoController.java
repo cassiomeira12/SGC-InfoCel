@@ -59,7 +59,7 @@ public class TelaAdicionarManutencaoController extends AnchorPane {
     private BorderPane painelPrincipal;
     private Cliente cliente;
     private Manutencao novaManutencao;
-    
+
     List<Cidade> listaCidades;
     List<Bairro> listaBairros;
     List<FormaPagamento> listaPagamentos;
@@ -75,35 +75,32 @@ public class TelaAdicionarManutencaoController extends AnchorPane {
     private TextField cpfText;
     @FXML
     private TextField rgText;
-    
-    
+
     @FXML
     private HBox cidadeBox;
     @FXML
     private ComboBox<Cidade> cidadeComboBox;
-    
+
     @FXML
     private HBox adicionarCidadeBox;
     @FXML
     private TextField adicionarCidadeText;
-    
+
     @FXML
     private HBox bairroBox;
     @FXML
     private ComboBox<Bairro> bairroComboBox;
-    
+
     @FXML
     private HBox adicionarBairroBox;
     @FXML
     private TextField adicionarBairroText;
-    
+
     @FXML
     private TextField ruaText;
     @FXML
     private TextField numeroText;
-    
-    
-    
+
     @FXML
     private DatePicker dataDatePicker;
     @FXML
@@ -148,7 +145,7 @@ public class TelaAdicionarManutencaoController extends AnchorPane {
 
     @FXML
     public void initialize() {
-        this.novaManutencao = new Manutencao(null, null, null ,null, null, null, null, null, null, null, null, 00, false, null, 0);
+        this.novaManutencao = new Manutencao(null, null, null, null, null, null, null, null, null, null, null, 00, false, null, 0);
         this.dataDatePicker.setValue(LocalDate.now());//Adicionando Data do dia atual
 
         Formatter.toUpperCase(nomeText, adicionarCidadeText, adicionarBairroText, marcaText, modeloText, descricaoArea);
@@ -184,19 +181,19 @@ public class TelaAdicionarManutencaoController extends AnchorPane {
         this.estadoComboBox.getSelectionModel().select(0);//Selecionando o primeiro item
 
         this.dataDatePicker.setValue(LocalDate.now());//Adicionando Data do dia atual
-        
+
         formaPagamentoComboBox.setOnAction((e) -> {
             FormaPagamento pagamento = formaPagamentoComboBox.getSelectionModel().getSelectedItem();
             SpinnerValueFactory<Integer> valores = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, pagamento.getMaximoParcelas(), 1);
             parcelasSpinner.setValueFactory(valores);
         });
-        
+
         cidadeComboBox.setOnAction((e) -> {
             Cidade cidade = cidadeComboBox.getValue();
             bairroComboBox.getSelectionModel().select(null);
             sincronizarBancoDadosBairro(cidade);
         });
-        
+
         corColorPicker.setOnAction((e) -> {
             corRectangle.setFill(corColorPicker.getValue());
         });
@@ -221,7 +218,7 @@ public class TelaAdicionarManutencaoController extends AnchorPane {
         boolean novoCliente = this.cliente == null;
         boolean vazio = Formatter.isEmpty(nomeText, telefoneText, cpfText, rgText, ruaText, numeroText);
         boolean enderecoVazio = true;
-        
+
         if (cidadeBox.isVisible() && bairroBox.isVisible()) {
             enderecoVazio = Formatter.isEmpty(cidadeComboBox, bairroComboBox);
         } else if (cidadeBox.isVisible() && adicionarBairroBox.isVisible()) {
@@ -229,11 +226,10 @@ public class TelaAdicionarManutencaoController extends AnchorPane {
         } else if (adicionarCidadeBox.isVisible() && adicionarBairroBox.isVisible()) {
             enderecoVazio = adicionarCidadeText.getText().isEmpty() || adicionarBairroText.getText().isEmpty();
         }
-        
+
         Cliente cliente = null;
         boolean continuar = false;
-        
-        
+
         if (vazio || enderecoVazio) {
             Alerta.alerta("Não é possivel finalizar essa Manutencao", "Erro");
         } else {
@@ -253,7 +249,7 @@ public class TelaAdicionarManutencaoController extends AnchorPane {
                             continuar = true;
                         }
                     } catch (Exception e) {
-                        Alerta.erro("Erro ao cadastrar Novo Usuário");
+                        Alerta.erro("Erro ao cadastrar Novo Usuário: " + e.getMessage());
                         e.printStackTrace();
                     }
                 } else {
@@ -270,7 +266,7 @@ public class TelaAdicionarManutencaoController extends AnchorPane {
                                 Alerta.erro("Erro ao atualizar informações do Cliente");
                             }
                         } catch (Exception e) {
-                            Alerta.erro("Erro ao atualizar informações do Cliente");
+                            Alerta.erro("Erro ao atualizar informações do Cliente: " + e.getMessage());
                             e.printStackTrace();
                         }
                     } else {
@@ -292,19 +288,23 @@ public class TelaAdicionarManutencaoController extends AnchorPane {
                             finalizado = true;
                             break;
                     }
-                    
+
                     Administrador vendedor = vendedorComboBox.getValue();
                     String descricao = descricaoArea.getText();
                     int preco = Integer.parseInt(precoText.getText());
                     Long dataCadastro = dataDatePicker.getValue().toEpochDay();
-                    Long dataPrevisao = entregaDatePicker.getValue().toEpochDay();
+
+                    Long dataPrevisao = null;
+                    if (entregaDatePicker.getValue() != null) {
+                        dataPrevisao = entregaDatePicker.getValue().toEpochDay();
+                    }
+
                     String marca = marcaText.getText();
                     String cor = corColorPicker.getValue().toString();
                     String modelo = modeloText.getText();
                     String imei = imeiText.getText();
                     FormaPagamento pagamento = formaPagamentoComboBox.getValue();
                     int parcelas = parcelasSpinner.getValue();
-                    
 
                     this.novaManutencao.setCliente(cliente);
                     this.novaManutencao.setAdministrador(vendedor);
@@ -322,7 +322,7 @@ public class TelaAdicionarManutencaoController extends AnchorPane {
 
                     try {
                         Long id = ControleDAO.getBanco().getManutencaoDAO().inserir(novaManutencao);
-                        
+
                         // id esta ficando nulo
                         if (id == null) {
                             Alerta.erro("Erro ao adicionar nova Manutenção!");
@@ -332,7 +332,7 @@ public class TelaAdicionarManutencaoController extends AnchorPane {
                             this.adicionarPainelInterno(telaInicial);
                         }
                     } catch (Exception e) {
-                        Alerta.erro("Erro ao adicionar nova Manutenção!");
+                        Alerta.erro("Erro ao adicionar nova Manutenção: " + e.getMessage());
                         e.printStackTrace();
                     }
                 }
@@ -369,7 +369,6 @@ public class TelaAdicionarManutencaoController extends AnchorPane {
 //        //this.novaFormaPagamentoText.setVisible(true);
 //        //this.salvarFormaPagamentoButton.setVisible(true);
 //    }
-
 //    @FXML
 //    private void salvarNovaFormaPagamento() {
 //        try {
@@ -385,7 +384,6 @@ public class TelaAdicionarManutencaoController extends AnchorPane {
 //        //this.novaFormaPagamentoText.setVisible(false);
 //        //this.salvarFormaPagamentoButton.setVisible(false);
 //    }
-
     private Cliente criarCliente() {
         String nome = nomeText.getText();
         String telefone = telefoneText.getText();
@@ -394,23 +392,23 @@ public class TelaAdicionarManutencaoController extends AnchorPane {
         String rua = ruaText.getText();
         String numero = numeroText.getText();
         LocalDate data = dataDatePicker.getValue();
-        
+
         Cidade cidade = null;
         Bairro bairro = null;
         Endereco endereco = null;
-        
+
         if (cidadeBox.isVisible()) {
             cidade = cidadeComboBox.getValue();
         } else if (adicionarCidadeBox.isVisible()) {
             cidade = new Cidade(null, adicionarCidadeText.getText());
         }
-        
+
         if (bairroBox.isVisible()) {
             bairro = bairroComboBox.getValue();
         } else if (adicionarBairroBox.isVisible()) {
             bairro = new Bairro(null, adicionarBairroText.getText(), cidade);
         }
-        
+
         endereco = new Endereco(null, bairro, rua, numero);
 
         return new Cliente(null, nome, endereco, cpf, rg, telefone, DateUtils.getLong(data), true);
@@ -423,10 +421,10 @@ public class TelaAdicionarManutencaoController extends AnchorPane {
         cliente.setRg(rgText.getText());
         String rua = ruaText.getText();
         String numero = numeroText.getText();
-        
+
         Cidade cidade = null;
         Bairro bairro = null;
-        
+
         if (cidadeBox.isVisible()) {
             cidade = cidadeComboBox.getValue();
         } else if (adicionarCidadeBox.isVisible()) {
@@ -434,7 +432,7 @@ public class TelaAdicionarManutencaoController extends AnchorPane {
             Long id = ControleDAO.getBanco().getCidadeDAO().inserir(cidade);
             cidade.setId(id);
         }
-        
+
         if (bairroBox.isVisible()) {
             bairro = bairroComboBox.getValue();
         } else if (adicionarBairroBox.isVisible()) {
@@ -442,11 +440,11 @@ public class TelaAdicionarManutencaoController extends AnchorPane {
             Long id = ControleDAO.getBanco().getBairroDAO().inserir(bairro);
             bairro.setId(id);
         }
-        
+
         cliente.getEndereco().setBairro(bairro);
         cliente.getEndereco().setRua(rua);
         cliente.getEndereco().setNumero(numero);
-        
+
         return cliente;
     }
 
@@ -455,18 +453,17 @@ public class TelaAdicionarManutencaoController extends AnchorPane {
         this.telefoneText.setText(cliente.getTelefone());
         this.cpfText.setText(cliente.getCpf());
         this.rgText.setText(cliente.getRg());
-        
+
         Endereco endereco = cliente.getEndereco();
         Bairro bairro = endereco.getBairro();
         Cidade cidade = bairro.getCidade();
-        
+
         this.selecionarCidade();
         this.cidadeComboBox.getSelectionModel().select(cidade);
-        
-        
+
         sincronizarBancoDadosBairro(cidade);
         bairroComboBox.setValue(bairro);
-        
+
         this.ruaText.setText(endereco.getRua());
         this.numeroText.setText(endereco.getNumero());
     }
@@ -478,7 +475,7 @@ public class TelaAdicionarManutencaoController extends AnchorPane {
         adicionarBairro();
         Platform.runLater(() -> adicionarCidadeText.requestFocus());//Colocando o Foco
     }
-    
+
     @FXML
     private void selecionarCidade() {
         cidadeBox.setVisible(true);
@@ -486,14 +483,14 @@ public class TelaAdicionarManutencaoController extends AnchorPane {
         Formatter.limpar(adicionarCidadeText);
         Platform.runLater(() -> cidadeComboBox.requestFocus());//Colocando o Foco
     }
-    
+
     @FXML
     private void adicionarBairro() {
         bairroBox.setVisible(false);
         adicionarBairroBox.setVisible(true);
         Platform.runLater(() -> adicionarBairroText.requestFocus());//Colocando o Foco
     }
-    
+
     @FXML
     private void selecionarBairro() {
         bairroBox.setVisible(true);
@@ -526,7 +523,7 @@ public class TelaAdicionarManutencaoController extends AnchorPane {
         };
         worker.execute();
     }
-    
+
     private void sincronizarBancoDadosBairro(Cidade cidade) {
         //Metodo executado numa Thread separada
         SwingWorker<List, List> worker = new SwingWorker<List, List>() {
@@ -534,7 +531,7 @@ public class TelaAdicionarManutencaoController extends AnchorPane {
             protected List<Bairro> doInBackground() throws Exception {
                 return ControleDAO.getBanco().getBairroDAO().buscarPorCidade(cidade);
             }
-            
+
             //Metodo chamado apos terminar a execucao numa Thread separada
             @Override
             protected void done() {
@@ -552,7 +549,7 @@ public class TelaAdicionarManutencaoController extends AnchorPane {
 
         worker.execute();
     }
-    
+
     private void sincronizarBancoDadosAdministrador() {
         //Metodo executado numa Thread separada
         SwingWorker<List, List> worker = new SwingWorker<List, List>() {
@@ -577,7 +574,7 @@ public class TelaAdicionarManutencaoController extends AnchorPane {
         };
         worker.execute();
     }
-    
+
     private void sincronizarBancoDadosPagamento() {
         //Metodo executado numa Thread separada
         SwingWorker<List, List> worker = new SwingWorker<List, List>() {
@@ -602,7 +599,7 @@ public class TelaAdicionarManutencaoController extends AnchorPane {
         };
         worker.execute();
     }
-    
+
     private void chamarAlerta(String mensagem) {
         Platform.runLater(new Runnable() {
             @Override

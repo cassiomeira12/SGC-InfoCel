@@ -93,9 +93,8 @@ public class ProdutoDAO extends DAO {
 
         List<Produto> produtos = new ArrayList<>();
 
-        //String sql = "SELECT * FROM view_produto WHERE status = 1";
-        String sql = "SELECT * FROM view_produto ";
-
+        String sql = "SELECT * FROM view_produto WHERE status = 1";
+        
         stm = getConector().prepareStatement(sql);
         rs = stm.executeQuery(sql);
 

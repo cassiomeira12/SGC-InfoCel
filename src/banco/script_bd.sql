@@ -174,7 +174,7 @@ CREATE TABLE IF NOT EXISTS `neoli831_teste`.`manutencao` (
   `imei` VARCHAR(100) NOT NULL,
   `cor` VARCHAR(20) NOT NULL,
   `data_cadastro` BIGINT(20) NOT NULL,
-  `data_previsao` BIGINT(20) NOT NULL,
+  `data_previsao` BIGINT(20) NULL,
   `data_entrega` BIGINT(20) NULL DEFAULT NULL,
   `preco` FLOAT NOT NULL,
   `finalizado` TINYINT(1) NOT NULL,
@@ -401,7 +401,7 @@ CREATE TABLE IF NOT EXISTS `neoli831_teste`.`view_manutencao` (`id` INT, `id_adm
 -- -----------------------------------------------------
 -- Placeholder table for view `neoli831_teste`.`view_produto`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `neoli831_teste`.`view_produto` (`id` INT, `id_marca` INT, `id_unidade_medida` INT, `id_categoria_produto` INT, `descricao` INT, `preco_compra` INT, `preco_venda` INT, `estoque` INT, `status` INT, `eh_celular` INT, `descricao_marca` INT, `descricao_categoria` INT, `descricao_unidade` INT, `abreviacao_unidade` INT);
+CREATE TABLE IF NOT EXISTS `neoli831_teste`.`view_produto` (`id` INT, `id_marca` INT, `id_unidade_medida` INT,`status` INT, `id_categoria_produto` INT, `descricao` INT, `preco_compra` INT, `preco_venda` INT, `estoque` INT, `eh_celular` INT, `descricao_marca` INT, `descricao_categoria` INT, `descricao_unidade` INT, `abreviacao_unidade` INT);
 
 -- -----------------------------------------------------
 -- Placeholder table for view `neoli831_teste`.`view_receita`
@@ -411,7 +411,7 @@ CREATE TABLE IF NOT EXISTS `neoli831_teste`.`view_receita` (`id` INT, `id_admini
 -- -----------------------------------------------------
 -- Placeholder table for view `neoli831_teste`.`view_saida`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `neoli831_teste`.`view_saida` (`id` INT, `id_administrador` INT, `id_categoria_saida` INT, `descricao` INT, `valor` INT, `data` INT, `cpf_administrador` INT, `id_endereco_administrador` INT, `numero_administrador` INT, `rua_administrador` INT, `id_bairro_administrador` INT, `id_cidade_administrador` INT, `nome_cidade_administrador` INT, `nome_bairro_administrador` INT, `descricao_categoria` INT);
+CREATE TABLE IF NOT EXISTS `neoli831_teste`.`view_saida` (`nome_administrador` INT, `id_administrador` INT,`id` INT, `id_categoria_saida` INT, `descricao` INT, `valor` INT, `data` INT, `cpf_administrador` INT, `id_endereco_administrador` INT, `numero_administrador` INT, `rua_administrador` INT, `id_bairro_administrador` INT, `id_cidade_administrador` INT, `nome_cidade_administrador` INT, `nome_bairro_administrador` INT, `descricao_categoria` INT);
 
 -- -----------------------------------------------------
 -- Placeholder table for view `neoli831_teste`.`view_venda`
@@ -470,7 +470,13 @@ CREATE  OR REPLACE ALGORITHM=UNDEFINED DEFINER=`neoli831`@`localhost` SQL SECURI
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `neoli831_teste`.`view_produto`;
 USE `neoli831_teste`;
-CREATE  OR REPLACE ALGORITHM=UNDEFINED DEFINER=`neoli831`@`localhost` SQL SECURITY DEFINER VIEW `neoli831_teste`.`view_produto` AS select `neoli831_teste`.`produto`.`id` AS `id`,`neoli831_teste`.`produto`.`id_marca` AS `id_marca`,`neoli831_teste`.`produto`.`id_unidade_medida` AS `id_unidade_medida`,`neoli831_teste`.`produto`.`id_categoria_produto` AS `id_categoria_produto`,`neoli831_teste`.`produto`.`descricao` AS `descricao`,`neoli831_teste`.`produto`.`preco_compra` AS `preco_compra`,`neoli831_teste`.`produto`.`preco_venda` AS `preco_venda`,`neoli831_teste`.`produto`.`estoque` AS `estoque`,`neoli831_teste`.`produto`.`status` AS `status`,`neoli831_teste`.`produto`.`eh_celular` AS `eh_celular`,`neoli831_teste`.`marca`.`descricao` AS `descricao_marca`,`neoli831_teste`.`categoria_produto`.`descricao` AS `descricao_categoria`,`neoli831_teste`.`unidade_medida`.`descricao` AS `descricao_unidade`,`neoli831_teste`.`unidade_medida`.`abreviacao` AS `abreviacao_unidade` from (((`neoli831_teste`.`produto` join `neoli831_teste`.`marca` on((`neoli831_teste`.`produto`.`id_marca` = `neoli831_teste`.`marca`.`id`))) join `neoli831_teste`.`unidade_medida` on((`neoli831_teste`.`produto`.`id_unidade_medida` = `neoli831_teste`.`unidade_medida`.`id`))) join `neoli831_teste`.`categoria_produto` on((`neoli831_teste`.`produto`.`id_categoria_produto` = `neoli831_teste`.`categoria_produto`.`id`)));
+CREATE  OR REPLACE ALGORITHM=UNDEFINED DEFINER=`neoli831`@`localhost` SQL SECURITY DEFINER VIEW `neoli831_teste`.`view_produto` AS select `neoli831_teste`.`produto`.`id` AS `id`,`neoli831_teste`.`produto`.`status` AS `status`,
+`neoli831_teste`.`produto`.`id_marca` AS `id_marca`,
+`neoli831_teste`.`produto`.`id_unidade_medida` AS `id_unidade_medida`,
+`neoli831_teste`.`produto`.`id_categoria_produto` AS `id_categoria_produto`,
+`neoli831_teste`.`produto`.`descricao` AS `descricao`,
+`neoli831_teste`.`produto`.`preco_compra` AS `preco_compra`,
+`neoli831_teste`.`produto`.`preco_venda` AS `preco_venda`,`neoli831_teste`.`produto`.`estoque` AS `estoque`,`neoli831_teste`.`produto`.`eh_celular` AS `eh_celular`,`neoli831_teste`.`marca`.`descricao` AS `descricao_marca`,`neoli831_teste`.`categoria_produto`.`descricao` AS `descricao_categoria`,`neoli831_teste`.`unidade_medida`.`descricao` AS `descricao_unidade`,`neoli831_teste`.`unidade_medida`.`abreviacao` AS `abreviacao_unidade` from (((`neoli831_teste`.`produto` join `neoli831_teste`.`marca` on((`neoli831_teste`.`produto`.`id_marca` = `neoli831_teste`.`marca`.`id`))) join `neoli831_teste`.`unidade_medida` on((`neoli831_teste`.`produto`.`id_unidade_medida` = `neoli831_teste`.`unidade_medida`.`id`))) join `neoli831_teste`.`categoria_produto` on((`neoli831_teste`.`produto`.`id_categoria_produto` = `neoli831_teste`.`categoria_produto`.`id`)));
 
 -- -----------------------------------------------------
 -- View `neoli831_teste`.`view_receita`
@@ -484,7 +490,7 @@ CREATE  OR REPLACE ALGORITHM=UNDEFINED DEFINER=`neoli831`@`localhost` SQL SECURI
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `neoli831_teste`.`view_saida`;
 USE `neoli831_teste`;
-CREATE  OR REPLACE ALGORITHM=UNDEFINED DEFINER=`neoli831`@`localhost` SQL SECURITY DEFINER VIEW `neoli831_teste`.`view_saida` AS select `neoli831_teste`.`saida`.`id` AS `id`,`neoli831_teste`.`saida`.`id_administrador` AS `id_administrador`,`neoli831_teste`.`saida`.`id_categoria_saida` AS `id_categoria_saida`,`neoli831_teste`.`saida`.`descricao` AS `descricao`,`neoli831_teste`.`saida`.`valor` AS `valor`,`neoli831_teste`.`saida`.`data` AS `data`,`view_administrador`.`cpf` AS `cpf_administrador`,`view_administrador`.`id_endereco` AS `id_endereco_administrador`,`view_administrador`.`numero` AS `numero_administrador`,`view_administrador`.`rua` AS `rua_administrador`,`view_administrador`.`id_bairro` AS `id_bairro_administrador`,`view_administrador`.`id_cidade` AS `id_cidade_administrador`,`view_administrador`.`nome_cidade` AS `nome_cidade_administrador`,`view_administrador`.`nome_bairro` AS `nome_bairro_administrador`,`neoli831_teste`.`categoria_saida`.`descricao` AS `descricao_categoria` from ((`neoli831_teste`.`saida` join `neoli831_teste`.`categoria_saida` on((`neoli831_teste`.`saida`.`id_categoria_saida` = `neoli831_teste`.`categoria_saida`.`id`))) join `neoli831_teste`.`view_administrador` on((`view_administrador`.`id` = `neoli831_teste`.`saida`.`id_administrador`)));
+CREATE  OR REPLACE ALGORITHM=UNDEFINED DEFINER=`neoli831`@`localhost` SQL SECURITY DEFINER VIEW `neoli831_teste`.`view_saida` AS select `neoli831_teste`.`saida`.`id` AS `id`,`neoli831_teste`.`saida`.`id_administrador` AS `id_administrador`,`neoli831_teste`.`saida`.`id_categoria_saida` AS `id_categoria_saida`,`neoli831_teste`.`view_administrador`.`nome` AS `nome_administrador`,`neoli831_teste`.`saida`.`descricao` AS `descricao`,`neoli831_teste`.`saida`.`valor` AS `valor`,`neoli831_teste`.`saida`.`data` AS `data`,`view_administrador`.`cpf` AS `cpf_administrador`,`view_administrador`.`id_endereco` AS `id_endereco_administrador`,`view_administrador`.`numero` AS `numero_administrador`,`view_administrador`.`rua` AS `rua_administrador`,`view_administrador`.`id_bairro` AS `id_bairro_administrador`,`view_administrador`.`id_cidade` AS `id_cidade_administrador`,`view_administrador`.`nome_cidade` AS `nome_cidade_administrador`,`view_administrador`.`nome_bairro` AS `nome_bairro_administrador`,`neoli831_teste`.`categoria_saida`.`descricao` AS `descricao_categoria` from ((`neoli831_teste`.`saida` join `neoli831_teste`.`categoria_saida` on((`neoli831_teste`.`saida`.`id_categoria_saida` = `neoli831_teste`.`categoria_saida`.`id`))) join `neoli831_teste`.`view_administrador` on((`view_administrador`.`id` = `neoli831_teste`.`saida`.`id_administrador`)));
 
 -- -----------------------------------------------------
 -- View `neoli831_teste`.`view_venda`

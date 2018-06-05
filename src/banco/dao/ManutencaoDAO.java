@@ -27,30 +27,33 @@ public class ManutencaoDAO extends DAO {
     /**
      * Inserir manutenção na base de dados
      */
-    public Long inserir(Manutencao manutencao) throws Exception {
-        if (manutencao.getCliente().getId() == null) {
-            Long id = ControleDAO.getBanco().getClienteDAO().inserir(manutencao.getCliente());
-            manutencao.getCliente().setId(id);
+    public Long inserir(Manutencao m) throws Exception {
+        if (m.getCliente().getId() == null) {
+            Long id = ControleDAO.getBanco().getClienteDAO().inserir(m.getCliente());
+            m.getCliente().setId(id);
         }
 
-        String sql = "INSERT INTO manutencao ( id_cliente, id_administrador,id_forma_pagamento, descricao, data_cadastro, data_previsao, data_entrega, preco, finalizado, marca, modelo, imei, cor, quantidade_parcelas) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO manutencao (data_cadastro, data_previsao, data_entrega, id_cliente, id_administrador,id_forma_pagamento, descricao, preco, finalizado, marca, modelo, imei, cor, quantidade_parcelas) "
+                + ""
+                + "VALUES ("+m.getDataCadastro()+"," + m.getDataPrevisaoEntrega()+", " + m.getDataEntrega()+", ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         stm = getConector().prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
 
-        stm.setInt(1, manutencao.getCliente().getId().intValue());
-        stm.setInt(2, manutencao.getAdministrador().getId().intValue());
-        stm.setLong(3, manutencao.getFormaPagamento().getId());
-        stm.setString(4, manutencao.getDescricao());
-        stm.setLong(5, manutencao.getDataCadastro());
-        stm.setLong(6, manutencao.getDataPrevisaoEntrega());
-        stm.setLong(7, manutencao.getDataEntrega());
-        stm.setFloat(8, manutencao.getPreco());
-        stm.setBoolean(9, manutencao.isFinalizado());
-        stm.setString(10, manutencao.getMarca());
-        stm.setString(11, manutencao.getModelo());
-        stm.setString(12, manutencao.getImei());
-        stm.setString(13, manutencao.getCor());
-        stm.setInt(14, manutencao.getQuantidadeParcelas());
+       /* stm.setLong(1, m.getDataCadastro());
+        stm.setLong(2, m.getDataPrevisaoEntrega());
+        stm.setLong(3, m.getDataEntrega());*/
+
+        stm.setInt(1, m.getCliente().getId().intValue());
+        stm.setInt(2, m.getAdministrador().getId().intValue());
+        stm.setLong(3, m.getFormaPagamento().getId());
+        stm.setString(4, m.getDescricao());
+        stm.setFloat(5, m.getPreco());
+        stm.setBoolean(6, m.isFinalizado());
+        stm.setString(7, m.getMarca());
+        stm.setString(8, m.getModelo());
+        stm.setString(9, m.getImei());
+        stm.setString(10, m.getCor());
+        stm.setInt(11, m.getQuantidadeParcelas());
 
         return super.inserir();
 
@@ -253,7 +256,7 @@ public class ManutencaoDAO extends DAO {
         Long finall = DateUtils.getLongFromDate(dataFinal);
 
         String sql = "SELECT * FROM view_manutencao"
-                + "\nWHERE manutencao.data_cadastro >= " + inicio + " AND manutencao.data_cadastro < " + finall;
+                + "\nWHERE view_manutencao.data_cadastro >= " + inicio + " AND view_manutencao.data_cadastro < " + finall;
 
         System.out.println(sql);
         stm = getConector().prepareStatement(sql);
