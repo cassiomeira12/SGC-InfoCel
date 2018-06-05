@@ -21,7 +21,7 @@ public class Operacao implements Comparable<Operacao> {
     private Long data;
     
     public Operacao(Venda venda) {
-        this.categoria = "Venda";
+        this.categoria = "VENDA";
         this.cliente = venda.getCliente().getNome();
         //this.descricao = venda.toString();
         this.funcionario = venda.getAdministrador();
@@ -30,7 +30,7 @@ public class Operacao implements Comparable<Operacao> {
     }
     
     public Operacao(Manutencao manutencao) {
-        this.categoria = "Manutenção";
+        this.categoria = "MANUTENÇÃO";
         this.cliente = manutencao.getCliente().getNome();
         this.descricao = manutencao.getDescricao();
         this.funcionario = manutencao.getAdministrador();
@@ -39,7 +39,7 @@ public class Operacao implements Comparable<Operacao> {
     }
     
     public Operacao(Receita receita) {
-        this.categoria = "Receita";
+        this.categoria = "RECEITA";
         this.cliente = receita.getCliente().getNome();
         this.descricao = receita.getDescricao();
         this.funcionario = receita.getAdministrador();
@@ -48,7 +48,7 @@ public class Operacao implements Comparable<Operacao> {
     }
     
     public Operacao(Saida saida) {
-        this.categoria = "Saída";
+        this.categoria = "SAÍDA";
         //this.cliente = 
         this.descricao = saida.getDescricao();
         this.funcionario = saida.getAdministrador();

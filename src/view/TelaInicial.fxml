@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<fx:root prefHeight="650.0" prefWidth="1200.0" stylesheets="@../css/default.css" type="AnchorPane" xmlns="http://javafx.com/javafx/9" xmlns:fx="http://javafx.com/fxml/1">
+<fx:root prefHeight="650.0" prefWidth="1200.0" stylesheets="@../css/default.css" type="AnchorPane" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1">
     <children>
         <BorderPane layoutX="270.0" layoutY="182.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
             <top>
@@ -35,9 +35,9 @@
                                 <Button alignment="CENTER" focusTraversable="false" mnemonicParsing="false" onAction="#chamarTelaAdicionarSaida" prefHeight="60.0" text="Adicionar Saída" />
                             </children>
                         </HBox>
-                        <VBox VBox.vgrow="ALWAYS">
+                        <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" VBox.vgrow="ALWAYS">
                             <children>
-                                <HBox>
+                                <HBox VBox.vgrow="ALWAYS">
                                     <children>
                                         <HBox alignment="CENTER_LEFT" prefWidth="600.0">
                                             <children>
@@ -62,21 +62,20 @@
                                         </HBox>
                                     </children>
                                 </HBox>
-                                <TableView fx:id="relatorioTableView" focusTraversable="false" VBox.vgrow="ALWAYS">
-                                    <columnResizePolicy>
-                                        <!-- falando sobre erro: https://netbeans.org/bugzilla/show_bug.cgi?id=256522-->
-                                        <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
-                                    </columnResizePolicy>
+                                <TableView fx:id="relatorioTableView" focusTraversable="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" VBox.vgrow="ALWAYS">
                                     <columns>
                                         <TableColumn fx:id="categoriaColumn" maxWidth="150.0" minWidth="150.0" prefWidth="150.0" text="Categoria" />
-                                        <TableColumn fx:id="descricaoColumn" prefWidth="300.0" text="Descrição" />
-                                        <TableColumn fx:id="clienteColumn" prefWidth="229.765380859375" text="Cliente" />
+                                        <TableColumn fx:id="descricaoColumn" minWidth="300.0" prefWidth="200.0" text="Descrição" />
+                                        <TableColumn fx:id="clienteColumn" maxWidth="200.0" minWidth="200.0" prefWidth="200.0" text="Cliente" />
                                         <TableColumn fx:id="funcionarioColumn" maxWidth="200.0" minWidth="200.0" prefWidth="200.0" text="Funcionário" />
                                         <TableColumn fx:id="valorColumn" maxWidth="100.0" minWidth="100.0" prefWidth="100.0" text="Valor R$" />
                                     </columns>
                                     <VBox.margin>
                                         <Insets />
                                     </VBox.margin>
+                           <columnResizePolicy>
+                              <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                           </columnResizePolicy>
                                 </TableView>
                             </children>
                      <VBox.margin>

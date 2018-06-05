@@ -3,6 +3,7 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextArea?>
@@ -16,7 +17,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<fx:root prefHeight="650.0" prefWidth="1200.0" stylesheets="@../css/default.css" type="AnchorPane" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
+<fx:root prefHeight="650.0" prefWidth="1200.0" stylesheets="@../css/default.css" type="AnchorPane" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <BorderPane layoutX="270.0" layoutY="182.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
          <top>
@@ -39,7 +40,7 @@
                   </HBox>
                   <HBox alignment="CENTER" prefHeight="44.0" prefWidth="600.0">
                      <children>
-                        <Button alignment="CENTER" focusTraversable="false" mnemonicParsing="false" onAction="#salvarReceita" styleClass="button-salvar" text="Salvar" />
+                        <Button fx:id="salvarButton" alignment="CENTER" focusTraversable="false" mnemonicParsing="false" onAction="#salvarReceita" styleClass="button-salvar" text="Salvar" />
                      </children>
                      <HBox.margin>
                         <Insets />
@@ -54,78 +55,78 @@
          <center>
             <VBox alignment="TOP_CENTER" spacing="20.0" BorderPane.alignment="CENTER">
                <children>
-                  <GridPane hgap="10.0" prefHeight="200.0" vgap="10.0">
+                  <GridPane hgap="10.0" maxHeight="200.0" prefHeight="200.0" VBox.vgrow="ALWAYS">
                      <columnConstraints>
                         <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="130.0" />
                         <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="120.0" />
-                        <ColumnConstraints hgrow="SOMETIMES" minWidth="50.0" prefWidth="204.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="220.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="250.0" />
                         <ColumnConstraints hgrow="SOMETIMES" minWidth="150.0" prefWidth="320.0" />
                         <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="160.0" />
                      </columnConstraints>
                      <rowConstraints>
-                        <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="40.0" vgrow="SOMETIMES" />
+                        <RowConstraints vgrow="SOMETIMES" />
+                        <RowConstraints vgrow="SOMETIMES" />
                         <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="50.0" vgrow="SOMETIMES" />
+                        <RowConstraints vgrow="SOMETIMES" />
                         <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="50.0" vgrow="SOMETIMES" />
+                        <RowConstraints vgrow="SOMETIMES" />
                         <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="50.0" vgrow="SOMETIMES" />
                      </rowConstraints>
                      <children>
                         <CheckBox fx:id="editarClienteCheckBox" focusTraversable="false" mnemonicParsing="false" text="Editar informações do Cliente" GridPane.columnSpan="2" />
-                        <Button alignment="CENTER" mnemonicParsing="false" onAction="#pesquisarCliente" styleClass="button-pesquisar" text="Pesquisar Cliente" GridPane.columnIndex="4" />
-                        <VBox GridPane.columnSpan="4" GridPane.rowIndex="1">
+                        <Button alignment="CENTER" mnemonicParsing="false" onAction="#pesquisarCliente" styleClass="button-pesquisar" text="Pesquisar Cliente" GridPane.columnIndex="5" />
+                        <TextField fx:id="nomeText" GridPane.columnSpan="5" GridPane.rowIndex="2" />
+                        <TextField fx:id="telefoneText" promptText="(XX)XXXXX-XXXX" GridPane.columnIndex="5" GridPane.rowIndex="2">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </TextField>
+                        <TextField fx:id="cpfText" promptText="XXX.XXX.XXX-XX" GridPane.rowIndex="4" />
+                        <TextField fx:id="rgText" promptText="XX.XXX.XXX-XX" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                        <HBox fx:id="cidadeBox" alignment="CENTER" maxWidth="1.7976931348623157E308" spacing="5.0" GridPane.columnIndex="2" GridPane.rowIndex="4">
                            <children>
-                              <Label text="Nome Completo" />
-                              <TextField fx:id="nomeText" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" />
+                              <ComboBox fx:id="cidadeComboBox" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS" />
+                              <Button focusTraversable="false" mnemonicParsing="false" onAction="#adicionarCidade" styleClass="button-add" />
                            </children>
-                        </VBox>
-                        <VBox GridPane.columnIndex="4" GridPane.rowIndex="1">
+                        </HBox>
+                        <HBox fx:id="adicionarCidadeBox" alignment="CENTER" maxWidth="1.7976931348623157E308" spacing="5.0" visible="false" GridPane.columnIndex="2" GridPane.rowIndex="4">
                            <children>
-                              <Label text="Telefone" />
-                              <TextField fx:id="telefoneText" promptText="(XX)XXXXX-XXXX">
-                                 <font>
-                                    <Font size="14.0" />
-                                 </font>
-                              </TextField>
+                              <TextField fx:id="adicionarCidadeText" maxWidth="1.7976931348623157E308" />
+                              <Button focusTraversable="false" mnemonicParsing="false" onAction="#selecionarCidade" styleClass="button-deletar" />
                            </children>
-                        </VBox>
-                        <VBox GridPane.rowIndex="2">
+                        </HBox>
+                        <HBox fx:id="adicionarBairroBox" alignment="CENTER" maxWidth="1.7976931348623157E308" spacing="5.0" visible="false" GridPane.columnIndex="3" GridPane.rowIndex="4">
                            <children>
-                              <Label text="CPF" />
-                              <TextField fx:id="cpfText" promptText="XXX.XXX.XXX-XX" />
+                              <TextField fx:id="adicionarBairroText" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS" />
+                              <Button focusTraversable="false" mnemonicParsing="false" onAction="#selecionarBairro" styleClass="button-deletar" />
                            </children>
-                        </VBox>
-                        <VBox GridPane.columnIndex="1" GridPane.rowIndex="2">
+                        </HBox>
+                        <HBox fx:id="bairroBox" alignment="CENTER" maxWidth="1.7976931348623157E308" spacing="5.0" GridPane.columnIndex="3" GridPane.rowIndex="4">
                            <children>
-                              <Label text="RG" />
-                              <TextField fx:id="rgText" promptText="XX.XXX.XXX-XX" />
+                              <ComboBox fx:id="bairroComboBox" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS" />
+                              <Button focusTraversable="false" mnemonicParsing="false" onAction="#adicionarBairro" styleClass="button-add" />
                            </children>
-                        </VBox>
-                        <VBox GridPane.columnIndex="2" GridPane.rowIndex="2">
-                           <children>
-                              <Label text="Cidade" />
-                              <TextField fx:id="cidadeText" />
-                           </children>
-                        </VBox>
-                        <VBox GridPane.columnIndex="3" GridPane.columnSpan="2" GridPane.rowIndex="2">
-                           <children>
-                              <Label text="Endereço" />
-                              <TextField fx:id="enderecoText" />
-                           </children>
-                        </VBox>
-                        <VBox prefWidth="130.0" GridPane.rowIndex="3">
-                           <children>
-                              <Label text="Data" />
-                              <DatePicker fx:id="dataDatePicker" />
-                           </children>
-                        </VBox>
-                        <VBox GridPane.columnIndex="4" GridPane.rowIndex="3">
-                           <children>
-                              <Label text="Valor R$" />
-                              <TextField fx:id="valorText" />
-                           </children>
-                        </VBox>
+                        </HBox>
+                        <TextField fx:id="ruaText" maxWidth="1.7976931348623157E308" GridPane.columnIndex="4" GridPane.rowIndex="4" />
+                        <TextField fx:id="numeroText" maxWidth="1.7976931348623157E308" GridPane.columnIndex="5" GridPane.rowIndex="4" />
+                        <DatePicker fx:id="dataDatePicker" GridPane.rowIndex="6" />
+                        <ComboBox fx:id="vendedorComboBox" maxWidth="220.0" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="6" />
+                        <TextField fx:id="valorText" GridPane.columnIndex="5" GridPane.rowIndex="6" />
+                        <Label text="Nome Completo" GridPane.rowIndex="1" />
+                        <Label text="Telefone" GridPane.columnIndex="5" GridPane.rowIndex="1" />
+                        <Label text="CPF" GridPane.rowIndex="3" />
+                        <Label text="RG" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                        <Label text="Cidade" GridPane.columnIndex="2" GridPane.rowIndex="3" />
+                        <Label text="Bairro" GridPane.columnIndex="3" GridPane.rowIndex="3" />
+                        <Label text="Data" GridPane.rowIndex="5" />
+                        <Label text="Valor R$" GridPane.columnIndex="5" GridPane.rowIndex="5" />
+                        <Label text="Rua" GridPane.columnIndex="4" GridPane.rowIndex="3" />
+                        <Label text="Número" GridPane.columnIndex="5" GridPane.rowIndex="3" />
+                        <Label text="Administrador" GridPane.columnIndex="1" GridPane.rowIndex="5" />
                      </children>
                   </GridPane>
-                  <VBox VBox.vgrow="ALWAYS">
+                  <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="5.0" VBox.vgrow="ALWAYS">
                      <children>
                         <Label text="Descrição" />
                         <TextArea fx:id="descricaoText" VBox.vgrow="ALWAYS" />

@@ -78,7 +78,7 @@ public class SaidaDAO extends DAO {
     /**
      * Consultar todas receita cadastradas na base de dados
      */
-    private List<Saida> listar() throws SQLException {
+    public List<Saida> listar() throws SQLException {
         List<Saida> saidas = new ArrayList<>();
 
         String sql = "SELECT * FROM view_saida";

@@ -143,8 +143,8 @@ public class TelaConsultarManutencoesController extends AnchorPane {
         SwingWorker<List, List> worker = new SwingWorker<List, List>() {
             @Override
             protected List<Manutencao> doInBackground() throws Exception {
-                return ControleDAO.getBanco().getManutencaoDAO().listar();
-                //return ControleDAO.getBanco().getManutencaoDAO().buscarPorIntervalo(dataInicio, dataFinal);
+                //return ControleDAO.getBanco().getManutencaoDAO().listar();
+                return ControleDAO.getBanco().getManutencaoDAO().buscarPorIntervalo(dataInicio, dataFinal);
             }
 
             //Metodo chamado apos terminar a execucao numa Thread separada

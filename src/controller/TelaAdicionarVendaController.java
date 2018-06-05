@@ -72,7 +72,6 @@ public class TelaAdicionarVendaController extends AnchorPane {
     @FXML
     private TextField rgText;
     
-    
     @FXML
     private HBox cidadeBox;
     @FXML
@@ -97,8 +96,6 @@ public class TelaAdicionarVendaController extends AnchorPane {
     private TextField ruaText;
     @FXML
     private TextField numeroText;
-    
-    
     
     @FXML
     private DatePicker dataDatePicker;
@@ -156,14 +153,11 @@ public class TelaAdicionarVendaController extends AnchorPane {
 
         this.editarClienteCheckBox.setVisible(false);//Ocultando componente
         this.editarClienteCheckBox.setSelected(true);//Deixando o CheckBox selecionado
-        this.editarClienteCheckBox.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                editarClienteCheckBox.setVisible(false);
-                Platform.runLater(() -> nomeText.requestFocus());//Colocando o Foco
-            }
+        this.editarClienteCheckBox.setOnAction((e) -> {
+            editarClienteCheckBox.setVisible(false);
+            Platform.runLater(() -> nomeText.requestFocus());//Colocando o Foco
         });
-
+        
         //Campos ficam desativados enquanto CheckBox esta desativado
         nomeText.disableProperty().bind(editarClienteCheckBox.selectedProperty().not());
         telefoneText.disableProperty().bind(editarClienteCheckBox.selectedProperty().not());

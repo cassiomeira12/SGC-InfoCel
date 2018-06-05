@@ -146,8 +146,8 @@ public class TelaInicialController extends AnchorPane {
                 List<Operacao> lista = new ArrayList<>();
                 
                 List<Manutencao> listaManutencao = ControleDAO.getBanco().getManutencaoDAO().listar();
-                List<Receita> listaReceita = ControleDAO.getBanco().getReceitaDAO().buscarPorIntervalo(dataInicio, dataFinal);
-                List<Saida> listaSaida = ControleDAO.getBanco().getSaidaDAO().buscarPorIntervalo(dataInicio, dataFinal);
+                List<Receita> listaReceita = ControleDAO.getBanco().getReceitaDAO().listar();
+                List<Saida> listaSaida = ControleDAO.getBanco().getSaidaDAO().listar();
                 List<Venda> listaVenda = ControleDAO.getBanco().getVendaDAO().listar();
                 
                 for (Manutencao manutencao : listaManutencao) {
@@ -183,7 +183,7 @@ public class TelaInicialController extends AnchorPane {
                     Collections.sort(listaOperacao);//Ordenando as Operacoes
                     atualizarTabela();
                 } catch (InterruptedException | ExecutionException ex) {
-                    Logger.getLogger(TelaInicialController.class.getName()).log(Level.SEVERE, null, ex);
+                    ex.printStackTrace();
                 }
                 
             }
