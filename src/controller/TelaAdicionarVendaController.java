@@ -347,6 +347,7 @@ public class TelaAdicionarVendaController extends AnchorPane {
                         } else {
                             
                             //gerar relatorio
+                             System.out.println("id: " + id);
                             DescricaoVenda dv = new DescricaoVenda(id);
                             dv.start();
                             
