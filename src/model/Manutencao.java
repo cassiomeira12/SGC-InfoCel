@@ -146,10 +146,6 @@ public class Manutencao {
         return finalizado ? "Sim" : "Não";
     }
 
-    public String getEndereco() {
-        return cliente.getEndereco().toString();
-    }
-
     public void setFinalizado(boolean finalizado) {
         this.finalizado = finalizado;
     }
