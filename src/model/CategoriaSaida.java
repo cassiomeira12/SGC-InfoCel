@@ -34,5 +34,10 @@ public class CategoriaSaida {
     public void setStatus(boolean status) {
         this.status = status;
     }
+    
+    @Override
+    public String toString() {
+        return descricao;
+    }
 
 }

@@ -26,7 +26,7 @@ public class SaidaDAO extends DAO {
      */
     public Long inserir(Saida saida) throws Exception {
         String sql = "INSERT INTO saida ( id_categoria_saida, id_administrador, descricao, data, valor ) VALUES (?, ?, ?, ?, ?)";
-
+        
         stm = getConector().prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
 
         stm.setInt(1, saida.getCategoria().getId().intValue());
@@ -86,7 +86,7 @@ public class SaidaDAO extends DAO {
         rs = stm.executeQuery(sql);
 
         while (rs.next()) {
-            Cidade cidadeAdm = new Cidade(rs.getLong("id_cidade_administrador"), rs.getString("nome_cidadea_dministrador"));
+            Cidade cidadeAdm = new Cidade(rs.getLong("id_cidade_administrador"), rs.getString("nome_cidade_administrador"));
             Bairro bairroAdm = new Bairro(rs.getLong("id_bairro_administrador"), rs.getString("nome_bairro_administrador"), cidadeAdm);
             Endereco enderecoAdm = new Endereco(rs.getLong("id_endereco_administrador"), bairroAdm, rs.getString("rua_administrador"), rs.getString("numero_administrador"));
 

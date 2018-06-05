@@ -95,7 +95,7 @@
                         </HBox>
                         <HBox fx:id="adicionarCidadeBox" alignment="CENTER" maxWidth="1.7976931348623157E308" spacing="5.0" visible="false" GridPane.columnIndex="2" GridPane.rowIndex="4">
                            <children>
-                              <TextField fx:id="adicionarCidadeText" maxWidth="1.7976931348623157E308" />
+                              <TextField fx:id="adicionarCidadeText" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS" />
                               <Button focusTraversable="false" mnemonicParsing="false" onAction="#selecionarCidade" styleClass="button-deletar" />
                            </children>
                         </HBox>
