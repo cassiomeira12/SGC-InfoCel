@@ -347,7 +347,7 @@ public class TelaAdicionarVendaController extends AnchorPane {
                         } else {
                             
                             //gerar relatorio
-                            DescricaoVenda dv = new DescricaoVenda(id.toString());
+                            DescricaoVenda dv = new DescricaoVenda(id);
                             dv.start();
                             
                             Alerta.info("Venda Realizada com sucesso!");

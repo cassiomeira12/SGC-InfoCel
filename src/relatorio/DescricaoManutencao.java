@@ -31,12 +31,12 @@ import util.SoftwareSpecifications;
  *
  * @author dhonl
  */
-public class DescricaoVenda extends Thread {
+public class DescricaoManutencao extends Thread {
 
     ConexaoBanco conn = new ConexaoBanco();
     Statement stm;
     String query;
-    Long idVenda;
+    Long idManutencao;
     ResultSet rs;
     JRResultSetDataSource jrRS;
     Map parameters;
@@ -46,8 +46,8 @@ public class DescricaoVenda extends Thread {
     JasperViewer view;
 
     // construtor da classe
-    public DescricaoVenda(Long id) {
-        this.idVenda = id;
+    public DescricaoManutencao(Long id) {
+        this.idManutencao = id;
     }
 
     @Override
@@ -55,21 +55,21 @@ public class DescricaoVenda extends Thread {
         try {
             sleep(2000);
         } catch (InterruptedException ex) {
-            Logger.getLogger(DescricaoVenda.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DescricaoManutencao.class.getName()).log(Level.SEVERE, null, ex);
         }
         try {
-            descricaoVenda(idVenda);
+            descricaoManutencao(idManutencao);
         } catch (IOException ex) {
-            Logger.getLogger(DescricaoVenda.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DescricaoManutencao.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
-    public void descricaoVenda(Long id) throws IOException {
+    public void descricaoManutencao(Long id) throws IOException {
         try {
             // fazendo conexao com o banco
             this.stm = conn.getConnection().createStatement();
         } catch (SQLException ex) {
-            Logger.getLogger(DescricaoVenda.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DescricaoManutencao.class.getName()).log(Level.SEVERE, null, ex);
         }
         // consulta passada para o arquivo jasper
         query = "select nome_cliente, cpf_cliente, rg_cliente, telefone_cliente, nome_cidade_cliente, nome_bairro_cliente, rua_cliente, numero_cliente, "
@@ -80,12 +80,12 @@ public class DescricaoVenda extends Thread {
         try {
             rs = stm.executeQuery(query);
         } catch (SQLException ex) {
-            Logger.getLogger(DescricaoVenda.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DescricaoManutencao.class.getName()).log(Level.SEVERE, null, ex);
         }
         jrRS = new JRResultSetDataSource(rs);
         // passagem de parametros para o jasper
         parameters = new HashMap();
-        parameters.put("id_venda", id.toString());
+        parameters.put("id_manutencao", id.toString());
         parameters.put("nome_empresa", SoftwareSpecifications.EMPRESA);
         parameters.put("cidade_empresa", SoftwareSpecifications.CIDADE);
         parameters.put("telefone_empresa", SoftwareSpecifications.TELEFONE);
@@ -94,7 +94,7 @@ public class DescricaoVenda extends Thread {
 
         try {
             // passando data como parametros por cauda da formatacao
-            parameters.put("data_venda", ControleDAO.getBanco().getVendaDAO().buscarPorId(id).getDataEditada());
+           parameters.put("data_venda", ControleDAO.getBanco().getVendaDAO().buscarPorId(id).getDataEditada());
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
@@ -103,7 +103,7 @@ public class DescricaoVenda extends Thread {
         // caminho logo da empresa
         parameters.put("src_logo", SoftwareSpecifications.SRC_LOGO);
         // caminho arquivo jasper
-        srcArquivoJaper = new File("src/relatorio/descricaoVenda.jasper").getCanonicalPath();
+       srcArquivoJaper = new File("src/relatorio/descricaoVenda.jasper").getCanonicalPath();
 
         try {
             // cria arquivo jasper
