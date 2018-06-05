@@ -7,12 +7,17 @@ package controller;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.util.Locale;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import model.CategoriaSaida;
+import util.Formatter;
 
 /**
  * FXML Controller class
@@ -24,9 +29,15 @@ public class TelaAdicionarSaidaController extends AnchorPane {
     private BorderPane painelPrincipal;
 
     @FXML
+    private ComboBox<CategoriaSaida> categoriaComboBox;
+    @FXML
     private DatePicker dataDatePicker;
     @FXML
     private TextField descricaoArea;
+    @FXML
+    private TextField valorText;
+    @FXML
+    private Button finalizarButton; 
 
     public TelaAdicionarSaidaController(BorderPane painelPrincipal) {
         this.painelPrincipal = painelPrincipal;
@@ -38,13 +49,19 @@ public class TelaAdicionarSaidaController extends AnchorPane {
             fxml.load();
         } catch (IOException ex) {
             System.out.println("[ERRO] : Erro na tela Adicionar Saida");
-            System.out.println(ex.toString());
+            ex.printStackTrace();
         }
     }
 
     @FXML
     public void initialize() {
         this.dataDatePicker.setValue(LocalDate.now());//Adicionando Data do dia atual
+        Formatter.decimal(valorText);
+        Formatter.toUpperCase(descricaoArea);
+        
+        finalizarButton.disableProperty().bind(categoriaComboBox.selectionModelProperty().isNull().or(
+                                               valorText.textProperty().isEmpty().or(
+                                               descricaoArea.textProperty().isEmpty())));
     }
 
     private void adicionarPainelInterno(AnchorPane novaTela) {
@@ -55,6 +72,11 @@ public class TelaAdicionarSaidaController extends AnchorPane {
     private void cancelarOperacao() {
         TelaInicialController telaInicial = new TelaInicialController(painelPrincipal);
         this.adicionarPainelInterno(telaInicial);
+    }
+    
+    @FXML
+    private void finalizar() {
+        
     }
 
 }
