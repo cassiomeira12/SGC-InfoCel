@@ -8,7 +8,6 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-
 <HBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="400.0" prefWidth="1200.0" spacing="200.0" stylesheets="@../../../../../../../mnt/HD-Backup/Cassio-Meira/Desenvolvimento-Software/NetBeansProjects/SGC-InfoCel/src/css/default.css" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.EnderecosConfiguracoesController">
    <children>
       <VBox alignment="CENTER" maxHeight="1.7976931348623157E308" prefWidth="300.0" spacing="5.0">
@@ -44,7 +43,7 @@
             </TableView>
             <HBox alignment="CENTER" spacing="10.0">
                <children>
-                  <Button mnemonicParsing="false" onAction="#adicionarBairro" styleClass="button-add" />
+                  <Button fx:id="adicionarBairroButton" mnemonicParsing="false" onAction="#adicionarBairro" styleClass="button-add" />
                   <Button fx:id="editarBairroButton" mnemonicParsing="false" onAction="#editarBairro" text="Editar" />
                   <Button fx:id="excluirBairroButton" layoutX="65.0" layoutY="10.0" mnemonicParsing="false" onAction="#excluirBairro" styleClass="button-deletar" />
                </children>

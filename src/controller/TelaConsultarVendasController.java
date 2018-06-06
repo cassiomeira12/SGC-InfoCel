@@ -53,6 +53,8 @@ public class TelaConsultarVendasController extends AnchorPane {
     @FXML
     private TableColumn<Venda, Cliente> clienteColumn;
     @FXML
+    private TableColumn<Cliente, String> enderecoColumn;
+    @FXML
     private TableColumn<Administrador, String> vendedorColumn;
     @FXML
     private TableColumn<Venda, Long> dataColumn;
@@ -176,6 +178,7 @@ public class TelaConsultarVendasController extends AnchorPane {
         ObservableList data = FXCollections.observableArrayList(listaVendas);
         
         this.clienteColumn.setCellValueFactory(new PropertyValueFactory<>("cliente"));
+        //this.enderecoColumn.setCellValueFactory(new PropertyValueFactory<>(""));
         this.vendedorColumn.setCellValueFactory(new PropertyValueFactory<>("administrador"));
         this.dataColumn.setCellValueFactory(new PropertyValueFactory<>("dataEditada"));//Adiciona o valor da variavel Telefone
         this.totalColumn.setCellValueFactory(new PropertyValueFactory<>("precoTotal"));

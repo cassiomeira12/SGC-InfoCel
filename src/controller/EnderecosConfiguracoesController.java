@@ -6,6 +6,7 @@
 package controller;
 
 import banco.ControleDAO;
+import controller.AdicionarCidadeBairroController.Tipo;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.List;
@@ -17,10 +18,13 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 import javax.swing.SwingWorker;
 import model.Bairro;
 import model.Cidade;
@@ -51,6 +55,8 @@ public class EnderecosConfiguracoesController implements Initializable {
     @FXML
     private TableView<Bairro> bairrosTable;
     @FXML
+    private Button adicionarBairroButton;
+    @FXML
     private Button editarBairroButton;
     @FXML
     private Button excluirBairroButton;
@@ -65,6 +71,7 @@ public class EnderecosConfiguracoesController implements Initializable {
         editarCidadeButton.disableProperty().bind(cidadesTable.getSelectionModel().selectedItemProperty().isNull());
         excluirCidadeButton.disableProperty().bind(cidadesTable.getSelectionModel().selectedItemProperty().isNull());
         
+        adicionarBairroButton.disableProperty().bind(cidadesTable.getSelectionModel().selectedItemProperty().isNull());
         editarBairroButton.disableProperty().bind(bairrosTable.getSelectionModel().selectedItemProperty().isNull());
         excluirBairroButton.disableProperty().bind(bairrosTable.getSelectionModel().selectedItemProperty().isNull());
         
@@ -78,11 +85,64 @@ public class EnderecosConfiguracoesController implements Initializable {
 
     @FXML
     private void adicionarCidade(ActionEvent event) {
+        Stage palco = new Stage();
+        palco.initModality(Modality.APPLICATION_MODAL);//Impede de clicar na tela em plano de fundo
+        palco.centerOnScreen();
         
+        AdicionarCidadeBairroController adicionarCidadeBairro = new AdicionarCidadeBairroController(palco, Tipo.CIDADE, true);
+        adicionarCidadeBairro.setTitulo("Adicionar Cidade");
+        palco.setScene(new Scene(adicionarCidadeBairro));
+        palco.showAndWait();
+        
+        if (adicionarCidadeBairro.RESULTADO) {
+            Cidade cidade = adicionarCidadeBairro.getCidade();
+        
+            Long id = null;
+            try {
+                id = ControleDAO.getBanco().getCidadeDAO().inserir(cidade);
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+
+            if (id == null) {//Erro ao inserir item no Banco de Dados
+                Alerta.erro("Erro ao criar nova Cidade");
+            } else {
+                Alerta.info("Cidade adicionada com sucesso!");
+                cidade.setId(id);
+                cidadesTable.getItems().add(cidade);
+            }
+        }
     }
 
     @FXML
     private void editarCidade(ActionEvent event) {
+        Cidade cidade = cidadesTable.getSelectionModel().getSelectedItem();
+        
+        Stage palco = new Stage();
+        palco.initModality(Modality.APPLICATION_MODAL);//Impede de clicar na tela em plano de fundo
+        palco.centerOnScreen();
+        
+        AdicionarCidadeBairroController editarCidade = new AdicionarCidadeBairroController(palco, Tipo.CIDADE, false);
+        editarCidade.setTitulo("Editar Cidade");
+        editarCidade.setCidade(cidade);
+        
+        palco.setScene(new Scene(editarCidade));
+        palco.showAndWait();
+        
+        if (editarCidade.RESULTADO) {
+            cidade = editarCidade.getCidade();
+            
+            try {
+                if (ControleDAO.getBanco().getCidadeDAO().editar(cidade)) {
+                    Alerta.info("Dados alterados com sucesso!");
+                    sincronizarBancoDadosCidade();
+                } else {
+                    Alerta.erro("Erro ao elterar dados!");
+                }
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        }
     }
 
     @FXML
@@ -107,10 +167,66 @@ public class EnderecosConfiguracoesController implements Initializable {
 
     @FXML
     private void adicionarBairro(ActionEvent event) {
+        Stage palco = new Stage();
+        palco.initModality(Modality.APPLICATION_MODAL);//Impede de clicar na tela em plano de fundo
+        palco.centerOnScreen();
+        
+        AdicionarCidadeBairroController adicionarCidadeBairro = new AdicionarCidadeBairroController(palco, Tipo.BAIRRO, true);
+        adicionarCidadeBairro.setTitulo("Adicionar Bairro");
+        adicionarCidadeBairro.setCidade(cidadesTable.getSelectionModel().getSelectedItem());
+        palco.setScene(new Scene(adicionarCidadeBairro));
+        palco.showAndWait();
+        
+        if (adicionarCidadeBairro.RESULTADO) {
+            Bairro bairro = adicionarCidadeBairro.getBairro();
+        
+            Long id = null;
+            try {
+                id = ControleDAO.getBanco().getBairroDAO().inserir(bairro);
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+
+            if (id == null) {//Erro ao inserir item no Banco de Dados
+                Alerta.erro("Erro ao criar novo Bairro");
+            } else {
+                Alerta.info("Bairro adicionado com sucesso!");
+                bairro.setId(id);
+                bairrosTable.getItems().add(bairro);
+            }
+        }
     }
 
     @FXML
     private void editarBairro(ActionEvent event) {
+        Bairro bairro = bairrosTable.getSelectionModel().getSelectedItem();
+        
+        Stage palco = new Stage();
+        palco.initModality(Modality.APPLICATION_MODAL);//Impede de clicar na tela em plano de fundo
+        palco.centerOnScreen();
+        
+        AdicionarCidadeBairroController editarBairro = new AdicionarCidadeBairroController(palco, Tipo.BAIRRO, false);
+        editarBairro.setTitulo("Editar Bairro");
+        editarBairro.setCidade(cidadesTable.getSelectionModel().getSelectedItem());
+        editarBairro.setBairro(bairro);
+        
+        palco.setScene(new Scene(editarBairro));
+        palco.showAndWait();
+        
+        if (editarBairro.RESULTADO) {
+            bairro = editarBairro.getBairro();
+            
+            try {
+                if (ControleDAO.getBanco().getBairroDAO().editar(bairro)) {
+                    Alerta.info("Dados alterados com sucesso!");
+                    sincronizarBancoDadosBairro(cidadesTable.getSelectionModel().getSelectedItem());
+                } else {
+                    Alerta.erro("Erro ao elterar dados!");
+                }
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        }
     }
 
     @FXML

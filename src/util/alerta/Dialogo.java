@@ -5,6 +5,8 @@ import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.stage.Modality;
@@ -82,6 +84,12 @@ public class Dialogo {
         ok.setOnAction((ActionEvent e) -> {
             dialogo.close();
         });
+        
+        ok.setOnKeyReleased((KeyEvent key) -> {
+            if (key.getCode() == KeyCode.ENTER) {
+                dialogo.close();
+            }
+        });
 
         ok.getStyleClass().add("bt-ok");
         box.getChildren().addAll(ok);
@@ -103,7 +111,7 @@ public class Dialogo {
     public static Resposta mensageConfirmar(String titulo, String mensagem) {
         HBox box = new HBox();
         box.getStyleClass().add("box-acao-dialog");
-
+        
         Button yes = new Button("SIM");
         yes.setOnAction((ActionEvent e) -> {
             dialogo.close();

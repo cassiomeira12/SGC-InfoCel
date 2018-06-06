@@ -60,7 +60,7 @@ public class TelaConsultarManutencoesController extends AnchorPane {
     @FXML
     private TableColumn<Cliente, String> clienteColumn;
     @FXML
-    private TableColumn<Manutencao, String> enderecoColumn;
+    private TableColumn<Manutencao, String> descricaoColumn;
     @FXML
     private TableColumn<Administrador, String> vendedorColumn;
     @FXML
@@ -169,7 +169,7 @@ public class TelaConsultarManutencoesController extends AnchorPane {
         ObservableList data = FXCollections.observableArrayList(listaManutencoes);
         
         this.clienteColumn.setCellValueFactory(new PropertyValueFactory<>("cliente"));
-        this.enderecoColumn.setCellValueFactory(new PropertyValueFactory<>("endereco"));
+        this.descricaoColumn.setCellValueFactory(new PropertyValueFactory<>("descricao"));
         this.vendedorColumn.setCellValueFactory(new PropertyValueFactory<>("administrador"));
         this.marcaColumn.setCellValueFactory(new PropertyValueFactory<>("marca"));
         this.modeloColumn.setCellValueFactory(new PropertyValueFactory<>("modelo"));
@@ -202,7 +202,7 @@ public class TelaConsultarManutencoesController extends AnchorPane {
                 return true;
             }
             
-            if (filtro.getCliente().getEndereco().toString().toLowerCase().contains(texto.toLowerCase())) {
+            if (filtro.getDescricao().toLowerCase().contains(texto.toLowerCase())) {
                 return true;
             }
             

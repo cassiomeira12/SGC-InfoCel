@@ -50,16 +50,16 @@
                <children>
                   <HBox alignment="CENTER" spacing="30.0">
                      <children>
-                        <VBox spacing="5.0" HBox.hgrow="ALWAYS">
+                        <VBox prefWidth="200.0" spacing="5.0" HBox.hgrow="ALWAYS">
                            <children>
-                              <Label text="Descrição" />
-                              <TextField fx:id="descricaoText" />
+                              <Label text="CIdade" />
+                              <TextField fx:id="cidadeText" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" />
                            </children>
                         </VBox>
-                        <VBox fx:id="abreviacaoBox" layoutX="10.0" layoutY="10.0" spacing="5.0">
+                        <VBox fx:id="bairroBox" layoutX="10.0" layoutY="10.0" prefWidth="200.0" spacing="5.0">
                            <children>
-                              <Label text="Abreviação" />
-                              <TextField fx:id="abreviacaoText" />
+                              <Label text="Bairro" />
+                              <TextField fx:id="bairroText" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" />
                            </children>
                         </VBox>
                      </children>

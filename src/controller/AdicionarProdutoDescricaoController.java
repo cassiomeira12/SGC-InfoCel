@@ -164,4 +164,8 @@ public class AdicionarProdutoDescricaoController extends AnchorPane {
         this.abreviacaoText.setText(unidadeMedida.getAbreviacao());
     }
     
+    public void setTitulo(String titulo) {
+        this.tituloLabel.setText(titulo);
+    }
+    
 }
