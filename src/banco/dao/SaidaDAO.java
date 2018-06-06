@@ -99,7 +99,7 @@ public class SaidaDAO extends DAO {
             Administrador adm = new Administrador(rs.getLong("id_administrador"), rs.getString("nome_administrador"),
                     null, null, enderecoAdm, null, rs.getString("cpf_administrador"), null, null, true);
 
-            CategoriaSaida categoria = new CategoriaSaida(rs.getLong("id_categoria_saida"), rs.getString("descricao_categoria_saida"));
+            CategoriaSaida categoria = new CategoriaSaida(rs.getLong("id_categoria_saida"), rs.getString("descricao_categoria"));
 
             Saida saida = new Saida(rs.getLong("id"), adm, rs.getString("descricao"), categoria, rs.getFloat("valor"), rs.getLong("data"));
 
