@@ -61,7 +61,7 @@
                <children>
                   <VBox alignment="TOP_RIGHT" spacing="20.0">
                      <children>
-                        <HBox alignment="BOTTOM_RIGHT" spacing="30.0">
+                        <HBox alignment="BOTTOM_RIGHT" spacing="30.0" VBox.vgrow="ALWAYS">
                            <children>
                               <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS">
                                  <children>

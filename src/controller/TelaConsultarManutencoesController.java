@@ -17,6 +17,7 @@ import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TableColumn;
@@ -74,7 +75,10 @@ public class TelaConsultarManutencoesController extends AnchorPane {
     @FXML
     private TableColumn<Manutencao, String> finalizadoColumn;
     
-    
+    @FXML
+    private Button editarButton;
+    @FXML
+    private Button excluirButton;
   
     public TelaConsultarManutencoesController(BorderPane painelPrincipal) {
         this.painelPrincipal = painelPrincipal;
@@ -99,6 +103,9 @@ public class TelaConsultarManutencoesController extends AnchorPane {
         
         inicioDatePicker.setValue(dataInicio);
         fimDatePicker.setValue(dataFim);
+        
+        editarButton.disableProperty().bind(manutencoesTable.getSelectionModel().selectedItemProperty().isNull());
+        excluirButton.disableProperty().bind(manutencoesTable.getSelectionModel().selectedItemProperty().isNull());
         
         inicioDatePicker.setOnAction((e) -> {
             this.dataInicio = inicioDatePicker.getValue();

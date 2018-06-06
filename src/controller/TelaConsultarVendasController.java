@@ -167,6 +167,12 @@ public class TelaConsultarVendasController extends AnchorPane {
 
     @FXML
     private void visualizarVenda() {
+        Venda venda = vendasTable.getSelectionModel().getSelectedItem();
+        
+        TelaVendaController telaVenda = new TelaVendaController(painelPrincipal);
+        telaVenda.setVenda(venda);
+        
+        this.adicionarPainelInterno(telaVenda);
 //        Cliente cliente = vendasTable.getSelectionModel().getSelectedItem();
 //
 //        TelaClienteController telaCliente = new TelaClienteController(painelPrincipal, cliente);

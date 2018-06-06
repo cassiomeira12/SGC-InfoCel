@@ -53,7 +53,6 @@ public class TelaAdicionarVendaController extends AnchorPane {
     private BorderPane painelPrincipal;
 
     private Cliente cliente;
-    Endereco endereco = new Endereco(1l, new Bairro(1l, "Centro", new Cidade(1l, "Vitória da Conquista")), "Rua francisco santos", "149 A");
     private Venda novaVenda;
     
     List<Cidade> listaCidades;
