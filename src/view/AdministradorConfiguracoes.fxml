@@ -36,7 +36,7 @@
             <HBox alignment="CENTER" spacing="35.0">
                <children>
                   <Button mnemonicParsing="false" onAction="#adicionar" styleClass="button-add" text="Adicionar" />
-                  <Button fx:id="editarButton" mnemonicParsing="false" onAction="#editar" text="Editar" />
+                  <Button fx:id="editarButton" mnemonicParsing="false" onAction="#editar" styleClass="button-editar2" text="Editar" />
                   <Button fx:id="excluirButton" mnemonicParsing="false" onAction="#excluir" styleClass="button-deletar" text="Excluir" />
                </children>
             </HBox>

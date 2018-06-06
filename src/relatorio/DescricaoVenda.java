@@ -2,29 +2,24 @@ package relatorio;
 
 import banco.ConexaoBanco;
 import banco.ControleDAO;
-import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JRExporter;
-import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.JRResultSetDataSource;
 import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
-import net.sf.jasperreports.engine.export.JRPdfExporter;
-import net.sf.jasperreports.export.SimpleExporterInput;
-import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput;
 import net.sf.jasperreports.view.JasperViewer;
+import util.DateUtils;
 import util.SoftwareSpecifications;
 
 /**
@@ -42,8 +37,11 @@ public class DescricaoVenda extends Thread {
     Map parameters;
     String srcArquivoJaper;
     String srcSalvarRelatorio;
-    JasperPrint jp = null;
+    String nomeClienteVenda;
+    JasperPrint jp;
     JasperViewer view;
+
+    boolean mostrar = false;
 
     // construtor da classe
     public DescricaoVenda(Long id) {
@@ -52,19 +50,18 @@ public class DescricaoVenda extends Thread {
 
     @Override
     public void run() {
+
         try {
-            sleep(2000);
-        } catch (InterruptedException ex) {
-            Logger.getLogger(DescricaoVenda.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        try {
-            descricaoVenda(idVenda);
+            gerarDescricaoVenda(idVenda);
         } catch (IOException ex) {
             Logger.getLogger(DescricaoVenda.class.getName()).log(Level.SEVERE, null, ex);
         }
+        if (mostrar) {
+            mostrarDrecricaoVenda();
+        }
     }
 
-    public void descricaoVenda(Long id) throws IOException {
+    public void gerarDescricaoVenda(Long id) throws IOException {
         try {
             // fazendo conexao com o banco
             this.stm = conn.getConnection().createStatement();
@@ -106,17 +103,46 @@ public class DescricaoVenda extends Thread {
         srcArquivoJaper = new File("src/relatorio/descricaoVenda.jasper").getCanonicalPath();
 
         try {
+
+            // caminho
+            srcSalvarRelatorio = new File("relatorio/venda/" + DateUtils.formatDate2(ControleDAO.getBanco().getVendaDAO().buscarPorId(id).getData())).getCanonicalPath();
+            File file = new File(srcSalvarRelatorio);
+            // verificar se um caminho  existe
+            if (file.exists() == false) {
+                // criar se nao existe
+                file.mkdirs();
+            }
+            // pega nome do cliente
+            nomeClienteVenda = ControleDAO.getBanco().getVendaDAO().buscarPorId(id).getCliente().getNome();
+        } catch (SQLException ex) {
+            Logger.getLogger(DescricaoVenda.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        try {
             // cria arquivo jasper
             jp = JasperFillManager.fillReport(srcArquivoJaper, parameters, jrRS);
 
         } catch (JRException ex) {
             System.out.println("Error: " + ex);
         }
+        try {
+            //impressao
+            //JasperExportManager.exportReportToPdfFile(jp, "C:/Users/dhonl/Relatorio_de_Clientes.pdf");
+            JasperExportManager.exportReportToPdfFile(jp, srcSalvarRelatorio + "/" + id.toString() + "_" + nomeClienteVenda + ".pdf");
+        } catch (JRException ex) {
+            Logger.getLogger(DescricaoVenda.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
+
+    public void mostrarDrecricaoVenda() {
         // cria o arquivo de visao
         view = new JasperViewer(jp, false);
-
         // mostrar o arquivo de visao
         view.setVisible(true);
-        
+    }
+
+    public void setMostrar(boolean mostrar) {
+        this.mostrar = mostrar;
     }
 }

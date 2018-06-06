@@ -358,9 +358,12 @@ public class AdministradorConfiguracoesController implements Initializable {
         this.confirmarSenhaPassword.setDisable(false);
         
         Formatter.limpar(nomeText, cpfText, rgText, ruaText, numeroText, loginText, senhaPassword, confirmarSenhaPassword);
-        cidadeComboBox.getSelectionModel().select(null);
+        
         bairroComboBox.getItems().clear();
-        bairroComboBox.getSelectionModel().select(null);
+        bairroComboBox.setValue(null);
+        
+//        cidadeComboBox.getItems().clear();
+//        cidadeComboBox.setValue(null);
     }
 
     @FXML
