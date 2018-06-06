@@ -148,7 +148,7 @@ public class TelaAdicionarManutencaoController extends AnchorPane {
         this.novaManutencao = new Manutencao(null, null, null, null, null, null, null, null, null, null, null, 00, false, null, 0);
         this.dataDatePicker.setValue(LocalDate.now());//Adicionando Data do dia atual
 
-        Formatter.toUpperCase(nomeText, adicionarCidadeText, adicionarBairroText, marcaText, modeloText, descricaoArea);
+        Formatter.toUpperCase(nomeText, adicionarCidadeText, adicionarBairroText, marcaText, modeloText, descricaoArea, ruaText, numeroText);
         Formatter.mascaraCPF(cpfText);//Formatador para CPF
         Formatter.mascaraRG(rgText);//Formatador para Rg
         Formatter.mascaraTelefone(telefoneText);//Formatador para Telefone
@@ -292,11 +292,11 @@ public class TelaAdicionarManutencaoController extends AnchorPane {
                     Administrador vendedor = vendedorComboBox.getValue();
                     String descricao = descricaoArea.getText();
                     int preco = Integer.parseInt(precoText.getText());
-                    Long dataCadastro = dataDatePicker.getValue().toEpochDay();
+                    Long dataCadastro = DateUtils.getLong(dataDatePicker.getValue());
 
                     Long dataPrevisao = null;
                     if (entregaDatePicker.getValue() != null) {
-                        dataPrevisao = entregaDatePicker.getValue().toEpochDay();
+                        dataPrevisao = DateUtils.getLong(entregaDatePicker.getValue());
                     }
 
                     String marca = marcaText.getText();
@@ -326,10 +326,10 @@ public class TelaAdicionarManutencaoController extends AnchorPane {
                         // id esta ficando nulo
                         if (id == null) {
                             Alerta.erro("Erro ao adicionar nova Manutenção!");
+                            cancelarOperacao();
                         } else {
                             Alerta.info("Manutenção cadastrada com sucesso!");
-                            TelaInicialController telaInicial = new TelaInicialController(painelPrincipal);
-                            this.adicionarPainelInterno(telaInicial);
+                            cancelarOperacao();
                         }
                     } catch (Exception e) {
                         Alerta.erro("Erro ao adicionar nova Manutenção: " + e.getMessage());

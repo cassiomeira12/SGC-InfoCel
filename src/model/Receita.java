@@ -1,5 +1,7 @@
 package model;
 
+import util.DateUtils;
+
 public class Receita {
 
     private Long id;
@@ -52,6 +54,10 @@ public class Receita {
 
     public Long getData() {
         return data;
+    }
+    
+    public String getDataEditada() {
+        return DateUtils.formatDate(data);
     }
 
     public void setData(Long data) {

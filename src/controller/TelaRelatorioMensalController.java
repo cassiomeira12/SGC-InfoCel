@@ -5,17 +5,27 @@
  */
 package controller;
 
+import banco.ControleDAO;
 import java.io.IOException;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.ExecutionException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Side;
 import javafx.scene.chart.AreaChart;
 import javafx.scene.chart.BarChart;
-import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javax.swing.SwingWorker;
+import model.*;
+import util.DateUtils;
+import util.alerta.Alerta;
 
 /**
  * FXML Controller class
@@ -25,6 +35,18 @@ import javafx.scene.layout.BorderPane;
 public class TelaRelatorioMensalController extends AnchorPane {
 
     private BorderPane painelPrincipal;
+    
+    private LocalDate data;
+    
+    private List<Manutencao> listaManutencao;
+    private List<Receita> listaReceita;
+    private List<Saida> listaSaida;
+    private List<Venda> listaVenda;
+    
+    private XYChart.Series<Number, Number> vendas;
+    private XYChart.Series<Number, Number> manutencoes;
+    private XYChart.Series<Number, Number> receitas;
+    private XYChart.Series<Number, Number> saidas;
 
     @FXML
     private BorderPane painel;
@@ -47,8 +69,10 @@ public class TelaRelatorioMensalController extends AnchorPane {
 
     @FXML
     public void initialize() {
-        String mes = "Junho";
-        double ultimoDia = 31;
+        this.data = LocalDate.now();
+        
+        String mes = DateUtils.getMes(data);
+        double ultimoDia = data.lengthOfMonth();
         
         // TODO
         final NumberAxis xAxis = new NumberAxis(1, ultimoDia, 1);
@@ -64,53 +88,31 @@ public class TelaRelatorioMensalController extends AnchorPane {
         
         areaChart.setLegendSide(Side.LEFT);
 
-        // Series data of 2014
-        XYChart.Series<Number, Number> vendas = new XYChart.Series<Number, Number>();
+        vendas = new XYChart.Series<Number, Number>();
+        manutencoes = new XYChart.Series<Number, Number>();
+        receitas = new XYChart.Series<Number, Number>();
+        saidas = new XYChart.Series<Number, Number>();
 
         vendas.setName("Vendas");
+        manutencoes.setName("Manutenções");
+        receitas.setName("Receitas");
+        saidas.setName("Saídas");
         
-        //XYChart.Series series = new XYChart.Series();
-        //series.getData().add(new XYChart.Data("January", 100));
-        
-        for (int dia=1; dia<=31; dia++) {
+        for (int dia=1; dia<=ultimoDia; dia++) {
             vendas.getData().add(new XYChart.Data(dia, 0));
+            manutencoes.getData().add(new XYChart.Data(dia, 0));
+            receitas.getData().add(new XYChart.Data(dia, 0));
+            saidas.getData().add(new XYChart.Data(dia, 0));
         }
         
-//        vendas.getData().add(new XYChart.Data(1, 400));
-//        vendas.getData().add(new XYChart.Data(2, 1000));
-//        vendas.getData().add(new XYChart.Data(3, 1500));
-//        vendas.getData().add(new XYChart.Data(4, 800));
-//        vendas.getData().add(new XYChart.Data(5, 500));
-//        vendas.getData().add(new XYChart.Data(6, 1800));
-//        vendas.getData().add(new XYChart.Data(7, 1500));
-//        vendas.getData().add(new XYChart.Data(8, 1300));
-//        vendas.getData().add(new XYChart.Data(9, 400));
-//        vendas.getData().add(new XYChart.Data(10, 1000));
-//        vendas.getData().add(new XYChart.Data(11, 400));
-//        vendas.getData().add(new XYChart.Data(12, 1000));
-//        vendas.getData().add(new XYChart.Data(13, 1500));
-//        vendas.getData().add(new XYChart.Data(14, 800));
-//        vendas.getData().add(new XYChart.Data(15, 500));
-//        vendas.getData().add(new XYChart.Data(16, 1800));
-//        vendas.getData().add(new XYChart.Data(17, 1500));
-//        vendas.getData().add(new XYChart.Data(18, 1300));
-//        vendas.getData().add(new XYChart.Data(19, 400));
-//        vendas.getData().add(new XYChart.Data(20, 1000));
-//        vendas.getData().add(new XYChart.Data(21, 400));
-//        vendas.getData().add(new XYChart.Data(22, 1000));
-//        vendas.getData().add(new XYChart.Data(23, 1500));
-//        vendas.getData().add(new XYChart.Data(24, 800));
-//        vendas.getData().add(new XYChart.Data(25, 500));
-//        vendas.getData().add(new XYChart.Data(26, 1800));
-//        vendas.getData().add(new XYChart.Data(27, 1500));
-//        vendas.getData().add(new XYChart.Data(28, 1300));
-//        vendas.getData().add(new XYChart.Data(29, 400));
-//        vendas.getData().add(new XYChart.Data(30, 1500));
-//        vendas.getData().add(new XYChart.Data(31, 1300));
-        
-        areaChart.getData().addAll(vendas);
+        areaChart.getData().addAll(vendas, manutencoes, receitas, saidas);
         
         painel.setCenter(areaChart);
+
+        sincronizarBancoDadosVenda(data, vendas);
+        sincronizarBancoDadosManutencao(data, manutencoes);
+        sincronizarBancoDadosReceita(data, receitas);
+        sincronizarBancoDadosSaida(data, saidas);
 
     }
 
@@ -123,5 +125,179 @@ public class TelaRelatorioMensalController extends AnchorPane {
         TelaInicialController telaInicial = new TelaInicialController(painelPrincipal);
         this.adicionarPainelInterno(telaInicial);
     }
+    
+    private void sincronizarBancoDadosVenda(LocalDate data, XYChart.Series<Number, Number> chart) {
+        String dataInicio = DateUtils.formatDate(data.getYear(), data.getMonthValue(), 1);
+        String dataFinal = DateUtils.formatDate(data.getYear(), data.getMonthValue(), data.lengthOfMonth());
+        int ultimoDia = data.lengthOfMonth();
+        
+        //Metodo executado numa Thread separada
+        SwingWorker<List, List> worker = new SwingWorker<List, List>() {
+            @Override
+            protected List<Venda> doInBackground() throws Exception {
+                return ControleDAO.getBanco().getVendaDAO().buscarPorIntervalo(dataInicio, dataFinal);
+            }
+            
+            //Metodo chamado apos terminar a execucao numa Thread separada
+            @Override
+            protected void done() {
+                super.done();
+                
+                List<Venda> lista = null;
+                
+                try {
+                    lista = this.get();
+                } catch (InterruptedException | ExecutionException ex) {
+                    Alerta.erro("Erro do consultar Banco de Dados");
+                    ex.printStackTrace();
+                }
+                
+                if (lista != null) {
+                    for (int i=0; i<=ultimoDia; i++) {
+                        for (Venda venda : lista) {
+                            int dia = Integer.valueOf(venda.getDataEditada().substring(0, 2));
+                            if (i+1 == dia) {
+                                Number number = venda.getPrecoTotal();
+                                chart.getData().get(i).setYValue(number);
+                            }
+                        }
+                    }
+                }
+            }
+        };
+        
+        worker.execute();
+    }
+    
+    private void sincronizarBancoDadosManutencao(LocalDate data, XYChart.Series<Number, Number> chart) {
+        String dataInicio = DateUtils.formatDate(data.getYear(), data.getMonthValue(), 1);
+        String dataFinal = DateUtils.formatDate(data.getYear(), data.getMonthValue(), data.lengthOfMonth());
+        int ultimoDia = data.lengthOfMonth();
+        
+        //Metodo executado numa Thread separada
+        SwingWorker<List, List> worker = new SwingWorker<List, List>() {
+            @Override
+            protected List<Manutencao> doInBackground() throws Exception {
+                //return ControleDAO.getBanco().getManutencaoDAO().listar();
+                return ControleDAO.getBanco().getManutencaoDAO().buscarPorIntervalo(dataInicio, dataFinal);
+            }
+            
+            //Metodo chamado apos terminar a execucao numa Thread separada
+            @Override
+            protected void done() {
+                super.done();
+                
+                List<Manutencao> lista = null;
+                
+                try {
+                    lista = this.get();
+                } catch (InterruptedException | ExecutionException ex) {
+                    Alerta.erro("Erro do consultar Banco de Dados");
+                    ex.printStackTrace();
+                }
+                
+                if (lista != null) {
+                    for (int i=0; i<=ultimoDia; i++) {
+                        for (Manutencao manutencao : lista) {
+                            int dia = Integer.valueOf(manutencao.getDataEditada().substring(0, 2));
+                            if (i+1 == dia) {
+                                Number number = manutencao.getPreco();
+                                chart.getData().get(i).setYValue(number);
+                            }
+                        }
+                    }
+                }
+            }
+        };
+        
+        worker.execute();
+    }
+    
+    private void sincronizarBancoDadosReceita(LocalDate data, XYChart.Series<Number, Number> chart) {
+        String dataInicio = DateUtils.formatDate(data.getYear(), data.getMonthValue(), 1);
+        String dataFinal = DateUtils.formatDate(data.getYear(), data.getMonthValue(), data.lengthOfMonth());
+        int ultimoDia = data.lengthOfMonth();
+        
+        //Metodo executado numa Thread separada
+        SwingWorker<List, List> worker = new SwingWorker<List, List>() {
+            @Override
+            protected List<Receita> doInBackground() throws Exception {
+                return ControleDAO.getBanco().getReceitaDAO().listar();
+                //return ControleDAO.getBanco().getReceitaDAO().buscarPorIntervalo(dataInicio, dataFinal);
+            }
+            
+            //Metodo chamado apos terminar a execucao numa Thread separada
+            @Override
+            protected void done() {
+                super.done();
+                
+                List<Receita> lista = null;
+                
+                try {
+                    lista = this.get();
+                } catch (InterruptedException | ExecutionException ex) {
+                    Alerta.erro("Erro do consultar Banco de Dados");
+                    ex.printStackTrace();
+                }
 
+                if (lista != null) {
+                    for (int i=0; i<=ultimoDia; i++) {
+                        for (Receita receita : lista) {
+                            int dia = Integer.valueOf(receita.getDataEditada().substring(0, 2));
+                            if (i+1 == dia) {
+                                Number number = receita.getValor();
+                                chart.getData().get(i).setYValue(number);
+                            }
+                        }
+                    }
+                }
+            }
+        };
+        
+        worker.execute(); 
+    }
+    
+    private void sincronizarBancoDadosSaida(LocalDate data, XYChart.Series<Number, Number> chart) {
+        String dataInicio = DateUtils.formatDate(data.getYear(), data.getMonthValue(), 1);
+        String dataFinal = DateUtils.formatDate(data.getYear(), data.getMonthValue(), data.lengthOfMonth());
+        int ultimoDia = data.lengthOfMonth();
+        
+        //Metodo executado numa Thread separada
+        SwingWorker<List, List> worker = new SwingWorker<List, List>() {
+            @Override
+            protected List<Saida> doInBackground() throws Exception {
+                return ControleDAO.getBanco().getSaidaDAO().listar();
+                //return ControleDAO.getBanco().getSaidaDAO().buscarPorIntervalo(dataInicio, dataFinal);
+            }
+            
+            //Metodo chamado apos terminar a execucao numa Thread separada
+            @Override
+            protected void done() {
+                super.done();
+                
+                List<Saida> lista = null;
+                
+                try {
+                    lista = this.get();
+                } catch (InterruptedException | ExecutionException ex) {
+                    Alerta.erro("Erro do consultar Banco de Dados");
+                    ex.printStackTrace();
+                }
+                
+                if (lista != null) {
+                    for (int i=0; i<=ultimoDia; i++) {
+                        for (Saida saida : lista) {
+                            int dia = Integer.valueOf(saida.getDataEditada().substring(0, 2));
+                            if (i+1 == dia) {
+                                Number number = saida.getValor();
+                                chart.getData().get(i).setYValue(number);
+                            }
+                        }
+                    }
+                }
+            }
+        };
+        
+        worker.execute();
+    }
 }

@@ -1,5 +1,7 @@
 package model;
 
+import util.DateUtils;
+
 public class Saida {
 
     private Long id;
@@ -60,6 +62,10 @@ public class Saida {
 
     public Long getData() {
         return data;
+    }
+    
+    public String getDataEditada() {
+        return DateUtils.formatDate(data);
     }
 
     public void setData(Long data) {

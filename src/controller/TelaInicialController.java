@@ -146,7 +146,7 @@ public class TelaInicialController extends AnchorPane {
                 
                 List<Manutencao> listaManutencao = ControleDAO.getBanco().getManutencaoDAO().listar();
                 List<Receita> listaReceita = ControleDAO.getBanco().getReceitaDAO().listar();
-                List<Saida> listaSaida = null; /*= ControleDAO.getBanco().getSaidaDAO().listar();*/
+                List<Saida> listaSaida = ControleDAO.getBanco().getSaidaDAO().listar();
                 List<Venda> listaVenda = ControleDAO.getBanco().getVendaDAO().listar();
                 
                 for (Manutencao manutencao : listaManutencao) {
@@ -159,10 +159,10 @@ public class TelaInicialController extends AnchorPane {
                     atualizarValorTotal(receita.getValor());
                 }
                 
-//                for (Saida saida : listaSaida) {
-//                    lista.add(new Operacao(saida));
-//                    atualizarValorTotal(saida.getValor());
-//                }
+                for (Saida saida : listaSaida) {
+                    lista.add(new Operacao(saida));
+                    atualizarValorTotal(saida.getValor());
+                }
                 
                 for (Venda venda : listaVenda) {
                     lista.add(new Operacao(venda));
