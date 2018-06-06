@@ -105,18 +105,18 @@ public class BackupRestauracaoConfiguracoesController implements Initializable {
 
     @FXML
     private void importar(ActionEvent event) {
-         FileChooser chooser = new FileChooser();
+        FileChooser chooser = new FileChooser();
         chooser.setTitle("Escolha o diretória para backup");
 
         String path = chooser.showOpenDialog(null).getAbsoluteFile().getAbsolutePath();
         caminhoBackupText.setText(path);
         indicator.setVisible(true);
-        
-         //Metodo executado numa Thread separada
+
+        //Metodo executado numa Thread separada
         SwingWorker<Boolean, Boolean> worker = new SwingWorker<Boolean, Boolean>() {
             @Override
             protected Boolean doInBackground() throws Exception {
-                if (        Backup.importar(caminhoBackupText.getText())) {
+                if (Backup.importar(caminhoBackupText.getText())) {
                     return true;
                 } else {
                     return false;

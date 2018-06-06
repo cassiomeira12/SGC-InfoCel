@@ -26,6 +26,10 @@ public class ConexaoBanco {
     public static ConexaoBanco instancia = new ConexaoBanco();
     private static Connection connection;
 
+    public static String getTabelas() {
+        return " marca unidade_medida categoria_produto produto categoria_saida saida cidade bairro endereco administrador cliente receita forma_pagamento manutencao venda venda_produto";
+    }
+
     public ConexaoBanco() {
         try {
             Class.forName(DRIVER).newInstance();

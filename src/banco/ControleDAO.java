@@ -5,6 +5,7 @@
  ********************************************************************** */
 package banco;
 
+import backup.Backup;
 import banco.dao.*;
 
 public class ControleDAO {
@@ -28,7 +29,7 @@ public class ControleDAO {
     private CidadeDAO cidadeDAO = new CidadeDAO();
     private BairroDAO bairroDAO = new BairroDAO();
     private EnderecoDAO enderecoDAO = new EnderecoDAO();
-
+  
     public static ControleDAO getBanco() {
         return banco;
     }
