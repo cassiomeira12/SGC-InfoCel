@@ -338,6 +338,7 @@ public class TelaAdicionarManutencaoController extends AnchorPane {
                         } else {
                             // gerar descricao manutencao pdf
                             DescricaoManutencao dm = new DescricaoManutencao(id);
+                            dm.setMostrar(true);
                             dm.start();
                             Alerta.info("Manutenção cadastrada com sucesso!");
                             cancelarOperacao();

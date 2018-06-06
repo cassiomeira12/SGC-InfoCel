@@ -356,7 +356,6 @@ public class TelaAdicionarVendaController extends AnchorPane {
                             dv.setMostrar(true);
                             dv.start();
                             // mostrar relatorio
-                           
                             
                             Alerta.info("Venda Realizada com sucesso!");
                             TelaInicialController telaInicial = new TelaInicialController(painelPrincipal);
