@@ -12,8 +12,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.application.Platform;
 import javafx.beans.property.FloatProperty;
 import javafx.beans.property.SimpleFloatProperty;

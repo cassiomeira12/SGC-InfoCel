@@ -9,10 +9,7 @@ import banco.ControleDAO;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Locale;
 import java.util.concurrent.ExecutionException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -30,6 +27,7 @@ import javax.swing.SwingWorker;
 import model.Administrador;
 import model.CategoriaSaida;
 import model.Saida;
+import util.DateUtils;
 import util.Formatter;
 import util.alerta.Alerta;
 import util.alerta.Dialogo;
@@ -133,10 +131,16 @@ public class TelaAdicionarSaidaController extends AnchorPane {
     private void finalizar() {
         boolean novaCategoria = adicionarCategoriaBox.isVisible();
         CategoriaSaida categoriaSaida;
-        Long data = dataDatePicker.getValue().toEpochDay();
+        Long data = DateUtils.getLong(dataDatePicker.getValue());
         float valor = Float.parseFloat(valorText.getText());
         String descricao = descricaoArea.getText();
         Administrador administrador = administradorCombo.getValue();
+        
+        LocalDate date = dataDatePicker.getValue();
+        LocalDate hoje = LocalDate.now();
+        if (date.isEqual(hoje)) {
+            data = System.currentTimeMillis();
+        }
         
         Dialogo.Resposta resposta = Alerta.confirmar("Deseja Adicionar uma nova Saída ?");
         if (resposta == Dialogo.Resposta.YES) {
@@ -150,13 +154,19 @@ public class TelaAdicionarSaidaController extends AnchorPane {
             
             Saida novaSaida = new Saida(null, administrador, descricao, categoriaSaida, valor, data);
             
+            Long id = null;
+            
             try {
-                ControleDAO.getBanco().getSaidaDAO().inserir(novaSaida);
+                id = ControleDAO.getBanco().getSaidaDAO().inserir(novaSaida);
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+            
+            if (id == null) {
+                Alerta.erro("Erro ao adicionar nova Saída");
+            } else {
                 Alerta.info("Saída adicionada com sucesso!");
                 cancelarOperacao();
-            } catch (Exception ex) {
-                Alerta.erro("Erro ao adicionar uma nova Saída");
-                ex.printStackTrace();
             }
             
         }

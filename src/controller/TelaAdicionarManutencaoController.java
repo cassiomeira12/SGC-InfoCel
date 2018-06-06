@@ -293,6 +293,12 @@ public class TelaAdicionarManutencaoController extends AnchorPane {
                     String descricao = descricaoArea.getText();
                     int preco = Integer.parseInt(precoText.getText());
                     Long dataCadastro = DateUtils.getLong(dataDatePicker.getValue());
+                    
+                    LocalDate date = dataDatePicker.getValue();
+                    LocalDate hoje = LocalDate.now();
+                    if (date.isEqual(hoje)) {
+                        dataCadastro = System.currentTimeMillis();
+                    }
 
                     Long dataPrevisao = null;
                     if (entregaDatePicker.getValue() != null) {

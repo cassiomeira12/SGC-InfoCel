@@ -178,7 +178,6 @@ public class TelaRelatorioMensalController extends AnchorPane {
         SwingWorker<List, List> worker = new SwingWorker<List, List>() {
             @Override
             protected List<Manutencao> doInBackground() throws Exception {
-                //return ControleDAO.getBanco().getManutencaoDAO().listar();
                 return ControleDAO.getBanco().getManutencaoDAO().buscarPorIntervalo(dataInicio, dataFinal);
             }
             
@@ -222,7 +221,6 @@ public class TelaRelatorioMensalController extends AnchorPane {
         SwingWorker<List, List> worker = new SwingWorker<List, List>() {
             @Override
             protected List<Receita> doInBackground() throws Exception {
-                //return ControleDAO.getBanco().getReceitaDAO().listar();
                 return ControleDAO.getBanco().getReceitaDAO().buscarPorIntervalo(dataInicio, dataFinal);
             }
             
@@ -266,7 +264,6 @@ public class TelaRelatorioMensalController extends AnchorPane {
         SwingWorker<List, List> worker = new SwingWorker<List, List>() {
             @Override
             protected List<Saida> doInBackground() throws Exception {
-                //return ControleDAO.getBanco().getSaidaDAO().listar();
                 return ControleDAO.getBanco().getSaidaDAO().buscarPorIntervalo(dataInicio, dataFinal);
             }
             

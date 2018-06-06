@@ -328,16 +328,22 @@ public class TelaAdicionarVendaController extends AnchorPane {
                 }
 
                 if (continuar) {
-                    LocalDate data = dataDatePicker.getValue();
+                    Long data = DateUtils.getLong(dataDatePicker.getValue());
                     Administrador vendedor = vendedorComboBox.getValue();
                     FormaPagamento formaPagamento = formarPagComboBox.getValue();
                     int parcelas = parcelasSpinner.getValue();
+                    
+                    LocalDate date = dataDatePicker.getValue();
+                    LocalDate hoje = LocalDate.now();
+                    if (date.isEqual(hoje)) {
+                        data = System.currentTimeMillis();
+                    }
                     
                     this.novaVenda.setAdministrador(vendedor);
                     this.novaVenda.setCliente(cliente);
                     this.novaVenda.setFormaPagamento(formaPagamento);
                     this.novaVenda.setQuantidadeParcelas(parcelas);
-                    this.novaVenda.setData(DateUtils.getLong(data));
+                    this.novaVenda.setData(data);
                     
                     try {
                         Long id = ControleDAO.getBanco().getVendaDAO().inserir(novaVenda);
