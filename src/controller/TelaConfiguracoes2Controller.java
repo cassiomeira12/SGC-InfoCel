@@ -25,6 +25,8 @@ public class TelaConfiguracoes2Controller extends AnchorPane {
     private Tab produtosTab;
     @FXML
     private Tab enderecosTab;
+    @FXML
+    private Tab backupTab;
     
     
     public TelaConfiguracoes2Controller(BorderPane painelPrincipal) {
@@ -91,6 +93,16 @@ public class TelaConfiguracoes2Controller extends AnchorPane {
         try {
             HBox painel = FXMLLoader.load(getClass().getResource("/view/EnderecosConfiguracoes.fxml"));
             enderecosTab.setContent(painel);
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }
+    
+    @FXML
+    private void backupTab() {
+        try {
+            AnchorPane painel = FXMLLoader.load(getClass().getResource("/view/BackupRestauracaoConfiguracoes.fxml"));
+            backupTab.setContent(painel);
         } catch (IOException ex) {
             ex.printStackTrace();
         }
