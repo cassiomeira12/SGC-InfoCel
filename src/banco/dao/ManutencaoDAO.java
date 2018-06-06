@@ -174,6 +174,40 @@ public class ManutencaoDAO extends DAO {
         return manuntencoes;
     }
 
+     public Manutencao buscarPorId(Long id) throws SQLException {
+         Manutencao manutencao =null;
+         
+        String sql = "SELECT * FROM view_manutencao WHERE id = " + id;
+
+        stm = getConector().prepareStatement(sql);
+        rs = stm.executeQuery(sql);
+
+        while (rs.next()) {
+            Cidade cidadeAdm = new Cidade(rs.getLong("id_cidade_administrador"), rs.getString("nome_cidade_administrador"));
+            Bairro bairroAdm = new Bairro(rs.getLong("id_bairro_administrador"), rs.getString("nome_bairro_administrador"), cidadeAdm);
+            Endereco enderecoAdm = new Endereco(rs.getLong("id_endereco_administrador"), bairroAdm, rs.getString("rua_administrador"), rs.getString("numero_administrador"));
+
+            Administrador adm = new Administrador(rs.getLong("id_administrador"), rs.getString("nome_administrador"),
+                    null, null, enderecoAdm, null, rs.getString("cpf_administrador"), null, null, true);
+
+            Cidade cidadeC = new Cidade(rs.getLong("id_cidade_cliente"), rs.getString("nome_cidade_cliente"));
+            Bairro bairroC = new Bairro(rs.getLong("id_bairro_cliente"), rs.getString("nome_bairro_cliente"), cidadeAdm);
+            Endereco enderecoC = new Endereco(rs.getLong("id_endereco_cliente"), bairroAdm, rs.getString("rua_cliente"), rs.getString("numero_cliente"));
+
+            Cliente cliente = new Cliente(rs.getLong("id_cliente"), rs.getString("nome_cliente"), enderecoC,
+                    rs.getString("cpf_cliente"), rs.getString("rg_cliente"), rs.getString("telefone_cliente"), null, true);
+
+            FormaPagamento formaPagamento = new FormaPagamento(rs.getLong("id_forma_pagamento"), rs.getString("descricao_forma_pagamento"), 1);
+
+           manutencao = new Manutencao(rs.getLong("id"), rs.getString("descricao"), cliente, adm, rs.getString("marca"), rs.getString("modelo"), rs.getString("imei"), rs.getString("cor"), rs.getLong("data_cadastro"), rs.getLong("data_previsao"), rs.getLong("data_entrega"), rs.getFloat("preco"), rs.getBoolean("finalizado"), formaPagamento, rs.getInt("quantidade_parcelas"));        }
+
+        stm.close();
+        rs.close();
+
+        return manutencao;
+    }
+
+    
     public List<Manutencao> buscarFinalizadas() throws SQLException {
 
         List<Manutencao> manuntencoes = new ArrayList<>();

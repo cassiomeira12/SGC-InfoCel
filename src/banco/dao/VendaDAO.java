@@ -81,7 +81,7 @@ public class VendaDAO extends DAO {
     /**
      * Excluir venda na base de dados
      */
-    private boolean excluir(Long id) throws SQLException {
+    public boolean excluir(Long id) throws SQLException {
         String sql = "DELETE FROM venda WHERE id=?";
 
         stm = getConector().prepareStatement(sql);
