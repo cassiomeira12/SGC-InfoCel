@@ -85,9 +85,9 @@
                         </HBox>
                         <TableView fx:id="manutencoesTable" focusTraversable="false" prefHeight="450.0">
                            <columns>
-                              <TableColumn fx:id="clienteColumn" minWidth="200.0" prefWidth="300.0" text="Cliente" />
-                              <TableColumn fx:id="enderecoColumn" minWidth="150.0" prefWidth="150.0" text="Endereço" />
-                              <TableColumn fx:id="vendedorColumn" minWidth="200.0" prefWidth="300.0" text="Vendedor" />
+                              <TableColumn fx:id="clienteColumn" maxWidth="200.0" minWidth="200.0" prefWidth="200.0" text="Cliente" />
+                              <TableColumn fx:id="descricaoColumn" minWidth="150.0" prefWidth="150.0" text="Descrição" />
+                              <TableColumn fx:id="vendedorColumn" maxWidth="200.0" minWidth="200.0" prefWidth="200.0" text="Vendedor" />
                               <TableColumn minWidth="200.0" prefWidth="200.0" text="Aparelho Celular">
                                  <columns>
                                     <TableColumn fx:id="marcaColumn" maxWidth="150.0" minWidth="150.0" prefWidth="150.0" text="Marca" />

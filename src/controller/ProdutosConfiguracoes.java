@@ -249,7 +249,7 @@ public class ProdutosConfiguracoes implements Initializable {
             try {
                 if (ControleDAO.getBanco().getUnidadeMedidaDAO().editar(unidade)) {
                     Alerta.info("Dados alterados com sucesso!");
-                    sincronizarBancoDadosCategoria();
+                    sincronizarBancoDadosUnidade();
                 } else {
                     Alerta.erro("Erro ao elterar dados!");
                 }
