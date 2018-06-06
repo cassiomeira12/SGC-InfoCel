@@ -325,6 +325,7 @@ public class TelaAdicionarManutencaoController extends AnchorPane {
                     this.novaManutencao.setCor(cor);
                     this.novaManutencao.setModelo(modelo);
                     this.novaManutencao.setImei(imei);
+                    this.novaManutencao.setFinalizado(finalizado);
 
                     try {
                         Long id = ControleDAO.getBanco().getManutencaoDAO().inserir(novaManutencao);

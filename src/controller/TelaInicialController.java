@@ -148,8 +148,10 @@ public class TelaInicialController extends AnchorPane {
                 List<Venda> listaVenda = ControleDAO.getBanco().getVendaDAO().buscarPorIntervalo(dataInicio, dataFinal);
                 
                 for (Manutencao manutencao : listaManutencao) {
-                    lista.add(new Operacao(manutencao));
-                    atualizarValorTotal(manutencao.getPreco());
+                    if (manutencao.isFinalizado()) {
+                        lista.add(new Operacao(manutencao));
+                        atualizarValorTotal(manutencao.getPreco());
+                    }
                 }
                 
                 for (Receita receita : listaReceita) {

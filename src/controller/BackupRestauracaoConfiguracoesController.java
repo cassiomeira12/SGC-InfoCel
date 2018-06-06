@@ -7,6 +7,7 @@ package controller;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.CheckBox;
@@ -38,6 +39,18 @@ public class BackupRestauracaoConfiguracoesController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-    }    
+    }
+
+    @FXML
+    private void realizarBackup(ActionEvent event) {
+    }
+
+    @FXML
+    private void importar(ActionEvent event) {
+    }
+
+    @FXML
+    private void alterar(ActionEvent event) {
+    }
     
 }

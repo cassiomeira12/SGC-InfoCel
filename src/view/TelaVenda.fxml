@@ -78,7 +78,6 @@
                      </rowConstraints>
                      <children>
                         <CheckBox fx:id="editarClienteCheckBox" focusTraversable="false" mnemonicParsing="false" text="Editar informações do Cliente" GridPane.columnSpan="3" />
-                        <Button alignment="CENTER" mnemonicParsing="false" onAction="#pesquisarCliente" styleClass="button-pesquisar" text="Pesquisar Cliente" GridPane.columnIndex="6" />
                         <TextField fx:id="nomeText" maxWidth="1.7976931348623157E308" GridPane.columnSpan="6" GridPane.rowIndex="2" />
                         <TextField fx:id="telefoneText" maxWidth="1.7976931348623157E308" promptText="(XX)XXXXX-XXXX" GridPane.columnIndex="6" GridPane.rowIndex="2">
                            <font>
@@ -154,13 +153,6 @@
                               </TableView>
                               <HBox alignment="CENTER" VBox.vgrow="ALWAYS">
                                  <children>
-                                    <HBox alignment="CENTER_RIGHT" layoutX="900.0" layoutY="10.0" prefWidth="450.0" HBox.hgrow="ALWAYS" />
-                                    <HBox alignment="CENTER" spacing="30.0" HBox.hgrow="ALWAYS">
-                                       <children>
-                                          <Button alignment="CENTER" mnemonicParsing="false" onAction="#adicionarProduto" styleClass="button-add" text="Adicionar" />
-                                          <Button fx:id="removerButton" alignment="CENTER" focusTraversable="false" mnemonicParsing="false" onAction="#removerProduto" styleClass="button-deletar" text="Remover" />
-                                       </children>
-                                    </HBox>
                                     <HBox alignment="CENTER_RIGHT" prefWidth="450.0" HBox.hgrow="ALWAYS">
                                        <children>
                                           <Label styleClass="label-dinheiro" text="Total R$:">
