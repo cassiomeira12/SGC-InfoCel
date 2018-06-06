@@ -153,6 +153,7 @@ public class BackupRestauracaoConfiguracoesController implements Initializable {
         FileChooser chooser = new FileChooser();
         chooser.setTitle("Escolha o diretória para backup");
 
+        chooser.setInitialDirectory(new File("/home/pedro/Downloads/Infocel/"));
         String path = chooser.showSaveDialog(null).getAbsoluteFile().getAbsolutePath();
         caminhoBackupText.setText(path);
 
