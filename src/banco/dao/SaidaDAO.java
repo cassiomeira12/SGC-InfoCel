@@ -27,7 +27,7 @@ public class SaidaDAO extends DAO {
      */
     public Long inserir(Saida saida) throws Exception {
         if(saida.getCategoria().getId() == null){
-            Long id = ControleDAO.getBanco().getSaidaDAO().inserir(saida);
+            Long id = ControleDAO.getBanco().getCategoriaSaidaDAO().inserir(saida.getCategoria());
             saida.getCategoria().setId(id);
         }
         
