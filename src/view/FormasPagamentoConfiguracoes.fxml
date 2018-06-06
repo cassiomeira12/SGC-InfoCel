@@ -17,7 +17,7 @@
    <children>
       <VBox alignment="CENTER" spacing="5.0">
          <children>
-            <Label text="Formas de Pagamento" />
+            <Label styleClass="label-data" text="Formas de Pagamento" />
             <TableView fx:id="formasPagamentoTable" VBox.vgrow="ALWAYS">
               <columns>
                 <TableColumn fx:id="descricaoColumn" maxWidth="1.7976931348623157E308" minWidth="200.0" prefWidth="200.0" text="Descrição" />
@@ -30,7 +30,7 @@
             <HBox alignment="CENTER" spacing="35.0">
                <children>
                   <Button mnemonicParsing="false" onAction="#adicionar" styleClass="button-add" text="Adicionar" />
-                  <Button fx:id="editarButton" mnemonicParsing="false" onAction="#editar" text="Editar" />
+                  <Button fx:id="editarButton" mnemonicParsing="false" onAction="#editar" styleClass="button-editar2" text="Editar" />
                   <Button fx:id="excluirButton" mnemonicParsing="false" onAction="#excluir" styleClass="button-deletar" text="Excluir" />
                </children>
             </HBox>
@@ -38,7 +38,7 @@
       </VBox>
       <VBox fx:id="novaFormaPagamento" alignment="CENTER" prefHeight="260.0" prefWidth="400.0" spacing="5.0">
          <children>
-            <Label fx:id="formaPagamentoLabel" text="Nova Forma de Pagamento" />
+            <Label fx:id="formaPagamentoLabel" styleClass="label-data" text="Nova Forma de Pagamento" />
             <GridPane>
               <columnConstraints>
                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -59,8 +59,8 @@
             </GridPane>
             <HBox alignment="CENTER" spacing="30.0">
                <children>
-                  <Button mnemonicParsing="false" onAction="#cancelar" text="Cancelar" />
-                  <Button fx:id="salvarButton" mnemonicParsing="false" onAction="#salvar" text="Salvar" />
+                  <Button mnemonicParsing="false" onAction="#cancelar" styleClass="button-cancelar" text="Cancelar" />
+                  <Button fx:id="salvarButton" mnemonicParsing="false" onAction="#salvar" styleClass="button-salvar" text="Salvar" />
                </children>
             </HBox>
          </children>

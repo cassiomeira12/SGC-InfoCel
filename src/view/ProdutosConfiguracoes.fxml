@@ -10,10 +10,10 @@
 
 <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="20.0" stylesheets="@../css/default.css" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ProdutosConfiguracoes">
    <children>
-      <VBox alignment="CENTER" prefHeight="423.0" prefWidth="401.0" spacing="10.0" HBox.hgrow="ALWAYS">
+      <VBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="423.0" prefWidth="401.0" spacing="10.0" HBox.hgrow="ALWAYS">
          <children>
-            <Label text="Categoria de Produtos" />
-            <TableView fx:id="categoriaTable">
+            <Label styleClass="label-data" text="Categoria de Produtos" />
+            <TableView fx:id="categoriaTable" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" VBox.vgrow="ALWAYS">
                <columns>
                   <TableColumn fx:id="descricaoCategoriaColumn" prefWidth="75.0" text="Decrição" />
                </columns>
@@ -24,16 +24,16 @@
             <HBox alignment="CENTER" spacing="35.0">
                <children>
                   <Button mnemonicParsing="false" onAction="#adicionarCategoria" styleClass="button-add" text="Adicionar" />
-                  <Button fx:id="editarCategoriaButton" mnemonicParsing="false" onAction="#editarCategoria" text="Editar" />
+                  <Button fx:id="editarCategoriaButton" mnemonicParsing="false" onAction="#editarCategoria" styleClass="button-editar2" text="Editar" />
                   <Button fx:id="removerCategoriaButton" mnemonicParsing="false" onAction="#removerCategoria" styleClass="button-deletar" text="Excluir" />
                </children>
             </HBox>
          </children>
       </VBox>
-      <VBox alignment="CENTER" layoutX="10.0" layoutY="10.0" prefHeight="423.0" prefWidth="401.0" spacing="10.0" HBox.hgrow="ALWAYS">
+      <VBox alignment="CENTER" layoutX="10.0" layoutY="10.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="423.0" prefWidth="401.0" spacing="10.0" HBox.hgrow="ALWAYS">
          <children>
-            <Label text="Marca de Produtos" />
-            <TableView fx:id="marcaTable">
+            <Label styleClass="label-data" text="Marca de Produtos" />
+            <TableView fx:id="marcaTable" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" VBox.vgrow="ALWAYS">
                <columns>
                   <TableColumn fx:id="descricaoMarcaColumn" prefWidth="75.0" text="Decrição" />
                </columns>
@@ -44,16 +44,16 @@
             <HBox alignment="CENTER" spacing="35.0">
                <children>
                   <Button mnemonicParsing="false" onAction="#adicionarMarca" styleClass="button-add" text="Adicionar" />
-                  <Button fx:id="editarMarcaButton" mnemonicParsing="false" onAction="#editarMarca" text="Editar" />
+                  <Button fx:id="editarMarcaButton" mnemonicParsing="false" onAction="#editarMarca" styleClass="button-editar2" text="Editar" />
                   <Button fx:id="removerMarcaButton" mnemonicParsing="false" onAction="#removerMarca" styleClass="button-deletar" text="Excluir" />
                </children>
             </HBox>
          </children>
       </VBox>
-      <VBox alignment="CENTER" layoutX="411.0" layoutY="10.0" prefHeight="423.0" prefWidth="401.0" spacing="10.0" HBox.hgrow="ALWAYS">
+      <VBox alignment="CENTER" layoutX="411.0" layoutY="10.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="423.0" prefWidth="401.0" spacing="10.0" HBox.hgrow="ALWAYS">
          <children>
-            <Label text="Unidades de Medida" />
-            <TableView fx:id="unidadesTable">
+            <Label styleClass="label-data" text="Unidades de Medida" />
+            <TableView fx:id="unidadesTable" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" VBox.vgrow="ALWAYS">
                <columns>
                   <TableColumn fx:id="abreviaturaUnidadeColumn" maxWidth="100.0" minWidth="100.0" prefWidth="100.0" text="Abreviação" />
                   <TableColumn fx:id="descricaoUnidadeColumn" prefWidth="75.0" text="Decrição" />
@@ -65,7 +65,7 @@
             <HBox alignment="CENTER" spacing="35.0">
                <children>
                   <Button mnemonicParsing="false" onAction="#adicionarUnidade" styleClass="button-add" text="Adicionar" />
-                  <Button fx:id="editarUnidadeButton" mnemonicParsing="false" onAction="#editarUnidade" text="Editar" />
+                  <Button fx:id="editarUnidadeButton" mnemonicParsing="false" onAction="#editarUnidade" styleClass="button-editar2" text="Editar" />
                   <Button fx:id="removerUnidadeButton" mnemonicParsing="false" onAction="#removerUnidade" styleClass="button-deletar" text="Excluir" />
                </children>
             </HBox>

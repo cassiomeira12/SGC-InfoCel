@@ -20,6 +20,7 @@ import javafx.scene.chart.AreaChart;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
+import javafx.scene.control.DatePicker;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javax.swing.SwingWorker;
@@ -47,11 +48,13 @@ public class TelaRelatorioMensalController extends AnchorPane {
     private XYChart.Series<Number, Number> manutencoes;
     private XYChart.Series<Number, Number> receitas;
     private XYChart.Series<Number, Number> saidas;
-
+    
     @FXML
     private BorderPane painel;
     @FXML
     private BarChart<String, Number> graficoBar;
+    @FXML
+    private DatePicker dataDatePicker;
 
     public TelaRelatorioMensalController(BorderPane painelPrincipal) {
         this.painelPrincipal = painelPrincipal;
@@ -70,22 +73,21 @@ public class TelaRelatorioMensalController extends AnchorPane {
     @FXML
     public void initialize() {
         this.data = LocalDate.now();
+        this.dataDatePicker.setValue(data);
+        
         
         String mes = DateUtils.getMes(data);
         double ultimoDia = data.lengthOfMonth();
         
         // TODO
-        final NumberAxis xAxis = new NumberAxis(1, ultimoDia, 1);
-        final NumberAxis yAxis = new NumberAxis();
+        NumberAxis xAxis = new NumberAxis(1, ultimoDia, 1);
+        NumberAxis yAxis = new NumberAxis();
         
         xAxis.setLabel("Dias do Mês");
-        yAxis.setLabel("Valores");
+        yAxis.setLabel("Valores R$");
         
-        
-        final AreaChart<Number, Number> areaChart = new AreaChart<Number, Number>(xAxis, yAxis);
+        AreaChart<Number, Number> areaChart = new AreaChart<Number, Number>(xAxis, yAxis);
         areaChart.setTitle("Relatório do Mês de " + mes);
-
-        
         areaChart.setLegendSide(Side.LEFT);
 
         vendas = new XYChart.Series<Number, Number>();
@@ -113,7 +115,45 @@ public class TelaRelatorioMensalController extends AnchorPane {
         sincronizarBancoDadosManutencao(data, manutencoes);
         sincronizarBancoDadosReceita(data, receitas);
         sincronizarBancoDadosSaida(data, saidas);
+        
+        dataDatePicker.setOnAction((e) -> {
+            data = dataDatePicker.getValue();
+            trocarMesRelatorio(data, areaChart);
+        });
 
+    }
+    
+    private void trocarMesRelatorio(LocalDate data, AreaChart<Number, Number> areaChart) {
+        
+        vendas.getData().clear();
+        manutencoes.getData().clear();
+        receitas.getData().clear();
+        saidas.getData().clear();
+        
+        //-------------------------------------------
+        
+        String mes = DateUtils.getMes(data);
+        double ultimoDia = data.lengthOfMonth();
+        
+        areaChart.setTitle("Relatório do Mês de " + mes);
+        
+        NumberAxis eixoX = new NumberAxis(1, ultimoDia, 1);
+        NumberAxis eixoY = new NumberAxis();
+        
+        eixoX.setLabel("Dias do Mês");
+        eixoY.setLabel("Valores R$");
+        
+        for (int dia=1; dia<=ultimoDia; dia++) {
+            vendas.getData().add(new XYChart.Data(dia, 0));
+            manutencoes.getData().add(new XYChart.Data(dia, 0));
+            receitas.getData().add(new XYChart.Data(dia, 0));
+            saidas.getData().add(new XYChart.Data(dia, 0));
+        }
+        
+        sincronizarBancoDadosVenda(data, vendas);
+        sincronizarBancoDadosManutencao(data, manutencoes);
+        sincronizarBancoDadosReceita(data, receitas);
+        sincronizarBancoDadosSaida(data, saidas);
     }
 
     private void adicionarPainelInterno(AnchorPane novaTela) {
