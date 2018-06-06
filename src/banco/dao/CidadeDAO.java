@@ -3,6 +3,7 @@ package banco.dao;
 import banco.ControleDAO;
 import com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,6 +14,9 @@ import model.Cidade;
  */
 public class CidadeDAO extends DAO {
 
+    private ResultSet rs;
+    private PreparedStatement stm;
+    
     public CidadeDAO() {
         super();
     }
@@ -28,7 +32,7 @@ public class CidadeDAO extends DAO {
         stm.setString(1, cidade.getNome());
         stm.setBoolean(2, cidade.getStatus());
 
-        return super.inserir();
+         return super.inserir(stm);
     }
 
     /**

@@ -2,6 +2,7 @@ package banco.dao;
 
 import banco.ControleDAO;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,6 +17,9 @@ import model.Endereco;
  */
 public class ClienteDAO extends DAO {
 
+    private ResultSet rs;
+    private PreparedStatement stm;
+    
     public ClienteDAO() {
         super();
     }
@@ -42,7 +46,7 @@ public class ClienteDAO extends DAO {
         stm.setLong(6, System.currentTimeMillis());
         stm.setBoolean(7, cliente.getStatus());
 
-        return super.inserir();
+         return super.inserir(stm);
 
     }
 

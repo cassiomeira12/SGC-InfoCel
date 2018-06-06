@@ -2,6 +2,7 @@ package banco.dao;
 
 import banco.ControleDAO;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,6 +19,9 @@ import util.DateUtils;
  */
 public class ReceitaDAO extends DAO {
 
+    private ResultSet rs;
+    private PreparedStatement stm;
+    
     public ReceitaDAO() {
         super();
     }
@@ -42,7 +46,7 @@ public class ReceitaDAO extends DAO {
         stm.setLong(4, receita.getData());
         stm.setFloat(5, receita.getValor());
 
-        return super.inserir();
+         return super.inserir(stm);
     }
 
     /**

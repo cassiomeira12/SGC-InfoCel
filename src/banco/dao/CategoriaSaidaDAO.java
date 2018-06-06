@@ -2,6 +2,7 @@ package banco.dao;
 
 import com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,6 +15,9 @@ import model.CategoriaSaida;
  */
 public class CategoriaSaidaDAO extends DAO {
 
+    private ResultSet rs;
+    private PreparedStatement stm;
+    
     public CategoriaSaidaDAO() {
         super();
     }
@@ -29,7 +33,7 @@ public class CategoriaSaidaDAO extends DAO {
         stm.setString(1, categoria.getDescricao());
         stm.setBoolean(2, categoria.getStatus());
 
-        return super.inserir();
+         return super.inserir(stm);
     }
 
     /**

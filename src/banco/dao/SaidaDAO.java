@@ -2,6 +2,7 @@ package banco.dao;
 
 import banco.ControleDAO;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,6 +19,9 @@ import util.DateUtils;
  */
 public class SaidaDAO extends DAO {
 
+    private ResultSet rs;
+    private PreparedStatement stm;
+    
     public SaidaDAO() {
         super();
     }
@@ -41,7 +45,7 @@ public class SaidaDAO extends DAO {
         stm.setLong(4, saida.getData());
         stm.setFloat(5, saida.getValor());
 
-        return super.inserir();
+        return super.inserir(stm);
     }
 
     /**
@@ -124,7 +128,7 @@ public class SaidaDAO extends DAO {
         rs = stm.executeQuery(sql);
 
         while (rs.next()) {
-            Cidade cidadeAdm = new Cidade(rs.getLong("id_cidade_administrador"), rs.getString("nome_cidadea_dministrador"));
+            Cidade cidadeAdm = new Cidade(rs.getLong("id_cidade_administrador"), rs.getString("nome_cidade_administrador"));
             Bairro bairroAdm = new Bairro(rs.getLong("id_bairro_administrador"), rs.getString("nome_bairro_administrador"), cidadeAdm);
             Endereco enderecoAdm = new Endereco(rs.getLong("id_endereco_administrador"), bairroAdm, rs.getString("rua_administrador"), rs.getString("numero_administrador"));
 

@@ -5,6 +5,13 @@ SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
 
 -- -----------------------------------------------------
+-- Schema mydb
+-- -----------------------------------------------------
+-- -----------------------------------------------------
+-- Schema neoli831_teste
+-- -----------------------------------------------------
+
+-- -----------------------------------------------------
 -- Schema neoli831_teste
 -- -----------------------------------------------------
 CREATE SCHEMA IF NOT EXISTS `neoli831_teste` DEFAULT CHARACTER SET utf8 ;
@@ -19,7 +26,7 @@ CREATE TABLE IF NOT EXISTS `neoli831_teste`.`cidade` (
   `status` TINYINT(1) NOT NULL,
   PRIMARY KEY (`id`))
 ENGINE = InnoDB
-AUTO_INCREMENT = 9
+AUTO_INCREMENT = 2
 DEFAULT CHARACTER SET = utf8;
 
 
@@ -39,7 +46,7 @@ CREATE TABLE IF NOT EXISTS `neoli831_teste`.`bairro` (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
-AUTO_INCREMENT = 8
+AUTO_INCREMENT = 2
 DEFAULT CHARACTER SET = utf8;
 
 
@@ -60,7 +67,7 @@ CREATE TABLE IF NOT EXISTS `neoli831_teste`.`endereco` (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
-AUTO_INCREMENT = 9
+AUTO_INCREMENT = 2
 DEFAULT CHARACTER SET = utf8;
 
 
@@ -99,7 +106,6 @@ CREATE TABLE IF NOT EXISTS `neoli831_teste`.`categoria_produto` (
   `status` TINYINT(1) NOT NULL,
   PRIMARY KEY (`id`))
 ENGINE = InnoDB
-AUTO_INCREMENT = 3
 DEFAULT CHARACTER SET = utf8;
 
 
@@ -135,7 +141,7 @@ CREATE TABLE IF NOT EXISTS `neoli831_teste`.`cliente` (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
-AUTO_INCREMENT = 6
+AUTO_INCREMENT = 2
 DEFAULT CHARACTER SET = utf8;
 
 
@@ -149,7 +155,7 @@ CREATE TABLE IF NOT EXISTS `neoli831_teste`.`forma_pagamento` (
   `status` TINYINT(1) NOT NULL,
   PRIMARY KEY (`id`))
 ENGINE = InnoDB
-AUTO_INCREMENT = 5
+AUTO_INCREMENT = 3
 DEFAULT CHARACTER SET = utf8;
 
 
@@ -159,8 +165,8 @@ DEFAULT CHARACTER SET = utf8;
 CREATE TABLE IF NOT EXISTS `neoli831_teste`.`manutencao` (
   `id` INT(11) NOT NULL AUTO_INCREMENT,
   `id_administrador` INT(11) NOT NULL,
-  `id_cliente` INT(11) NOT NULL,
   `id_forma_pagamento` INT(11) NOT NULL,
+  `id_cliente` INT(11) NOT NULL,
   `descricao` VARCHAR(256) NOT NULL,
   `marca` VARCHAR(20) NOT NULL,
   `modelo` VARCHAR(20) NOT NULL,
@@ -172,10 +178,25 @@ CREATE TABLE IF NOT EXISTS `neoli831_teste`.`manutencao` (
   `preco` FLOAT NOT NULL,
   `finalizado` TINYINT(1) NOT NULL,
   `quantidade_parcelas` INT(11) NULL DEFAULT '1',
-  PRIMARY KEY (`id`, `id_administrador`, `id_cliente`, `id_forma_pagamento`),
+  PRIMARY KEY (`id`, `id_administrador`, `id_forma_pagamento`, `id_cliente`),
+  INDEX `fk_manutencao_forma_pagamento1_idx` (`id_forma_pagamento` ASC),
   INDEX `fk_manutencao_administrador1_idx` (`id_administrador` ASC),
   INDEX `fk_manutencao_cliente1_idx` (`id_cliente` ASC),
-  INDEX `fk_manutencao_forma_pagamento1_idx` (`id_forma_pagamento` ASC))
+  CONSTRAINT `fk_manutencao_forma_pagamento1`
+    FOREIGN KEY (`id_forma_pagamento`)
+    REFERENCES `neoli831_teste`.`forma_pagamento` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_manutencao_administrador1`
+    FOREIGN KEY (`id_administrador`)
+    REFERENCES `neoli831_teste`.`administrador` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_manutencao_cliente1`
+    FOREIGN KEY (`id_cliente`)
+    REFERENCES `neoli831_teste`.`cliente` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
 ENGINE = InnoDB
 AUTO_INCREMENT = 2
 DEFAULT CHARACTER SET = utf8;
@@ -190,7 +211,6 @@ CREATE TABLE IF NOT EXISTS `neoli831_teste`.`marca` (
   `status` TINYINT(1) NOT NULL,
   PRIMARY KEY (`id`))
 ENGINE = InnoDB
-AUTO_INCREMENT = 4
 DEFAULT CHARACTER SET = utf8;
 
 
@@ -204,7 +224,6 @@ CREATE TABLE IF NOT EXISTS `neoli831_teste`.`unidade_medida` (
   `status` TINYINT(1) NOT NULL,
   PRIMARY KEY (`id`))
 ENGINE = InnoDB
-AUTO_INCREMENT = 6
 DEFAULT CHARACTER SET = utf8;
 
 
@@ -242,7 +261,6 @@ CREATE TABLE IF NOT EXISTS `neoli831_teste`.`produto` (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
-AUTO_INCREMENT = 3
 DEFAULT CHARACTER SET = utf8;
 
 
@@ -253,7 +271,7 @@ CREATE TABLE IF NOT EXISTS `neoli831_teste`.`receita` (
   `id` INT(11) NOT NULL AUTO_INCREMENT,
   `id_administrador` INT(11) NOT NULL,
   `id_cliente` INT(11) NULL DEFAULT NULL,
-  `descricao` VARCHAR(256) NOT NULL,
+  `descricao` VARCHAR(100) NOT NULL,
   `data` BIGINT(20) NOT NULL,
   `valor` BIGINT(20) NOT NULL,
   PRIMARY KEY (`id`, `id_administrador`),
@@ -280,7 +298,7 @@ CREATE TABLE IF NOT EXISTS `neoli831_teste`.`saida` (
   `id` INT(11) NOT NULL AUTO_INCREMENT,
   `id_administrador` INT(11) NOT NULL,
   `id_categoria_saida` INT(11) NOT NULL,
-  `descricao` VARCHAR(256) NOT NULL,
+  `descricao` VARCHAR(20) NOT NULL,
   `valor` FLOAT NOT NULL,
   `data` BIGINT(20) NOT NULL,
   PRIMARY KEY (`id`, `id_administrador`, `id_categoria_saida`),
@@ -331,7 +349,6 @@ CREATE TABLE IF NOT EXISTS `neoli831_teste`.`venda` (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
-AUTO_INCREMENT = 6
 DEFAULT CHARACTER SET = utf8;
 
 

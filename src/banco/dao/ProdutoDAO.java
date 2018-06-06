@@ -2,6 +2,7 @@ package banco.dao;
 
 import com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,6 +17,9 @@ import model.UnidadeMedida;
  */
 public class ProdutoDAO extends DAO {
 
+    private ResultSet rs;
+    private PreparedStatement stm;
+    
     public ProdutoDAO() {
         super();
     }
@@ -37,7 +41,7 @@ public class ProdutoDAO extends DAO {
         stm.setInt(7, produto.getUnidadeMedida().getId().intValue());
         stm.setBoolean(8, produto.getStatus());
 
-        return super.inserir();
+         return super.inserir(stm);
     }
 
     /**

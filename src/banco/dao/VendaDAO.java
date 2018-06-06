@@ -26,6 +26,9 @@ import util.DateUtils;
  */
 public class VendaDAO extends DAO {
 
+    private ResultSet rs;
+    private PreparedStatement stm;
+    
     public VendaDAO() {
         super();
     }
@@ -54,7 +57,7 @@ public class VendaDAO extends DAO {
         stm.setInt(4, venda.getFormaPagamento().getId().intValue());
         stm.setInt(5, venda.getQuantidadeParcelas());
         stm.setLong(6, venda.getData());
-        idVenda = super.inserir();
+        idVenda =  super.inserir(stm);
 
         //cadastrar vendaProduto
         sql = "INSERT INTO venda_produto ( id_produto, id_venda, quantidade, preco_total ) VALUES";

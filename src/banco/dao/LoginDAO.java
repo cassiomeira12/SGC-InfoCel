@@ -1,5 +1,7 @@
 package banco.dao;
 
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import model.Administrador;
 import model.Bairro;
@@ -12,6 +14,9 @@ import model.Endereco;
  */
 public class LoginDAO extends DAO {
 
+    private ResultSet rs;
+    private PreparedStatement stm;
+    
     public LoginDAO() {
         super();
     }

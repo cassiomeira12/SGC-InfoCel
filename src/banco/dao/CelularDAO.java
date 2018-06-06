@@ -2,6 +2,7 @@ package banco.dao;
 
 import banco.ControleDAO;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,6 +16,9 @@ import model.UnidadeMedida;
  */
 public class CelularDAO extends DAO {
 
+    private ResultSet rs;
+    private PreparedStatement stm;
+    
     public CelularDAO() {
         super();
     }
@@ -40,7 +44,7 @@ public class CelularDAO extends DAO {
         stm.setInt(11, celular.getUnidadeMedida().getId().intValue());
         stm.setBoolean(12, celular.getStatus());
 
-        return super.inserir();
+         return super.inserir(stm);
     }
 
     /**

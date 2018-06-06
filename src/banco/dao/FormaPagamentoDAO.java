@@ -2,6 +2,7 @@ package banco.dao;
 
 import com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,6 +14,9 @@ import model.FormaPagamento;
  */
 public class FormaPagamentoDAO extends DAO {
 
+    private ResultSet rs;
+    private PreparedStatement stm;
+    
     public FormaPagamentoDAO() {
         super();
     }
@@ -29,7 +33,7 @@ public class FormaPagamentoDAO extends DAO {
         stm.setInt(2, formaPagamento.getMaximoParcelas());
         stm.setBoolean(3, formaPagamento.getStatus());
 
-        return super.inserir();
+         return super.inserir(stm);
 
     }
 

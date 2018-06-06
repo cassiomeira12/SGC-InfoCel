@@ -3,6 +3,7 @@ package banco.dao;
 import banco.ControleDAO;
 import com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import model.Endereco;
 
@@ -11,6 +12,9 @@ import model.Endereco;
  */
 public class EnderecoDAO extends DAO {
 
+    private ResultSet rs;
+    private PreparedStatement stm;
+    
     public EnderecoDAO() {
         super();
     }
@@ -38,7 +42,7 @@ public class EnderecoDAO extends DAO {
         stm.setInt(3, endereco.getBairro().getId().intValue());
         stm.setBoolean(4, endereco.getStatus());
 
-        return super.inserir();
+         return super.inserir(stm);
     }
 
     /**

@@ -15,9 +15,7 @@ import java.sql.ResultSet;
 public class DAO {
 
     private Connection conector = ConexaoBanco.instancia().getConnection();
-    protected ResultSet rs;
-    protected PreparedStatement stm;
-
+   
     public DAO() {
     }
 
@@ -30,7 +28,7 @@ public class DAO {
         return conector;
     }
 
-    protected Long inserir() throws Exception {
+    protected Long inserir(PreparedStatement stm) throws Exception {
         Long id = null;
 
         stm.executeUpdate();

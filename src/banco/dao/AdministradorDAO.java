@@ -3,6 +3,7 @@ package banco.dao;
 import banco.ControleDAO;
 import com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,6 +18,9 @@ import model.Endereco;
  */
 public class AdministradorDAO extends DAO {
 
+    private ResultSet rs;
+    private PreparedStatement stm;
+    
     public AdministradorDAO() {
         super();
     }
@@ -47,7 +51,7 @@ public class AdministradorDAO extends DAO {
         stm.setLong(8, System.currentTimeMillis());
         stm.setBoolean(9, adm.getStatus());
 
-        return super.inserir();
+         return super.inserir(stm);
 
     }
 

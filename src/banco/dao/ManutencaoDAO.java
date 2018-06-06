@@ -2,6 +2,7 @@ package banco.dao;
 
 import banco.ControleDAO;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,6 +21,9 @@ import util.DateUtils;
  */
 public class ManutencaoDAO extends DAO {
 
+    private ResultSet rs;
+    private PreparedStatement stm;
+    
     public ManutencaoDAO() {
         super();
     }
@@ -55,7 +59,7 @@ public class ManutencaoDAO extends DAO {
         stm.setString(10, m.getCor());
         stm.setInt(11, m.getQuantidadeParcelas());
 
-        return super.inserir();
+         return super.inserir(stm);
 
     }
 
