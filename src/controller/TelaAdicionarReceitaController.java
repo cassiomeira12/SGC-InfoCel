@@ -197,6 +197,12 @@ public class TelaAdicionarReceitaController extends AnchorPane {
         String descricao = descricaoText.getText();
         Administrador vendedor = vendedorComboBox.getValue();
         Long data = DateUtils.getLong(dataDatePicker.getValue());
+        
+        LocalDate date = dataDatePicker.getValue();
+        LocalDate hoje = LocalDate.now();
+        if (date.isEqual(hoje)) {
+            data = System.currentTimeMillis();
+        }
 
         Dialogo.Resposta resposta = Alerta.confirmar("Deseja Adicionar uma nova Receita ?");
         if (resposta == Dialogo.Resposta.YES) {

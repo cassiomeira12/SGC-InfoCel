@@ -136,6 +136,12 @@ public class TelaAdicionarSaidaController extends AnchorPane {
         String descricao = descricaoArea.getText();
         Administrador administrador = administradorCombo.getValue();
         
+        LocalDate date = dataDatePicker.getValue();
+        LocalDate hoje = LocalDate.now();
+        if (date.isEqual(hoje)) {
+            data = System.currentTimeMillis();
+        }
+        
         Dialogo.Resposta resposta = Alerta.confirmar("Deseja Adicionar uma nova Saída ?");
         if (resposta == Dialogo.Resposta.YES) {
             

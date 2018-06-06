@@ -333,6 +333,12 @@ public class TelaAdicionarVendaController extends AnchorPane {
                     FormaPagamento formaPagamento = formarPagComboBox.getValue();
                     int parcelas = parcelasSpinner.getValue();
                     
+                    LocalDate date = dataDatePicker.getValue();
+                    LocalDate hoje = LocalDate.now();
+                    if (date.isEqual(hoje)) {
+                        data = System.currentTimeMillis();
+                    }
+                    
                     this.novaVenda.setAdministrador(vendedor);
                     this.novaVenda.setCliente(cliente);
                     this.novaVenda.setFormaPagamento(formaPagamento);

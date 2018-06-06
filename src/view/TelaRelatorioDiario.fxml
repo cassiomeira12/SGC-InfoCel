@@ -27,12 +27,12 @@
                <children>
                   <HBox alignment="CENTER" prefWidth="600.0">
                      <children>
-                        <Button alignment="CENTER" focusTraversable="false" mnemonicParsing="false" onAction="#cancelarOperacao" styleClass="button-cancelar" text="Cancelar" />
+                        <Button alignment="CENTER" focusTraversable="false" mnemonicParsing="false" onAction="#cancelarOperacao" styleClass="button-cancelar" text="Voltar" />
                      </children>
                   </HBox>
                   <HBox alignment="CENTER" prefHeight="44.0" prefWidth="600.0">
                      <children>
-                        <Button alignment="CENTER" focusTraversable="false" mnemonicParsing="false" styleClass="button-finalizar" text="Finalizar" />
+                        <Button alignment="CENTER" focusTraversable="false" mnemonicParsing="false" styleClass="button-finalizar" text="Finalizar" visible="false" />
                      </children>
                      <HBox.margin>
                         <Insets />
