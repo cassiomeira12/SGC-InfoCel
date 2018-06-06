@@ -14,9 +14,6 @@ import model.CategoriaProduto;
  */
 public class CategoriaProdutoDAO extends DAO {
 
-    private ResultSet rs;
-    private PreparedStatement stm;
-    
     public CategoriaProdutoDAO() {
         super();
     }
@@ -25,6 +22,9 @@ public class CategoriaProdutoDAO extends DAO {
      * Inserir categoria na base de dados
      */
     public Long inserir(CategoriaProduto categoria) throws Exception {
+        ResultSet rs;
+        PreparedStatement stm;
+
         String sql = "INSERT INTO categoria_produto ( descricao, status ) VALUES (?, ?)";
 
         stm = getConector().prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
@@ -32,13 +32,16 @@ public class CategoriaProdutoDAO extends DAO {
         stm.setString(1, categoria.getDescricao());
         stm.setBoolean(2, categoria.getStatus());
 
-         return super.inserir(stm);
+        return super.inserir(stm);
     }
 
     /**
      * Atualizar dados categoria na base de dados
      */
     public boolean editar(CategoriaProduto categoria) throws SQLException {
+        ResultSet rs;
+        PreparedStatement stm;
+
         String sql = "UPDATE categoria_produto SET descricao =?, status =? WHERE id =?";
 
         stm = getConector().prepareStatement(sql);
@@ -58,6 +61,9 @@ public class CategoriaProdutoDAO extends DAO {
      * Excluir categoria na base de dados
      */
     public boolean excluir(CategoriaProduto cp) throws SQLException {
+        ResultSet rs;
+        PreparedStatement stm;
+
         try {
             String sql = "DELETE FROM categoria_produto WHERE id=?";
 
@@ -79,6 +85,8 @@ public class CategoriaProdutoDAO extends DAO {
      * Consultar todas categoria cadastradas na base de dados
      */
     public List<CategoriaProduto> listar() throws SQLException {
+        ResultSet rs;
+        PreparedStatement stm;
 
         List<CategoriaProduto> categorias = new ArrayList<>();
 
@@ -100,6 +108,8 @@ public class CategoriaProdutoDAO extends DAO {
     }
 
     public List<CategoriaProduto> buscarPorDescricao(String descricao) throws SQLException {
+        ResultSet rs;
+        PreparedStatement stm;
 
         List<CategoriaProduto> categorias = new ArrayList<>();
         String sql = "SELECT categoria_produto.* FROM categoria_produto WHERE descricao LIKE '%" + descricao + "%'" + " AND status = 1";

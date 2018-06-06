@@ -15,9 +15,6 @@ import model.CategoriaSaida;
  */
 public class CategoriaSaidaDAO extends DAO {
 
-    private ResultSet rs;
-    private PreparedStatement stm;
-    
     public CategoriaSaidaDAO() {
         super();
     }
@@ -26,6 +23,9 @@ public class CategoriaSaidaDAO extends DAO {
      * Inserir categoria na base de dados
      */
     public Long inserir(CategoriaSaida categoria) throws Exception {
+        ResultSet rs;
+        PreparedStatement stm;
+
         String sql = "INSERT INTO categoria_saida ( descricao, status ) VALUES (?, ?)";
 
         stm = getConector().prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
@@ -33,13 +33,16 @@ public class CategoriaSaidaDAO extends DAO {
         stm.setString(1, categoria.getDescricao());
         stm.setBoolean(2, categoria.getStatus());
 
-         return super.inserir(stm);
+        return super.inserir(stm);
     }
 
     /**
      * Atualizar dados categoria na base de dados
      */
     public boolean editar(CategoriaProduto categoria) throws SQLException {
+        ResultSet rs;
+        PreparedStatement stm;
+
         String sql = "UPDATE categoria_saida SET descricao =?, status =? WHERE id =?";
 
         stm = getConector().prepareStatement(sql);
@@ -59,14 +62,18 @@ public class CategoriaSaidaDAO extends DAO {
      * Excluir categoria na base de dados
      */
     public boolean excluir(CategoriaProduto cp) throws SQLException {
-        try{String sql = "DELETE FROM categoria_saida WHERE id=?";
+        ResultSet rs;
+        PreparedStatement stm;
 
-        stm = getConector().prepareStatement(sql);
+        try {
+            String sql = "DELETE FROM categoria_saida WHERE id=?";
 
-        stm.setInt(1, cp.getId().intValue());
-        stm.execute();
+            stm = getConector().prepareStatement(sql);
 
-        stm.close();
+            stm.setInt(1, cp.getId().intValue());
+            stm.execute();
+
+            stm.close();
         } catch (MySQLIntegrityConstraintViolationException e) {
             cp.setStatus(false);
             editar(cp);
@@ -79,6 +86,8 @@ public class CategoriaSaidaDAO extends DAO {
      * Consultar todas categoria cadastradas na base de dados
      */
     public List<CategoriaSaida> listar() throws SQLException {
+        ResultSet rs;
+        PreparedStatement stm;
 
         List<CategoriaSaida> categorias = new ArrayList<>();
         String sql = "SELECT categoria_saida.* FROM categoria_saida WHERE status = 1";
@@ -99,6 +108,8 @@ public class CategoriaSaidaDAO extends DAO {
     }
 
     public List<CategoriaSaida> buscarPorDescricao(String descricao) throws SQLException {
+        ResultSet rs;
+        PreparedStatement stm;
 
         List<CategoriaSaida> categorias = new ArrayList<>();
 

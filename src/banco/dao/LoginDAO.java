@@ -14,9 +14,6 @@ import model.Endereco;
  */
 public class LoginDAO extends DAO {
 
-    private ResultSet rs;
-    private PreparedStatement stm;
-    
     public LoginDAO() {
         super();
     }
@@ -25,6 +22,9 @@ public class LoginDAO extends DAO {
      * Autenticar e validar nome do usuário informado
      */
     public boolean autenticarLogin(String nome) throws Exception {
+        ResultSet rs;
+        PreparedStatement stm;
+
         String sql = "SELECT login FROM administrador WHERE login=? AND status = 1 ";
 
         stm = getConector().prepareStatement(sql);
@@ -45,6 +45,9 @@ public class LoginDAO extends DAO {
      * Autenticar e validar senha do usuário informada
      */
     public boolean autenticarSenha(String nome, String senha) throws SQLException {
+        ResultSet rs;
+        PreparedStatement stm;
+
         String sql = "SELECT login, senha FROM administrador WHERE login=? AND senha=? ";
 
         stm = getConector().prepareStatement(sql);
@@ -66,6 +69,8 @@ public class LoginDAO extends DAO {
      * Consultar informações do usuário logado na base de dados
      */
     public Administrador administradorLogado(String login) throws SQLException {
+        ResultSet rs;
+        PreparedStatement stm;
 
         Administrador admin = null;
 

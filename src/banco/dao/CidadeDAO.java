@@ -14,9 +14,6 @@ import model.Cidade;
  */
 public class CidadeDAO extends DAO {
 
-    private ResultSet rs;
-    private PreparedStatement stm;
-    
     public CidadeDAO() {
         super();
     }
@@ -25,6 +22,9 @@ public class CidadeDAO extends DAO {
      * Inserir marca na base de dados
      */
     public Long inserir(Cidade cidade) throws Exception {
+        ResultSet rs;
+        PreparedStatement stm;
+
         String sql = "INSERT INTO cidade ( nome, status ) VALUES (?, ?)";
 
         stm = getConector().prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
@@ -32,13 +32,16 @@ public class CidadeDAO extends DAO {
         stm.setString(1, cidade.getNome());
         stm.setBoolean(2, cidade.getStatus());
 
-         return super.inserir(stm);
+        return super.inserir(stm);
     }
 
     /**
      * Atualizar dados marca na base de dados
      */
     public boolean editar(Cidade cidade) throws SQLException {
+        ResultSet rs;
+        PreparedStatement stm;
+
         String sql = "UPDATE cidade SET nome =?, status =? WHERE id =?";
 
         stm = getConector().prepareStatement(sql);
@@ -58,6 +61,9 @@ public class CidadeDAO extends DAO {
      * Excluir marca na base de dados
      */
     public boolean excluir(Cidade c) throws SQLException {
+        ResultSet rs;
+        PreparedStatement stm;
+
         try {
             String sql = "DELETE FROM cidade WHERE id=?";
 
@@ -79,6 +85,8 @@ public class CidadeDAO extends DAO {
      * Consultar todas marcas cadastradas na base de dados
      */
     public List<Cidade> listar() throws SQLException {
+        ResultSet rs;
+        PreparedStatement stm;
 
         List<Cidade> cidades = new ArrayList<>();
 
@@ -100,6 +108,8 @@ public class CidadeDAO extends DAO {
     }
 
     public List<Cidade> buscarPorNome(String busca) throws Exception {
+        ResultSet rs;
+        PreparedStatement stm;
 
         List<Cidade> cidades = new ArrayList<>();
 

@@ -21,9 +21,6 @@ import util.DateUtils;
  */
 public class ManutencaoDAO extends DAO {
 
-    private ResultSet rs;
-    private PreparedStatement stm;
-    
     public ManutencaoDAO() {
         super();
     }
@@ -32,6 +29,9 @@ public class ManutencaoDAO extends DAO {
      * Inserir manutenção na base de dados
      */
     public Long inserir(Manutencao m) throws Exception {
+        ResultSet rs;
+        PreparedStatement stm;
+
         if (m.getCliente().getId() == null) {
             Long id = ControleDAO.getBanco().getClienteDAO().inserir(m.getCliente());
             m.getCliente().setId(id);
@@ -39,14 +39,13 @@ public class ManutencaoDAO extends DAO {
 
         String sql = "INSERT INTO manutencao (data_cadastro, data_previsao, data_entrega, id_cliente, id_administrador,id_forma_pagamento, descricao, preco, finalizado, marca, modelo, imei, cor, quantidade_parcelas) "
                 + ""
-                + "VALUES ("+m.getDataCadastro()+"," + m.getDataPrevisaoEntrega()+", " + m.getDataEntrega()+", ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                + "VALUES (" + m.getDataCadastro() + "," + m.getDataPrevisaoEntrega() + ", " + m.getDataEntrega() + ", ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         stm = getConector().prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
 
-       /* stm.setLong(1, m.getDataCadastro());
+        /* stm.setLong(1, m.getDataCadastro());
         stm.setLong(2, m.getDataPrevisaoEntrega());
         stm.setLong(3, m.getDataEntrega());*/
-
         stm.setInt(1, m.getCliente().getId().intValue());
         stm.setInt(2, m.getAdministrador().getId().intValue());
         stm.setLong(3, m.getFormaPagamento().getId());
@@ -59,7 +58,7 @@ public class ManutencaoDAO extends DAO {
         stm.setString(10, m.getCor());
         stm.setInt(11, m.getQuantidadeParcelas());
 
-         return super.inserir(stm);
+        return super.inserir(stm);
 
     }
 
@@ -67,7 +66,10 @@ public class ManutencaoDAO extends DAO {
      * Atualizar dados marca na base de dados
      */
     public boolean editar(Manutencao manutencao) throws SQLException {
-        String sql = "UPDATE manutencao SET id_cliente =?, id_administrador =?, id_forma_pagamento = ?, descricao =?, data_previsao ="+manutencao.getDataPrevisaoEntrega()+", data_entrega =" + manutencao.getDataEntrega()+", preco =?, finalizado =?, marca =?, modelo =?, imei =?, cor =?, quantidade_parcelas =? WHERE id =?";
+        ResultSet rs;
+        PreparedStatement stm;
+
+        String sql = "UPDATE manutencao SET id_cliente =?, id_administrador =?, id_forma_pagamento = ?, descricao =?, data_previsao =" + manutencao.getDataPrevisaoEntrega() + ", data_entrega =" + manutencao.getDataEntrega() + ", preco =?, finalizado =?, marca =?, modelo =?, imei =?, cor =?, quantidade_parcelas =? WHERE id =?";
 
         stm = getConector().prepareStatement(sql);
 
@@ -95,6 +97,9 @@ public class ManutencaoDAO extends DAO {
      * Excluir manutencao na base de dados
      */
     public boolean excluir(int id) throws SQLException {
+        ResultSet rs;
+        PreparedStatement stm;
+
         String sql = "DELETE FROM manutencao WHERE id=?";
 
         stm = getConector().prepareStatement(sql);
@@ -109,6 +114,8 @@ public class ManutencaoDAO extends DAO {
 
     //Consultar todas Manutencao cadastradas na base de dados
     public List<Manutencao> listar() throws SQLException {
+        ResultSet rs;
+        PreparedStatement stm;
 
         List<Manutencao> manuntencoes = new ArrayList<>();
 
@@ -144,6 +151,8 @@ public class ManutencaoDAO extends DAO {
     }
 
     public List<Manutencao> buscarPorCliente(Cliente c) throws SQLException {
+        ResultSet rs;
+        PreparedStatement stm;
 
         List<Manutencao> manuntencoes = new ArrayList<>();
 
@@ -178,9 +187,12 @@ public class ManutencaoDAO extends DAO {
         return manuntencoes;
     }
 
-     public Manutencao buscarPorId(Long id) throws SQLException {
-         Manutencao manutencao =null;
-         
+    public Manutencao buscarPorId(Long id) throws SQLException {
+
+        ResultSet rs;
+        PreparedStatement stm;
+        Manutencao manutencao = null;
+
         String sql = "SELECT * FROM view_manutencao WHERE id = " + id;
 
         stm = getConector().prepareStatement(sql);
@@ -203,7 +215,8 @@ public class ManutencaoDAO extends DAO {
 
             FormaPagamento formaPagamento = new FormaPagamento(rs.getLong("id_forma_pagamento"), rs.getString("descricao_forma_pagamento"), 1);
 
-           manutencao = new Manutencao(rs.getLong("id"), rs.getString("descricao"), cliente, adm, rs.getString("marca"), rs.getString("modelo"), rs.getString("imei"), rs.getString("cor"), rs.getLong("data_cadastro"), rs.getLong("data_previsao"), rs.getLong("data_entrega"), rs.getFloat("preco"), rs.getBoolean("finalizado"), formaPagamento, rs.getInt("quantidade_parcelas"));        }
+            manutencao = new Manutencao(rs.getLong("id"), rs.getString("descricao"), cliente, adm, rs.getString("marca"), rs.getString("modelo"), rs.getString("imei"), rs.getString("cor"), rs.getLong("data_cadastro"), rs.getLong("data_previsao"), rs.getLong("data_entrega"), rs.getFloat("preco"), rs.getBoolean("finalizado"), formaPagamento, rs.getInt("quantidade_parcelas"));
+        }
 
         stm.close();
         rs.close();
@@ -211,8 +224,9 @@ public class ManutencaoDAO extends DAO {
         return manutencao;
     }
 
-    
     public List<Manutencao> buscarFinalizadas() throws SQLException {
+        ResultSet rs;
+        PreparedStatement stm;
 
         List<Manutencao> manuntencoes = new ArrayList<>();
 
@@ -248,6 +262,8 @@ public class ManutencaoDAO extends DAO {
     }
 
     public List<Manutencao> buscarPendentes() throws SQLException {
+        ResultSet rs;
+        PreparedStatement stm;
 
         List<Manutencao> manuntencoes = new ArrayList<>();
 
@@ -284,6 +300,8 @@ public class ManutencaoDAO extends DAO {
 
     //datas no formato dd/MM/yyyy
     public List<Manutencao> buscarPorIntervalo(String dataInicio, String dataFinal) throws SQLException {
+        ResultSet rs;
+        PreparedStatement stm;
 
         List<Manutencao> manuntencoes = new ArrayList<>();
 

@@ -13,9 +13,6 @@ import model.Marca;
  */
 public class MarcaDAO extends DAO {
 
-    private ResultSet rs;
-    private PreparedStatement stm;
-    
     public MarcaDAO() {
         super();
     }
@@ -24,6 +21,9 @@ public class MarcaDAO extends DAO {
      * Inserir marca na base de dados
      */
     public Long inserir(Marca marca) throws Exception {
+        ResultSet rs;
+        PreparedStatement stm;
+
         String sql = "INSERT INTO marca ( descricao, status ) VALUES (?, ?)";
 
         stm = getConector().prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
@@ -31,13 +31,16 @@ public class MarcaDAO extends DAO {
         stm.setString(1, marca.getDescricao());
         stm.setBoolean(2, marca.getStatus());
 
-         return super.inserir(stm);
+        return super.inserir(stm);
     }
 
     /**
      * Atualizar dados marca na base de dados
      */
     public boolean editar(Marca marca) throws SQLException {
+        ResultSet rs;
+        PreparedStatement stm;
+
         String sql = "UPDATE marca SET descricao =?, status =? WHERE id =?";
 
         stm = getConector().prepareStatement(sql);
@@ -57,6 +60,9 @@ public class MarcaDAO extends DAO {
      * Excluir marca na base de dados
      */
     public boolean excluir(Marca marca) throws SQLException {
+        ResultSet rs;
+        PreparedStatement stm;
+
         try {
             String sql = "DELETE FROM marca WHERE id=?";
 
@@ -78,6 +84,8 @@ public class MarcaDAO extends DAO {
      * Consultar todas marcas cadastradas na base de dados
      */
     public List<Marca> listar() throws SQLException {
+        ResultSet rs;
+        PreparedStatement stm;
 
         List<Marca> marcas = new ArrayList<>();
 
@@ -99,6 +107,8 @@ public class MarcaDAO extends DAO {
     }
 
     public List<Marca> buscarPorDescricao(String busca) throws Exception {
+        ResultSet rs;
+        PreparedStatement stm;
 
         List<Marca> marcas = new ArrayList<>();
 

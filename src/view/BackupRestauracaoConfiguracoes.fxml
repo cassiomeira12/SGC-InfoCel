@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane id="AnchorPane" prefHeight="450.0" prefWidth="1200.0" stylesheets="@../css/default.css" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.BackupRestauracaoConfiguracoesController">
+<AnchorPane id="AnchorPane" prefHeight="450.0" prefWidth="1200.0" stylesheets="@../css/default.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.BackupRestauracaoConfiguracoesController">
    <children>
       <VBox layoutX="765.0" layoutY="23.0" spacing="5.0">
          <children>
@@ -23,15 +23,15 @@
             </HBox>
          </children>
       </VBox>
-      <Button layoutX="245.0" layoutY="130.0" mnemonicParsing="false" text="Realizar Backup" />
-      <Button layoutX="43.0" layoutY="130.0" mnemonicParsing="false" text="Importar Backup" />
+      <Button layoutX="245.0" layoutY="130.0" mnemonicParsing="false" onAction="#realizarBackup" text="Realizar Backup" />
+      <Button layoutX="43.0" layoutY="130.0" mnemonicParsing="false" onAction="#importar" text="Importar Backup" />
       <VBox layoutX="43.0" layoutY="45.0" spacing="5.0">
          <children>
             <Label text="Caminho padrão do Backup" />
             <HBox alignment="CENTER" prefWidth="600.0" spacing="5.0">
                <children>
                   <TextField fx:id="caminhoBackupText" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS" />
-                  <Button mnemonicParsing="false" text="Alterar" />
+                  <Button mnemonicParsing="false" onAction="#alterar" text="Alterar" />
                </children>
             </HBox>
          </children>

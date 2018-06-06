@@ -12,9 +12,6 @@ import model.Endereco;
  */
 public class EnderecoDAO extends DAO {
 
-    private ResultSet rs;
-    private PreparedStatement stm;
-    
     public EnderecoDAO() {
         super();
     }
@@ -23,6 +20,9 @@ public class EnderecoDAO extends DAO {
      * Inserir marca na base de dados
      */
     public Long inserir(Endereco endereco) throws Exception {
+        ResultSet rs;
+        PreparedStatement stm;
+
         if (endereco.getBairro().getCidade().getId() == null) {
             Long id = ControleDAO.getBanco().getCidadeDAO().inserir(endereco.getBairro().getCidade());
             endereco.getBairro().getCidade().setId(id);
@@ -42,13 +42,16 @@ public class EnderecoDAO extends DAO {
         stm.setInt(3, endereco.getBairro().getId().intValue());
         stm.setBoolean(4, endereco.getStatus());
 
-         return super.inserir(stm);
+        return super.inserir(stm);
     }
 
     /**
      * Atualizar dados receita na base de dados
      */
     public boolean editar(Endereco endereco) throws SQLException {
+        ResultSet rs;
+        PreparedStatement stm;
+
         String sql = "UPDATE endereco SET rua =?, numero = ?, id_bairro = ?, status =? WHERE id=?";
 
         stm = getConector().prepareStatement(sql);
@@ -69,6 +72,9 @@ public class EnderecoDAO extends DAO {
      * Excluir marca na base de dados
      */
     public boolean excluir(Endereco e) throws SQLException {
+        ResultSet rs;
+        PreparedStatement stm;
+
         try {
             String sql = "DELETE FROM endereco WHERE id=?";
 
@@ -87,6 +93,9 @@ public class EnderecoDAO extends DAO {
     }
 
     public boolean excluirEnderecosDoBairro(int id) throws SQLException {
+        ResultSet rs;
+        PreparedStatement stm;
+
         try {
             String sql = "DELETE FROM endereco WHERE id_bairro=?";
 

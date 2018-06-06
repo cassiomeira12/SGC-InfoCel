@@ -16,9 +16,6 @@ import model.UnidadeMedida;
  */
 public class CelularDAO extends DAO {
 
-    private ResultSet rs;
-    private PreparedStatement stm;
-    
     public CelularDAO() {
         super();
     }
@@ -27,6 +24,9 @@ public class CelularDAO extends DAO {
      * Inserir celular na base de dados
      */
     public Long inserir(Celular celular) throws Exception {
+        ResultSet rs;
+        PreparedStatement stm;
+
         String sql = "INSERT INTO produto ( descricao, id_categoria_produto, id_marca, preco_compra, preco_venda, estoque, modelo, imei, cor, eh_celular, id_unidade_medida, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         stm = getConector().prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
@@ -44,13 +44,16 @@ public class CelularDAO extends DAO {
         stm.setInt(11, celular.getUnidadeMedida().getId().intValue());
         stm.setBoolean(12, celular.getStatus());
 
-         return super.inserir(stm);
+        return super.inserir(stm);
     }
 
     /**
      * Atualizar dados celular na base de dados
      */
     public boolean editar(Celular celular) throws SQLException {
+        ResultSet rs;
+        PreparedStatement stm;
+
         String sql = "UPDATE produto SET  descricao =?, id_categoria_produto =?, id_marca =?, preco_compra =?, preco_venda =?, estoque =?, modelo =?, imei =?, cor =?, id_unidade_medida =?, status =?  WHERE id =?";
 
         stm = getConector().prepareStatement(sql);
@@ -87,6 +90,8 @@ public class CelularDAO extends DAO {
      * Consultar todos produtos cadastrados na base de dados
      */
     public List<Celular> listar() throws SQLException {
+        ResultSet rs;
+        PreparedStatement stm;
 
         List<Celular> celulares = new ArrayList<>();
 

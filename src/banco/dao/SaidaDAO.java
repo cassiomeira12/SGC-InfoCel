@@ -19,8 +19,7 @@ import util.DateUtils;
  */
 public class SaidaDAO extends DAO {
 
-    private ResultSet rs;
-    private PreparedStatement stm;
+    ;
     
     public SaidaDAO() {
         super();
@@ -30,13 +29,16 @@ public class SaidaDAO extends DAO {
      * Inserir marca na base de dados
      */
     public Long inserir(Saida saida) throws Exception {
-        if(saida.getCategoria().getId() == null){
+        ResultSet rs;
+        PreparedStatement stm;
+
+        if (saida.getCategoria().getId() == null) {
             Long id = ControleDAO.getBanco().getCategoriaSaidaDAO().inserir(saida.getCategoria());
             saida.getCategoria().setId(id);
         }
-        
+
         String sql = "INSERT INTO saida ( id_categoria_saida, id_administrador, descricao, data, valor ) VALUES (?, ?, ?, ?, ?)";
-        
+
         stm = getConector().prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
 
         stm.setInt(1, saida.getCategoria().getId().intValue());
@@ -52,6 +54,9 @@ public class SaidaDAO extends DAO {
      * Atualizar dados saida na base de dados
      */
     public boolean editar(Saida saida) throws SQLException {
+        ResultSet rs;
+        PreparedStatement stm;
+
         String sql = "UPDATE saida SET id_categoria =?, id_administrador =?, descricao =?, valor =?, data =? WHERE id =?";
 
         stm = getConector().prepareStatement(sql);
@@ -73,6 +78,9 @@ public class SaidaDAO extends DAO {
      * Excluir marca na base de dados
      */
     public boolean excluir(int id) throws SQLException {
+        ResultSet rs;
+        PreparedStatement stm;
+
         String sql = "DELETE FROM saida WHERE id=?";
 
         stm = getConector().prepareStatement(sql);
@@ -89,6 +97,9 @@ public class SaidaDAO extends DAO {
      * Consultar todas receita cadastradas na base de dados
      */
     public List<Saida> listar() throws SQLException {
+        ResultSet rs;
+        PreparedStatement stm;
+
         List<Saida> saidas = new ArrayList<>();
 
         String sql = "SELECT * FROM view_saida";
@@ -117,6 +128,9 @@ public class SaidaDAO extends DAO {
     }
 
     public List<Saida> buscarPorIntervalo(String dataInicio, String dataFinal) throws SQLException {
+        ResultSet rs;
+        PreparedStatement stm;
+
         Long inicio = DateUtils.getLongFromDate(dataInicio);
         Long finall = DateUtils.getLongFromDate(dataFinal);
 

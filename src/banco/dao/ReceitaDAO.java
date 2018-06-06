@@ -19,9 +19,6 @@ import util.DateUtils;
  */
 public class ReceitaDAO extends DAO {
 
-    private ResultSet rs;
-    private PreparedStatement stm;
-    
     public ReceitaDAO() {
         super();
     }
@@ -30,6 +27,9 @@ public class ReceitaDAO extends DAO {
      * Inserir marca na base de dados
      */
     public Long inserir(Receita receita) throws Exception {
+        ResultSet rs;
+        PreparedStatement stm;
+
         if (receita.getCliente().getId() == null) {
             Long id = ControleDAO.getBanco().getClienteDAO().inserir(receita.getCliente());
             receita.getCliente().setId(id);
@@ -46,13 +46,16 @@ public class ReceitaDAO extends DAO {
         stm.setLong(4, receita.getData());
         stm.setFloat(5, receita.getValor());
 
-         return super.inserir(stm);
+        return super.inserir(stm);
     }
 
     /**
      * Atualizar dados receita na base de dados
      */
     public boolean editar(Receita receita) throws SQLException {
+        ResultSet rs;
+        PreparedStatement stm;
+
         String sql = "UPDATE receita SET id_cliente =?, id_administrador =?, descricao =?, valor =?, data =? WHERE id=?";
 
         stm = getConector().prepareStatement(sql);
@@ -74,6 +77,9 @@ public class ReceitaDAO extends DAO {
      * Excluir marca na base de dados
      */
     public boolean excluir(int id) throws SQLException {
+        ResultSet rs;
+        PreparedStatement stm;
+
         String sql = "DELETE FROM receita WHERE id=?";
 
         stm = getConector().prepareStatement(sql);
@@ -90,6 +96,8 @@ public class ReceitaDAO extends DAO {
      * Consultar todas receita cadastradas na base de dados
      */
     public List<Receita> listar() throws SQLException {
+        ResultSet rs;
+        PreparedStatement stm;
 
         List<Receita> receitas = new ArrayList<>();
 
@@ -124,6 +132,9 @@ public class ReceitaDAO extends DAO {
     }
 
     public List<Receita> buscarPorIntervalo(String dataInicio, String dataFinal) throws SQLException {
+        ResultSet rs;
+        PreparedStatement stm;
+
         Long inicio = DateUtils.getLongFromDate(dataInicio);
         Long finall = DateUtils.getLongFromDate(dataFinal);
 

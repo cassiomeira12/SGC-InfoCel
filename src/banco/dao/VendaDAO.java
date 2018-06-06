@@ -26,9 +26,6 @@ import util.DateUtils;
  */
 public class VendaDAO extends DAO {
 
-    private ResultSet rs;
-    private PreparedStatement stm;
-    
     public VendaDAO() {
         super();
     }
@@ -40,6 +37,9 @@ public class VendaDAO extends DAO {
      * @return
      */
     public Long inserir(Venda venda) throws Exception {
+        ResultSet rs;
+        PreparedStatement stm;
+
         Long idVenda;
         Long idCliente = venda.getCliente().getId();
 
@@ -57,7 +57,7 @@ public class VendaDAO extends DAO {
         stm.setInt(4, venda.getFormaPagamento().getId().intValue());
         stm.setInt(5, venda.getQuantidadeParcelas());
         stm.setLong(6, venda.getData());
-        idVenda =  super.inserir(stm);
+        idVenda = super.inserir(stm);
 
         //cadastrar vendaProduto
         sql = "INSERT INTO venda_produto ( id_produto, id_venda, quantidade, preco_total ) VALUES";
@@ -85,6 +85,9 @@ public class VendaDAO extends DAO {
      * Excluir venda na base de dados
      */
     public boolean excluir(Long id) throws SQLException {
+        ResultSet rs;
+        PreparedStatement stm;
+
         String sql = "DELETE FROM venda WHERE id=?";
 
         stm = getConector().prepareStatement(sql);
@@ -101,6 +104,8 @@ public class VendaDAO extends DAO {
 
     // Consultar todas vendas cadastradas na base de dados
     public List<Venda> listar() throws SQLException {
+        ResultSet rs;
+        PreparedStatement stm;
 
         List<Venda> vendas = new ArrayList<>();
 
@@ -139,6 +144,9 @@ public class VendaDAO extends DAO {
     }
 
     public List<Venda> buscarPorIntervalo(String dataInicio, String dataFinal) throws SQLException {
+        ResultSet rs;
+        PreparedStatement stm;
+
         Long inicio = DateUtils.getLongFromDate(dataInicio);
         Long finall = DateUtils.getLongFromDate(dataFinal);
 
@@ -180,6 +188,9 @@ public class VendaDAO extends DAO {
     }
 
     public Venda buscarPorId(Long id) throws SQLException {
+        ResultSet rs;
+        PreparedStatement stm;
+
         Venda venda = null;
 
         String sql = "SELECT * FROM view_venda WHERE id = " + id;
@@ -215,6 +226,8 @@ public class VendaDAO extends DAO {
     }
 
     public List<VendaProduto> buscarVendaProduto(Venda venda) throws SQLException {
+        ResultSet rs;
+        PreparedStatement stm;
 
         List<VendaProduto> vendaProdutos = new ArrayList<>();
 
@@ -241,6 +254,8 @@ public class VendaDAO extends DAO {
     }
 
     public List<Venda> buscarPorCliente(Cliente cliente) throws SQLException {
+        ResultSet rs;
+        PreparedStatement stm;
 
         List<Venda> vendas = new ArrayList<>();
 
@@ -272,6 +287,9 @@ public class VendaDAO extends DAO {
     }
 
     public void excluirVendasProdutosDaVenda(Long id) throws SQLException {
+        ResultSet rs;
+        PreparedStatement stm;
+
         String sql = "DELETE FROM venda_produto WHERE id_venda=?";
 
         stm = getConector().prepareStatement(sql);

@@ -17,13 +17,12 @@ import javafx.scene.layout.BorderPane;
  * @author cassio
  */
 public class TelaBackupRecuperacaoController extends AnchorPane {
-    
+
     private BorderPane painelPrincipal;
 
-  
     public TelaBackupRecuperacaoController(BorderPane painelPrincipal) {
         this.painelPrincipal = painelPrincipal;
-        
+
         try {
             FXMLLoader fxml = new FXMLLoader(getClass().getResource("/view/TelaBackupRecuperacao.fxml"));
             fxml.setRoot(this);
@@ -39,15 +38,30 @@ public class TelaBackupRecuperacaoController extends AnchorPane {
     public void initialize() {
         // TODO
     }
-    
+
     private void adicionarPainelInterno(AnchorPane novaTela) {
         this.painelPrincipal.setCenter(novaTela);
     }
-    
+
     @FXML
     private void cancelarOperacao() {
         TelaInicialController telaInicial = new TelaInicialController(painelPrincipal);
         this.adicionarPainelInterno(telaInicial);
     }
-    
+
+    @FXML
+    private void importar() {
+
+    }
+
+    @FXML
+    private void realizarBackup() {
+
+    }
+
+    @FXML
+    private void alterar() {
+
+    }
+
 }

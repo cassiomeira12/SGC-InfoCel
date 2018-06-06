@@ -17,9 +17,6 @@ import model.UnidadeMedida;
  */
 public class ProdutoDAO extends DAO {
 
-    private ResultSet rs;
-    private PreparedStatement stm;
-    
     public ProdutoDAO() {
         super();
     }
@@ -28,6 +25,9 @@ public class ProdutoDAO extends DAO {
      * Inserir produto na base de dados
      */
     public Long inserir(Produto produto) throws Exception {
+        ResultSet rs;
+        PreparedStatement stm;
+
         String sql = "INSERT INTO produto ( descricao, id_categoria_produto, id_marca, preco_compra, preco_venda, estoque, id_unidade_medida, status ) VALUES (?, ?, ?, ?, ?,?, ?, ?)";
 
         stm = getConector().prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
@@ -41,13 +41,16 @@ public class ProdutoDAO extends DAO {
         stm.setInt(7, produto.getUnidadeMedida().getId().intValue());
         stm.setBoolean(8, produto.getStatus());
 
-         return super.inserir(stm);
+        return super.inserir(stm);
     }
 
     /**
      * Atualizar dados produto na base de dados
      */
     public boolean editar(Produto produto) throws SQLException {
+        ResultSet rs;
+        PreparedStatement stm;
+
         String sql = "UPDATE produto SET  descricao =?, id_categoria_produto =?, id_marca =?, preco_compra =?, preco_venda =?, estoque =?, id_unidade_medida =?, status =? WHERE id =?";
 
         stm = getConector().prepareStatement(sql);
@@ -73,6 +76,9 @@ public class ProdutoDAO extends DAO {
      * Excluir produto na base de dados
      */
     public boolean excluir(Produto produto) throws SQLException {
+        ResultSet rs;
+        PreparedStatement stm;
+
         try {
             String sql = "DELETE FROM produto WHERE id=?";
 
@@ -94,11 +100,13 @@ public class ProdutoDAO extends DAO {
      * Consultar todos produtos cadastrados na base de dados
      */
     public List<Produto> listar() throws SQLException {
+        ResultSet rs;
+        PreparedStatement stm;
 
         List<Produto> produtos = new ArrayList<>();
 
         String sql = "SELECT * FROM view_produto WHERE status = 1";
-        
+
         stm = getConector().prepareStatement(sql);
         rs = stm.executeQuery(sql);
 
@@ -118,6 +126,9 @@ public class ProdutoDAO extends DAO {
     }
 
     public List<Produto> buscarPorDescricaoModelo(String busca) throws SQLException {
+        ResultSet rs;
+        PreparedStatement stm;
+
         List<Produto> produtos = new ArrayList<>();
 
         String sql = "SELECT * FROM view_produto"
@@ -143,10 +154,13 @@ public class ProdutoDAO extends DAO {
     }
 
     public List<Produto> buscarPorCategoria(CategoriaProduto categoria) throws SQLException {
+        ResultSet rs;
+        PreparedStatement stm;
+
         List<Produto> produtos = new ArrayList<>();
 
         String sql = "SELECT * FROM view_produto"
-                + "\nWHERE produto.id_categoria_produto = " + categoria.getId()  +" AND WHERE status = 1";
+                + "\nWHERE produto.id_categoria_produto = " + categoria.getId() + " AND WHERE status = 1";
 
         stm = getConector().prepareStatement(sql);
         rs = stm.executeQuery(sql);
@@ -166,6 +180,9 @@ public class ProdutoDAO extends DAO {
     }
 
     public Produto buscarPorId(Long id) throws SQLException {
+        ResultSet rs;
+        PreparedStatement stm;
+
         Produto produto = null;
 
         String sql = "SELECT * FROM view_produto WHERE id = " + id + " AND status = 1";

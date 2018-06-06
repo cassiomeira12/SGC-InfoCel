@@ -17,9 +17,6 @@ import model.Endereco;
  */
 public class ClienteDAO extends DAO {
 
-    private ResultSet rs;
-    private PreparedStatement stm;
-    
     public ClienteDAO() {
         super();
     }
@@ -28,16 +25,20 @@ public class ClienteDAO extends DAO {
      * Inserir cliente na base de dados
      */
     public Long inserir(Cliente cliente) throws Exception {
+        ResultSet rs;
+        PreparedStatement stm;
+
         String sql = "INSERT INTO cliente ( nome, id_endereco, cpf, rg, telefone, data_cadastro, status ) VALUES (?, ?, ?, ?, ?, ?, ?)";
 
         Long id_endereco = ControleDAO.getBanco().getEnderecoDAO().inserir(cliente.getEndereco());
         if (id_endereco == null) {
             return null;
-        }else
+        } else {
             cliente.getEndereco().setId(id_endereco);
+        }
 
         stm = getConector().prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
-        
+
         stm.setString(1, cliente.getNome());
         stm.setLong(2, cliente.getEndereco().getId());
         stm.setString(3, cliente.getCpf());
@@ -46,7 +47,7 @@ public class ClienteDAO extends DAO {
         stm.setLong(6, System.currentTimeMillis());
         stm.setBoolean(7, cliente.getStatus());
 
-         return super.inserir(stm);
+        return super.inserir(stm);
 
     }
 
@@ -54,6 +55,9 @@ public class ClienteDAO extends DAO {
      * Atualizar dados cliente na base de dados
      */
     public boolean editar(Cliente cliente) throws SQLException {
+        ResultSet rs;
+        PreparedStatement stm;
+
         String sql = "UPDATE cliente SET nome =?, id_endereco =?, cpf =?, rg =?, telefone =?, status =? WHERE id =?";
 
         //caso haja alterações no endereço
@@ -80,10 +84,13 @@ public class ClienteDAO extends DAO {
      * Excluir cliente na base de dados
      */
     public boolean excluir(int id) throws SQLException {
-        String sql = "UPDATE cliente SET status = 0 WHERE id =" +id;
+        ResultSet rs;
+        PreparedStatement stm;
+
+        String sql = "UPDATE cliente SET status = 0 WHERE id =" + id;
 
         stm = getConector().prepareStatement(sql);
-        
+
         stm.execute();
 
         stm.close();
@@ -95,6 +102,8 @@ public class ClienteDAO extends DAO {
      * Consultar todos clientes cadastrados na base de dados
      */
     public List<Cliente> listar() throws SQLException {
+        ResultSet rs;
+        PreparedStatement stm;
 
         List<Cliente> clientes = new ArrayList<>();
 
@@ -120,6 +129,8 @@ public class ClienteDAO extends DAO {
     }
 
     public List<Cliente> buscarPorNome(String busca) throws SQLException {
+        ResultSet rs;
+        PreparedStatement stm;
 
         List<Cliente> clientes = new ArrayList<>();
 

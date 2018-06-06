@@ -14,9 +14,6 @@ import model.UnidadeMedida;
  */
 public class UnidadeMedidaDAO extends DAO {
 
-    private ResultSet rs;
-    private PreparedStatement stm;
-    
     public UnidadeMedidaDAO() {
         super();
     }
@@ -25,6 +22,9 @@ public class UnidadeMedidaDAO extends DAO {
      * Inserir categoria na base de dados
      */
     public Long inserir(UnidadeMedida unidadeMedida) throws Exception {
+        ResultSet rs;
+        PreparedStatement stm;
+
         String sql = "INSERT INTO unidade_medida ( descricao, abreviacao, status ) VALUES (?, ?, ?)";
 
         stm = getConector().prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
@@ -33,13 +33,16 @@ public class UnidadeMedidaDAO extends DAO {
         stm.setString(2, unidadeMedida.getAbreviacao());
         stm.setBoolean(3, unidadeMedida.getStatus());
 
-         return super.inserir(stm);
+        return super.inserir(stm);
     }
 
     /**
      * Atualizar dados categoria na base de dados
      */
     public boolean editar(UnidadeMedida unidadeMedida) throws SQLException {
+        ResultSet rs;
+        PreparedStatement stm;
+
         String sql = "UPDATE unidade_medida SET descricao =?, status =? WHERE id =?";
 
         stm = getConector().prepareStatement(sql);
@@ -59,19 +62,23 @@ public class UnidadeMedidaDAO extends DAO {
      * Excluir categoria na base de dados
      */
     public boolean excluir(UnidadeMedida um) throws SQLException {
-        try{String sql = "DELETE FROM unidade_medida WHERE id=?";
+        ResultSet rs;
+        PreparedStatement stm;
 
-        stm = getConector().prepareStatement(sql);
+        try {
+            String sql = "DELETE FROM unidade_medida WHERE id=?";
 
-        stm.setInt(1, um.getId().intValue());
-        stm.execute();
+            stm = getConector().prepareStatement(sql);
 
-        stm.close();
+            stm.setInt(1, um.getId().intValue());
+            stm.execute();
+
+            stm.close();
         } catch (MySQLIntegrityConstraintViolationException e) {
             um.setStatus(false);
             editar(um);
         }
-        
+
         return true;
     }
 
@@ -79,6 +86,8 @@ public class UnidadeMedidaDAO extends DAO {
      * Consultar todas categoria cadastradas na base de dados
      */
     public List<UnidadeMedida> listar() throws SQLException {
+        ResultSet rs;
+        PreparedStatement stm;
 
         List<UnidadeMedida> unidadeMedidas = new ArrayList<>();
 

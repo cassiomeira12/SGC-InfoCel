@@ -15,9 +15,6 @@ import model.Cidade;
  */
 public class BairroDAO extends DAO {
 
-    private ResultSet rs;
-    private PreparedStatement stm;
-
     public BairroDAO() {
         super();
     }
@@ -26,6 +23,9 @@ public class BairroDAO extends DAO {
      * Inserir marca na base de dados
      */
     public Long inserir(Bairro bairro) throws Exception {
+        ResultSet rs;
+        PreparedStatement stm;
+
         if (bairro.getCidade().getId() == null) {
             Long id = ControleDAO.getBanco().getCidadeDAO().inserir(bairro.getCidade());
             bairro.getCidade().setId(id);
@@ -46,6 +46,9 @@ public class BairroDAO extends DAO {
      * Atualizar dados receita na base de dados
      */
     public boolean editar(Bairro bairro) throws SQLException {
+        ResultSet rs;
+        PreparedStatement stm;
+
         String sql = "UPDATE bairro SET nome =?, status =? WHERE id=?";
 
         stm = getConector().prepareStatement(sql);
@@ -64,6 +67,9 @@ public class BairroDAO extends DAO {
      * Excluir marca na base de dados
      */
     public boolean excluir(Bairro bairro) throws SQLException {
+        ResultSet rs;
+        PreparedStatement stm;
+
         try {
             String sql = "DELETE FROM bairro WHERE id=?";
 
@@ -84,6 +90,8 @@ public class BairroDAO extends DAO {
      * Consultar todas receita cadastradas na base de dados
      */
     public List<Bairro> buscarPorCidade(Cidade cidade) throws SQLException {
+        ResultSet rs;
+        PreparedStatement stm;
 
         List<Bairro> bairros = new ArrayList<>();
 
@@ -102,6 +110,8 @@ public class BairroDAO extends DAO {
     }
 
     public List<Bairro> buscarPorNomeECidade(String nome, Cidade cidade) throws SQLException {
+        ResultSet rs;
+        PreparedStatement stm;
 
         List<Bairro> bairros = new ArrayList<>();
 
@@ -120,6 +130,9 @@ public class BairroDAO extends DAO {
     }
 
     public boolean excluirBairrosDaCidade(int id) throws SQLException {
+        ResultSet rs;
+        PreparedStatement stm;
+
         String sql = "DELETE FROM bairro WHERE id_cidade=?";
 
         stm = getConector().prepareStatement(sql);
