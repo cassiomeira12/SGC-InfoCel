@@ -127,7 +127,7 @@ public class Manutencao {
     }
 
     public String getDataEditada() {
-        return DateUtils.formatDate(dataEntrega);
+        return DateUtils.formatDate(dataCadastro);
     }
 
     public float getPreco() {

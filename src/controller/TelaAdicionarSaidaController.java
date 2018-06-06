@@ -84,7 +84,7 @@ public class TelaAdicionarSaidaController extends AnchorPane {
     public void initialize() {
         this.dataDatePicker.setValue(LocalDate.now());//Adicionando Data do dia atual
         Formatter.decimal(valorText);
-        Formatter.toUpperCase(descricaoArea);
+        Formatter.toUpperCase(descricaoArea, adicionarCategoriaText);
         
         finalizarButton.disableProperty().bind(categoriaComboBox.selectionModelProperty().isNull().or(
                                                descricaoArea.textProperty().isEmpty().or(
