@@ -52,7 +52,7 @@ public class Operacao implements Comparable<Operacao> {
         //this.cliente = 
         this.descricao = saida.getDescricao();
         this.funcionario = saida.getAdministrador();
-        this.valor = saida.getValor();
+        this.valor = -saida.getValor();
         this.data = saida.getData();
     }
 

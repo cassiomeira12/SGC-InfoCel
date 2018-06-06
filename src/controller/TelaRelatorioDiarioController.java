@@ -8,11 +8,11 @@ package controller;
 import banco.ConexaoBanco;
 import banco.ControleDAO;
 import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -34,6 +34,7 @@ import net.sf.jasperreports.engine.JRResultSetDataSource;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.view.JasperViewer;
+import util.DateUtils;
 import util.alerta.Alerta;
 
 /**
@@ -73,24 +74,28 @@ public class TelaRelatorioDiarioController extends AnchorPane {
 
         PieChart.Data vendaSlice = new PieChart.Data("VENDA", 0);
         PieChart.Data manutencaoSlice = new PieChart.Data("MANUTENÇÃO", 0);
-        PieChart.Data receitaSlice = new PieChart.Data("RECEITA", 2000);
-        PieChart.Data saidaSlice = new PieChart.Data("SAÍDA", 200);
+        PieChart.Data receitaSlice = new PieChart.Data("RECEITA", 0);
+        PieChart.Data saidaSlice = new PieChart.Data("SAÍDA", 0);
         
         graficoPie.getData().addAll(vendaSlice, manutencaoSlice, receitaSlice, saidaSlice);
         
         sincronizarBancoDadosVendas(vendaSlice);
         sincronizarBancoDadosManutencoes(manutencaoSlice);
-        //sincronizarBancoDadosReceita(receitaSlice);
-        //sincronizarBancoDadosSaida(saidaSlice);
+        sincronizarBancoDadosReceita(receitaSlice);
+        sincronizarBancoDadosSaida(saidaSlice);
     }
 
     private void sincronizarBancoDadosVendas(PieChart.Data slice) {
+        LocalDate data = LocalDate.now();
+        String dataInicio = DateUtils.formatDate(data.getYear(), data.getMonthValue(), data.getDayOfMonth());
+        String dataFinal = DateUtils.formatDate(data.plusDays(1).getYear(), data.plusDays(1).getMonthValue(), data.plusDays(1).getDayOfMonth());
+        
         //Metodo executado numa Thread separada
         SwingWorker<List, List> worker;
         worker = new SwingWorker<List, List>() {
             @Override
             protected List<Venda> doInBackground() throws Exception {
-                return ControleDAO.getBanco().getVendaDAO().listar();
+                return ControleDAO.getBanco().getVendaDAO().buscarPorIntervalo(dataInicio, dataFinal);
             }
 
             //Metodo chamado apos terminar a execucao numa Thread separada
@@ -115,11 +120,15 @@ public class TelaRelatorioDiarioController extends AnchorPane {
     }
 
     private void sincronizarBancoDadosManutencoes(PieChart.Data slice) {
+        LocalDate data = LocalDate.now();
+        String dataInicio = DateUtils.formatDate(data.getYear(), data.getMonthValue(), data.getDayOfMonth());
+        String dataFinal = DateUtils.formatDate(data.plusDays(1).getYear(), data.plusDays(1).getMonthValue(), data.plusDays(1).getDayOfMonth());
+        
         //Metodo executado numa Thread separada
         SwingWorker<List, List> worker = new SwingWorker<List, List>() {
             @Override
             protected List<Manutencao> doInBackground() throws Exception {
-                return ControleDAO.getBanco().getManutencaoDAO().listar();
+                return ControleDAO.getBanco().getManutencaoDAO().buscarPorIntervalo(dataInicio, dataFinal);
             }
 
             //Metodo chamado apos terminar a execucao numa Thread separada
@@ -127,7 +136,6 @@ public class TelaRelatorioDiarioController extends AnchorPane {
             protected void done() {
                 super.done(); //To change body of generated methods, choose Tools | Templates.
                 try {
-                    listaManutencoes = this.get();
                     Float total = 0f;
                     listaManutencoes = this.get();
                     for (Manutencao v : listaManutencoes) {
@@ -145,11 +153,15 @@ public class TelaRelatorioDiarioController extends AnchorPane {
     }
 
     private void sincronizarBancoDadosReceita(PieChart.Data slice) {
+        LocalDate data = LocalDate.now();
+        String dataInicio = DateUtils.formatDate(data.getYear(), data.getMonthValue(), data.getDayOfMonth());
+        String dataFinal = DateUtils.formatDate(data.plusDays(1).getYear(), data.plusDays(1).getMonthValue(), data.plusDays(1).getDayOfMonth());
+        
         //Metodo executado numa Thread separada
         SwingWorker<List, List> worker = new SwingWorker<List, List>() {
             @Override
             protected List<Receita> doInBackground() throws Exception {
-                return ControleDAO.getBanco().getReceitaDAO().listar();
+                return ControleDAO.getBanco().getReceitaDAO().buscarPorIntervalo(dataInicio, dataFinal);
             }
 
             //Metodo chamado apos terminar a execucao numa Thread separada
@@ -157,7 +169,6 @@ public class TelaRelatorioDiarioController extends AnchorPane {
             protected void done() {
                 super.done(); //To change body of generated methods, choose Tools | Templates.
                 try {
-                    listaReceitas = this.get();
                     Float total = 0f;
                     listaReceitas = this.get();
                     for (Receita v : listaReceitas) {
@@ -175,11 +186,15 @@ public class TelaRelatorioDiarioController extends AnchorPane {
     }
     
     private void sincronizarBancoDadosSaida(PieChart.Data slice) {
+        LocalDate data = LocalDate.now();
+        String dataInicio = DateUtils.formatDate(data.getYear(), data.getMonthValue(), data.getDayOfMonth());
+        String dataFinal = DateUtils.formatDate(data.plusDays(1).getYear(), data.plusDays(1).getMonthValue(), data.plusDays(1).getDayOfMonth());
+        
         //Metodo executado numa Thread separada
         SwingWorker<List, List> worker = new SwingWorker<List, List>() {
             @Override
             protected List<Saida> doInBackground() throws Exception {
-                return ControleDAO.getBanco().getSaidaDAO().listar();
+                return ControleDAO.getBanco().getSaidaDAO().buscarPorIntervalo(dataInicio, dataFinal);
             }
 
             //Metodo chamado apos terminar a execucao numa Thread separada
@@ -187,7 +202,6 @@ public class TelaRelatorioDiarioController extends AnchorPane {
             protected void done() {
                 super.done(); //To change body of generated methods, choose Tools | Templates.
                 try {
-                    listaSaidas = this.get();
                     Float total = 0f;
                     listaSaidas = this.get();
                     for (Saida v : listaSaidas) {
@@ -203,10 +217,6 @@ public class TelaRelatorioDiarioController extends AnchorPane {
 
         worker.execute();
     }
-    
-    
-    
-    
     
     private void chamarAlerta(String mensagem) {
         Platform.runLater(new Runnable() {
