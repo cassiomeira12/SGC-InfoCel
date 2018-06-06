@@ -7,8 +7,6 @@ import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
@@ -57,7 +55,7 @@ public class DescricaoVenda extends Thread {
             Logger.getLogger(DescricaoVenda.class.getName()).log(Level.SEVERE, null, ex);
         }
         if (mostrar) {
-            mostrarDrecricaoVenda();
+            mostrarDescricaoVenda();
         }
     }
 
@@ -105,7 +103,7 @@ public class DescricaoVenda extends Thread {
         try {
 
             // caminho
-            srcSalvarRelatorio = new File("relatorio/venda/" + DateUtils.formatDate2(ControleDAO.getBanco().getVendaDAO().buscarPorId(id).getData())).getCanonicalPath();
+            srcSalvarRelatorio = new File("relatorio/vendas/" + DateUtils.formatDate2(ControleDAO.getBanco().getVendaDAO().buscarPorId(id).getData())).getCanonicalPath();
             File file = new File(srcSalvarRelatorio);
             // verificar se um caminho  existe
             if (file.exists() == false) {
@@ -127,7 +125,6 @@ public class DescricaoVenda extends Thread {
         }
         try {
             //impressao
-            //JasperExportManager.exportReportToPdfFile(jp, "C:/Users/dhonl/Relatorio_de_Clientes.pdf");
             JasperExportManager.exportReportToPdfFile(jp, srcSalvarRelatorio + "/" + id.toString() + "_" + nomeClienteVenda + ".pdf");
         } catch (JRException ex) {
             Logger.getLogger(DescricaoVenda.class.getName()).log(Level.SEVERE, null, ex);
@@ -135,7 +132,7 @@ public class DescricaoVenda extends Thread {
 
     }
 
-    public void mostrarDrecricaoVenda() {
+    public void mostrarDescricaoVenda() {
         // cria o arquivo de visao
         view = new JasperViewer(jp, false);
         // mostrar o arquivo de visao
