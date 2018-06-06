@@ -44,6 +44,7 @@ import model.Cliente;
 import model.Endereco;
 import model.FormaPagamento;
 import model.Manutencao;
+import relatorio.DescricaoManutencao;
 import util.DateUtils;
 import util.Formatter;
 import util.alerta.Alerta;
@@ -335,6 +336,9 @@ public class TelaAdicionarManutencaoController extends AnchorPane {
                             Alerta.erro("Erro ao adicionar nova Manutenção!");
                             cancelarOperacao();
                         } else {
+                            // gerar descricao manutencao pdf
+                            DescricaoManutencao dm = new DescricaoManutencao(id);
+                            dm.start();
                             Alerta.info("Manutenção cadastrada com sucesso!");
                             cancelarOperacao();
                         }

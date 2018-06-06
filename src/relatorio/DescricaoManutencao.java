@@ -25,6 +25,7 @@ import net.sf.jasperreports.engine.export.JRPdfExporter;
 import net.sf.jasperreports.export.SimpleExporterInput;
 import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput;
 import net.sf.jasperreports.view.JasperViewer;
+import util.DateUtils;
 import util.SoftwareSpecifications;
 
 /**
@@ -72,10 +73,10 @@ public class DescricaoManutencao extends Thread {
             Logger.getLogger(DescricaoManutencao.class.getName()).log(Level.SEVERE, null, ex);
         }
         // consulta passada para o arquivo jasper
-        query = "select nome_cliente, cpf_cliente, rg_cliente, telefone_cliente, nome_cidade_cliente, nome_bairro_cliente, rua_cliente, numero_cliente, "
-                + "nome_administrador, descricao_forma_pagamento, quantidade_parcela, preco_total "
-                + "from view_venda "
-                + "where id = " + id.toString();
+        query =  "select nome_cliente, cpf_cliente, rg_cliente, telefone_cliente, nome_cidade_cliente, nome_bairro_cliente, rua_cliente, numero_cliente, nome_administrador, " +
+                 "quantidade_parcelas, preco, descricao_forma_pagamento " +
+                 "from view_manutencao " +
+                 "where id = " + id.toString();
         // execute a query		
         try {
             rs = stm.executeQuery(query);
@@ -94,7 +95,7 @@ public class DescricaoManutencao extends Thread {
 
         try {
             // passando data como parametros por cauda da formatacao
-           parameters.put("data_venda", ControleDAO.getBanco().getVendaDAO().buscarPorId(id).getDataEditada());
+           parameters.put("data_manutencao", DateUtils.formatDate(ControleDAO.getBanco().getManutencaoDAO().buscarPorId(id).getDataCadastro()));
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
@@ -103,7 +104,7 @@ public class DescricaoManutencao extends Thread {
         // caminho logo da empresa
         parameters.put("src_logo", SoftwareSpecifications.SRC_LOGO);
         // caminho arquivo jasper
-       srcArquivoJaper = new File("src/relatorio/descricaoVenda.jasper").getCanonicalPath();
+       srcArquivoJaper = new File("src/relatorio/descricaoManutencao.jasper").getCanonicalPath();
 
         try {
             // cria arquivo jasper
