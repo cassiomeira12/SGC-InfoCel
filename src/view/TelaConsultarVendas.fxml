@@ -56,7 +56,7 @@
          <center>
             <VBox alignment="TOP_CENTER" BorderPane.alignment="CENTER">
                <children>
-                  <VBox alignment="TOP_RIGHT" spacing="20.0">
+                  <VBox alignment="TOP_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="20.0" VBox.vgrow="ALWAYS">
                      <children>
                         <HBox alignment="BOTTOM_RIGHT" spacing="30.0">
                            <children>
@@ -80,7 +80,7 @@
                               </VBox>
                            </children>
                         </HBox>
-                        <TableView fx:id="vendasTable" focusTraversable="false" prefHeight="450.0">
+                        <TableView fx:id="vendasTable" focusTraversable="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="450.0" VBox.vgrow="ALWAYS">
                            <columns>
                               <TableColumn fx:id="clienteColumn" maxWidth="250.0" minWidth="250.0" prefWidth="250.0" text="Cliente" />
                               <TableColumn fx:id="enderecoColumn" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefWidth="250.0" text="Endereço" />

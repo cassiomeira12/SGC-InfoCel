@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<fx:root prefHeight="650.0" prefWidth="1200.0" stylesheets="@../css/default.css" type="AnchorPane" xmlns="http://javafx.com/javafx/9" xmlns:fx="http://javafx.com/fxml/1">
+<fx:root prefHeight="650.0" prefWidth="1200.0" stylesheets="@../css/default.css" type="AnchorPane" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1">
     <children>
         <BorderPane layoutX="270.0" layoutY="182.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
             <top>
@@ -56,7 +56,7 @@
                 </HBox>
             </bottom>
             <center>
-                <VBox alignment="TOP_CENTER" spacing="20.0" BorderPane.alignment="CENTER">
+                <VBox alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="20.0" BorderPane.alignment="CENTER">
                     <children>
                         <VBox>
                             <children>
@@ -64,7 +64,7 @@
                                 <TextField fx:id="pesquisaText" />
                             </children>
                         </VBox>
-                        <TableView fx:id="produtosTable" focusTraversable="false" prefHeight="450.0">
+                        <TableView fx:id="produtosTable" focusTraversable="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="450.0" VBox.vgrow="ALWAYS">
                             <columnResizePolicy>
                                 <!-- falando sobre erro: https://netbeans.org/bugzilla/show_bug.cgi?id=256522-->
                                 <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
