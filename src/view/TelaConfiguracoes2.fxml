@@ -30,6 +30,7 @@
                 <Tab fx:id="pagamentoTab" onSelectionChanged="#pagamentoTab" text="Formas de pagamento" />
                   <Tab fx:id="produtosTab" onSelectionChanged="#produtosTab" text="Características dos Produtos" />
                   <Tab fx:id="enderecosTab" onSelectionChanged="#enderecosTab" text="Endereços" />
+                  <Tab fx:id="backupTab" onSelectionChanged="#backupTab" text="Backup e Restauração" />
               </tabs>
             </TabPane>
          </center>

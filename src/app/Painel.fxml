@@ -5,7 +5,7 @@
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.layout.BorderPane?>
 
-<BorderPane fx:id="painelPrincipal" prefHeight="680.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/9" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.PainelController">
+<BorderPane fx:id="painelPrincipal" prefHeight="680.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.PainelController">
    <top>
       <MenuBar fx:id="barraMenu" prefHeight="30.0" BorderPane.alignment="CENTER">
         <menus>
@@ -41,8 +41,6 @@
                </items></Menu>
             <Menu mnemonicParsing="false" text="Opções">
                <items>
-                  <MenuItem mnemonicParsing="false" onAction="#chamarTelaAdministradores" text="Administradores" />
-                  <MenuItem mnemonicParsing="false" onAction="#chamarTelaBancoDeDados" text="Backup e Recuperação" />
                   <MenuItem mnemonicParsing="false" onAction="#chamarTelaConfiguracoes" text="Configurações" />
                </items>
             </Menu>

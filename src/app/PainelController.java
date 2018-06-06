@@ -38,7 +38,6 @@ public class PainelController implements Initializable {
         this.barraMenu.setVisible(false);//Deixando a Barra de Menu invisivel
         TelaLoginController telaLogin = new TelaLoginController(painelPrincipal);
         this.adicionarPainelInterno(telaLogin);
-        //PainelInterno.telaLogin(painelPrincipal);
     }
     
     public void setStage(Stage palco) {
@@ -119,16 +118,6 @@ public class PainelController implements Initializable {
     private void chamarTelaRelatorioDiario(ActionEvent event) {
         TelaRelatorioDiarioController telaRelatorioDiario = new TelaRelatorioDiarioController(painelPrincipal);
         this.adicionarPainelInterno(telaRelatorioDiario);
-    }
-
-    @FXML
-    private void chamarTelaAdministradores(ActionEvent event) {
-       // PainelInterno.telaAdministradores(painelPrincipal);
-    }
-
-    @FXML
-    private void chamarTelaBancoDeDados(ActionEvent event) {
-        //PainelInterno.telaBancoDeDados(painelPrincipal);
     }
 
     @FXML
