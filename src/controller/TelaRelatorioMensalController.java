@@ -52,8 +52,6 @@ public class TelaRelatorioMensalController extends AnchorPane {
     @FXML
     private BorderPane painel;
     @FXML
-    private BarChart<String, Number> graficoBar;
-    @FXML
     private DatePicker dataDatePicker;
 
     public TelaRelatorioMensalController(BorderPane painelPrincipal) {

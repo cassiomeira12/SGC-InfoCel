@@ -12,38 +12,6 @@
 <fx:root prefHeight="650.0" prefWidth="1200.0" stylesheets="@../css/default.css" type="AnchorPane" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <BorderPane fx:id="painel" layoutX="270.0" layoutY="182.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
-         <top>
-            <HBox alignment="CENTER" BorderPane.alignment="CENTER">
-               <BorderPane.margin>
-                  <Insets bottom="10.0" />
-               </BorderPane.margin>
-               <children>
-                  <HBox alignment="CENTER_RIGHT" layoutX="11.0" layoutY="10.0">
-                     <children>
-                        <Label styleClass="label-titulo" text="Relatório Mensal" visible="false">
-                           <font>
-                              <Font size="27.0" />
-                           </font>
-                        </Label>
-                     </children>
-                  </HBox>
-                  <HBox alignment="CENTER_RIGHT" HBox.hgrow="ALWAYS">
-                     <children>
-                        <Label styleClass="label-titulo" text="Relatório Mensal">
-                           <font>
-                              <Font size="27.0" />
-                           </font>
-                        </Label>
-                     </children>
-                  </HBox>
-                  <HBox alignment="CENTER_RIGHT" HBox.hgrow="ALWAYS">
-                     <children>
-                        <DatePicker fx:id="dataDatePicker" prefWidth="150.0" />
-                     </children>
-                  </HBox>
-               </children>
-            </HBox>
-         </top>
          <bottom>
             <HBox alignment="CENTER" prefWidth="1200.0" BorderPane.alignment="CENTER">
                <children>
@@ -66,6 +34,35 @@
                </BorderPane.margin>
             </HBox>
          </bottom>
+         <top>
+            <HBox alignment="CENTER" BorderPane.alignment="CENTER">
+               <children>
+                  <HBox alignment="CENTER_RIGHT" layoutX="11.0" layoutY="10.0" prefWidth="330.0" HBox.hgrow="ALWAYS">
+                     <children>
+                        <Label styleClass="label-titulo" text="Relatório Mensal" visible="false">
+                           <font>
+                              <Font size="27.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER" HBox.hgrow="ALWAYS">
+                     <children>
+                        <Label styleClass="label-titulo" text="Relatório Mensal">
+                           <font>
+                              <Font size="27.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER_RIGHT" prefWidth="330.0" HBox.hgrow="ALWAYS">
+                     <children>
+                        <DatePicker fx:id="dataDatePicker" prefWidth="150.0" />
+                     </children>
+                  </HBox>
+               </children>
+            </HBox>
+         </top>
       </BorderPane>
    </children>
 </fx:root>

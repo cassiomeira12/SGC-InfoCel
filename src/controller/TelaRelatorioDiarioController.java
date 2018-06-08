@@ -22,6 +22,7 @@ import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.chart.PieChart;
+import javafx.scene.control.DatePicker;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javax.swing.SwingWorker;
@@ -46,6 +47,8 @@ public class TelaRelatorioDiarioController extends AnchorPane {
 
     private BorderPane painelPrincipal;
 
+    private LocalDate data;
+    
     private List<Venda> listaVendas;
     private List<Manutencao> listaManutencoes;
     private List<Receita> listaReceitas;
@@ -53,6 +56,8 @@ public class TelaRelatorioDiarioController extends AnchorPane {
 
     @FXML
     private PieChart graficoPie;
+    @FXML
+    private DatePicker dataDatePicker;
 
     public TelaRelatorioDiarioController(BorderPane painelPrincipal) {
         this.painelPrincipal = painelPrincipal;
@@ -70,7 +75,8 @@ public class TelaRelatorioDiarioController extends AnchorPane {
 
     @FXML
     public void initialize() {
-        // TODO
+        this.data = LocalDate.now();
+        this.dataDatePicker.setValue(data);
 
         PieChart.Data vendaSlice = new PieChart.Data("VENDA", 0);
         PieChart.Data manutencaoSlice = new PieChart.Data("MANUTENÇÃO", 0);
@@ -78,15 +84,23 @@ public class TelaRelatorioDiarioController extends AnchorPane {
         PieChart.Data saidaSlice = new PieChart.Data("SAÍDA", 0);
         
         graficoPie.getData().addAll(vendaSlice, manutencaoSlice, receitaSlice, saidaSlice);
+        graficoPie.setTitle("Relatório do dia " + DateUtils.formatDate(data));
         
-        sincronizarBancoDadosVendas(vendaSlice);
-        sincronizarBancoDadosManutencoes(manutencaoSlice);
-        sincronizarBancoDadosReceita(receitaSlice);
-        sincronizarBancoDadosSaida(saidaSlice);
+        dataDatePicker.setOnAction((e) -> {
+            data = dataDatePicker.getValue();
+            sincronizarBancoDadosVendas(vendaSlice, data);
+            sincronizarBancoDadosManutencoes(manutencaoSlice, data);
+            sincronizarBancoDadosReceita(receitaSlice, data);
+            sincronizarBancoDadosSaida(saidaSlice, data);
+        });
+        
+//        sincronizarBancoDadosVendas(vendaSlice, data);
+//        sincronizarBancoDadosManutencoes(manutencaoSlice, data);
+//        sincronizarBancoDadosReceita(receitaSlice, data);
+//        sincronizarBancoDadosSaida(saidaSlice, data);
     }
 
-    private void sincronizarBancoDadosVendas(PieChart.Data slice) {
-        LocalDate data = LocalDate.now();
+    private void sincronizarBancoDadosVendas(PieChart.Data slice, LocalDate data) {
         String dataInicio = DateUtils.formatDate(data.getYear(), data.getMonthValue(), data.getDayOfMonth());
         String dataFinal = DateUtils.formatDate(data.plusDays(1).getYear(), data.plusDays(1).getMonthValue(), data.plusDays(1).getDayOfMonth());
         
@@ -119,8 +133,7 @@ public class TelaRelatorioDiarioController extends AnchorPane {
         worker.execute();
     }
 
-    private void sincronizarBancoDadosManutencoes(PieChart.Data slice) {
-        LocalDate data = LocalDate.now();
+    private void sincronizarBancoDadosManutencoes(PieChart.Data slice, LocalDate data) {
         String dataInicio = DateUtils.formatDate(data.getYear(), data.getMonthValue(), data.getDayOfMonth());
         String dataFinal = DateUtils.formatDate(data.plusDays(1).getYear(), data.plusDays(1).getMonthValue(), data.plusDays(1).getDayOfMonth());
         
@@ -152,8 +165,7 @@ public class TelaRelatorioDiarioController extends AnchorPane {
         worker.execute();
     }
 
-    private void sincronizarBancoDadosReceita(PieChart.Data slice) {
-        LocalDate data = LocalDate.now();
+    private void sincronizarBancoDadosReceita(PieChart.Data slice, LocalDate data) {
         String dataInicio = DateUtils.formatDate(data.getYear(), data.getMonthValue(), data.getDayOfMonth());
         String dataFinal = DateUtils.formatDate(data.plusDays(1).getYear(), data.plusDays(1).getMonthValue(), data.plusDays(1).getDayOfMonth());
         
@@ -185,8 +197,7 @@ public class TelaRelatorioDiarioController extends AnchorPane {
         worker.execute();
     }
     
-    private void sincronizarBancoDadosSaida(PieChart.Data slice) {
-        LocalDate data = LocalDate.now();
+    private void sincronizarBancoDadosSaida(PieChart.Data slice, LocalDate data) {
         String dataInicio = DateUtils.formatDate(data.getYear(), data.getMonthValue(), data.getDayOfMonth());
         String dataFinal = DateUtils.formatDate(data.plusDays(1).getYear(), data.plusDays(1).getMonthValue(), data.plusDays(1).getDayOfMonth());
         
