@@ -94,10 +94,15 @@ public class TelaInicialController extends AnchorPane {
                 if (event.getClickCount() == 2) {
                     Operacao op = relatorioTableView.getSelectionModel().getSelectedItem();
                     if (op.getVenda() != null) {
-                        TelaVendaController telaVenda = new TelaVendaController(painelPrincipal);
-                        telaVenda.setVenda(op.getVenda());
-
-                        this.adicionarPainelInterno(telaVenda);
+                        TelaVendaController tela = new TelaVendaController(painelPrincipal);
+                        tela.setVenda(op.getVenda());
+                        tela.voltarTelaInicial(true);
+                        this.adicionarPainelInterno(tela);
+                    } else if (op.getManutencao() != null) {
+                        TelaManutencaoController tela = new TelaManutencaoController(painelPrincipal);
+                        tela.setManutencao(op.getManutencao());
+                        tela.voltarTelaInicial(true);
+                        this.adicionarPainelInterno(tela);
                     }
                 }
             }

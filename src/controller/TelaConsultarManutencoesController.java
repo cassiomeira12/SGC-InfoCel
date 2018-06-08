@@ -25,6 +25,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseButton;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javax.swing.SwingWorker;
@@ -123,6 +124,14 @@ public class TelaConsultarManutencoesController extends AnchorPane {
             filtro(texto, listaManutencoes, manutencoesTable);
         });
         
+        manutencoesTable.setOnMouseClicked((event) -> {
+            if (event.getButton().equals(MouseButton.PRIMARY)) {
+                if (event.getClickCount() == 2) {
+                    editarManutencao();
+                }
+            }
+        });
+        
         sincronizarBancoDados(DateUtils.formatDate(dataInicio), DateUtils.formatDate(dataFim));
     }
     
@@ -138,7 +147,10 @@ public class TelaConsultarManutencoesController extends AnchorPane {
     
     @FXML
     private void editarManutencao() {
-        
+        Manutencao manutencao = manutencoesTable.getSelectionModel().getSelectedItem();
+        TelaManutencaoController tela = new TelaManutencaoController(painelPrincipal);
+        tela.setManutencao(manutencao);
+        this.adicionarPainelInterno(tela);
     }
     
     @FXML

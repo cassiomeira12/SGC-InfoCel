@@ -365,16 +365,13 @@ public class TelaAdicionarVendaController extends AnchorPane {
                             Dialogo.Resposta abrirPDF = Alerta.confirmar("Venda finalizada com sucesso!\n"
                                                                         + "Deseja abrir o Comprovante de Venda ?");
                             
-                            DescricaoVenda dv = new DescricaoVenda(id);
-                            
+                            DescricaoVenda relatorio = new DescricaoVenda(id);
                             if (abrirPDF == Dialogo.Resposta.YES) {
-                                dv.setMostrar(true);
+                                relatorio.setMostrar(true);
                             }
+                            relatorio.run();
                             
-                            dv.run();
-                            
-                            TelaInicialController telaInicial = new TelaInicialController(painelPrincipal);
-                            this.adicionarPainelInterno(telaInicial);
+                            cancelarOperacao();
                         }
                     } catch (Exception e) {
                         Alerta.erro("Erro ao adicionar nova Venda: " + e.getMessage());

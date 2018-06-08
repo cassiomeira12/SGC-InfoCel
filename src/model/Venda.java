@@ -158,4 +158,8 @@ public class Venda implements Comparable<Venda> {
         /* Do menor para o Maior */
         return  comparador - this.getData().intValue();
     }
+    
+    public String getEnderecoCliente() {
+        return cliente.getEndereco().toString();
+    }
 }

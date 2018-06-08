@@ -25,6 +25,7 @@ import javafx.scene.layout.BorderPane;
 import javax.swing.SwingWorker;
 import model.Administrador;
 import model.Cliente;
+import model.Endereco;
 import model.Venda;
 import util.DateUtils;
 import util.Formatter;
@@ -52,9 +53,9 @@ public class TelaConsultarVendasController extends AnchorPane {
     @FXML
     private TableColumn<Venda, Cliente> clienteColumn;
     @FXML
-    private TableColumn<Cliente, String> enderecoColumn;
+    private TableColumn<Venda, Cliente> enderecoColumn;
     @FXML
-    private TableColumn<Administrador, String> vendedorColumn;
+    private TableColumn<Venda, Administrador> vendedorColumn;
     @FXML
     private TableColumn<Venda, Long> dataColumn;
     @FXML
@@ -169,10 +170,6 @@ public class TelaConsultarVendasController extends AnchorPane {
         telaVenda.setVenda(venda);
         
         this.adicionarPainelInterno(telaVenda);
-//        Cliente cliente = vendasTable.getSelectionModel().getSelectedItem();
-//
-//        TelaClienteController telaCliente = new TelaClienteController(painelPrincipal, cliente);
-//        this.adicionarPainelInterno(telaCliente);
     }
 
     private void atualizarTabela() {
@@ -180,10 +177,11 @@ public class TelaConsultarVendasController extends AnchorPane {
         ObservableList data = FXCollections.observableArrayList(listaVendas);
         
         this.clienteColumn.setCellValueFactory(new PropertyValueFactory<>("cliente"));
-        //this.enderecoColumn.setCellValueFactory(new PropertyValueFactory<>(""));
+        this.enderecoColumn.setCellValueFactory(new PropertyValueFactory<>("enderecoCliente"));
         this.vendedorColumn.setCellValueFactory(new PropertyValueFactory<>("administrador"));
         this.dataColumn.setCellValueFactory(new PropertyValueFactory<>("dataEditada"));//Adiciona o valor da variavel Telefone
         this.totalColumn.setCellValueFactory(new PropertyValueFactory<>("precoTotal"));
+        
         this.vendasTable.setItems(data);//Adiciona a lista de clientes na Tabela
     }
 

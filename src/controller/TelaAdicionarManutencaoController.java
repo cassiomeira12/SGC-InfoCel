@@ -7,17 +7,12 @@ package controller;
 
 import banco.ControleDAO;
 import java.io.IOException;
-import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -336,11 +331,17 @@ public class TelaAdicionarManutencaoController extends AnchorPane {
                             Alerta.erro("Erro ao adicionar nova Manutenção!");
                             cancelarOperacao();
                         } else {
+                            
+                            Dialogo.Resposta abrirPDF = Alerta.confirmar("Manutenção finalizada com sucesso!\n"
+                                                                        + "Deseja abrir o Comprovante da Manutenção ?");
+                            
                             // gerar descricao manutencao pdf
-                            DescricaoManutencao dm = new DescricaoManutencao(id);
-                            dm.setMostrar(true);
-                            dm.start();
-                            Alerta.info("Manutenção cadastrada com sucesso!");
+                            DescricaoManutencao relatorio = new DescricaoManutencao(id);
+                            if (abrirPDF == Dialogo.Resposta.YES) {
+                                relatorio.setMostrar(true);
+                            }
+                            relatorio.start();
+                            
                             cancelarOperacao();
                         }
                     } catch (Exception e) {

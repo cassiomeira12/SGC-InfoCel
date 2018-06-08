@@ -45,7 +45,7 @@ public class Cliente {
     public void setEndereco(Endereco endereco) {
         this.endereco = endereco;
     }
-
+    
     public String getCpf() {
         return cpf;
     }
@@ -85,7 +85,7 @@ public class Cliente {
     public void setStatus(boolean status) {
         this.status = status;
     }
-
+    
     @Override
     public String toString() {
         return nome;

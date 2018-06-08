@@ -46,6 +46,9 @@
                      <HBox.margin>
                         <Insets />
                      </HBox.margin>
+                     <children>
+                        <Button mnemonicParsing="false" styleClass="button-excluir" text="Excluir" visible="false" />
+                     </children>
                   </HBox>
                </children>
                <BorderPane.margin>

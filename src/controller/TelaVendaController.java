@@ -43,6 +43,8 @@ import util.alerta.Alerta;
 public class TelaVendaController extends AnchorPane {
 
     private BorderPane painelPrincipal;
+    
+    private boolean voltarTelaInicial = false;
 
     private Cliente cliente;
     private Venda venda;
@@ -54,8 +56,6 @@ public class TelaVendaController extends AnchorPane {
 
     List<VendaProduto> listaProdutoVenda;
 
-    @FXML
-    private CheckBox editarClienteCheckBox;
     @FXML
     private TextField nomeText;
     @FXML
@@ -141,41 +141,63 @@ public class TelaVendaController extends AnchorPane {
 
     @FXML
     public void initialize() {
-        Formatter.mascaraCPF(cpfText);//Formatador para CPF
-        Formatter.mascaraRG(rgText);//Formatador para Rg
-        Formatter.mascaraTelefone(telefoneText);//Formatador para Telefone
+//        Formatter.mascaraCPF(cpfText);//Formatador para CPF
+//        Formatter.mascaraRG(rgText);//Formatador para Rg
+//        Formatter.mascaraTelefone(telefoneText);//Formatador para Telefone
+//
+//        Formatter.toUpperCase(nomeText, adicionarCidadeText, ruaText, adicionarBairroText, numeroText);
+//
+//        editarClienteCheckBox.setVisible(false);
+//
+//        //Campos ficam desativados enquanto CheckBox esta desativado
+//        nomeText.editableProperty().bind(editarClienteCheckBox.selectedProperty());
+//        telefoneText.editableProperty().bind(editarClienteCheckBox.selectedProperty());
+//        cpfText.editableProperty().bind(editarClienteCheckBox.selectedProperty());
+//        rgText.editableProperty().bind(editarClienteCheckBox.selectedProperty());
+//        cidadeBox.disableProperty().bind(editarClienteCheckBox.selectedProperty().not());
+//        bairroBox.disableProperty().bind(editarClienteCheckBox.selectedProperty().not());
+//        ruaText.editableProperty().bind(editarClienteCheckBox.selectedProperty());
+//        numeroText.editableProperty().bind(editarClienteCheckBox.selectedProperty());
 
-        Formatter.toUpperCase(nomeText, adicionarCidadeText, ruaText, adicionarBairroText, numeroText);
-
-        editarClienteCheckBox.setVisible(false);
-
-        //Campos ficam desativados enquanto CheckBox esta desativado
-        nomeText.editableProperty().bind(editarClienteCheckBox.selectedProperty());
-        telefoneText.editableProperty().bind(editarClienteCheckBox.selectedProperty());
-        cpfText.editableProperty().bind(editarClienteCheckBox.selectedProperty());
-        rgText.editableProperty().bind(editarClienteCheckBox.selectedProperty());
-        cidadeBox.disableProperty().bind(editarClienteCheckBox.selectedProperty().not());
-        bairroBox.disableProperty().bind(editarClienteCheckBox.selectedProperty().not());
-        ruaText.editableProperty().bind(editarClienteCheckBox.selectedProperty());
-        numeroText.editableProperty().bind(editarClienteCheckBox.selectedProperty());
+        boolean desabilitar = true;
+        
+        this.nomeText.setDisable(desabilitar);
+        this.telefoneText.setDisable(desabilitar);
+        this.cpfText.setDisable(desabilitar);
+        this.rgText.setDisable(desabilitar);
+        this.cidadeBox.setDisable(desabilitar);
+        this.bairroBox.setDisable(desabilitar);
+        this.ruaText.setDisable(desabilitar);
+        this.numeroText.setDisable(desabilitar);
+        this.vendedorComboBox.setDisable(desabilitar);
+        this.dataDatePicker.setDisable(desabilitar);
         
         valorParcelaBox.setVisible(false);
 
-        dataDatePicker.editableProperty().bind(editarClienteCheckBox.selectedProperty());
-        vendedorComboBox.editableProperty().bind(editarClienteCheckBox.selectedProperty());
-        formarPagComboBox.editableProperty().bind(editarClienteCheckBox.selectedProperty());
-        parcelasSpinner.disableProperty().bind(editarClienteCheckBox.selectedProperty().not());
+//        dataDatePicker.editableProperty().bind(editarClienteCheckBox.selectedProperty());
+//        vendedorComboBox.editableProperty().bind(editarClienteCheckBox.selectedProperty());
+//        formarPagComboBox.editableProperty().bind(editarClienteCheckBox.selectedProperty());
+//        parcelasSpinner.disableProperty().bind(editarClienteCheckBox.selectedProperty().not());
         
     }
 
     private void adicionarPainelInterno(AnchorPane novaTela) {
         this.painelPrincipal.setCenter(novaTela);
     }
-
+    
+    public void voltarTelaInicial(boolean telaInicial) {
+        this.voltarTelaInicial = telaInicial;
+    }
+    
     @FXML
     private void cancelarOperacao() {
-        TelaInicialController telaInicial = new TelaInicialController(painelPrincipal);
-        this.adicionarPainelInterno(telaInicial);
+        if (voltarTelaInicial) {
+            TelaInicialController tela = new TelaInicialController(painelPrincipal);
+            this.adicionarPainelInterno(tela);
+        } else {
+            TelaConsultarVendasController tela = new TelaConsultarVendasController(painelPrincipal);
+            this.adicionarPainelInterno(tela);
+        }
     }
 
     private void adicionarDadosCliente(Cliente cliente) {
