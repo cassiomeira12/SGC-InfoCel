@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import util.DateUtils;
 
-public class Venda {
+public class Venda implements Comparable<Venda> {
 
     private Long id;
     private Administrador administrador;
@@ -149,4 +149,13 @@ public class Venda {
         precoTotal = calcularPrecoTotal();
     }
     
+    @Override
+    public int compareTo(Venda venda) {
+        int comparador = venda.getData().intValue();
+        /* Do maior para o Menor*/
+        //return this.getData().intValue() - comparador;
+
+        /* Do menor para o Maior */
+        return  comparador - this.getData().intValue();
+    }
 }

@@ -15,15 +15,15 @@
                   <MenuItem mnemonicParsing="false" onAction="#fecharPrograma" text="Fechar" />
             </items>
           </Menu>
-          <Menu mnemonicParsing="false" text="Vendas">
-               <items>
-                  <MenuItem mnemonicParsing="false" onAction="#chamarTelaAdicionarVenda" text="Adicionar Venda" />
-                  <MenuItem mnemonicParsing="false" onAction="#chamarTelaConsultarVendas" text="Consultar Vendas" />
-               </items></Menu>
           <Menu mnemonicParsing="false" text="Produtos">
                <items>
                   <MenuItem mnemonicParsing="false" onAction="#chamarTelaAdicionarProduto" text="Adicionar Produto" />
                   <MenuItem mnemonicParsing="false" onAction="#chamarTelaConsultarProdutos" text="Consultar Produtos" />
+               </items></Menu>
+          <Menu mnemonicParsing="false" text="Vendas">
+               <items>
+                  <MenuItem mnemonicParsing="false" onAction="#chamarTelaAdicionarVenda" text="Adicionar Venda" />
+                  <MenuItem mnemonicParsing="false" onAction="#chamarTelaConsultarVendas" text="Consultar Vendas" />
                </items></Menu>
             <Menu mnemonicParsing="false" text="Manutenções">
                <items>

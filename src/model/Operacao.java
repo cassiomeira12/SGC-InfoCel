@@ -13,6 +13,11 @@ import util.DateUtils;
  */
 public class Operacao implements Comparable<Operacao> {
     
+    private Venda venda = null;
+    private Manutencao manutencao = null;
+    private Receita receita = null;
+    private Saida saida = null;
+    
     private String categoria = "";
     private String cliente = "";
     private String descricao = "";
@@ -21,6 +26,7 @@ public class Operacao implements Comparable<Operacao> {
     private Long data;
     
     public Operacao(Venda venda) {
+        this.venda = venda;
         this.categoria = "VENDA";
         this.cliente = venda.getCliente().getNome();
         //this.descricao = venda.toString();
@@ -30,6 +36,7 @@ public class Operacao implements Comparable<Operacao> {
     }
     
     public Operacao(Manutencao manutencao) {
+        this.manutencao = manutencao;
         this.categoria = "MANUTENÇÃO";
         this.cliente = manutencao.getCliente().getNome();
         this.descricao = manutencao.getDescricao();
@@ -39,6 +46,7 @@ public class Operacao implements Comparable<Operacao> {
     }
     
     public Operacao(Receita receita) {
+        this.receita = receita;
         this.categoria = "RECEITA";
         this.cliente = receita.getCliente().getNome();
         this.descricao = receita.getDescricao();
@@ -48,6 +56,7 @@ public class Operacao implements Comparable<Operacao> {
     }
     
     public Operacao(Saida saida) {
+        this.saida = saida;
         this.categoria = "SAÍDA";
         //this.cliente = 
         this.descricao = saida.getDescricao();
@@ -94,6 +103,21 @@ public class Operacao implements Comparable<Operacao> {
         /* Do menor para o Maior */
         return  comparador - this.getData().intValue();
     }
-    
+
+    public Venda getVenda() {
+        return venda;
+    }
+
+    public Manutencao getManutencao() {
+        return manutencao;
+    }
+
+    public Receita getReceita() {
+        return receita;
+    }
+
+    public Saida getSaida() {
+        return saida;
+    }
     
 }

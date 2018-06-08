@@ -3,6 +3,7 @@ package controller;
 import banco.ControleDAO;
 import java.io.IOException;
 import java.time.LocalDate;
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 import javafx.application.Platform;
@@ -10,7 +11,6 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
@@ -20,7 +20,6 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseButton;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javax.swing.SwingWorker;
@@ -88,17 +87,14 @@ public class TelaConsultarVendasController extends AnchorPane {
         //Desativa os Botoes de Editar e Excluir quando nenhum item na tabela esta selecionado
         visualizarButton.disableProperty().bind(vendasTable.getSelectionModel().selectedItemProperty().isNull());
         
-        vendasTable.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-                if (event.getButton().equals(MouseButton.PRIMARY)) {
-                    if (event.getClickCount() == 2) {
-                        visualizarVenda();
-                    }
+        vendasTable.setOnMouseClicked((event) -> {
+            if (event.getButton().equals(MouseButton.PRIMARY)) {
+                if (event.getClickCount() == 2) {
+                    visualizarVenda();
                 }
             }
         });
-        
+       
         inicioDatePicker.setValue(dataInicio);
         fimDatePicker.setValue(dataFim);
         
@@ -205,6 +201,7 @@ public class TelaConsultarVendasController extends AnchorPane {
                 super.done(); //To change body of generated methods, choose Tools | Templates.
                 try {
                     listaVendas = this.get();
+                    Collections.sort(listaVendas);//Ordenando as Operacoes
                     atualizarTabela();
                 } catch (InterruptedException | ExecutionException ex) {
                     chamarAlerta("Erro ao consultar Banco de Dados");

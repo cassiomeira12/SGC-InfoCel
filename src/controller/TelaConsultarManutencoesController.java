@@ -8,6 +8,7 @@ package controller;
 import banco.ControleDAO;
 import java.io.IOException;
 import java.time.LocalDate;
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 import javafx.application.Platform;
@@ -160,6 +161,7 @@ public class TelaConsultarManutencoesController extends AnchorPane {
                 super.done(); //To change body of generated methods, choose Tools | Templates.
                 try {
                     listaManutencoes = this.get();
+                    Collections.sort(listaManutencoes);//Ordenando as Operacoes
                     atualizarTabela();
                 } catch (InterruptedException | ExecutionException ex) {
                     chamarAlerta("Erro ao consultar Banco de Dados");

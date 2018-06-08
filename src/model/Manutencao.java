@@ -2,7 +2,7 @@ package model;
 
 import util.DateUtils;
 
-public class Manutencao {
+public class Manutencao implements Comparable<Manutencao> {
 
     private Long id;
     private String descricao;
@@ -164,6 +164,16 @@ public class Manutencao {
 
     public void setQuantidadeParcelas(int quantidadeParcelas) {
         this.quantidadeParcelas = quantidadeParcelas;
+    }
+    
+    @Override
+    public int compareTo(Manutencao manutencao) {
+        int comparador = manutencao.getDataCadastro().intValue();
+        /* Do maior para o Menor*/
+        //return this.getData().intValue() - comparador;
+
+        /* Do menor para o Maior */
+        return  comparador - this.getDataCadastro().intValue();
     }
 
 }

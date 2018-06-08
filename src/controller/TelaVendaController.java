@@ -6,6 +6,7 @@ import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -153,10 +154,9 @@ public class TelaVendaController extends AnchorPane {
         telefoneText.editableProperty().bind(editarClienteCheckBox.selectedProperty());
         cpfText.editableProperty().bind(editarClienteCheckBox.selectedProperty());
         rgText.editableProperty().bind(editarClienteCheckBox.selectedProperty());
-        //cidadeBox.editableProperty().bind(editarClienteCheckBox.selectedProperty().not());
-        //bairroBox.editableProperty().bind(editarClienteCheckBox.selectedProperty().not());
+        cidadeBox.disableProperty().bind(editarClienteCheckBox.selectedProperty().not());
+        bairroBox.disableProperty().bind(editarClienteCheckBox.selectedProperty().not());
         ruaText.editableProperty().bind(editarClienteCheckBox.selectedProperty());
-        //numeroText.disableProperty().bind(editarClienteCheckBox.selectedProperty().not());
         numeroText.editableProperty().bind(editarClienteCheckBox.selectedProperty());
         
         valorParcelaBox.setVisible(false);
@@ -164,7 +164,8 @@ public class TelaVendaController extends AnchorPane {
         dataDatePicker.editableProperty().bind(editarClienteCheckBox.selectedProperty());
         vendedorComboBox.editableProperty().bind(editarClienteCheckBox.selectedProperty());
         formarPagComboBox.editableProperty().bind(editarClienteCheckBox.selectedProperty());
-        parcelasSpinner.editableProperty().bind(editarClienteCheckBox.selectedProperty());
+        parcelasSpinner.disableProperty().bind(editarClienteCheckBox.selectedProperty().not());
+        
     }
 
     private void adicionarPainelInterno(AnchorPane novaTela) {
@@ -202,15 +203,18 @@ public class TelaVendaController extends AnchorPane {
         Long data = venda.getData();
         Administrador vendedor = venda.getAdministrador();
         FormaPagamento formaPagamento = venda.getFormaPagamento();
-        int parcelas = venda.getQuantidadeParcelas();
         
-        SpinnerValueFactory<Integer> valores = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, formaPagamento.getMaximoParcelas(), 1);
-        valores.setValue(parcelas);
+        int parcelas = venda.getQuantidadeParcelas();
         
         this.dataDatePicker.setValue(DateUtils.createLocalDate(data));
         this.vendedorComboBox.setValue(vendedor);
         this.formarPagComboBox.setValue(formaPagamento);
-        this.parcelasSpinner.setValueFactory(valores);
+        
+        SpinnerValueFactory<Integer> valores = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 5, parcelas);
+        parcelasSpinner.setValueFactory(valores);
+        
+        
+        //this.parcelasSpinner.setValueFactory(valores);
     }
 
     public void setVenda(Venda venda) {
@@ -255,9 +259,12 @@ public class TelaVendaController extends AnchorPane {
         this.precoColumn.setCellValueFactory(new PropertyValueFactory<>("precoProduto"));
         this.quantidadeColumn.setCellValueFactory(new PropertyValueFactory<>("quantidade"));
         this.totalColumn.setCellValueFactory(new PropertyValueFactory<>("precoTotal"));
-        
         atualizarPrecoParcelas();
-        this.totalLabel.setText(new DecimalFormat("#,###.00").format(venda.getPrecoTotal()));
+
+        Platform.runLater(() -> {
+            this.totalLabel.setText(new DecimalFormat("#,###.00").format(venda.getPrecoTotal()));
+        });
+        
         this.produtosTable.setItems(data);//Adiciona a lista de clientes na Tabela
     }
     
@@ -266,13 +273,19 @@ public class TelaVendaController extends AnchorPane {
         if (parcela != null) {
             if (parcela > 1 && !listaProdutoVenda.isEmpty()) {
                 double valor = venda.getPrecoTotal()/parcela;
-                valorParcelasLabel.setText(new DecimalFormat("#,###.00").format(valor));
+                setParcelasLabel(valor);
                 valorParcelaBox.setVisible(true);
             } else {
-                valorParcelasLabel.setText("0.0");
+                setParcelasLabel(0);
                 valorParcelaBox.setVisible(false);
             }
         }
+    }
+    
+    private void setParcelasLabel(double valor) {
+        Platform.runLater(()-> {
+            valorParcelasLabel.setText(new DecimalFormat("#,###.00").format(valor));
+        });
     }
 
 }

@@ -23,6 +23,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseButton;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javax.swing.SwingWorker;
@@ -87,6 +88,20 @@ public class TelaInicialController extends AnchorPane {
         dinheiroLabel.textProperty().bind(this.totalDiario.asString());
         
         atualizarOperacoes(LocalDate.now());
+        
+        relatorioTableView.setOnMouseClicked((event) -> {
+            if (event.getButton().equals(MouseButton.PRIMARY)) {
+                if (event.getClickCount() == 2) {
+                    Operacao op = relatorioTableView.getSelectionModel().getSelectedItem();
+                    if (op.getVenda() != null) {
+                        TelaVendaController telaVenda = new TelaVendaController(painelPrincipal);
+                        telaVenda.setVenda(op.getVenda());
+
+                        this.adicionarPainelInterno(telaVenda);
+                    }
+                }
+            }
+        });
         
 //        relatorioTableView.setRowFactory(tv -> new TableRow<Operacao>() {
 //            @Override

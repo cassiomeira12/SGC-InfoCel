@@ -493,7 +493,7 @@ public class TelaAdicionarVendaController extends AnchorPane {
     private void atualizarTabela() {
         //Transforma a lista em uma Lista Observavel
         ObservableList data = FXCollections.observableArrayList(novaVenda.getVendaProdutos());
-
+        
         this.categoriaColumn.setCellValueFactory(new PropertyValueFactory<>("categoria"));
         this.descricaoColumn.setCellValueFactory(new PropertyValueFactory<>("descricao"));
         this.marcaColumn.setCellValueFactory(new PropertyValueFactory<>("marca"));
@@ -654,13 +654,19 @@ public class TelaAdicionarVendaController extends AnchorPane {
         if (parcela != null) {
             if (parcela > 1 && !novaVenda.getVendaProdutos().isEmpty()) {
                 double valor = novaVenda.getPrecoTotal()/parcela;
-                valorParcelasLabel.setText(new DecimalFormat("#,###.00").format(valor));
+                setParcelasLabel(valor);
                 valorParcelaBox.setVisible(true);
             } else {
-                valorParcelasLabel.setText("0.0");
+                setParcelasLabel(0);
                 valorParcelaBox.setVisible(false);
             }
         }
+    }
+    
+    private void setParcelasLabel(double valor) {
+        Platform.runLater(()-> {
+            valorParcelasLabel.setText(new DecimalFormat("#,###.00").format(valor));
+        });
     }
     
 }
