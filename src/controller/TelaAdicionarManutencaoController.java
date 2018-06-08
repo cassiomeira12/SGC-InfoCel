@@ -342,7 +342,8 @@ public class TelaAdicionarManutencaoController extends AnchorPane {
                             }
                             relatorio.start();
                             
-                            cancelarOperacao();
+                            TelaInicialController telaInicial = new TelaInicialController(painelPrincipal);
+                            this.adicionarPainelInterno(telaInicial);
                         }
                     } catch (Exception e) {
                         Alerta.erro("Erro ao adicionar nova Manutenção: " + e.getMessage());

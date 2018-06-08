@@ -369,9 +369,10 @@ public class TelaAdicionarVendaController extends AnchorPane {
                             if (abrirPDF == Dialogo.Resposta.YES) {
                                 relatorio.setMostrar(true);
                             }
-                            relatorio.run();
+                            relatorio.start();
                             
-                            cancelarOperacao();
+                            TelaInicialController telaInicial = new TelaInicialController(painelPrincipal);
+                            this.adicionarPainelInterno(telaInicial);
                         }
                     } catch (Exception e) {
                         Alerta.erro("Erro ao adicionar nova Venda: " + e.getMessage());
