@@ -3,6 +3,7 @@ package util;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.Month;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
@@ -20,6 +21,12 @@ public class DateUtils {
             return null;
         }
         return df.format(new Date(date));
+    }
+    
+    public static LocalDate createLocalDate(long data) {
+        String data1 = formatDate(data);
+        int[] data2 = parseDateInfo(data1);
+        return LocalDate.of(data2[2], data2[1], data2[0]);
     }
 
     public static String formatDate2(Long date) {

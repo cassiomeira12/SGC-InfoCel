@@ -80,8 +80,8 @@ public class TelaConsultarVendasController extends AnchorPane {
 
     @FXML
     public void initialize() {
-        this.dataInicio = LocalDate.now();
-        this.dataFim = LocalDate.now().plusDays(1);
+        this.dataInicio = LocalDate.of(LocalDate.now().getYear(), LocalDate.now().getMonthValue(), 1);
+        this.dataFim = LocalDate.of(dataInicio.getYear(), dataInicio.getMonthValue(), dataInicio.lengthOfMonth());
         
         Formatter.toUpperCase(filtroText);
         

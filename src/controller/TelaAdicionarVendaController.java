@@ -2,6 +2,7 @@ package controller;
 
 import banco.ControleDAO;
 import java.io.IOException;
+import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
@@ -125,6 +126,11 @@ public class TelaAdicionarVendaController extends AnchorPane {
     private TableColumn<Float, String> quantidadeColumn;
     @FXML
     private TableColumn<Float, String> totalColumn;
+    
+    @FXML
+    private HBox valorParcelaBox;
+    @FXML
+    private Label valorParcelasLabel;
 
     public TelaAdicionarVendaController(BorderPane painelPrincipal) {
         this.painelPrincipal = painelPrincipal;
@@ -180,11 +186,16 @@ public class TelaAdicionarVendaController extends AnchorPane {
         
         adicionarCidadeBox.setVisible(false);
         adicionarBairroBox.setVisible(false);
+        valorParcelaBox.setVisible(false);
         
         cidadeComboBox.setOnAction((e) -> {
             Cidade cidade = cidadeComboBox.getValue();
             bairroComboBox.getSelectionModel().select(null);
             sincronizarBancoDadosBairro(cidade);
+        });
+        
+        parcelasSpinner.setOnMouseClicked((e) -> {
+            atualizarPrecoParcelas();
         });
         
         sincronizarBancoDadosAdministrador();
@@ -351,13 +362,17 @@ public class TelaAdicionarVendaController extends AnchorPane {
                             Alerta.erro("Erro ao adicionar nova Venda");
                         } else {
                             
-                            //gerar relatorio
-                            DescricaoVenda dv = new DescricaoVenda(id);
-                            dv.setMostrar(true);
-                            dv.start();
-                            // mostrar relatorio
+                            Dialogo.Resposta abrirPDF = Alerta.confirmar("Venda finalizada com sucesso!\n"
+                                                                        + "Deseja abrir o Comprovante de Venda ?");
                             
-                            Alerta.info("Venda Realizada com sucesso!");
+                            DescricaoVenda dv = new DescricaoVenda(id);
+                            
+                            if (abrirPDF == Dialogo.Resposta.YES) {
+                                dv.setMostrar(true);
+                            }
+                            
+                            dv.run();
+                            
                             TelaInicialController telaInicial = new TelaInicialController(painelPrincipal);
                             this.adicionarPainelInterno(telaInicial);
                         }
@@ -487,7 +502,8 @@ public class TelaAdicionarVendaController extends AnchorPane {
         this.totalColumn.setCellValueFactory(new PropertyValueFactory<>("precoTotal"));
 
         this.produtosTable.setItems(data);
-        this.totalLabel.setText(String.valueOf(novaVenda.getPrecoTotal()));
+        this.totalLabel.setText(new DecimalFormat("#,###.00").format(novaVenda.getPrecoTotal()));
+        atualizarPrecoParcelas();
     }
     
     @FXML
@@ -631,6 +647,20 @@ public class TelaAdicionarVendaController extends AnchorPane {
                 Alerta.erro(mensagem);
             }
         });
+    }
+    
+    private void atualizarPrecoParcelas() {
+        Integer parcela = parcelasSpinner.getValue();
+        if (parcela != null) {
+            if (parcela > 1 && !novaVenda.getVendaProdutos().isEmpty()) {
+                double valor = novaVenda.getPrecoTotal()/parcela;
+                valorParcelasLabel.setText(new DecimalFormat("#,###.00").format(valor));
+                valorParcelaBox.setVisible(true);
+            } else {
+                valorParcelasLabel.setText("0.0");
+                valorParcelaBox.setVisible(false);
+            }
+        }
     }
     
 }
