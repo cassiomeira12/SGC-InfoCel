@@ -7,8 +7,12 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
 <fx:root prefHeight="650.0" prefWidth="1200.0" stylesheets="@../css/default.css" type="AnchorPane" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1">
@@ -65,10 +69,52 @@
                </children>
             </HBox>
          </top>
+         <left>
+            <VBox alignment="CENTER" spacing="50.0">
+               <children>
+                  <GridPane>
+                    <columnConstraints>
+                      <ColumnConstraints hgrow="ALWAYS" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="160.0" />
+                        <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" />
+                      <ColumnConstraints halignment="LEFT" hgrow="SOMETIMES" />
+                    </columnConstraints>
+                    <rowConstraints>
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                    </rowConstraints>
+                     <children>
+                        <Label styleClass="label-data" text="Vendas" />
+                        <Label styleClass="label-data" text="R$:" GridPane.columnIndex="1" />
+                        <Label fx:id="vendasLabel" styleClass="label-data" text="0.0" GridPane.columnIndex="2" />
+                        <Label styleClass="label-data" text="Manutenções" GridPane.rowIndex="1" />
+                        <Label styleClass="label-data" text="R$:" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                        <Label fx:id="manutencoesLabel" styleClass="label-data" text="0.0" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                        <Label styleClass="label-data" text="Receitas" GridPane.rowIndex="2" />
+                        <Label styleClass="label-data" text="R$:" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                        <Label fx:id="receitasLabel" styleClass="label-data" text="0.0" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+                        <Label styleClass="label-data" text="Saídas" GridPane.rowIndex="3" />
+                        <Label styleClass="label-data" text="R$:" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                        <Label fx:id="saidasLabel" styleClass="label-data" text="0.0" GridPane.columnIndex="2" GridPane.rowIndex="3" />
+                        <Label styleClass="label-data" text="Total Receitas" GridPane.rowIndex="5" />
+                        <Label styleClass="label-data" text="Total Saídas" GridPane.rowIndex="6" />
+                        <Label styleClass="label-data" text="R$:" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                        <Label fx:id="totalReceitasLabel" styleClass="label-data" text="0.0" GridPane.columnIndex="2" GridPane.rowIndex="5" />
+                        <Label styleClass="label-data" text="R$:" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+                        <Label fx:id="totalSaidasLabel" styleClass="label-data" text="0.0" GridPane.columnIndex="2" GridPane.rowIndex="6" />
+                     </children>
+                  </GridPane>
+               </children>
+            </VBox>
+         </left>
          <center>
             <StackPane fx:id="stackPane" prefHeight="150.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                <children>
-                  <PieChart fx:id="graficoPie" />
+                  <PieChart fx:id="graficoPie" prefHeight="540.0" prefWidth="980.0" />
                </children>
             </StackPane>
          </center>

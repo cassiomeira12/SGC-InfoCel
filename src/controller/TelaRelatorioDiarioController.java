@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.util.Date;
 import java.util.HashMap;
@@ -19,14 +20,19 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
 import javafx.application.Platform;
+import javafx.event.EventHandler;
+import javafx.event.EventType;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.chart.PieChart;
 import javafx.scene.control.DatePicker;
+import javafx.scene.control.Label;
 import javafx.scene.control.ProgressIndicator;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
 import javax.swing.SwingWorker;
 import model.Manutencao;
 import model.Receita;
@@ -62,13 +68,28 @@ public class TelaRelatorioDiarioController extends AnchorPane {
     private PieChart.Data saidaSlice;
 
     @FXML
+    private Label vendasLabel;
+    @FXML
+    private Label manutencoesLabel;
+    @FXML
+    private Label receitasLabel;
+    @FXML
+    private Label saidasLabel;
+    @FXML
+    private Label totalReceitasLabel;
+    @FXML
+    private Label totalSaidasLabel;
+    
+    @FXML
     private PieChart graficoPie;
     @FXML
     private DatePicker dataDatePicker;
     @FXML
+    private Label caption;
+    @FXML
     private StackPane stackPane;
     private ProgressIndicator indicator = new ProgressIndicator();
-
+    
     public TelaRelatorioDiarioController(BorderPane painelPrincipal) {
         this.painelPrincipal = painelPrincipal;
 
@@ -90,21 +111,56 @@ public class TelaRelatorioDiarioController extends AnchorPane {
 
         vendaSlice = new PieChart.Data("VENDA", 0);
         manutencaoSlice = new PieChart.Data("MANUTENÇÃO", 0);
-        receitaSlice = new PieChart.Data("RECEITA", 0);
         saidaSlice = new PieChart.Data("SAÍDA", 0);
+        receitaSlice = new PieChart.Data("RECEITA", 0);
         
-        graficoPie.getData().addAll(vendaSlice, manutencaoSlice, receitaSlice, saidaSlice);
-        graficoPie.setTitle("Relatório do dia " + DateUtils.formatDate(data));
+        graficoPie.getData().addAll(saidaSlice, vendaSlice, manutencaoSlice, receitaSlice);
+        //graficoPie.setTitle("Relatório do dia " + DateUtils.formatDate(data));
+        graficoPie.setLabelLineLength(50);
         
+        vendaSlice.getNode().addEventHandler(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                TelaConsultarVendasController tela = new TelaConsultarVendasController(painelPrincipal);
+                adicionarPainelInterno(tela);
+            }
+        });
+        
+        manutencaoSlice.getNode().addEventHandler(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                TelaConsultarManutencoesController tela = new TelaConsultarManutencoesController(painelPrincipal);
+                adicionarPainelInterno(tela);
+            }
+        });
+        
+        receitaSlice.getNode().addEventHandler(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                System.out.println("Receita");
+            }
+        });
+        
+        saidaSlice.getNode().addEventHandler(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                System.out.println("Saida");
+            }
+        });
+        
+        indicator.setMaxSize(200, 200);
+        stackPane.getChildren().add(indicator);
+
         dataDatePicker.setOnAction((e) -> {
             data = dataDatePicker.getValue();
             sincronizarBancoDados(data);
         });
         
-        stackPane.getChildren().add(indicator);
-        indicator.setMaxSize(200, 200);
-        
         sincronizarBancoDados(data);
+    }
+    
+    private void adicionarPainelInterno(AnchorPane novaTela) {
+        this.painelPrincipal.setCenter(novaTela);
     }
 
     private void sincronizarBancoDados(LocalDate data) {
@@ -113,6 +169,14 @@ public class TelaRelatorioDiarioController extends AnchorPane {
         
         graficoPie.setVisible(false);
         indicator.setVisible(true);
+        
+        vendasLabel.setVisible(false);
+        manutencoesLabel.setVisible(false);
+        receitasLabel.setVisible(false);
+        saidasLabel.setVisible(false);
+        totalReceitasLabel.setVisible(false);
+        totalSaidasLabel.setVisible(false);
+        
         //Metodo executado numa Thread separada
         SwingWorker<List, List> worker;
         worker = new SwingWorker<List, List>() {
@@ -131,12 +195,16 @@ public class TelaRelatorioDiarioController extends AnchorPane {
                 super.done(); //To change body of generated methods, choose Tools | Templates.
                 
                 Float total = 0f;
+                Float totalReceitas = 0f;
+                Float totalSaidas  = 0f;
                 
                 if (listaVendas != null) {
                     for (Venda v : listaVendas) {
                         total += v.getPrecoTotal();
                     }
+                    totalReceitas += total;
                     vendaSlice.setPieValue(total.doubleValue());
+                    atualizarLabel(vendasLabel, total);
                 }
                 
                 if (listaManutencoes != null) {
@@ -144,7 +212,9 @@ public class TelaRelatorioDiarioController extends AnchorPane {
                     for (Manutencao m : listaManutencoes) {
                         total += m.getPreco();
                     }
+                    totalReceitas += total;
                     manutencaoSlice.setPieValue(total.doubleValue());
+                    atualizarLabel(manutencoesLabel, total);
                 }
                 
                 if (listaReceitas != null) {
@@ -152,7 +222,9 @@ public class TelaRelatorioDiarioController extends AnchorPane {
                     for (Receita r : listaReceitas) {
                         total += r.getValor();
                     }
+                    totalReceitas += total;
                     receitaSlice.setPieValue(total.doubleValue());
+                    atualizarLabel(receitasLabel, total);
                 }
                 
                 if (listaSaidas != null) {
@@ -160,16 +232,38 @@ public class TelaRelatorioDiarioController extends AnchorPane {
                     for (Saida s : listaSaidas) {
                         total += s.getValor();
                     }
+                    totalSaidas += total;
                     saidaSlice.setPieValue(total.doubleValue());
+                    atualizarLabel(saidasLabel, total);
                 }
-
+                
+                atualizarLabel(totalReceitasLabel, totalReceitas);
+                atualizarLabel(totalSaidasLabel, totalSaidas);
+                
                 graficoPie.setVisible(true);
                 indicator.setVisible(false);
+                
+                vendasLabel.setVisible(true);
+                manutencoesLabel.setVisible(true);
+                receitasLabel.setVisible(true);
+                saidasLabel.setVisible(true);
+                totalReceitasLabel.setVisible(true);
+                totalSaidasLabel.setVisible(true);
             }
         };
 
         worker.execute();
     }
+    
+    private void atualizarLabel(Label label, Float valor) {
+        Platform.runLater(() -> {
+            if (valor == 0) {
+                label.setText("0.0");
+            } else {
+                label.setText(new DecimalFormat("#,###.00").format(valor.doubleValue()));
+            }
+        });
+    } 
     
     private void chamarAlerta(String mensagem) {
         Platform.runLater(new Runnable() {
@@ -178,10 +272,6 @@ public class TelaRelatorioDiarioController extends AnchorPane {
                 Alerta.erro(mensagem);
             }
         });
-    }
-
-    private void adicionarPainelInterno(AnchorPane novaTela) {
-        this.painelPrincipal.setCenter(novaTela);
     }
 
     @FXML
