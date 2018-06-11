@@ -4,6 +4,7 @@ import banco.ConexaoBanco;
 import banco.ControleDAO;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -29,29 +30,31 @@ public class DescricaoManutencao extends Thread {
     ConexaoBanco conn = new ConexaoBanco();
     Statement stm;
     String query;
-    Long idVenda;
+    Long idManutencao;
     ResultSet rs;
     JRResultSetDataSource jrRS;
+    InputStream resourceAsStream;
     Map parameters;
-    String srcArquivoJaper;
     String srcSalvarRelatorio;
     String nomeClienteManutencao;
     JasperPrint jp;
     JasperViewer view;
-
     boolean mostrar = false;
 
     // construtor da classe
     public DescricaoManutencao(Long id) {
-        this.idVenda = id;
+        this.idManutencao = id;
     }
 
     @Override
     public void run() {
 
         try {
-            gerarDescricaoManutencao(idVenda);
+            // metodo que gerar o arquivo e salva como pdf
+            System.out.println("id_manutencao: " + idManutencao);
+            gerarDescricaoManutencao(idManutencao);
             if (mostrar) {
+                // metodo que mostra a descricao da venda na tela
                 mostrarDescricaoManutencao();
             }
         } catch (IOException ex) {
@@ -64,20 +67,17 @@ public class DescricaoManutencao extends Thread {
         try {
             // fazendo conexao com o banco
             this.stm = conn.getConnection().createStatement();
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-        }
-        // consulta passada para o arquivo jasper
-        query = "select nome_cliente, cpf_cliente, rg_cliente, telefone_cliente, nome_cidade_cliente, nome_bairro_cliente, rua_cliente, numero_cliente, nome_administrador, "
-                + "quantidade_parcelas, preco, descricao_forma_pagamento "
-                + "from view_manutencao "
-                + "where id = " + id.toString();
-        // execute a query		
-        try {
+            // consulta passada para o arquivo jasper
+            query = "select nome_cliente, cpf_cliente, rg_cliente, telefone_cliente, nome_cidade_cliente, nome_bairro_cliente, rua_cliente, numero_cliente, nome_administrador, "
+                    + "quantidade_parcelas, preco, descricao_forma_pagamento "
+                    + "from view_manutencao "
+                    + "where id = " + id.toString();
+            // execute a query		
             rs = stm.executeQuery(query);
         } catch (SQLException ex) {
             Logger.getLogger(DescricaoVenda.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
         jrRS = new JRResultSetDataSource(rs);
         // passagem de parametros para o jasper
         parameters = new HashMap();
@@ -91,19 +91,17 @@ public class DescricaoManutencao extends Thread {
         try {
             // passando data como parametros por cauda da formatacao
             parameters.put("data_manutencao", DateUtils.formatDate(ControleDAO.getBanco().getManutencaoDAO().buscarPorId(id).getDataCadastro()));
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-        }
-        // passando a conexao com o banco para o sub_report 
-        parameters.put("REPORT_CONNECTION", conn.getConnection());
-        // caminho logo da empresa
-        parameters.put("src_logo", SoftwareSpecifications.SRC_LOGO);
-        // caminho arquivo jasper
-        srcArquivoJaper = new File("src/relatorio/descricaoManutencao.jasper").getCanonicalPath();
-
-        try {
+            // passando a conexao com o banco para o sub_report 
+            parameters.put("REPORT_CONNECTION", conn.getConnection());
+            // caminho logo da empresa
+            String diretorio = SoftwareSpecifications.CAMINHO_LOGO;
+            String resource = getClass().getResource(diretorio).toString();
+            //setando o icone
+            parameters.put("src_logo", resource);
+            // caminho arquivo jasper
+            resourceAsStream = this.getClass().getResourceAsStream("descricaoManutencao.jasper");
             // caminho
-            srcSalvarRelatorio = new File("relatorio/manutencoes/" + DateUtils.formatDate2(ControleDAO.getBanco().getManutencaoDAO().buscarPorId(id).getDataCadastro())).getCanonicalPath();
+            srcSalvarRelatorio = new File("relatorios/manutencoes/" + DateUtils.formatDate2(ControleDAO.getBanco().getManutencaoDAO().buscarPorId(id).getDataCadastro())).getCanonicalPath();
             File file = new File(srcSalvarRelatorio);
             // verificar se um caminho  existe
             if (file.exists() == false) {
@@ -113,21 +111,16 @@ public class DescricaoManutencao extends Thread {
             // pega nome do cliente
             nomeClienteManutencao = ControleDAO.getBanco().getManutencaoDAO().buscarPorId(id).getCliente().getNome();
         } catch (SQLException ex) {
-           ex.printStackTrace();
+            ex.printStackTrace();
         }
 
         try {
             // cria arquivo jasper
-            jp = JasperFillManager.fillReport(srcArquivoJaper, parameters, jrRS);
-
-        } catch (JRException ex) {
-            System.out.println("Error: " + ex);
-        }
-        try {
+            jp = JasperFillManager.fillReport(resourceAsStream, parameters, jrRS);
             //impressao
             JasperExportManager.exportReportToPdfFile(jp, srcSalvarRelatorio + "/" + id.toString() + "_" + nomeClienteManutencao + ".pdf");
         } catch (JRException ex) {
-           ex.printStackTrace();
+            ex.printStackTrace();
         }
 
     }

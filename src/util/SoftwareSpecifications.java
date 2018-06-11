@@ -20,6 +20,6 @@ public class SoftwareSpecifications {
     public static String VERSAO = "0.2";
     public static String ESTADO = "Alpha";
     public static String TITULO = NOME+" - "+EMPRESA+" "+VERSAO+" "+ESTADO;
-    public static String SRC_LOGO = "../img/icons/logo.png";
+    public static String CAMINHO_LOGO = "/img/icons/logo.png";
     
 }
