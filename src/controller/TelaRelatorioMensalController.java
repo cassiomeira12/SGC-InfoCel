@@ -136,8 +136,6 @@ public class TelaRelatorioMensalController extends AnchorPane {
         stackPane.getChildren().add(indicator);
 
         dataDatePicker.setOnAction((e) -> {
-            //areaChart.setVisible(false);
-            //setVisibleItens(false);
             
             data = dataDatePicker.getValue();
 
@@ -145,33 +143,25 @@ public class TelaRelatorioMensalController extends AnchorPane {
             //ultimoDia = data.lengthOfMonth();
             ultimoDia = 31;
 
-//            eixoX = new NumberAxis(1, ultimoDia, 1);
-//            eixoY = new NumberAxis();
-//            areaChart = new AreaChart<>(eixoX, eixoY);
-            
             areaChart.setTitle("Relatório do Mês de " + mes);
             areaChart.setLegendSide(Side.BOTTOM);
             
-            //areaChart.getData().clear();
-            //areaChart.setData(ObservableList<Number, Number>(eixoX, eixoY));
 
             eixoX.setLabel("Dias do Mês");
             eixoY.setLabel("Valores R$");
 
-//            vendas.getData().clear();
-//            manutencoes.getData().clear();
-//            receitas.getData().clear();
-//            saidas.getData().clear();
+            vendas.getData().clear();
+            manutencoes.getData().clear();
+            receitas.getData().clear();
+            saidas.getData().clear();
 
-//            for (int dia = 1; dia <= ultimoDia; dia++) {
-//                vendas.getData().add(new XYChart.Data(dia, 0));
-//                manutencoes.getData().add(new XYChart.Data(dia, 0));
-//                receitas.getData().add(new XYChart.Data(dia, 0));
-//                saidas.getData().add(new XYChart.Data(dia, 0));
-//            }
-//            
-//            stackPane.getChildren().remove(areaChart);
-//            
+            for (int dia = 1; dia <= ultimoDia; dia++) {
+                vendas.getData().add(new XYChart.Data(dia, 0));
+                manutencoes.getData().add(new XYChart.Data(dia, 0));
+                receitas.getData().add(new XYChart.Data(dia, 0));
+                saidas.getData().add(new XYChart.Data(dia, 0));
+            }
+
             sincronizarBancoDados(data);
         });
 
@@ -186,8 +176,8 @@ public class TelaRelatorioMensalController extends AnchorPane {
         listaReceita = null;
         listaVenda = null;
 
-        //areaChart.setVisible(false);
-        //setVisibleItens(false);
+        areaChart.setVisible(false);
+        setVisibleItens(false);
 
         String dataInicio = DateUtils.formatDate(data.getYear(), data.getMonthValue(), 1);
         String dataFinal = DateUtils.formatDate(data.getYear(), data.getMonthValue(), data.lengthOfMonth());
@@ -211,83 +201,76 @@ public class TelaRelatorioMensalController extends AnchorPane {
                 Float total = 0f;
                 Float totalReceitas = 0f;
                 Float totalSaidas = 0f;
-
+                
                 if (listaVenda != null) {
                     total = 0f;
                     for (int i = 0; i < ultimoDia; i++) {
                         for (Venda venda : listaVenda) {
                             int dia = Integer.valueOf(venda.getDataEditada().substring(0, 2));
-                            Number number = venda.getPrecoTotal();
-                            if (i + 1 == dia) {
-                                total += number.floatValue();
-                                System.out.println("Dia " + dia + " Valor " + total + " Id " + venda.getId());
+                            if (i+1 == dia) {
+                                float valor = venda.getPrecoTotal();
+                                total += valor;
+                                Number number = valor + vendas.getData().get(i).getYValue().floatValue();
                                 vendas.getData().get(i).setYValue(number);
-                            } else {
-                                vendas.getData().get(i).setYValue(0);
                             }
                         }
                     }
                     totalReceitas += total;
                     atualizarLabel(vendasLabel, total);
                 }
-
-//                if (listaManutencao != null) {
-//                    total = 0f;
-//                    for (int i = 0; i < ultimoDia; i++) {
-//                        for (Manutencao manutencao : listaManutencao) {
-//                            int dia = Integer.valueOf(manutencao.getDataEditada().substring(0, 2));
-//                            Number number = manutencao.getPreco();
-//                            if (manutencao.isFinalizado()) {
-//                                total += number.floatValue();
-//                                if (i + 1 == dia) {
-//                                    manutencoes.getData().get(i).setYValue(number);
-//                                } else {
-//                                    manutencoes.getData().get(i).setYValue(0);
-//                                }
-//                            } else {
-//                                manutencoes.getData().get(i).setYValue(0);
-//                            }
-//                        }
-//                    }
-//                    totalReceitas += total;
-//                    atualizarLabel(manutencoesLabel, total);
-//                }
-//
-//                if (listaReceita != null) {
-//                    total = 0f;
-//                    for (int i = 0; i < ultimoDia; i++) {
-//                        for (Receita receita : listaReceita) {
-//                            int dia = Integer.valueOf(receita.getDataEditada().substring(0, 2));
-//                            Number number = receita.getValor();
-//                            total += number.floatValue();
-//                            if (i + 1 == dia) {
-//                                receitas.getData().get(i).setYValue(number);
-//                            } else {
-//                                receitas.getData().get(i).setYValue(0);
-//                            }
-//                        }
-//                    }
-//                    totalReceitas += total;
-//                    atualizarLabel(manutencoesLabel, total);
-//                }
-//
-//                if (listaSaida != null) {
-//                    total = 0f;
-//                    for (int i = 0; i < ultimoDia; i++) {
-//                        for (Saida saida : listaSaida) {
-//                            int dia = Integer.valueOf(saida.getDataEditada().substring(0, 2));
-//                            Number number = saida.getValor();
-//                            total += number.floatValue();
-//                            if (i + 1 == dia) {
-//                                saidas.getData().get(i).setYValue(number);
-//                            } else {
-//                                saidas.getData().get(i).setYValue(0);
-//                            }
-//                        }
-//                    }
-//                    totalSaidas += total;
-//                    atualizarLabel(saidasLabel, total);
-//                }
+                
+                if (listaManutencao != null) {
+                    total = 0f;
+                    for (int i = 0; i < ultimoDia; i++) {
+                        for (Manutencao manutencao : listaManutencao) {
+                            if (manutencao.isFinalizado()) {
+                                int dia = Integer.valueOf(manutencao.getDataEditada().substring(0, 2));
+                                if (i+1 == dia) {
+                                    float valor = manutencao.getPreco();
+                                    total += valor;
+                                    Number number = valor + manutencoes.getData().get(i).getYValue().floatValue();
+                                    manutencoes.getData().get(i).setYValue(number);
+                                }
+                            }
+                        }
+                    }
+                    totalReceitas += total;
+                    atualizarLabel(manutencoesLabel, total);
+                }
+                
+                if (listaReceita != null) {
+                    total = 0f;
+                    for (int i = 0; i < ultimoDia; i++) {
+                        for (Receita receita : listaReceita) {
+                            int dia = Integer.valueOf(receita.getDataEditada().substring(0, 2));
+                            if (i+1 == dia) {
+                                float valor = receita.getValor();
+                                total += valor;
+                                Number number = valor + receitas.getData().get(i).getYValue().floatValue();
+                                receitas.getData().get(i).setYValue(number);
+                            }
+                        }
+                    }
+                    totalReceitas += total;
+                    atualizarLabel(receitasLabel, total);
+                }
+                
+                if (listaSaida != null) {
+                    total = 0f;
+                    for (int i = 0; i < ultimoDia; i++) {
+                        for (Saida saida : listaSaida) {
+                            int dia = Integer.valueOf(saida.getDataEditada().substring(0, 2));
+                            if (i+1 == dia) {
+                                float valor = saida.getValor();
+                                total += valor;
+                                Number number = valor + saidas.getData().get(i).getYValue().floatValue();
+                                saidas.getData().get(i).setYValue(number);
+                            }
+                        }
+                    }
+                    totalSaidas += total;
+                    atualizarLabel(saidasLabel, total);
+                }
 
                 atualizarLabel(totalReceitasLabel, totalReceitas);
                 atualizarLabel(totalSaidasLabel, totalSaidas);
@@ -297,11 +280,9 @@ public class TelaRelatorioMensalController extends AnchorPane {
                 } catch (InterruptedException ex) {
                     ex.printStackTrace();
                 } finally {
-                    Platform.runLater(() -> {
-                        //areaChart.getData().addAll(vendas, manutencoes, receitas, saidas);
-                        //stackPane.getChildren().add(areaChart);
+                    //Platform.runLater(() -> {
                         areaChart.setVisible(true);
-                    });
+                    //});
                     setVisibleItens(true);
                 }
             }
