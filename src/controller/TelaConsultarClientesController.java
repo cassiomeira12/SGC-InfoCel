@@ -131,7 +131,8 @@ public class TelaConsultarClientesController extends AnchorPane {
             try {
                 ControleDAO.getBanco().getClienteDAO().excluir(cliente.getId().intValue());
             } catch (SQLException ex) {
-                Logger.getLogger(TelaConsultarClientesController.class.getName()).log(Level.SEVERE, null, ex);
+                ex.printStackTrace();
+                Alerta.erro("Erro ao excluir Cliente");
             }
             this.sincronizarBancoDados();
             this.atualizarTabela();

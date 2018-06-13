@@ -66,7 +66,7 @@
                         <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="-Infinity" />
                         <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="100.0" />
                         <ColumnConstraints hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefWidth="180.0" />
-                        <ColumnConstraints halignment="LEFT" hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefWidth="160.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefWidth="160.0" />
                      </columnConstraints>
                      <rowConstraints>
                         <RowConstraints minHeight="-Infinity" vgrow="SOMETIMES" />
@@ -79,7 +79,11 @@
                      </rowConstraints>
                      <children>
                         <CheckBox fx:id="editarClienteCheckBox" focusTraversable="false" mnemonicParsing="false" text="Editar informações do Cliente" GridPane.columnSpan="3" />
-                        <Button alignment="CENTER" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#pesquisarCliente" styleClass="button-pesquisar" text="Pesquisar Cliente" GridPane.columnIndex="6" />
+                        <HBox alignment="CENTER_RIGHT" maxWidth="1.7976931348623157E308" GridPane.columnIndex="6">
+                           <children>
+                              <Button alignment="CENTER" mnemonicParsing="false" onAction="#pesquisarCliente" styleClass="button-pesquisar" text="Pesquisar Cliente" />
+                           </children>
+                        </HBox>
                         <TextField fx:id="nomeText" GridPane.columnSpan="6" GridPane.rowIndex="2" />
                         <TextField fx:id="telefoneText" promptText="(XX)XXXXX-XXXX" GridPane.columnIndex="6" GridPane.rowIndex="2">
                            <font>

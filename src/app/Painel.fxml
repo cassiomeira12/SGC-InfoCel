@@ -30,6 +30,18 @@
                   <MenuItem mnemonicParsing="false" onAction="#chamarTelaAdicionarManutencao" text="Adicionar Manutenção" />
                   <MenuItem mnemonicParsing="false" onAction="#chamarTelaConsultarManutencoes" text="Consultar Manutenções" />
                </items></Menu>
+            <Menu mnemonicParsing="false" text="Receitas">
+               <items>
+                  <MenuItem mnemonicParsing="false" onAction="#chamarTelaAdicionarReceita" text="Adicionar Receita" />
+                  <MenuItem mnemonicParsing="false" onAction="#chamarTelaConsultarReceita" text="Consultar Receitas" />
+               </items>
+            </Menu>
+            <Menu mnemonicParsing="false" text="Saídas">
+               <items>
+                  <MenuItem mnemonicParsing="false" onAction="#chamarTelaAdicionarSaida" text="Adicionar Saída" />
+                  <MenuItem mnemonicParsing="false" onAction="#chamarTelaConsultarSaida" text="Consultar Saídas" />
+               </items>
+            </Menu>
             <Menu mnemonicParsing="false" text="Clientes">
                <items>
                   <MenuItem mnemonicParsing="false" onAction="#chamarTelaConsultarClientes" text="Consultar Clientes" />

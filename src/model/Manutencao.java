@@ -1,6 +1,7 @@
 package model;
 
 import util.DateUtils;
+import util.Formatter;
 
 public class Manutencao implements Comparable<Manutencao> {
 
@@ -136,6 +137,10 @@ public class Manutencao implements Comparable<Manutencao> {
 
     public void setPreco(float preco) {
         this.preco = preco;
+    }
+    
+    public String getPrecoFormatado() {
+        return Formatter.dinheiroFormatado(preco);
     }
 
     public boolean isFinalizado() {

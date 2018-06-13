@@ -1,8 +1,9 @@
 package model;
 
 import util.DateUtils;
+import util.Formatter;
 
-public class Receita {
+public class Receita implements Comparable<Receita> {
 
     private Long id;
     private Cliente cliente;
@@ -70,6 +71,20 @@ public class Receita {
 
     public void setValor(float valor) {
         this.valor = valor;
+    }
+    
+    public String getPrecoFormatado() {
+        return Formatter.dinheiroFormatado(valor);
+    }
+    
+    @Override
+    public int compareTo(Receita receita) {
+        int comparador = receita.getData().intValue();
+        /* Do maior para o Menor*/
+        //return this.getData().intValue() - comparador;
+
+        /* Do menor para o Maior */
+        return  comparador - this.getData().intValue();
     }
 
 }

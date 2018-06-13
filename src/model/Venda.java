@@ -3,6 +3,7 @@ package model;
 import java.util.ArrayList;
 import java.util.List;
 import util.DateUtils;
+import util.Formatter;
 
 public class Venda implements Comparable<Venda> {
 
@@ -69,6 +70,10 @@ public class Venda implements Comparable<Venda> {
 
     public float getPrecoTotal() {
         return precoTotal;
+    }
+    
+    public String getPrecoFormatado() {
+        return Formatter.dinheiroFormatado(precoTotal);
     }
 
     public void setPrecoTotal(float precoTotal) {

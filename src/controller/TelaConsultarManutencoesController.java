@@ -195,7 +195,7 @@ public class TelaConsultarManutencoesController extends AnchorPane {
         this.marcaColumn.setCellValueFactory(new PropertyValueFactory<>("marca"));
         this.modeloColumn.setCellValueFactory(new PropertyValueFactory<>("modelo"));
         this.dataColumn.setCellValueFactory(new PropertyValueFactory<>("dataEditada"));
-        this.precoColumn.setCellValueFactory(new PropertyValueFactory<>("preco"));
+        this.precoColumn.setCellValueFactory(new PropertyValueFactory<>("precoFormatado"));
         this.finalizadoColumn.setCellValueFactory(new PropertyValueFactory<>("finalizadoEditado"));
         this.manutencoesTable.setItems(data);//Adiciona a lista de clientes na Tabela
     }

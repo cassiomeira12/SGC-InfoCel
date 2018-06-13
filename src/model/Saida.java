@@ -1,8 +1,9 @@
 package model;
 
 import util.DateUtils;
+import util.Formatter;
 
-public class Saida {
+public class Saida implements Comparable<Saida> {
 
     private Long id;
     private Administrador administrador;
@@ -59,6 +60,10 @@ public class Saida {
     public void setValor(float valor) {
         this.valor = valor;
     }
+    
+    public String getPrecoFormatado() {
+        return Formatter.dinheiroFormatado(valor);
+    }
 
     public Long getData() {
         return data;
@@ -70,6 +75,16 @@ public class Saida {
 
     public void setData(Long data) {
         this.data = data;
+    }
+    
+    @Override
+    public int compareTo(Saida saida) {
+        int comparador = saida.getData().intValue();
+        /* Do maior para o Menor*/
+        //return this.getData().intValue() - comparador;
+
+        /* Do menor para o Maior */
+        return  comparador - this.getData().intValue();
     }
 
 }

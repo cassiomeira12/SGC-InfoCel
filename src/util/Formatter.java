@@ -5,6 +5,7 @@
  */
 package util;
 
+import java.text.DecimalFormat;
 import javafx.beans.value.ObservableValue;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
@@ -562,4 +563,7 @@ public class Formatter {
         }
     }
 
+    public static String dinheiroFormatado(Number num) {
+        return new DecimalFormat("#,###.00").format(num.doubleValue());
+    }
 }

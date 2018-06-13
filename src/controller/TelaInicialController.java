@@ -13,8 +13,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 import javafx.application.Platform;
-import javafx.beans.property.FloatProperty;
-import javafx.beans.property.SimpleFloatProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -34,6 +32,7 @@ import model.Receita;
 import model.Saida;
 import model.Venda;
 import util.DateUtils;
+import util.Formatter;
 
 /**
  * FXML Controller class
@@ -44,7 +43,6 @@ public class TelaInicialController extends AnchorPane {
     
     private BorderPane painelPrincipal;
     private List<Operacao> listaOperacao;
-    private FloatProperty totalDiario = new SimpleFloatProperty(0);
     
     @FXML
     private Label dataLabel;
@@ -59,7 +57,7 @@ public class TelaInicialController extends AnchorPane {
     @FXML
     private TableColumn<Administrador, String> funcionarioColumn;
     @FXML
-    private TableColumn<Float, String> valorColumn;
+    private TableColumn<Operacao, String> valorColumn;
     
     @FXML
     private Label dinheiroLabel;
@@ -75,7 +73,7 @@ public class TelaInicialController extends AnchorPane {
             fxml.load();
         } catch (IOException ex) {
             System.out.println("[ERRO] : Erro na tela de Login");
-            System.out.println(ex);
+            ex.printStackTrace();
         }
     }
 
@@ -85,8 +83,6 @@ public class TelaInicialController extends AnchorPane {
         
         this.listaOperacao = new ArrayList<>();
 
-        dinheiroLabel.textProperty().bind(this.totalDiario.asString());
-        
         atualizarOperacoes(LocalDate.now());
         
         relatorioTableView.setOnMouseClicked((event) -> {
@@ -101,6 +97,16 @@ public class TelaInicialController extends AnchorPane {
                     } else if (op.getManutencao() != null) {
                         TelaManutencaoController tela = new TelaManutencaoController(painelPrincipal);
                         tela.setManutencao(op.getManutencao());
+                        tela.voltarTelaInicial(true);
+                        this.adicionarPainelInterno(tela);
+                    } else if (op.getReceita() != null) {
+                        TelaReceitaController tela = new TelaReceitaController(painelPrincipal);
+                        tela.setReceita(op.getReceita());
+                        tela.voltarTelaInicial(true);
+                        this.adicionarPainelInterno(tela);
+                    } else if (op.getSaida() != null) {
+                        TelaSaidaController tela = new TelaSaidaController(painelPrincipal);
+                        tela.setSaida(op.getSaida());
                         tela.voltarTelaInicial(true);
                         this.adicionarPainelInterno(tela);
                     }
@@ -161,6 +167,7 @@ public class TelaInicialController extends AnchorPane {
             @Override
             protected List doInBackground() throws Exception {
                 List<Operacao> lista = new ArrayList<>();
+                float valorTotal = 0f;
                 
                 List<Manutencao> listaManutencao = ControleDAO.getBanco().getManutencaoDAO().buscarPorIntervalo(dataInicio, dataFinal);
                 List<Receita> listaReceita = ControleDAO.getBanco().getReceitaDAO().buscarPorIntervalo(dataInicio, dataFinal);
@@ -170,24 +177,26 @@ public class TelaInicialController extends AnchorPane {
                 for (Manutencao manutencao : listaManutencao) {
                     if (manutencao.isFinalizado()) {
                         lista.add(new Operacao(manutencao));
-                        atualizarValorTotal(manutencao.getPreco());
+                        valorTotal += manutencao.getPreco();
                     }
                 }
                 
                 for (Receita receita : listaReceita) {
                     lista.add(new Operacao(receita));
-                    atualizarValorTotal(receita.getValor());
+                    valorTotal += receita.getValor();
                 }
                 
                 for (Saida saida : listaSaida) {
                     lista.add(new Operacao(saida));
-                    atualizarValorTotal(-saida.getValor());
+                    valorTotal -= saida.getValor();
                 }
                 
                 for (Venda venda : listaVenda) {
                     lista.add(new Operacao(venda));
-                    atualizarValorTotal(venda.getPrecoTotal());
+                    valorTotal += venda.getPrecoTotal();
                 }
+                
+                atualizarValorTotal(valorTotal);
                 
                 return lista;
             }
@@ -219,18 +228,14 @@ public class TelaInicialController extends AnchorPane {
         this.clienteColumn.setCellValueFactory(new PropertyValueFactory<>("cliente"));
         this.descricaoColumn.setCellValueFactory(new PropertyValueFactory<>("descricao"));
         this.funcionarioColumn.setCellValueFactory(new PropertyValueFactory<>("funcionario"));
-        this.valorColumn.setCellValueFactory(new PropertyValueFactory<>("valor"));
+        this.valorColumn.setCellValueFactory(new PropertyValueFactory<>("valorFormatado"));
         
         this.relatorioTableView.setItems(data);//Adiciona a lista de clientes na Tabela
     }
     
     private void atualizarValorTotal(float valor) {
-        //forma usada para executar algo na Thread procipal, pois a manipulaçao das views deve ser feita na Thread principal
-        Platform.runLater(new Runnable() {
-            @Override
-            public void run() {
-                totalDiario.set(totalDiario.get() + valor);
-            }
+        Platform.runLater(() -> {
+            dinheiroLabel.setText(Formatter.dinheiroFormatado(valor));
         });
     }
 }

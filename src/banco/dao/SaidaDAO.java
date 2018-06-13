@@ -57,7 +57,7 @@ public class SaidaDAO extends DAO {
         ResultSet rs;
         PreparedStatement stm;
 
-        String sql = "UPDATE saida SET id_categoria =?, id_administrador =?, descricao =?, valor =?, data =? WHERE id =?";
+        String sql = "UPDATE saida SET id_categoria_saida =?, id_administrador =?, descricao =?, valor =?, data =? WHERE id =?";
 
         stm = getConector().prepareStatement(sql);
 

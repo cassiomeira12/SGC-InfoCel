@@ -6,6 +6,7 @@
 package model;
 
 import util.DateUtils;
+import util.Formatter;
 
 /**
  *
@@ -83,6 +84,10 @@ public class Operacao implements Comparable<Operacao> {
 
     public float getValor() {
         return valor;
+    }
+    
+    public String getValorFormatado() {
+        return Formatter.dinheiroFormatado(valor);
     }
     
     public Long getData() {

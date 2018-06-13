@@ -2,6 +2,7 @@ package controller;
 
 import banco.ControleDAO;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.Collections;
 import java.util.List;
@@ -26,20 +27,21 @@ import javax.swing.SwingWorker;
 import model.Administrador;
 import model.Cliente;
 import model.Endereco;
+import model.Receita;
 import model.Venda;
 import util.DateUtils;
 import util.Formatter;
 import util.alerta.Alerta;
+import util.alerta.Dialogo;
 
-public class TelaConsultarVendasController extends AnchorPane {
+public class TelaConsultarReceitasController extends AnchorPane {
 
     private BorderPane painelPrincipal;
 
-    private List<Venda> listaVendas;
+    private List<Receita> listaReceitas;
     
     private LocalDate dataInicio;
     private LocalDate dataFim;
-    
     
     @FXML
     private TextField filtroText;
@@ -49,32 +51,33 @@ public class TelaConsultarVendasController extends AnchorPane {
     private DatePicker fimDatePicker;
 
     @FXML
-    private TableView<Venda> vendasTable;
+    private TableView<Receita> receitasTable;
     @FXML
-    private TableColumn<Venda, Cliente> clienteColumn;
+    private TableColumn<Receita, Cliente> clienteColumn;
     @FXML
-    private TableColumn<Venda, Cliente> enderecoColumn;
+    private TableColumn<Receita, Cliente> descricaoColumn;
     @FXML
-    private TableColumn<Venda, Administrador> vendedorColumn;
+    private TableColumn<Receita, Administrador> vendedorColumn;
     @FXML
-    private TableColumn<Venda, Long> dataColumn;
+    private TableColumn<Receita, Long> dataColumn;
     @FXML
-    private TableColumn<Venda, String> totalColumn;
+    private TableColumn<Receita, String> valorColumn;
     @FXML
     private Button visualizarButton;
-    
+    @FXML
+    private Button excluirButton;
 
-    public TelaConsultarVendasController(BorderPane painelPrincipal) {
+    public TelaConsultarReceitasController(BorderPane painelPrincipal) {
         this.painelPrincipal = painelPrincipal;
 
         try {
-            FXMLLoader fxml = new FXMLLoader(getClass().getResource("/view/TelaConsultarVendas.fxml"));
+            FXMLLoader fxml = new FXMLLoader(getClass().getResource("/view/TelaConsultarReceitas.fxml"));
             fxml.setRoot(this);
             fxml.setController(this);
             fxml.load();
         } catch (IOException ex) {
-            System.out.println("[ERRO] : Erro na tela Consultar Vendas");
-            System.out.println(ex.toString());
+            System.out.println("[ERRO] : Erro na tela Consultar Receitas");
+            ex.printStackTrace();
         }
     }
 
@@ -86,12 +89,13 @@ public class TelaConsultarVendasController extends AnchorPane {
         Formatter.toUpperCase(filtroText);
         
         //Desativa os Botoes de Editar e Excluir quando nenhum item na tabela esta selecionado
-        visualizarButton.disableProperty().bind(vendasTable.getSelectionModel().selectedItemProperty().isNull());
+        visualizarButton.disableProperty().bind(receitasTable.getSelectionModel().selectedItemProperty().isNull());
+        excluirButton.disableProperty().bind(receitasTable.getSelectionModel().selectedItemProperty().isNull());
         
-        vendasTable.setOnMouseClicked((event) -> {
+        receitasTable.setOnMouseClicked((event) -> {
             if (event.getButton().equals(MouseButton.PRIMARY)) {
                 if (event.getClickCount() == 2) {
-                    visualizarVenda();
+                    visualizarReceita();
                 }
             }
         });
@@ -111,7 +115,7 @@ public class TelaConsultarVendasController extends AnchorPane {
         
         filtroText.textProperty().addListener((e) -> {
             String texto = filtroText.getText();
-            filtro(texto, listaVendas, vendasTable);
+            filtro(texto, listaReceitas, receitasTable);
         });
         
         sincronizarBancoDados(DateUtils.formatDate(dataInicio), DateUtils.formatDate(dataFim));
@@ -121,7 +125,7 @@ public class TelaConsultarVendasController extends AnchorPane {
     private void filtro(String texto, List lista, TableView tabela) {
         ObservableList data = FXCollections.observableArrayList(lista);
 
-        FilteredList<Venda> dadosFiltrados = new FilteredList(data, filtro -> true);
+        FilteredList<Receita> dadosFiltrados = new FilteredList(data, filtro -> true);
 
         dadosFiltrados.setPredicate(filtro -> {
             if (texto == null || texto.isEmpty()) {
@@ -163,34 +167,53 @@ public class TelaConsultarVendasController extends AnchorPane {
     }
 
     @FXML
-    private void visualizarVenda() {
-        Venda venda = vendasTable.getSelectionModel().getSelectedItem();
+    private void excluir() {
+        Receita receita = receitasTable.getSelectionModel().getSelectedItem();
         
-        TelaVendaController telaVenda = new TelaVendaController(painelPrincipal);
-        telaVenda.setVenda(venda);
+        Dialogo.Resposta resposta = Alerta.confirmar("Deseja excluir a Receita ?");
+
+        if (resposta == Dialogo.Resposta.YES) {
+            try {
+                ControleDAO.getBanco().getReceitaDAO().excluir(receita.getId().intValue());
+            } catch (SQLException ex) {
+                Alerta.erro("Erro ao excluir Receita");
+                ex.printStackTrace();
+            }
+            sincronizarBancoDados(DateUtils.formatDate(dataInicio), DateUtils.formatDate(dataFim));
+        }
+
+        receitasTable.getSelectionModel().clearSelection();
+    }
+    
+    @FXML
+    private void visualizarReceita() {
+        Receita receita = receitasTable.getSelectionModel().getSelectedItem();
         
-        this.adicionarPainelInterno(telaVenda);
+        TelaReceitaController tela = new TelaReceitaController(painelPrincipal);
+        tela.setReceita(receita);
+        
+        this.adicionarPainelInterno(tela);
     }
 
     private void atualizarTabela() {
         //Transforma a lista em uma Lista Observavel
-        ObservableList data = FXCollections.observableArrayList(listaVendas);
+        ObservableList data = FXCollections.observableArrayList(listaReceitas);
         
         this.clienteColumn.setCellValueFactory(new PropertyValueFactory<>("cliente"));
-        this.enderecoColumn.setCellValueFactory(new PropertyValueFactory<>("enderecoCliente"));
+        this.descricaoColumn.setCellValueFactory(new PropertyValueFactory<>("descricao"));
         this.vendedorColumn.setCellValueFactory(new PropertyValueFactory<>("administrador"));
         this.dataColumn.setCellValueFactory(new PropertyValueFactory<>("dataEditada"));//Adiciona o valor da variavel Telefone
-        this.totalColumn.setCellValueFactory(new PropertyValueFactory<>("precoFormatado"));
+        this.valorColumn.setCellValueFactory(new PropertyValueFactory<>("precoFormatado"));
         
-        this.vendasTable.setItems(data);//Adiciona a lista de clientes na Tabela
+        this.receitasTable.setItems(data);//Adiciona a lista de clientes na Tabela
     }
 
     private void sincronizarBancoDados(String dataInicio, String dataFinal) {
         //Metodo executado numa Thread separada
         SwingWorker<List, List> worker = new SwingWorker<List, List>() {
             @Override
-            protected List<Venda> doInBackground() throws Exception {
-                return ControleDAO.getBanco().getVendaDAO().buscarPorIntervalo(dataInicio, dataFinal);
+            protected List<Receita> doInBackground() throws Exception {
+                return ControleDAO.getBanco().getReceitaDAO().buscarPorIntervalo(dataInicio, dataFinal);
             }
 
             //Metodo chamado apos terminar a execucao numa Thread separada
@@ -198,8 +221,8 @@ public class TelaConsultarVendasController extends AnchorPane {
             protected void done() {
                 super.done(); //To change body of generated methods, choose Tools | Templates.
                 try {
-                    listaVendas = this.get();
-                    Collections.sort(listaVendas);//Ordenando as Operacoes
+                    listaReceitas = this.get();
+                    Collections.sort(listaReceitas);//Ordenando as Operacoes
                     atualizarTabela();
                 } catch (InterruptedException | ExecutionException ex) {
                     chamarAlerta("Erro ao consultar Banco de Dados");

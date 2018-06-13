@@ -500,7 +500,8 @@ public class TelaAdicionarVendaController extends AnchorPane {
         this.totalColumn.setCellValueFactory(new PropertyValueFactory<>("precoTotal"));
 
         this.produtosTable.setItems(data);
-        this.totalLabel.setText(new DecimalFormat("#,###.00").format(novaVenda.getPrecoTotal()));
+        //this.totalLabel.setText(new DecimalFormat("#,###.00").format(novaVenda.getPrecoTotal()));
+        this.totalLabel.setText(Formatter.dinheiroFormatado(novaVenda.getPrecoTotal()));
         atualizarPrecoParcelas();
     }
     
@@ -663,7 +664,8 @@ public class TelaAdicionarVendaController extends AnchorPane {
     
     private void setParcelasLabel(double valor) {
         Platform.runLater(()-> {
-            valorParcelasLabel.setText(new DecimalFormat("#,###.00").format(valor));
+            //valorParcelasLabel.setText(new DecimalFormat("#,###.00").format(valor));
+            valorParcelasLabel.setText(Formatter.dinheiroFormatado(valor));
         });
     }
     
