@@ -15,12 +15,16 @@ public class DateUtils {
     private static final DateFormat df = new SimpleDateFormat("dd/MM/yyyy", locale);
     private static final DateFormat df2 = new SimpleDateFormat("yyyy/MM/d", locale);
 
-    // Formata um objeto Date no formato dd/MM/yyyy
-    public static String formatDate(Long date) {
-        if (date == null) {
+     /**
+     * Formata um objeto Date no formato dd/MM/yyyy
+     * @param Long data
+     * @return String
+     */
+    public static String formatDate(Long data) {
+        if (data == null) {
             return null;
         }
-        return df.format(new Date(date));
+        return df.format(new Date(data));
     }
     
     public static LocalDate createLocalDate(long data) {
@@ -36,7 +40,11 @@ public class DateUtils {
         return df2.format(new Date(date));
     }
 
-    // Formata um objeto Date no formato dd/MM/yyyy
+    /**
+     * Formata um objeto Date no formato dd/MM/yyyy
+     * @param LocalDate data
+     * @return String
+     */
     public static String formatDate(LocalDate date) {
         String data = "";
         data += date.getDayOfMonth() + "/";
@@ -89,7 +97,11 @@ public class DateUtils {
         return mes;
     }
 
-    //retorna data no formato "01 de jan de 2018"
+    /**
+     * retorna data no formato "01 de jan de 2018"
+     * @param Long dateLong
+     * @return String
+     */
     public static String formatDateExtenso(Long dateLong) {
         if (dateLong == null) {
             return null;

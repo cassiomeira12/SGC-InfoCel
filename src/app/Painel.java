@@ -10,6 +10,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
+import util.Arquivo;
+import util.Config;
 import util.SoftwareSpecifications;
 
 /**
@@ -21,6 +23,8 @@ public class Painel extends Application {
     private Stage palco;
     
     private PainelController painelController;
+    
+    public static Config config;
     
     @Override
     public void start(Stage palco) throws Exception {
@@ -35,6 +39,13 @@ public class Painel extends Application {
         palco.setMaximized(true);//Deixando a tela Maximizada
         palco.setTitle(SoftwareSpecifications.TITULO);
         palco.show();
+        
+        
+        config = (Config) Arquivo.importar();
+        
+        if (config == null) {
+            config = new Config();
+        }
         
     }
     

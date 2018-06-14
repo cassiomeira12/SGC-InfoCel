@@ -5,11 +5,13 @@
  */
 package controller;
 
+import app.Painel;
 import backup.Backup;
 import banco.ControleDAO;
 import static controller.LoginController.admLogado;
 import java.io.File;
 import java.net.URL;
+import java.time.LocalDate;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -19,11 +21,14 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.Spinner;
+import javafx.scene.control.SpinnerValueFactory;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.StackPane;
 import javafx.stage.FileChooser;
 import javax.swing.JFileChooser;
 import javax.swing.SwingWorker;
+import util.Config;
+import util.DateUtils;
 import util.alerta.Alerta;
 
 /**
@@ -32,11 +37,13 @@ import util.alerta.Alerta;
  * @author cassio
  */
 public class BackupRestauracaoConfiguracoesController implements Initializable {
+    
+    private Config config;
 
     @FXML
     private CheckBox backupAutomaticoCheckBox;
     @FXML
-    private Spinner<?> diasSpinner;
+    private Spinner<Integer> diasSpinner;
     @FXML
     private TextField caminhoBackupText;
     @FXML
@@ -55,8 +62,61 @@ public class BackupRestauracaoConfiguracoesController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        config = Painel.config;
         stackPane.getChildren().add(indicator);
         indicator.setVisible(false);
+        
+        
+        backupAutomaticoCheckBox.setSelected(config.BACKUP_AUTOMATICO);
+        if (config.ULTIMO_BACKUP != null) {
+            ultimoBackupLabel.setText(config.getUltimoBackup());
+        }
+        if (config.PROXIMO_BACKUP != null) {
+            proximoBackupLabel.setText(config.getProximoBackup());
+        }
+        
+        diasSpinner.disableProperty().bind(backupAutomaticoCheckBox.selectedProperty().not());
+        ultimoBackupLabel.disableProperty().bind(backupAutomaticoCheckBox.selectedProperty().not());
+        proximoBackupLabel.disableProperty().bind(backupAutomaticoCheckBox.selectedProperty().not());
+        
+        SpinnerValueFactory<Integer> valores = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 5, config.BACKUP_A_CADA_DIA);
+        diasSpinner.setValueFactory(valores);
+        
+        diasSpinner.setOnMouseClicked((e) -> {
+            int dias = diasSpinner.getValue();
+            config.BACKUP_A_CADA_DIA = dias;
+            LocalDate ultimoBackup = DateUtils.createLocalDate(config.ULTIMO_BACKUP);
+            LocalDate proximoBackup = ultimoBackup.plusDays(dias);
+            config.PROXIMO_BACKUP = DateUtils.getLong(proximoBackup);
+            proximoBackupLabel.setText(config.getProximoBackup());
+        });
+        
+        backupAutomaticoCheckBox.setOnAction((e) -> {
+            if (backupAutomaticoCheckBox.isSelected()) {
+                
+                if (config.ULTIMO_BACKUP == null) {
+                    Long hoje = System.currentTimeMillis();
+                    config.ULTIMO_BACKUP = hoje;
+                }
+                
+                int dias = diasSpinner.getValue();
+                LocalDate ultimoBackup = DateUtils.createLocalDate(config.ULTIMO_BACKUP);
+                LocalDate proximoBackup = ultimoBackup.plusDays(dias);
+                config.PROXIMO_BACKUP = DateUtils.getLong(proximoBackup);
+                
+                Long hoje = System.currentTimeMillis();
+                if (DateUtils.getLong(proximoBackup) < hoje) {
+                    hoje = System.currentTimeMillis();
+                    config.ULTIMO_BACKUP = hoje;
+                    ultimoBackup = DateUtils.createLocalDate(config.ULTIMO_BACKUP);
+                    proximoBackup = ultimoBackup.plusDays(dias);
+                    config.PROXIMO_BACKUP = DateUtils.getLong(proximoBackup);
+                }
+                
+                proximoBackupLabel.setText(config.getProximoBackup());
+                ultimoBackupLabel.setText(config.getUltimoBackup());
+            }
+        });
     }
 
     @FXML

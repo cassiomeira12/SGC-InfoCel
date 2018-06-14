@@ -11,7 +11,7 @@ import javafx.event.EventHandler;
 import javafx.stage.WindowEvent;
 
 public class Principal extends Application {
-
+    
     @Override
     public void start(Stage palco) {
         
@@ -20,7 +20,7 @@ public class Principal extends Application {
             painel.start(palco);
         } catch (Exception e) {
             System.out.println("Erro ao iniciar Painel");
-            System.out.println(e.toString());
+            e.printStackTrace();
         }
 
         /*********************************************
