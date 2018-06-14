@@ -1,14 +1,5 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package util;
 
-/**
- *
- * @author cassio
- */
 public class SoftwareSpecifications {
     
     public static String NOME = "Sistema de Gerenciamento Comercial";
@@ -18,8 +9,8 @@ public class SoftwareSpecifications {
     public static String ENDERECO = "Rua Dr. Vital Soares, nº 258";
     public static String CEP = "46500-000";
     public static String VERSAO = "1.0";
-    public static String ESTADO = "";
-    public static String TITULO = NOME+" - "+EMPRESA+" "+VERSAO+" "+ESTADO;
+    //public static String ESTADO = "";
+    public static String TITULO = NOME+" - "+EMPRESA+" "+VERSAO;
     public static String CAMINHO_LOGO = "/img/icons/logo.png";
     
 }
