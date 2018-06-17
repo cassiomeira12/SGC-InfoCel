@@ -50,7 +50,6 @@ public class TelaClienteController extends AnchorPane {
 
     private BorderPane painelPrincipal;
     private Cliente cliente;
-    Endereco endereco = new Endereco(1l, new Bairro(1l, "Centro", new Cidade(1l, "Vitória da Conquista")), "Rua francisco santos", "149 A");
 
     private List<Operacao> listaOperacao;
 

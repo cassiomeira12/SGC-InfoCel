@@ -84,12 +84,13 @@ public class ProdutosConfiguracoes implements Initializable {
         palco.initModality(Modality.APPLICATION_MODAL);//Impede de clicar na tela em plano de fundo
         palco.centerOnScreen();
         
-        AdicionarProdutoDescricaoController adicionarCategoria = new AdicionarProdutoDescricaoController(palco, Tipo.CATEGORIA, true);
-        palco.setScene(new Scene(adicionarCategoria));
+        AdicionarProdutoDescricaoController tela = new AdicionarProdutoDescricaoController(palco, Tipo.CATEGORIA, true);
+        tela.setTitulo("Adicionar Categoria");
+        palco.setScene(new Scene(tela));
         palco.showAndWait();
         
-        if (adicionarCategoria.RESULTADO) {
-            CategoriaProduto novaCategoria = adicionarCategoria.getCategoriaProduto();
+        if (tela.RESULTADO) {
+            CategoriaProduto novaCategoria = tela.getCategoriaProduto();
         
             Long id = null;
             try {
@@ -115,12 +116,13 @@ public class ProdutosConfiguracoes implements Initializable {
         palco.initModality(Modality.APPLICATION_MODAL);//Impede de clicar na tela em plano de fundo
         palco.centerOnScreen();
         
-        AdicionarProdutoDescricaoController adicionarMarca = new AdicionarProdutoDescricaoController(palco, Tipo.MARCA, true);
-        palco.setScene(new Scene(adicionarMarca));
+        AdicionarProdutoDescricaoController tela = new AdicionarProdutoDescricaoController(palco, Tipo.MARCA, true);
+        tela.setTitulo("Adicionar Marca");
+        palco.setScene(new Scene(tela));
         palco.showAndWait();
         
-        if (adicionarMarca.RESULTADO) {
-            Marca novaMarca = adicionarMarca.getMarca();
+        if (tela.RESULTADO) {
+            Marca novaMarca = tela.getMarca();
         
             Long id = null;
             try {
@@ -145,12 +147,13 @@ public class ProdutosConfiguracoes implements Initializable {
         palco.initModality(Modality.APPLICATION_MODAL);//Impede de clicar na tela em plano de fundo
         palco.centerOnScreen();
         
-        AdicionarProdutoDescricaoController adicionarUnidade = new AdicionarProdutoDescricaoController(palco, Tipo.UNIDADE, true);
-        palco.setScene(new Scene(adicionarUnidade));
+        AdicionarProdutoDescricaoController tela = new AdicionarProdutoDescricaoController(palco, Tipo.UNIDADE, true);
+        tela.setTitulo("Adicionar Unidade de Medida");
+        palco.setScene(new Scene(tela));
         palco.showAndWait();
         
-        if (adicionarUnidade.RESULTADO) {
-            UnidadeMedida novaUnidade = adicionarUnidade.getUnidadeMedida();
+        if (tela.RESULTADO) {
+            UnidadeMedida novaUnidade = tela.getUnidadeMedida();
         
             Long id = null;
             try {

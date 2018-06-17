@@ -2,14 +2,19 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<fx:root prefHeight="500.0" prefWidth="700.0" stylesheets="@../css/default.css" type="AnchorPane" xmlns="http://javafx.com/javafx/9" xmlns:fx="http://javafx.com/fxml/1">
+<fx:root prefHeight="650.0" prefWidth="1200.0" stylesheets="@../css/default.css" type="AnchorPane" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <BorderPane layoutX="270.0" layoutY="182.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
          <top>
@@ -27,12 +32,12 @@
                <children>
                   <HBox alignment="CENTER" prefWidth="600.0">
                      <children>
-                        <Button alignment="CENTER" focusTraversable="false" mnemonicParsing="false" styleClass="button-cancelar" text="Cancelar" />
+                        <Button alignment="CENTER" focusTraversable="false" mnemonicParsing="false" onAction="#cancelarOperacao" styleClass="button-cancelar" text="Cancelar" />
                      </children>
                   </HBox>
                   <HBox alignment="CENTER" prefHeight="44.0" prefWidth="600.0">
                      <children>
-                        <Button alignment="CENTER" focusTraversable="false" mnemonicParsing="false" styleClass="button-salvar" text="Salvar" />
+                        <Button fx:id="salvarButton" alignment="CENTER" focusTraversable="false" mnemonicParsing="false" onAction="#salvarProduto" styleClass="button-salvar" text="Salvar" />
                      </children>
                      <HBox.margin>
                         <Insets />
@@ -45,7 +50,72 @@
             </HBox>
          </bottom>
          <center>
-            <VBox alignment="TOP_CENTER" spacing="50.0" BorderPane.alignment="CENTER" />
+            <VBox alignment="TOP_CENTER" spacing="50.0" BorderPane.alignment="CENTER">
+               <children>
+                  <GridPane hgap="10.0" prefHeight="250.0" vgap="10.0">
+                    <columnConstraints>
+                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="130.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="170.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="180.0" />
+                      <ColumnConstraints hgrow="SOMETIMES" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="230.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                        <RowConstraints vgrow="ALWAYS" />
+                      <RowConstraints vgrow="ALWAYS" />
+                        <RowConstraints vgrow="ALWAYS" />
+                      <RowConstraints vgrow="ALWAYS" />
+                        <RowConstraints vgrow="ALWAYS" />
+                      <RowConstraints vgrow="ALWAYS" />
+                    </rowConstraints>
+                     <children>
+                        <TextField fx:id="descricaoText" GridPane.columnSpan="5" GridPane.rowIndex="1" />
+                        <HBox alignment="CENTER" spacing="5.0" GridPane.columnIndex="5" GridPane.rowIndex="1">
+                           <children>
+                              <ComboBox fx:id="categoriaComboBox" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS" />
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER" spacing="5.0" GridPane.columnSpan="2" GridPane.rowIndex="3">
+                           <children>
+                              <ComboBox fx:id="marcaComboBox" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS" />
+                           </children>
+                        </HBox>
+                        <TextField fx:id="custoProdutoText" GridPane.columnIndex="2" GridPane.rowIndex="3" />
+                        <TextField fx:id="valorProdutoText" GridPane.columnIndex="3" GridPane.rowIndex="3" />
+                        <HBox alignment="CENTER" spacing="10.0" GridPane.columnIndex="4" GridPane.columnSpan="2" GridPane.rowIndex="3">
+                           <children>
+                              <Label styleClass="label-titulo" text="Percentual de Lucro:">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </Label>
+                              <Label fx:id="percentualLabel" styleClass="label-titulo" text="0.0%">
+                                 <font>
+                                    <Font size="20.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER" spacing="5.0" GridPane.columnSpan="2" GridPane.rowIndex="5">
+                           <children>
+                              <ComboBox fx:id="unidadeMedidaCombo" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS" />
+                           </children>
+                        </HBox>
+                        <TextField fx:id="quantidadeText" GridPane.columnIndex="2" GridPane.rowIndex="5" />
+                        <Label text="Descrição do Produto" GridPane.columnSpan="2" />
+                        <Label text="Categoria" GridPane.columnIndex="5" />
+                        <Label text="Custo do Produto R$" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+                        <Label text="Valor para Venda R$" GridPane.columnIndex="3" GridPane.rowIndex="2" />
+                        <Label text="Quantidade" GridPane.columnIndex="2" GridPane.rowIndex="4" />
+                        <Label text="Marca" GridPane.columnSpan="2" GridPane.rowIndex="2" />
+                        <Label text="Unidade de Medida" GridPane.columnSpan="2" GridPane.rowIndex="4" />
+                     </children>
+                     <VBox.margin>
+                        <Insets top="80.0" />
+                     </VBox.margin>
+                  </GridPane>
+               </children></VBox>
          </center>
       </BorderPane>
    </children>

@@ -235,7 +235,11 @@ public class TelaInicialController extends AnchorPane {
     
     private void atualizarValorTotal(float valor) {
         Platform.runLater(() -> {
-            dinheiroLabel.setText(Formatter.dinheiroFormatado(valor));
+            if (valor == 0) {
+                dinheiroLabel.setText("0.0");
+            } else {
+                dinheiroLabel.setText(Formatter.dinheiroFormatado(valor));
+            }
         });
     }
 }

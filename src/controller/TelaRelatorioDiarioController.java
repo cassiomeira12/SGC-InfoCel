@@ -44,6 +44,7 @@ import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.view.JasperViewer;
 import util.DateUtils;
+import util.Formatter;
 import util.alerta.Alerta;
 
 /**
@@ -260,7 +261,7 @@ public class TelaRelatorioDiarioController extends AnchorPane {
             if (valor == 0) {
                 label.setText("0.0");
             } else {
-                label.setText(new DecimalFormat("#,###.00").format(valor.doubleValue()));
+                label.setText(Formatter.dinheiroFormatado(valor));
             }
         });
     } 

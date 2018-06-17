@@ -664,7 +664,6 @@ public class TelaAdicionarVendaController extends AnchorPane {
     
     private void setParcelasLabel(double valor) {
         Platform.runLater(()-> {
-            //valorParcelasLabel.setText(new DecimalFormat("#,###.00").format(valor));
             valorParcelasLabel.setText(Formatter.dinheiroFormatado(valor));
         });
     }

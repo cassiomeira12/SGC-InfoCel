@@ -6,25 +6,25 @@
 package controller;
 
 import banco.ControleDAO;
+import controller.AdicionarProdutoDescricaoController.Tipo;
 import java.io.IOException;
-import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 import javax.swing.SwingWorker;
 import model.CategoriaProduto;
 import model.Marca;
@@ -89,12 +89,12 @@ public class TelaAdicionarProdutoController extends AnchorPane {
 
         Formatter.toUpperCase(descricaoText, custoProdutoText);
 
-        salvarButton.disableProperty().bind(descricaoText.textProperty().isEmpty().or(
-                                            categoriaComboBox.selectionModelProperty().isNull().or(
-                                            marcaComboBox.selectionModelProperty().isNull().or(
+        salvarButton.disableProperty().bind(categoriaComboBox.getSelectionModel().selectedItemProperty().isNull().or(
+                                            marcaComboBox.getSelectionModel().selectedItemProperty().isNull().or(
+                                            unidadeMedidaCombo.getSelectionModel().selectedItemProperty().isNull().or(
+                                            descricaoText.textProperty().isEmpty().or(
                                             custoProdutoText.textProperty().isEmpty().or(
                                             valorProdutoText.textProperty().isEmpty().or(
-                                            unidadeMedidaCombo.selectionModelProperty().isNull().or(
                                             quantidadeText.textProperty().isEmpty())))))));
 
         sincronizarBancoDadosCategoria();
@@ -151,6 +151,102 @@ public class TelaAdicionarProdutoController extends AnchorPane {
         }
     }
 
+    @FXML
+    private void adicionarCategoria() {
+        Stage palco = new Stage();
+        palco.initModality(Modality.APPLICATION_MODAL);//Impede de clicar na tela em plano de fundo
+        palco.centerOnScreen();
+        
+        AdicionarProdutoDescricaoController tela = new AdicionarProdutoDescricaoController(palco, Tipo.CATEGORIA, true);
+        tela.setTitulo("Adicionar Categoria");
+        palco.setScene(new Scene(tela));
+        palco.showAndWait();
+        
+        if (tela.RESULTADO) {
+            CategoriaProduto novaCategoria = tela.getCategoriaProduto();
+        
+            Long id = null;
+            try {
+                id = ControleDAO.getBanco().getCategoriaProdutoDAO().inserir(novaCategoria);
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+
+            if (id == null) {//Erro ao inserir item no Banco de Dados
+                Alerta.erro("Erro ao criar nova Categoria de Produto");
+            } else {
+                Alerta.info("Categoria de Produto adicionada com sucesso!");
+                novaCategoria.setId(id);
+                categoriaComboBox.getItems().add(novaCategoria);
+                categoriaComboBox.getSelectionModel().select(novaCategoria);
+            }
+        }
+    }
+    
+    @FXML
+    private void adicionarMarca() {
+        Stage palco = new Stage();
+        palco.initModality(Modality.APPLICATION_MODAL);//Impede de clicar na tela em plano de fundo
+        palco.centerOnScreen();
+        
+        AdicionarProdutoDescricaoController tela = new AdicionarProdutoDescricaoController(palco, Tipo.MARCA, true);
+        tela.setTitulo("Adicionar Marca");
+        palco.setScene(new Scene(tela));
+        palco.showAndWait();
+        
+        if (tela.RESULTADO) {
+            Marca novaMarca = tela.getMarca();
+        
+            Long id = null;
+            try {
+                id = ControleDAO.getBanco().getMarcaDAO().inserir(novaMarca);
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+
+            if (id == null) {//Erro ao inserir item no Banco de Dados
+                Alerta.erro("Erro ao criar nova Marca");
+            } else {
+                Alerta.info("Marca adicionada com sucesso!");
+                novaMarca.setId(id);
+                marcaComboBox.getItems().add(novaMarca);
+                marcaComboBox.getSelectionModel().select(novaMarca);
+            }
+        }
+    }
+    
+    @FXML
+    private void adicionarUnidadeMedida() {
+        Stage palco = new Stage();
+        palco.initModality(Modality.APPLICATION_MODAL);//Impede de clicar na tela em plano de fundo
+        palco.centerOnScreen();
+        
+        AdicionarProdutoDescricaoController tela = new AdicionarProdutoDescricaoController(palco, Tipo.UNIDADE, true);
+        tela.setTitulo("Adicionar Unidade de Medida");
+        palco.setScene(new Scene(tela));
+        palco.showAndWait();
+        
+        if (tela.RESULTADO) {
+            UnidadeMedida novaUnidade = tela.getUnidadeMedida();
+        
+            Long id = null;
+            try {
+                id = ControleDAO.getBanco().getUnidadeMedidaDAO().inserir(novaUnidade);
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+
+            if (id == null) {//Erro ao inserir item no Banco de Dados
+                Alerta.erro("Erro ao criar nova Unidade de Medida");
+            } else {
+                Alerta.info("Unidade de Medida adicionada com sucesso!");
+                novaUnidade.setId(id);
+                unidadeMedidaCombo.getItems().add(novaUnidade);
+                unidadeMedidaCombo.getSelectionModel().select(novaUnidade);
+            }
+        }
+    }
+    
     private void calcularPercentual() {
         valorProdutoText.textProperty().addListener((ov, oldValue, newValue) -> {
 
