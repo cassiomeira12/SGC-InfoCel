@@ -21,7 +21,7 @@ public class Config implements Serializable {
     }
     
     public String getUltimoBackup() {
-        return DateUtils.formatDate(ULTIMO_BACKUP);
+        return DateUtils.getDataHora(ULTIMO_BACKUP);
     }
     
     public String getProximoBackup() {

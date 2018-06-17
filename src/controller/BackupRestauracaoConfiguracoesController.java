@@ -10,9 +10,12 @@ import backup.Backup;
 import banco.ControleDAO;
 import static controller.LoginController.admLogado;
 import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -25,11 +28,13 @@ import javafx.scene.control.SpinnerValueFactory;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.StackPane;
 import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 import javax.swing.JFileChooser;
 import javax.swing.SwingWorker;
 import util.Config;
 import util.DateUtils;
 import util.alerta.Alerta;
+import util.alerta.Dialogo;
 
 /**
  * FXML Controller class
@@ -68,6 +73,7 @@ public class BackupRestauracaoConfiguracoesController implements Initializable {
         
         
         backupAutomaticoCheckBox.setSelected(config.BACKUP_AUTOMATICO);
+        caminhoBackupText.setText(config.DIRETORIO_BACKUP);
         if (config.ULTIMO_BACKUP != null) {
             ultimoBackupLabel.setText(config.getUltimoBackup());
         }
@@ -78,6 +84,7 @@ public class BackupRestauracaoConfiguracoesController implements Initializable {
         diasSpinner.disableProperty().bind(backupAutomaticoCheckBox.selectedProperty().not());
         ultimoBackupLabel.disableProperty().bind(backupAutomaticoCheckBox.selectedProperty().not());
         proximoBackupLabel.disableProperty().bind(backupAutomaticoCheckBox.selectedProperty().not());
+        btnBackup.disableProperty().bind(caminhoBackupText.textProperty().isEmpty());
         
         SpinnerValueFactory<Integer> valores = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 5, config.BACKUP_A_CADA_DIA);
         diasSpinner.setValueFactory(valores);
@@ -89,10 +96,13 @@ public class BackupRestauracaoConfiguracoesController implements Initializable {
             LocalDate proximoBackup = ultimoBackup.plusDays(dias);
             config.PROXIMO_BACKUP = DateUtils.getLong(proximoBackup);
             proximoBackupLabel.setText(config.getProximoBackup());
+            config.salvarArquivo();
         });
         
         backupAutomaticoCheckBox.setOnAction((e) -> {
-            if (backupAutomaticoCheckBox.isSelected()) {
+            boolean selecionado = backupAutomaticoCheckBox.isSelected();
+            config.BACKUP_AUTOMATICO = selecionado;
+            if (selecionado) {
                 
                 if (config.ULTIMO_BACKUP == null) {
                     Long hoje = System.currentTimeMillis();
@@ -116,13 +126,28 @@ public class BackupRestauracaoConfiguracoesController implements Initializable {
                 proximoBackupLabel.setText(config.getProximoBackup());
                 ultimoBackupLabel.setText(config.getUltimoBackup());
             }
+            config.salvarArquivo();
         });
+    }
+    
+    private void atualizarDatas(Long data) {
+        int dias = diasSpinner.getValue();
+        config.ULTIMO_BACKUP = data;
+        
+        LocalDate ultimoBackup = DateUtils.createLocalDate(data);
+        LocalDate proximoBackup = ultimoBackup.plusDays(dias);
+        config.PROXIMO_BACKUP = DateUtils.getLong(proximoBackup);
+        
+        proximoBackupLabel.setText(config.getProximoBackup());
+        ultimoBackupLabel.setText(config.getUltimoBackup());
+        
+        config.salvarArquivo();
     }
 
     @FXML
     private void realizarBackup(ActionEvent event) {
         btnAlterar.setDisable(true);
-        btnBackup.setDisable(true);
+        //btnBackup.setDisable(true);
         btnImportar.setDisable(true);
         caminhoBackupText.setDisable(true);
         indicator.setVisible(true);
@@ -131,7 +156,10 @@ public class BackupRestauracaoConfiguracoesController implements Initializable {
         SwingWorker<Boolean, Boolean> worker = new SwingWorker<Boolean, Boolean>() {
             @Override
             protected Boolean doInBackground() throws Exception {
-                if (Backup.exportar(caminhoBackupText.getText())) {
+                String nome = "Backup " + DateUtils.getDataHoraPonto(System.currentTimeMillis());
+                String diretorio = caminhoBackupText.getText() + nome + ".sql";
+                
+                if (Backup.exportar(diretorio)) {
                     return true;
                 } else {
                     return false;
@@ -142,20 +170,26 @@ public class BackupRestauracaoConfiguracoesController implements Initializable {
             @Override
             protected void done() {
                 btnAlterar.setDisable(false);
-                btnBackup.setDisable(false);
+                //btnBackup.setDisable(false);
                 btnImportar.setDisable(false);
                 caminhoBackupText.setDisable(false);
                 indicator.setVisible(false);
+                
+                String nome = "Backup " + DateUtils.getDataHoraPonto(System.currentTimeMillis());
+                String diretorio = caminhoBackupText.getText() + nome + ".sql";
+                
                 super.done(); //To change body of generated methods, choose Tools | Templates.
 
                 try {
                     if (get()) {
-                        Alerta.info("Nome do arquivo: " + (new File(caminhoBackupText.getText())).getName(), "Backup realizado com sucesso!");
+                        Alerta.info("Nome do arquivo: " + (new File(diretorio)).getName(), "Backup realizado com sucesso!");
+                        atualizarDatas(System.currentTimeMillis());
                     } else {
                         Alerta.erro("Erro ao realizar backup");
                     }
                 } catch (Exception e) {
                     Alerta.erro("Erro ao realizar backup", e.getMessage());
+                    e.printStackTrace();
                 }
             }
         };
@@ -167,11 +201,25 @@ public class BackupRestauracaoConfiguracoesController implements Initializable {
     private void importar(ActionEvent event) {
         FileChooser chooser = new FileChooser();
         chooser.setTitle("Escolha o diretória para backup");
+        FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("SQL files (*.sql)", "*.sql");
+        chooser.getExtensionFilters().add(extFilter);
 
-        String path = chooser.showOpenDialog(null).getAbsoluteFile().getAbsolutePath();
+        File arquivo = chooser.showOpenDialog(Painel.palco);
+        
+        String path = arquivo.getAbsolutePath();
+        
         caminhoBackupText.setText(path);
+        
+        Dialogo.Resposta resposta = Alerta.confirmar("Deseja realmente importar o Banco de Dados " + arquivo.getName());
+        if (resposta == Dialogo.Resposta.YES) {
+            
+        }
+        
+    }
+    
+    private void importarBancoDados() {
+        
         indicator.setVisible(true);
-
         //Metodo executado numa Thread separada
         SwingWorker<Boolean, Boolean> worker = new SwingWorker<Boolean, Boolean>() {
             @Override
@@ -212,11 +260,21 @@ public class BackupRestauracaoConfiguracoesController implements Initializable {
     private void alterar(ActionEvent event) {
         FileChooser chooser = new FileChooser();
         chooser.setTitle("Escolha o diretória para backup");
+        
+        if (!config.DIRETORIO_BACKUP.isEmpty()) {
+            chooser.setInitialDirectory(new File(config.DIRETORIO_BACKUP));
+        }
+        
+        File arquivo = chooser.showSaveDialog(Painel.palco);
 
-        chooser.setInitialDirectory(new File("/home/pedro/Downloads/Infocel/"));
-        String path = chooser.showSaveDialog(null).getAbsoluteFile().getAbsolutePath();
-        caminhoBackupText.setText(path);
+        String nome = arquivo.getName();
+        String caminho = arquivo.getAbsolutePath();
+        String diretorio = caminho.substring(0, caminho.length() - nome.length());
+        System.out.println(diretorio);
 
+        caminhoBackupText.setText(diretorio);
+        config.DIRETORIO_BACKUP = diretorio;
+        config.salvarArquivo();
     }
 
 }

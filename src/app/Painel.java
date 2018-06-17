@@ -20,7 +20,7 @@ import util.SoftwareSpecifications;
  */
 public class Painel extends Application {
     
-    private Stage palco;
+    public static Stage palco;
     
     private PainelController painelController;
     

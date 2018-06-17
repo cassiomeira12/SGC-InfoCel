@@ -13,10 +13,12 @@ public class DateUtils {
 
     private static final Locale locale = new Locale("pt", "BR");
     private static final DateFormat df = new SimpleDateFormat("dd/MM/yyyy", locale);
+    private static final DateFormat df1 = new SimpleDateFormat("dd.MM.yyyy", locale);
     private static final DateFormat df2 = new SimpleDateFormat("yyyy/MM/d", locale);
 
-     /**
+    /**
      * Formata um objeto Date no formato dd/MM/yyyy
+     *
      * @param Long data
      * @return String
      */
@@ -26,7 +28,7 @@ public class DateUtils {
         }
         return df.format(new Date(data));
     }
-    
+
     public static LocalDate createLocalDate(long data) {
         String data1 = formatDate(data);
         int[] data2 = parseDateInfo(data1);
@@ -42,6 +44,7 @@ public class DateUtils {
 
     /**
      * Formata um objeto Date no formato dd/MM/yyyy
+     *
      * @param LocalDate data
      * @return String
      */
@@ -99,6 +102,7 @@ public class DateUtils {
 
     /**
      * retorna data no formato "01 de jan de 2018"
+     *
      * @param Long dateLong
      * @return String
      */
@@ -294,6 +298,63 @@ public class DateUtils {
 
         dataStr = df.format(date) + ", " + getHoraFromDate(date.getTime());
         return dataStr;
+    }
+    
+    public static String getDataHoraPonto(Long date) {
+        String data = df1.format(new Date(date));
+        
+        SimpleDateFormat sdfHora = new SimpleDateFormat("HH");
+        SimpleDateFormat sdfMinuto = new SimpleDateFormat("mm");
+
+        String sHora, sMinuto;
+
+        int hora = Integer.parseInt(sdfHora.format(System.currentTimeMillis()));
+        int minuto = Integer.parseInt(sdfMinuto.format(System.currentTimeMillis()));
+
+        if (hora < 10) {
+            sHora = "0" + hora;
+        } else {
+            sHora = String.valueOf(hora);
+        }
+
+        if (minuto < 10) {
+            sMinuto = "0" + minuto;
+        } else {
+            sMinuto = String.valueOf(minuto);
+        }
+        
+        data += " - " + sHora + ":" + sMinuto;
+
+        return data;
+    }
+
+    public static String getDataHora(Long date) {
+        String teste = "14.06.18 - 17:46";
+        String data = formatDate(date);
+
+        SimpleDateFormat sdfHora = new SimpleDateFormat("HH");
+        SimpleDateFormat sdfMinuto = new SimpleDateFormat("mm");
+
+        String sHora, sMinuto;
+
+        int hora = Integer.parseInt(sdfHora.format(System.currentTimeMillis()));
+        int minuto = Integer.parseInt(sdfMinuto.format(System.currentTimeMillis()));
+
+        if (hora < 10) {
+            sHora = "0" + hora;
+        } else {
+            sHora = String.valueOf(hora);
+        }
+
+        if (minuto < 10) {
+            sMinuto = "0" + minuto;
+        } else {
+            sMinuto = String.valueOf(minuto);
+        }
+        
+        data += " - " + sHora + ":" + sMinuto;
+
+        return data;
     }
 
     public static String[] getHoraAgora() {
