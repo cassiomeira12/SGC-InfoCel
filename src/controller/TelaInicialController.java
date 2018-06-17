@@ -19,6 +19,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseButton;
@@ -114,19 +115,25 @@ public class TelaInicialController extends AnchorPane {
             }
         });
         
-//        relatorioTableView.setRowFactory(tv -> new TableRow<Operacao>() {
-//            @Override
-//            public void updateItem(Operacao item, boolean empty) {
-//                super.updateItem(item, empty);
-//                if (item == null) {
-//                    setStyle("");
-//                } else if (item.getCategoria().equals("Saída")) {
-//                    setStyle("-fx-background-color: #e84118;");
-//                } else {
-//                    setStyle("-fx-background-color: #44bd32;");
-//                }
-//            }
-//        });
+        relatorioTableView.setRowFactory(tv -> new TableRow<Operacao>() {
+            @Override
+            public void updateItem(Operacao item, boolean empty) {
+                super.updateItem(item, empty);
+                
+                if (item == null) {
+                    setStyle("");
+                } else if (item.getVenda() != null) {
+                    setStyle("-fx-border-color: #8BC34A;");
+                } else if (item.getManutencao() != null) {
+                    setStyle("-fx-border-color: #00BCD4;");
+                } else if (item.getReceita() != null) {
+                    setStyle("-fx-border-color: #FFEB3B;");
+                } else if (item.getSaida() != null) {
+                    setStyle("-fx-border-color: #F44336;");
+                }
+                
+            }
+        });
     }
     
     private void adicionarPainelInterno(AnchorPane novaTela) {

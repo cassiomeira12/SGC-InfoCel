@@ -7,10 +7,13 @@ package controller;
 
 import banco.ControleDAO;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -22,6 +25,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -36,6 +40,7 @@ import model.Manutencao;
 import util.DateUtils;
 import util.Formatter;
 import util.alerta.Alerta;
+import util.alerta.Dialogo;
 
 /**
  * FXML Controller class
@@ -132,6 +137,22 @@ public class TelaConsultarManutencoesController extends AnchorPane {
             }
         });
         
+        manutencoesTable.setRowFactory(tv -> new TableRow<Manutencao>() {
+            @Override
+            public void updateItem(Manutencao item, boolean empty) {
+                super.updateItem(item, empty);
+                
+                if (item == null) {
+                    setStyle("");
+                } else if (item.isFinalizado()) {
+                    setStyle("-fx-border-color: #8BC34A;");
+                } else {
+                    setStyle("-fx-border-color: #F44336;");
+                }
+                
+            }
+        });
+        
         sincronizarBancoDados(DateUtils.formatDate(dataInicio), DateUtils.formatDate(dataFim));
     }
     
@@ -155,7 +176,25 @@ public class TelaConsultarManutencoesController extends AnchorPane {
     
     @FXML
     private void excluirManutencao() {
+        Manutencao manutencao = manutencoesTable.getSelectionModel().getSelectedItem();
         
+        Dialogo.Resposta resposta = Alerta.confirmar("Excluir a Manutenção selecionada ?");
+
+        if (resposta == Dialogo.Resposta.YES) {
+            try {
+                if (ControleDAO.getBanco().getManutencaoDAO().excluir(manutencao.getId().intValue())) {
+                    Alerta.info("Manutenção excluída com sucesso !");
+                    sincronizarBancoDados(DateUtils.formatDate(dataInicio), DateUtils.formatDate(dataFim));
+                } else {
+                    Alerta.erro("Erro ao excluir Manutenção !");
+                }
+            } catch (SQLException ex) {
+                Alerta.erro("Erro ao excluir Manutenção !");
+                ex.printStackTrace();
+            }
+        }
+        
+        manutencoesTable.getSelectionModel().clearSelection();
     }
     
     private void sincronizarBancoDados(String dataInicio, String dataFinal) {
@@ -163,7 +202,6 @@ public class TelaConsultarManutencoesController extends AnchorPane {
         SwingWorker<List, List> worker = new SwingWorker<List, List>() {
             @Override
             protected List<Manutencao> doInBackground() throws Exception {
-                //return ControleDAO.getBanco().getManutencaoDAO().listar();
                 return ControleDAO.getBanco().getManutencaoDAO().buscarPorIntervalo(dataInicio, dataFinal);
             }
 

@@ -19,6 +19,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -97,6 +98,22 @@ public class TelaConsultarProdutosController extends AnchorPane {
                         editarProduto();
                     }
                 }
+            }
+        });
+        
+        produtosTable.setRowFactory(tv -> new TableRow<Produto>() {
+            @Override
+            public void updateItem(Produto item, boolean empty) {
+                super.updateItem(item, empty);
+                
+                if (item == null) {
+                    setStyle("");
+                } else if (item.getEstoque() > 0f) {
+                    setStyle("-fx-border-color: #8BC34A;");
+                } else {
+                    setStyle("-fx-border-color: #F44336;");
+                }
+                
             }
         });
 
