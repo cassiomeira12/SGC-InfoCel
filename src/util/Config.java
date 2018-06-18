@@ -12,12 +12,12 @@ public class Config implements Serializable {
     public String DIRETORIO_RELATORIOS;
     
     public Config() {
-        DIRETORIO_BACKUP = "";
+        DIRETORIO_BACKUP = "Backups SGC";
         BACKUP_AUTOMATICO = false;
         BACKUP_A_CADA_DIA = 1;
         ULTIMO_BACKUP = null;
         PROXIMO_BACKUP = null;
-        DIRETORIO_RELATORIOS = "";
+        DIRETORIO_RELATORIOS = "Relatorios SGC/";
     }
     
     public String getUltimoBackup() {

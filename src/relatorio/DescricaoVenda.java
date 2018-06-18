@@ -1,5 +1,6 @@
 package relatorio;
 
+import app.Painel;
 import banco.ConexaoBanco;
 import banco.ControleDAO;
 import java.io.File;
@@ -99,7 +100,8 @@ public class DescricaoVenda extends Thread {
             // caminho arquivo jasper
             resourceAsStream = this.getClass().getResourceAsStream("descricaoVenda.jasper");
             // caminho
-            srcSalvarRelatorio = new File("relatorios/vendas/" + DateUtils.formatDate2(ControleDAO.getBanco().getVendaDAO().buscarPorId(id).getData())).getCanonicalPath();
+            //srcSalvarRelatorio = new File("relatorios/vendas/" + DateUtils.formatDate2(ControleDAO.getBanco().getVendaDAO().buscarPorId(id).getData())).getCanonicalPath();
+            srcSalvarRelatorio = new File(Painel.config.DIRETORIO_RELATORIOS + "vendas/" + DateUtils.formatDate2(ControleDAO.getBanco().getVendaDAO().buscarPorId(id).getData())).getCanonicalPath();
             File file = new File(srcSalvarRelatorio);
             // verificar se um caminho  existe
             if (file.exists() == false) {

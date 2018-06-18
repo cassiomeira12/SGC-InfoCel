@@ -28,11 +28,11 @@
       <Button fx:id="btnImportar" layoutX="43.0" layoutY="130.0" mnemonicParsing="false" onAction="#importar" text="Importar Backup" />
       <VBox layoutX="43.0" layoutY="45.0" spacing="5.0">
          <children>
-            <Label text="Caminho padrão do Backup" />
+            <Label text="Diretório dos Backup" />
             <HBox alignment="CENTER" prefWidth="600.0" spacing="5.0">
                <children>
                   <TextField fx:id="caminhoBackupText" maxWidth="1.7976931348623157E308" promptText="Selecione o diretório para salvar os backups" HBox.hgrow="ALWAYS" />
-                  <Button fx:id="btnAlterar" mnemonicParsing="false" onAction="#alterar" text="Alterar" />
+                  <Button fx:id="btnAlterar" mnemonicParsing="false" onAction="#alterarBackup" text="Alterar" />
                </children>
             </HBox>
          </children>
@@ -54,5 +54,16 @@
          </children>
       </VBox>
       <StackPane fx:id="stackPane" layoutX="543.0" layoutY="237.0" prefHeight="150.0" prefWidth="200.0" />
+      <VBox layoutX="43.0" layoutY="237.0" spacing="5.0">
+         <children>
+            <Label text="Diretório dos Comprovantes" />
+            <HBox alignment="CENTER" prefWidth="600.0" spacing="5.0">
+               <children>
+                  <TextField fx:id="caminhoComprovantesText" maxWidth="1.7976931348623157E308" promptText="Selecione o diretório para salvar os comprovantes de venda e manutenção" HBox.hgrow="ALWAYS" />
+                  <Button mnemonicParsing="false" onAction="#alterarComprovantes" text="Alterar" />
+               </children>
+            </HBox>
+         </children>
+      </VBox>
    </children>
 </AnchorPane>

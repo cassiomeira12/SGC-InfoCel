@@ -57,10 +57,13 @@ public class BackupRestauracaoConfiguracoesController implements Initializable {
     private Label proximoBackupLabel;
     @FXML
     private Button btnImportar, btnBackup, btnAlterar;
-
+    @FXML
+    private TextField caminhoComprovantesText;
+    
     @FXML
     private StackPane stackPane;
     private ProgressIndicator indicator = new ProgressIndicator();
+    
 
     /**
      * Initializes the controller class.
@@ -74,6 +77,8 @@ public class BackupRestauracaoConfiguracoesController implements Initializable {
         
         backupAutomaticoCheckBox.setSelected(config.BACKUP_AUTOMATICO);
         caminhoBackupText.setText(config.DIRETORIO_BACKUP);
+        caminhoComprovantesText.setText(config.DIRETORIO_RELATORIOS);
+        
         if (config.ULTIMO_BACKUP != null) {
             ultimoBackupLabel.setText(config.getUltimoBackup());
         }
@@ -156,9 +161,17 @@ public class BackupRestauracaoConfiguracoesController implements Initializable {
         SwingWorker<Boolean, Boolean> worker = new SwingWorker<Boolean, Boolean>() {
             @Override
             protected Boolean doInBackground() throws Exception {
+                String diretorio = caminhoBackupText.getText();
                 String nome = "Backup " + DateUtils.getDataHoraPonto(System.currentTimeMillis());
-                String diretorio = caminhoBackupText.getText() + nome + ".sql";
                 
+                File pasta = new File(diretorio);
+                if (pasta.exists() == false) {
+                    pasta.mkdirs();
+                }
+                diretorio += nome + ".sql";
+                
+                System.out.println(diretorio);
+     
                 if (Backup.exportar(diretorio)) {
                     return true;
                 } else {
@@ -257,24 +270,48 @@ public class BackupRestauracaoConfiguracoesController implements Initializable {
     }
 
     @FXML
-    private void alterar(ActionEvent event) {
+    private void alterarBackup(ActionEvent event) {
         FileChooser chooser = new FileChooser();
-        chooser.setTitle("Escolha o diretória para backup");
+        chooser.setTitle("Escolha o diretório para backup");
         
         if (!config.DIRETORIO_BACKUP.isEmpty()) {
             chooser.setInitialDirectory(new File(config.DIRETORIO_BACKUP));
         }
         
         File arquivo = chooser.showSaveDialog(Painel.palco);
+        
+        if (arquivo != null) {
+            String nome = arquivo.getName();
+            String caminho = arquivo.getAbsolutePath();
+            String diretorio = caminho.substring(0, caminho.length() - nome.length());
+            System.out.println(diretorio);
 
-        String nome = arquivo.getName();
-        String caminho = arquivo.getAbsolutePath();
-        String diretorio = caminho.substring(0, caminho.length() - nome.length());
-        System.out.println(diretorio);
-
-        caminhoBackupText.setText(diretorio);
-        config.DIRETORIO_BACKUP = diretorio;
-        config.salvarArquivo();
+            caminhoBackupText.setText(diretorio);
+            config.DIRETORIO_BACKUP = diretorio;
+            config.salvarArquivo();
+        }
     }
 
+    @FXML
+    private void alterarComprovantes(ActionEvent event) {
+        FileChooser chooser = new FileChooser();
+        chooser.setTitle("Escolha o diretória para backup");
+        
+        if (!config.DIRETORIO_RELATORIOS.isEmpty()) {
+            chooser.setInitialDirectory(new File(config.DIRETORIO_RELATORIOS));
+        }
+        
+        File arquivo = chooser.showSaveDialog(Painel.palco);
+
+        if (arquivo != null) {
+            String nome = arquivo.getName();
+            String caminho = arquivo.getAbsolutePath();
+            String diretorio = caminho.substring(0, caminho.length() - nome.length());
+            System.out.println(diretorio);
+
+            caminhoComprovantesText.setText(diretorio);
+            config.DIRETORIO_RELATORIOS = diretorio;
+            config.salvarArquivo();
+        }
+    }
 }
