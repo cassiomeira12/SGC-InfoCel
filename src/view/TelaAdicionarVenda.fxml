@@ -19,7 +19,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<fx:root prefHeight="650.0" prefWidth="1200.0" stylesheets="@../css/default.css" type="AnchorPane" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1">
+<fx:root prefHeight="650.0" prefWidth="1200.0" styleClass="Painel" stylesheets="@../css/default.css" type="AnchorPane" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <BorderPane layoutX="270.0" layoutY="182.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
          <top>
@@ -69,11 +69,11 @@
                      </columnConstraints>
                      <rowConstraints>
                         <RowConstraints minHeight="-Infinity" prefHeight="40.0" />
-                        <RowConstraints />
+                        <RowConstraints minHeight="25.0" />
                         <RowConstraints minHeight="-Infinity" prefHeight="35.0" />
-                        <RowConstraints />
+                        <RowConstraints minHeight="25.0" />
                         <RowConstraints minHeight="-Infinity" prefHeight="40.0" />
-                        <RowConstraints />
+                        <RowConstraints minHeight="25.0" />
                         <RowConstraints minHeight="-Infinity" prefHeight="35.0" />
                      </rowConstraints>
                      <children>
@@ -165,7 +165,7 @@
                                     <Button fx:id="removerButton" alignment="CENTER" focusTraversable="false" mnemonicParsing="false" onAction="#removerProduto" styleClass="button-deletar" text="Remover" />
                                  </children>
                               </HBox>
-                              <HBox alignment="CENTER_RIGHT" prefWidth="450.0" HBox.hgrow="ALWAYS">
+                              <HBox alignment="CENTER_RIGHT" prefWidth="450.0" spacing="5.0" HBox.hgrow="ALWAYS">
                                  <children>
                                     <Label styleClass="label-dinheiro" text="Total R$:">
                                        <font>

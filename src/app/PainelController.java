@@ -122,7 +122,7 @@ public class PainelController implements Initializable {
 
     @FXML
     private void chamarTelaConfiguracoes(ActionEvent event) {
-        TelaConfiguracoes2Controller telaConfiguracoes = new TelaConfiguracoes2Controller(painelPrincipal);
+        TelaConfiguracoesController telaConfiguracoes = new TelaConfiguracoesController(painelPrincipal);
         this.adicionarPainelInterno(telaConfiguracoes);
     }
 

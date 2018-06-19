@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane id="AnchorPane" prefHeight="450.0" prefWidth="1200.0" stylesheets="@../css/default.css" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.BackupRestauracaoConfiguracoesController">
+<AnchorPane id="AnchorPane" prefHeight="450.0" prefWidth="1200.0" styleClass="Painel" stylesheets="@../css/default.css" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.BackupRestauracaoConfiguracoesController">
    <children>
       <VBox layoutX="765.0" layoutY="23.0" spacing="5.0">
          <children>

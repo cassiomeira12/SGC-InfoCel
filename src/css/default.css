@@ -8,23 +8,69 @@ and open the template in the editor.
     Author     : cassio
 */
 
+/**************************** Font ****************************/
+@font-face {
+    font-family: 'Roboto Black';
+    src: url('../font/Roboto-Black.ttf');
+}
+@font-face {
+    font-family: 'Roboto Bold';
+    src: url('../font/Roboto-Bold.ttf');
+}
+@font-face {
+    font-family: 'Roboto Condensed';
+    src: url('../font/Roboto-Condensed.ttf');
+}
+@font-face {
+    font-family: 'Roboto Medium';
+    src: url('../font/Roboto-Medium.ttf');
+}
+@font-face {
+    font-family: 'Roboto Regular';
+    src: url('../font/Roboto-Regular.ttf');
+}
+@font-face {
+    font-family: 'Roboto Thin';
+    src: url('../font/Roboto-Thin.ttf');
+}
+@font-face {
+    font-family: 'Les Mousquetaires';
+    src: url('../font/Les-Mousquetaires.ttf');
+}
+@font-face {
+    font-family: 'Caviar Dreams';
+    src: url('../font/CaviarDreams.ttf');
+}
+
+
+.Painel {
+    -fx-background-color: #EEEEEE;
+}
+
+.Painel-borda {
+    -fx-border-color: #BDBDBD;
+    -fx-border-width: 4;
+}
+
 /**************************** Label ****************************/
 .label {
     -fx-font-size: 16px;
     -fx-alignment: center;
+    -fx-font-family: "Roboto Regular";
 }
 
 .label-titulo {
-    /*-fx-font-family: "Les Mousquetaires";*/
+    -fx-font-family: "Caviar Dreams";
     -fx-font-size: 30px;
 }
 
 .label-data {
-    /*-fx-font-family: "Les Mousquetaires";*/
+    -fx-font-family: "Roboto Medium";
     -fx-font-size: 20px;
 }
 
 .label-dinheiro {
+    -fx-font-family: "Roboto Black";
     -fx-font-size: 30px;
 }
 
@@ -32,6 +78,8 @@ and open the template in the editor.
 .button {
     -fx-min-height: 40px;
     -fx-alignment: center;
+    -fx-font-family: "Roboto Bold";
+    -fx-font-size: 14px;
 }
 
 /*.button:pressed {
@@ -42,10 +90,15 @@ and open the template in the editor.
 .button-pesquisar {
     -fx-min-height: 40px;
     -fx-min-width: 150px;
-    -fx-background-color: #c8d6e5;
+    -fx-background-color: #2bcbba;
     -fx-text-fill: #fff;
+    -fx-font-family: "Roboto Medium";
     -fx-graphic: url("../img/icons/pesquisar.png");
     -fx-content-display: left;
+}
+
+.button-pesquisar:hover {
+    -fx-background-color: #0fb9b1;
 }
 
 .button-add {
@@ -84,8 +137,6 @@ and open the template in the editor.
     -fx-background-color: #c0392b;
 }
 
-
-
 .button-login {
     -fx-background-color: linear-gradient(to top right, #55c8fe, #34bdfe);
     -fx-border-color: linear-gradient(to top right, #55c8fe, #34bdfe);
@@ -101,9 +152,6 @@ and open the template in the editor.
     -fx-graphic: url("../img/icons/login.png");
     -fx-content-display: right;
 }
-
-
-
 
 
 /*Botao Cancelar | Botao Voltar*/
@@ -138,9 +186,6 @@ and open the template in the editor.
     -fx-background-color: #576574;
     -fx-border-color: #576574;
 }
-
-
-
 
 
 /*Botao Editar*/
@@ -284,10 +329,11 @@ and open the template in the editor.
 
 /**************************** TextField ****************************/
 .text-field {
-    -fx-font-size: 13px;
+    -fx-font-size: 14px;
     -fx-background-color: #fff;
     -fx-border-color: #eaeaea;
 /*    -fx-text-fill: #7a7a7a;*/
+    -fx-font-family: "Roboto Medium";
     -fx-background-radius: 4;
     -fx-border-radius: 4;
     -fx-highlight-fill: #ebebcc;
@@ -339,29 +385,60 @@ and open the template in the editor.
 .check-box {
     -fx-font-size: 15px;
 }
-
-/**************************** ComboBox ****************************/
-.combo-box {
-    -fx-background-color: transparent, transparent, #eaeaea, #fff;
+/*
+*************************** ComboBox ***************************/
+/*.combo-box {
+    -fx-font-family: "Roboto Medium";
+    -fx-font-size: 14px;
+    -fx-background-color: transparent, transparent, #fff, #fff;
     -fx-background-insets: 0px 0px 0px 0px, 0px, 0px, 1px;
     -fx-background-radius: 4px, 4px, 4px, 4px;
-    -fx-text-fill: #414141;
+    -fx-text-fill: black;
+    -fx-min-height: 35px;
+}
+
+.combo-box:selected {
+    -fx-background-color: #FFCCBC;
+    -fx-text-fill: black;
+}
+
+.combo-box > *.list-cell {
+    -fx-background-color: transparent;
+    -fx-padding: 0.333333em 0.666667em 0.333333em 0.666667em;
+    -fx-text-fill: black;
+    -fx-background-insets: 0;
+}
+
+.combo-box:selected {
+    -fx-background: -fx-control-inner-background;
+    -fx-background-color: #d7e3a8 transparent, #ebf4c7;
+    -fx-background-insets: 0px, 1px 0px 1px 0px;
+    -fx-text-fill: red;
+}*/
+
+.combo-box {
+    -fx-font-family: "Roboto Medium";
+    -fx-font-size: 14px;
+    -fx-background-color: transparent, transparent, #fff, #fff;
+    -fx-background-insets: 0px 0px 0px 0px, 0px, 0px, 1px;
+    -fx-background-radius: 4px, 4px, 4px, 4px;
+    -fx-text-fill: black;
     -fx-padding: 0px;
     -fx-min-height: 35px;
 }
 
 .combo-box:focused {
     -fx-background-color: transparent, #7acff5, transparent, #fff;
-    -fx-text-fill: #414141;
+    -fx-text-fill: black;
 }
 
 
 
 
-/*.combo-box > *.list-cell {
+.combo-box > *.list-cell {
     -fx-background-color: transparent;
     -fx-padding: 0.333333em 0.666667em 0.333333em 0.666667em;
-    -fx-text-fill: #838383;
+    -fx-text-fill: black;
     -fx-background-insets: 0;
 }
 
@@ -414,7 +491,7 @@ and open the template in the editor.
 .combo-box > *.list-view > *.virtual-flow > *.scroll-bar > *.decrement-button > *.decrement-arrow,
 .combo-box > *.list-view > *.virtual-flow > *.scroll-bar > *.increment-button > *.increment-arrow {
     -fx-background-color: transparent;
-}*/
+}
 
 
 
@@ -453,6 +530,8 @@ and open the template in the editor.
     -fx-background-color: #e8e8e8, -fx-control-inner-background;
     -fx-background-insets: 0px, 1px;
     -fx-padding: 1px;
+    -fx-font-family: "Roboto Medium";
+    -fx-font-size: 14px;
 }
 
 .table-view *.column-header-background {
@@ -593,4 +672,41 @@ and open the template in the editor.
 .table-view *.column-overlay {
     -fx-background-color: darkgray;
     -fx-opacity: 0.3px;
+}
+
+
+
+/**************************** ListView ****************************/
+.list-view {
+    -fx-background-color: white;
+    -fx-background-insets: 0px, 1px;
+    -fx-padding: 1px;
+    -fx-font-family: "Roboto Medium";
+    -fx-font-size: 14px;
+    -fx-text-fill: black;
+    -fx-background-insets: 0px, 1px 0px 1px 0px;
+}
+
+.list-cell {
+    -fx-background-color: white;
+    -fx-font-family: "Roboto Medium";
+    -fx-text-fill: black;
+}
+
+.list-cell:filled:selected {
+    -fx-background: -fx-control-inner-background;
+    -fx-background-color: #d7e3a8 transparent, #ebf4c7;
+    -fx-background-insets: 0px, 1px 0px 1px 0px;
+    -fx-text-fill: black;
+}
+
+.list-cell:odd {
+    -fx-background-color: null;
+    -fx-border-color: transparent transparent transparent transparent;
+    -fx-text-fill: black;
+    -fx-pref-height: 30px;
+}
+
+.list-cell:filled:hover {
+    -fx-background-insets: 0px, 0px 0px 0px 0px, 0px 1px 0px 1px;
 }

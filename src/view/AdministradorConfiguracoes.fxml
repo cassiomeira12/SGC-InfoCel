@@ -16,7 +16,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane id="AnchorPane" prefHeight="450.0" prefWidth="1200.0" stylesheets="@../css/default.css" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.AdministradorConfiguracoesController">
+<AnchorPane id="AnchorPane" prefHeight="450.0" prefWidth="1200.0" styleClass="Painel" stylesheets="@../css/default.css" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.AdministradorConfiguracoesController">
    <children>
       <VBox fx:id="painelAdministradores" layoutX="265.0" layoutY="26.0" prefHeight="400.0" prefWidth="600.0" spacing="5.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>

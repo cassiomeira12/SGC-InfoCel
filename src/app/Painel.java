@@ -8,6 +8,7 @@ package app;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import util.Arquivo;
@@ -33,6 +34,12 @@ public class Painel extends Application {
         this.painelController.setStage(palco);
 
         BorderPane painel = FXMLLoader.load(getClass().getResource("Painel.fxml"));
+        
+        try {
+            palco.getIcons().addAll(new Image(getClass().getResourceAsStream("/img/icons/icone.png")));
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
         
         palco.setScene(new Scene(painel));
         palco.centerOnScreen();

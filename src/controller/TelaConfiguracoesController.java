@@ -10,7 +10,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import org.apache.log4j.Logger;
 
-public class TelaConfiguracoes2Controller extends AnchorPane {
+public class TelaConfiguracoesController extends AnchorPane {
     
     private BorderPane painelPrincipal;
     
@@ -28,11 +28,11 @@ public class TelaConfiguracoes2Controller extends AnchorPane {
     private Tab backupTab;
     
     
-    public TelaConfiguracoes2Controller(BorderPane painelPrincipal) {
+    public TelaConfiguracoesController(BorderPane painelPrincipal) {
         this.painelPrincipal = painelPrincipal;
         
         try {
-            FXMLLoader fxml = new FXMLLoader(getClass().getResource("/view/TelaConfiguracoes2.fxml"));
+            FXMLLoader fxml = new FXMLLoader(getClass().getResource("/view/TelaConfiguracoes.fxml"));
             fxml.setRoot(this);
             fxml.setController(this);
             fxml.load();
