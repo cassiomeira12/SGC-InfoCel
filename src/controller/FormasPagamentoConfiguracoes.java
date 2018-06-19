@@ -28,6 +28,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.VBox;
 import javax.swing.SwingWorker;
 import model.FormaPagamento;
+import org.apache.log4j.Logger;
 import util.Formatter;
 import util.alerta.Alerta;
 import util.alerta.Dialogo;
@@ -119,8 +120,9 @@ public class FormasPagamentoConfiguracoes implements Initializable {
                 } else {
                     chamarAlerta("Erro ao excluir a Forma de Pagamento");
                 }
-            } catch (Exception e) {
-                e.printStackTrace();
+            } catch (Exception ex) {
+                Logger.getLogger(getClass()).error(ex);
+                ex.printStackTrace();
             }
         }
     }
@@ -148,6 +150,7 @@ public class FormasPagamentoConfiguracoes implements Initializable {
             try {
                 id = ControleDAO.getBanco().getFormaPagamentoDAO().inserir(novaFormaPagamento);
             } catch (Exception ex) {
+                Logger.getLogger(getClass()).error(ex);
                 ex.printStackTrace();
             }
 
@@ -177,6 +180,7 @@ public class FormasPagamentoConfiguracoes implements Initializable {
                     chamarAlerta("Erro ao alterar informações");
                 }
             } catch (SQLException ex) {
+                Logger.getLogger(getClass()).error(ex);
                 ex.printStackTrace();
             }
         }
@@ -207,6 +211,7 @@ public class FormasPagamentoConfiguracoes implements Initializable {
                     listaFormasPagamento = this.get();
                     atualizarTabela();
                 } catch (InterruptedException | ExecutionException ex) {
+                    Logger.getLogger(getClass()).error(ex);
                     chamarAlerta("Erro ao consultar Banco de Dados");
                 }
             }

@@ -2,15 +2,12 @@ package controller;
 
 import banco.ControleDAO;
 import java.io.IOException;
-import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -43,6 +40,7 @@ import model.Marca;
 import model.Produto;
 import model.Venda;
 import model.VendaProduto;
+import org.apache.log4j.Logger;
 import relatorio.DescricaoVenda;
 import util.DateUtils;
 import util.Formatter;
@@ -141,8 +139,8 @@ public class TelaAdicionarVendaController extends AnchorPane {
             fxml.setController(this);
             fxml.load();
         } catch (IOException ex) {
-            System.out.println("[ERRO] : Erro na tela Adicionar Venda");
-            System.out.println(ex.toString());
+            Logger.getLogger(getClass()).error(ex);
+            ex.printStackTrace();
         }
     }
 
@@ -312,15 +310,17 @@ public class TelaAdicionarVendaController extends AnchorPane {
                             this.cliente = cliente;
                             continuar = true;
                         }
-                    } catch (Exception e) {
-                        Alerta.erro("Erro ao cadastrar Novo Usuário: " + e.getMessage());
-                        e.printStackTrace();
+                    } catch (Exception ex) {
+                        Logger.getLogger(getClass()).error(ex);
+                        Alerta.erro("Erro ao cadastrar Novo Usuário: " + ex.getMessage());
+                        ex.printStackTrace();
                     }
                 } else {//Cliente selecionado
                     try {
                         cliente = atualizarCliente(this.cliente);
-                    } catch (Exception e) {
-                        e.printStackTrace();
+                    } catch (Exception ex) {
+                        Logger.getLogger(getClass()).error(ex);
+                        ex.printStackTrace();
                     }
                     if (editarClienteCheckBox.isSelected()) {//Houve modificacoes
                         try {
@@ -329,8 +329,9 @@ public class TelaAdicionarVendaController extends AnchorPane {
                             } else {
                                 Alerta.erro("Erro ao atualizar informações do Cliente");
                             }
-                        } catch (Exception e) {
-                            Alerta.erro("Erro ao atualizar informações do Cliente: " + e.getMessage());
+                        } catch (Exception ex) {
+                            Logger.getLogger(getClass()).error(ex);
+                            Alerta.erro("Erro ao atualizar informações do Cliente: " + ex.getMessage());
                         }
                     } else {
                         continuar = true;
@@ -374,9 +375,10 @@ public class TelaAdicionarVendaController extends AnchorPane {
                             TelaInicialController telaInicial = new TelaInicialController(painelPrincipal);
                             this.adicionarPainelInterno(telaInicial);
                         }
-                    } catch (Exception e) {
-                        Alerta.erro("Erro ao adicionar nova Venda: " + e.getMessage());
-                        e.printStackTrace();
+                    } catch (Exception ex) {
+                        Logger.getLogger(getClass()).error(ex);
+                        Alerta.erro("Erro ao adicionar nova Venda: " + ex.getMessage());
+                        ex.printStackTrace();
                     }
                 }
             }
@@ -553,6 +555,7 @@ public class TelaAdicionarVendaController extends AnchorPane {
                     ObservableList cidades = FXCollections.observableArrayList(listaCidades);
                     cidadeComboBox.setItems(cidades);
                 } catch (InterruptedException | ExecutionException ex) {
+                    Logger.getLogger(getClass()).error(ex);
                     chamarAlerta("Erro ao consultar Banco de Dados");
                     ex.printStackTrace();
                 }
@@ -578,6 +581,7 @@ public class TelaAdicionarVendaController extends AnchorPane {
                     ObservableList bairros = FXCollections.observableArrayList(listaBairros);
                     bairroComboBox.setItems(bairros);
                 } catch (InterruptedException | ExecutionException ex) {
+                    Logger.getLogger(getClass()).error(ex);
                     chamarAlerta("Erro ao consultar Banco de Dados");
                     ex.printStackTrace();
                 }
@@ -606,6 +610,7 @@ public class TelaAdicionarVendaController extends AnchorPane {
                     
                     vendedorComboBox.getSelectionModel().select(LoginController.admLogado);
                 } catch (InterruptedException | ExecutionException ex) {
+                    Logger.getLogger(getClass()).error(ex);
                     chamarAlerta("Erro ao consultar Banco de Dados");
                     ex.printStackTrace();
                 }
@@ -631,6 +636,7 @@ public class TelaAdicionarVendaController extends AnchorPane {
                     ObservableList pagamentos = FXCollections.observableArrayList(listaPagamentos);
                     formarPagComboBox.setItems(pagamentos);
                 } catch (InterruptedException | ExecutionException ex) {
+                    Logger.getLogger(getClass()).error(ex);
                     chamarAlerta("Erro ao consultar Banco de Dados");
                     ex.printStackTrace();
                 }

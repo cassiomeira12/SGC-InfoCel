@@ -5,23 +5,12 @@
  */
 package controller;
 
-import banco.ConexaoBanco;
 import banco.ControleDAO;
-import java.io.File;
 import java.io.IOException;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.text.DecimalFormat;
 import java.time.LocalDate;
-import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ExecutionException;
 import javafx.application.Platform;
 import javafx.event.EventHandler;
-import javafx.event.EventType;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.chart.PieChart;
@@ -32,17 +21,12 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
-import javafx.scene.paint.Color;
 import javax.swing.SwingWorker;
 import model.Manutencao;
 import model.Receita;
 import model.Saida;
 import model.Venda;
-import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JRResultSetDataSource;
-import net.sf.jasperreports.engine.JasperFillManager;
-import net.sf.jasperreports.engine.JasperPrint;
-import net.sf.jasperreports.view.JasperViewer;
+import org.apache.log4j.Logger;
 import util.DateUtils;
 import util.Formatter;
 import util.alerta.Alerta;
@@ -100,7 +84,7 @@ public class TelaRelatorioDiarioController extends AnchorPane {
             fxml.setController(this);
             fxml.load();
         } catch (IOException ex) {
-            System.out.println("[ERRO] : Erro na tela Relatorio Diario");
+            Logger.getLogger(getClass()).error(ex);
             ex.printStackTrace();
         }
     }
@@ -138,14 +122,16 @@ public class TelaRelatorioDiarioController extends AnchorPane {
         receitaSlice.getNode().addEventHandler(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                System.out.println("Receita");
+                TelaReceitaController tela = new TelaReceitaController(painelPrincipal);
+                adicionarPainelInterno(tela);
             }
         });
         
         saidaSlice.getNode().addEventHandler(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                System.out.println("Saida");
+                TelaSaidaController tela = new TelaSaidaController(painelPrincipal);
+                adicionarPainelInterno(tela);
             }
         });
         

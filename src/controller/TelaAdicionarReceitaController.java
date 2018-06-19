@@ -10,13 +10,9 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -39,6 +35,7 @@ import model.Cidade;
 import model.Cliente;
 import model.Endereco;
 import model.Receita;
+import org.apache.log4j.Logger;
 import util.DateUtils;
 import util.Formatter;
 import util.alerta.Alerta;
@@ -119,8 +116,8 @@ public class TelaAdicionarReceitaController extends AnchorPane {
             fxml.setController(this);
             fxml.load();
         } catch (IOException ex) {
-            System.out.println("[ERRO] : Erro na tela Adicionar Receita");
-            System.out.println(ex.toString());
+            Logger.getLogger(getClass()).error(ex);
+            ex.printStackTrace();
         }
     }
 
@@ -220,6 +217,7 @@ public class TelaAdicionarReceitaController extends AnchorPane {
                 Alerta.info("Nova Receita adicionada com sucesso!");
                 cancelarOperacao();
             } catch (Exception ex) {
+                Logger.getLogger(getClass()).error(ex);
                 Alerta.erro("Erro ao adicionar uma nova Receita!");
                 ex.printStackTrace();
             }
@@ -379,6 +377,7 @@ public class TelaAdicionarReceitaController extends AnchorPane {
                     ObservableList cidades = FXCollections.observableArrayList(listaCidades);
                     cidadeComboBox.setItems(cidades);
                 } catch (InterruptedException | ExecutionException ex) {
+                    Logger.getLogger(getClass()).error(ex);
                     chamarAlerta("Erro ao consultar Banco de Dados");
                     ex.printStackTrace();
                 }
@@ -404,6 +403,7 @@ public class TelaAdicionarReceitaController extends AnchorPane {
                     ObservableList bairros = FXCollections.observableArrayList(listaBairros);
                     bairroComboBox.setItems(bairros);
                 } catch (InterruptedException | ExecutionException ex) {
+                    Logger.getLogger(getClass()).error(ex);
                     chamarAlerta("Erro ao consultar Banco de Dados");
                     ex.printStackTrace();
                 }
@@ -432,6 +432,7 @@ public class TelaAdicionarReceitaController extends AnchorPane {
 
                     vendedorComboBox.getSelectionModel().select(LoginController.admLogado);
                 } catch (InterruptedException | ExecutionException ex) {
+                    Logger.getLogger(getClass()).error(ex);
                     chamarAlerta("Erro ao consultar Banco de Dados");
                     ex.printStackTrace();
                 }

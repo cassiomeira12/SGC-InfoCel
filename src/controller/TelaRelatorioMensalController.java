@@ -7,7 +7,6 @@ package controller;
 
 import banco.ControleDAO;
 import java.io.IOException;
-import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.util.List;
 import javafx.application.Platform;
@@ -25,6 +24,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 import javax.swing.SwingWorker;
 import model.*;
+import org.apache.log4j.Logger;
 import util.DateUtils;
 import util.Formatter;
 
@@ -88,7 +88,7 @@ public class TelaRelatorioMensalController extends AnchorPane {
             fxml.setController(this);
             fxml.load();
         } catch (IOException ex) {
-            System.out.println("[ERRO] : Erro na tela Relatorio Mensal");
+            Logger.getLogger(getClass()).error(ex);
             ex.printStackTrace();
         }
     }
@@ -279,11 +279,10 @@ public class TelaRelatorioMensalController extends AnchorPane {
                 try {
                     Thread.sleep(500);
                 } catch (InterruptedException ex) {
+                    Logger.getLogger(getClass()).error(ex);
                     ex.printStackTrace();
                 } finally {
-                    //Platform.runLater(() -> {
-                        areaChart.setVisible(true);
-                    //});
+                    areaChart.setVisible(true);
                     setVisibleItens(true);
                 }
             }

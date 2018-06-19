@@ -50,7 +50,7 @@ public class Painel extends Application {
                 config = new Config(diretorio);
             }
         } catch (Exception ex) {
-            Logger.getLogger(getClass()).error(ex);
+            //Logger.getLogger(getClass()).error(ex);
         }
         
     }

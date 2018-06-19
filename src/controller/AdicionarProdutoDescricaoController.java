@@ -14,6 +14,7 @@ import javafx.stage.Stage;
 import model.CategoriaProduto;
 import model.Marca;
 import model.UnidadeMedida;
+import org.apache.log4j.Logger;
 import util.Formatter;
 
 public class AdicionarProdutoDescricaoController extends AnchorPane {
@@ -53,7 +54,7 @@ public class AdicionarProdutoDescricaoController extends AnchorPane {
             fxml.setController(this);
             fxml.load();
         } catch (IOException ex) {
-            System.out.println("[ERRO] : Erro na tela Adicionar Produtos Descricao");
+            Logger.getLogger(getClass()).error(ex);
             ex.printStackTrace();
         }
     }

@@ -7,10 +7,7 @@ package controller;
 
 import app.Painel;
 import backup.Backup;
-import banco.ControleDAO;
-import static controller.LoginController.admLogado;
 import java.io.File;
-import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
 import java.util.ResourceBundle;
@@ -27,8 +24,6 @@ import javafx.scene.control.SpinnerValueFactory;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.StackPane;
 import javafx.stage.FileChooser;
-import javafx.stage.Stage;
-import javax.swing.JFileChooser;
 import javax.swing.SwingWorker;
 import org.apache.log4j.Logger;
 import util.Config;
@@ -104,7 +99,7 @@ public class BackupRestauracaoConfiguracoesController implements Initializable {
             try {
                 config.salvarArquivo();
             } catch (Exception ex) {
-                Logger.getLogger(BackupRestauracaoConfiguracoesController.class.getName()).error(ex);
+                Logger.getLogger(getClass()).error(ex);
             }
         });
         
@@ -138,7 +133,7 @@ public class BackupRestauracaoConfiguracoesController implements Initializable {
             try {
                 config.salvarArquivo();
             } catch (Exception ex) {
-                Logger.getLogger(BackupRestauracaoConfiguracoesController.class.getName()).error(ex);
+                Logger.getLogger(getClass()).error(ex);
             }
         });
     }
@@ -154,7 +149,11 @@ public class BackupRestauracaoConfiguracoesController implements Initializable {
         proximoBackupLabel.setText(config.getProximoBackup());
         ultimoBackupLabel.setText(config.getUltimoBackup());
         
-        //config.salvarArquivo();
+        try {
+            config.salvarArquivo();
+        } catch (Exception ex) {
+            Logger.getLogger(getClass()).error(ex);
+        }
     }
 
     @FXML
@@ -208,9 +207,10 @@ public class BackupRestauracaoConfiguracoesController implements Initializable {
                     } else {
                         Alerta.erro("Erro ao realizar backup");
                     }
-                } catch (Exception e) {
-                    Alerta.erro("Erro ao realizar backup", e.getMessage());
-                    e.printStackTrace();
+                } catch (Exception ex) {
+                    Logger.getLogger(getClass()).error(ex);
+                    Alerta.erro("Erro ao realizar backup", ex.getMessage());
+                    ex.printStackTrace();
                 }
             }
         };
@@ -268,8 +268,10 @@ public class BackupRestauracaoConfiguracoesController implements Initializable {
                     } else {
                         Alerta.erro("Erro ao realizar importação");
                     }
-                } catch (Exception e) {
-                    Alerta.erro("Erro ao realizar importação", e.getMessage());
+                } catch (Exception ex) {
+                    Logger.getLogger(getClass()).error(ex);
+                    Alerta.erro("Erro ao realizar importação", ex.getMessage());
+                    ex.printStackTrace();
                 }
             }
         };
@@ -298,7 +300,11 @@ public class BackupRestauracaoConfiguracoesController implements Initializable {
 
             caminhoBackupText.setText(diretorio);
             config.DIRETORIO_BACKUP = diretorio;
-            //config.salvarArquivo();
+            try {
+                config.salvarArquivo();
+            } catch (Exception ex) {
+                Logger.getLogger(getClass()).error(ex);
+            }
         }
     }
 
@@ -323,7 +329,11 @@ public class BackupRestauracaoConfiguracoesController implements Initializable {
 
             caminhoComprovantesText.setText(diretorio);
             config.DIRETORIO_RELATORIOS = diretorio;
-            //config.salvarArquivo();
+            try {
+                config.salvarArquivo();
+            } catch (Exception ex) {
+                Logger.getLogger(getClass()).error(ex);
+            }
         }
     }
 }

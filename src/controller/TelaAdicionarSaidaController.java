@@ -27,6 +27,7 @@ import javax.swing.SwingWorker;
 import model.Administrador;
 import model.CategoriaSaida;
 import model.Saida;
+import org.apache.log4j.Logger;
 import util.DateUtils;
 import util.Formatter;
 import util.alerta.Alerta;
@@ -73,7 +74,7 @@ public class TelaAdicionarSaidaController extends AnchorPane {
             fxml.setController(this);
             fxml.load();
         } catch (IOException ex) {
-            System.out.println("[ERRO] : Erro na tela Adicionar Saida");
+            Logger.getLogger(getClass()).error(ex);
             ex.printStackTrace();
         }
     }
@@ -159,6 +160,7 @@ public class TelaAdicionarSaidaController extends AnchorPane {
             try {
                 id = ControleDAO.getBanco().getSaidaDAO().inserir(novaSaida);
             } catch (Exception ex) {
+                Logger.getLogger(getClass()).error(ex);
                 ex.printStackTrace();
             }
             
@@ -189,6 +191,7 @@ public class TelaAdicionarSaidaController extends AnchorPane {
                     ObservableList itens = FXCollections.observableArrayList(listaCategoriaSaida);
                     categoriaComboBox.setItems(itens);
                 } catch (InterruptedException | ExecutionException ex) {
+                    Logger.getLogger(getClass()).error(ex);
                     Alerta.erro("Erro ao consultar Banco de Dados");
                     ex.printStackTrace();
                 }
@@ -216,6 +219,7 @@ public class TelaAdicionarSaidaController extends AnchorPane {
 
                     administradorCombo.getSelectionModel().select(LoginController.admLogado);
                 } catch (InterruptedException | ExecutionException ex) {
+                    Logger.getLogger(getClass()).error(ex);
                     Alerta.erro("Erro ao consultar Banco de Dados");
                     ex.printStackTrace();
                 }

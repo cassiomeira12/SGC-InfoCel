@@ -13,10 +13,8 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import model.Bairro;
-import model.CategoriaProduto;
 import model.Cidade;
-import model.Marca;
-import model.UnidadeMedida;
+import org.apache.log4j.Logger;
 import util.Formatter;
 
 public class AdicionarCidadeBairroController extends AnchorPane {
@@ -55,7 +53,7 @@ public class AdicionarCidadeBairroController extends AnchorPane {
             fxml.setController(this);
             fxml.load();
         } catch (IOException ex) {
-            System.out.println("[ERRO] : Erro na tela Aicionar Cidade Bairro");
+            Logger.getLogger(getClass()).error(ex);
             ex.printStackTrace();
         }
     }

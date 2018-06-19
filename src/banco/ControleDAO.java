@@ -5,7 +5,6 @@
  ********************************************************************** */
 package banco;
 
-import backup.Backup;
 import banco.dao.*;
 
 public class ControleDAO {

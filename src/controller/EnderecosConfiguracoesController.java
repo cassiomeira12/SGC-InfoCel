@@ -28,6 +28,7 @@ import javafx.stage.Stage;
 import javax.swing.SwingWorker;
 import model.Bairro;
 import model.Cidade;
+import org.apache.log4j.Logger;
 import util.alerta.Alerta;
 import util.alerta.Dialogo;
 
@@ -101,6 +102,7 @@ public class EnderecosConfiguracoesController implements Initializable {
             try {
                 id = ControleDAO.getBanco().getCidadeDAO().inserir(cidade);
             } catch (Exception ex) {
+                Logger.getLogger(getClass()).error(ex);
                 ex.printStackTrace();
             }
 
@@ -140,6 +142,7 @@ public class EnderecosConfiguracoesController implements Initializable {
                     Alerta.erro("Erro ao elterar dados!");
                 }
             } catch (Exception ex) {
+                Logger.getLogger(getClass()).error(ex);
                 ex.printStackTrace();
             }
         }
@@ -157,6 +160,7 @@ public class EnderecosConfiguracoesController implements Initializable {
                 Alerta.info("Cidade excluida com sucesso!");
                 sincronizarBancoDadosCidade();
             } catch (SQLException ex) {
+                Logger.getLogger(getClass()).error(ex);
                 Alerta.erro("Erro ao exlucir Cidade");
                 ex.printStackTrace();
             }
@@ -184,6 +188,7 @@ public class EnderecosConfiguracoesController implements Initializable {
             try {
                 id = ControleDAO.getBanco().getBairroDAO().inserir(bairro);
             } catch (Exception ex) {
+                Logger.getLogger(getClass()).error(ex);
                 ex.printStackTrace();
             }
 
@@ -224,6 +229,7 @@ public class EnderecosConfiguracoesController implements Initializable {
                     Alerta.erro("Erro ao elterar dados!");
                 }
             } catch (Exception ex) {
+                Logger.getLogger(getClass()).error(ex);
                 ex.printStackTrace();
             }
         }
@@ -241,6 +247,7 @@ public class EnderecosConfiguracoesController implements Initializable {
                 Alerta.info("Bairro excluido com sucesso!");
                 sincronizarBancoDadosCidade();
             } catch (SQLException ex) {
+                Logger.getLogger(getClass()).error(ex);
                 Alerta.erro("Erro ao exlucir Bairro");
                 ex.printStackTrace();
             }
@@ -266,6 +273,7 @@ public class EnderecosConfiguracoesController implements Initializable {
                     ObservableList cidades = FXCollections.observableArrayList(listaCidades);
                     atualizarTabelaCidades();
                 } catch (InterruptedException | ExecutionException ex) {
+                    Logger.getLogger(getClass()).error(ex);
                     chamarAlerta("Erro ao consultar Banco de Dados");
                     ex.printStackTrace();
                 }
@@ -300,6 +308,7 @@ public class EnderecosConfiguracoesController implements Initializable {
                     ObservableList bairros = FXCollections.observableArrayList(listaBairro);
                     atualizarTabelaBairros();
                 } catch (InterruptedException | ExecutionException ex) {
+                    Logger.getLogger(getClass()).error(ex);
                     chamarAlerta("Erro ao consultar Banco de Dados");
                     ex.printStackTrace();
                 }

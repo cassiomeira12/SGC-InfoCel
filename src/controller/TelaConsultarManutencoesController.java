@@ -12,8 +12,6 @@ import java.time.LocalDate;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -22,7 +20,6 @@ import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableRow;
@@ -35,8 +32,8 @@ import javafx.scene.layout.BorderPane;
 import javax.swing.SwingWorker;
 import model.Administrador;
 import model.Cliente;
-import model.Endereco;
 import model.Manutencao;
+import org.apache.log4j.Logger;
 import util.DateUtils;
 import util.Formatter;
 import util.alerta.Alerta;
@@ -96,8 +93,8 @@ public class TelaConsultarManutencoesController extends AnchorPane {
             fxml.setController(this);
             fxml.load();
         } catch (IOException ex) {
-            System.out.println("[ERRO] : Erro na tela Consultar Manutencoes");
-            System.out.println(ex.toString());
+            Logger.getLogger(getClass()).error(ex);
+            ex.printStackTrace();
         }
     }
 
@@ -189,6 +186,7 @@ public class TelaConsultarManutencoesController extends AnchorPane {
                     Alerta.erro("Erro ao excluir Manutenção !");
                 }
             } catch (SQLException ex) {
+                Logger.getLogger(getClass()).error(ex);
                 Alerta.erro("Erro ao excluir Manutenção !");
                 ex.printStackTrace();
             }
@@ -214,6 +212,7 @@ public class TelaConsultarManutencoesController extends AnchorPane {
                     Collections.sort(listaManutencoes);//Ordenando as Operacoes
                     atualizarTabela();
                 } catch (InterruptedException | ExecutionException ex) {
+                    Logger.getLogger(getClass()).error(ex);
                     chamarAlerta("Erro ao consultar Banco de Dados");
                     ex.printStackTrace();
                 }

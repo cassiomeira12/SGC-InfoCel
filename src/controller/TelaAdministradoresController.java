@@ -10,6 +10,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import org.apache.log4j.Logger;
 
 /**
  * FXML Controller class
@@ -30,8 +31,8 @@ public class TelaAdministradoresController extends AnchorPane {
             fxml.setController(this);
             fxml.load();
         } catch (IOException ex) {
-            System.out.println("[ERRO] : Erro na tela Administradores");
-            System.out.println(ex.toString());
+            Logger.getLogger(getClass()).error(ex);
+            ex.printStackTrace();
         }
     }
 

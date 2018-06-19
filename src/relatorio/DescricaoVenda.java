@@ -11,14 +11,13 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRResultSetDataSource;
 import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.view.JasperViewer;
+import org.apache.log4j.Logger;
 import util.DateUtils;
 import util.SoftwareSpecifications;
 
@@ -54,7 +53,8 @@ public class DescricaoVenda extends Thread {
             // metodo que gerar o arquivo e salva como pdf
             gerarDescricaoVenda(idVenda);
         } catch (IOException ex) {
-            Logger.getLogger(DescricaoVenda.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(getClass()).error(ex);
+            ex.printStackTrace();
         }
         if (mostrar) {
             // metodo que mostra a descricao da venda na tela
@@ -74,7 +74,8 @@ public class DescricaoVenda extends Thread {
             // execute a query		
             rs = stm.executeQuery(query);
         } catch (SQLException ex) {
-            Logger.getLogger(DescricaoVenda.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(getClass()).error(ex);
+            ex.printStackTrace();
         }
         
         jrRS = new JRResultSetDataSource(rs);
@@ -111,7 +112,8 @@ public class DescricaoVenda extends Thread {
             // pega nome do cliente
             nomeClienteVenda = ControleDAO.getBanco().getVendaDAO().buscarPorId(id).getCliente().getNome();
         } catch (SQLException ex) {
-            Logger.getLogger(DescricaoVenda.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(getClass()).error(ex);
+            ex.printStackTrace();
         }
         try {
             // cria arquivo jasper
@@ -119,7 +121,8 @@ public class DescricaoVenda extends Thread {
             //impressao
             JasperExportManager.exportReportToPdfFile(jp, srcSalvarRelatorio + "/" + id.toString() + "_" + nomeClienteVenda + ".pdf");
         } catch (JRException ex) {
-            Logger.getLogger(DescricaoVenda.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(getClass()).error(ex);
+            ex.printStackTrace();
         }
 
     }

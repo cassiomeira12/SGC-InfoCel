@@ -8,6 +8,7 @@ package banco;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import org.apache.log4j.Logger;
 
 /**
  * Informações dos dados para conexão com a base de dados
@@ -35,7 +36,8 @@ public class ConexaoBanco {
             Class.forName(DRIVER).newInstance();
             connection = DriverManager.getConnection(URL + DATABASE, USERNAME, PASSWORD);
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | SQLException ex) {
-            System.out.println("[ERRO]: Erro ao conectar-se com a base de dados\n" + ex.toString());
+            Logger.getLogger(getClass()).error(ex);
+            ex.printStackTrace();
         }
     }
 

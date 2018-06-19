@@ -32,6 +32,7 @@ import model.Operacao;
 import model.Receita;
 import model.Saida;
 import model.Venda;
+import org.apache.log4j.Logger;
 import util.DateUtils;
 import util.Formatter;
 
@@ -73,7 +74,7 @@ public class TelaInicialController extends AnchorPane {
             fxml.setController(this);
             fxml.load();
         } catch (IOException ex) {
-            System.out.println("[ERRO] : Erro na tela de Login");
+            Logger.getLogger(getClass()).error(ex);
             ex.printStackTrace();
         }
     }
@@ -218,6 +219,7 @@ public class TelaInicialController extends AnchorPane {
                     Collections.sort(listaOperacao);//Ordenando as Operacoes
                     atualizarTabela();
                 } catch (InterruptedException | ExecutionException ex) {
+                    Logger.getLogger(getClass()).error(ex);
                     ex.printStackTrace();
                 }
                 

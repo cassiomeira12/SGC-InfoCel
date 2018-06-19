@@ -31,6 +31,7 @@ import javax.swing.SwingWorker;
 import model.CategoriaProduto;
 import model.Marca;
 import model.Produto;
+import org.apache.log4j.Logger;
 import util.Formatter;
 import util.alerta.Alerta;
 import util.alerta.Dialogo;
@@ -73,8 +74,8 @@ public class TelaConsultarProdutosController extends AnchorPane {
             fxml.setController(this);
             fxml.load();
         } catch (IOException ex) {
-            System.out.println("[ERRO] : Erro na tela Consultar Produtos");
-            System.out.println(ex.toString());
+            Logger.getLogger(getClass()).error(ex);
+            ex.printStackTrace();
         }
     }
 
@@ -118,7 +119,6 @@ public class TelaConsultarProdutosController extends AnchorPane {
         });
 
         this.sincronizarBancoDados();
-        //this.atualizarTabela();
     }
 
     private void adicionarPainelInterno(AnchorPane novaTela) {
@@ -154,8 +154,10 @@ public class TelaConsultarProdutosController extends AnchorPane {
                 } else {
                     Alerta.erro("Erro ao excluir produto " + produto.getDescricao());
                 }
-            } catch (Exception e) {
-                Alerta.erro("Erro ao excluir produto " + produto.getDescricao() + "\n" + e.toString());
+            } catch (Exception ex) {
+                Logger.getLogger(getClass()).error(ex);
+                Alerta.erro("Erro ao excluir produto " + produto.getDescricao() + "\n" + ex.toString());
+                ex.printStackTrace();
             }
 
         }
@@ -220,7 +222,9 @@ public class TelaConsultarProdutosController extends AnchorPane {
                     listaProdutos = this.get();
                     atualizarTabela();
                 } catch (InterruptedException | ExecutionException ex) {
+                    Logger.getLogger(getClass()).error(ex);
                     chamarAlerta("Erro ao consultar Banco de Dados");
+                    ex.printStackTrace();
                 }
             }
         };

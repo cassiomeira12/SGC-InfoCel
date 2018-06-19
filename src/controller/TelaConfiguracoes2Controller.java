@@ -1,8 +1,6 @@
 package controller;
 
 import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Tab;
@@ -10,6 +8,7 @@ import javafx.scene.control.TabPane;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import org.apache.log4j.Logger;
 
 public class TelaConfiguracoes2Controller extends AnchorPane {
     
@@ -38,7 +37,7 @@ public class TelaConfiguracoes2Controller extends AnchorPane {
             fxml.setController(this);
             fxml.load();
         } catch (IOException ex) {
-            System.out.println("[ERRO] : Erro na tela Configuracoes");
+            Logger.getLogger(getClass()).error(ex);
             ex.printStackTrace();
         }
     }
@@ -64,6 +63,7 @@ public class TelaConfiguracoes2Controller extends AnchorPane {
             AnchorPane painel = FXMLLoader.load(getClass().getResource("/view/AdministradorConfiguracoes.fxml"));
             administradoresTab.setContent(painel);
         } catch (IOException ex) {
+            Logger.getLogger(getClass()).error(ex);
             ex.printStackTrace();
         }
     }
@@ -74,6 +74,7 @@ public class TelaConfiguracoes2Controller extends AnchorPane {
             HBox painel = FXMLLoader.load(getClass().getResource("/view/FormasPagamentoConfiguracoes.fxml"));
             pagamentoTab.setContent(painel);
         } catch (IOException ex) {
+            Logger.getLogger(getClass()).error(ex);
             ex.printStackTrace();
         }
     }
@@ -84,6 +85,7 @@ public class TelaConfiguracoes2Controller extends AnchorPane {
             HBox painel = FXMLLoader.load(getClass().getResource("/view/ProdutosConfiguracoes.fxml"));
             produtosTab.setContent(painel);
         } catch (IOException ex) {
+            Logger.getLogger(getClass()).error(ex);
             ex.printStackTrace();
         }
     }
@@ -94,6 +96,7 @@ public class TelaConfiguracoes2Controller extends AnchorPane {
             HBox painel = FXMLLoader.load(getClass().getResource("/view/EnderecosConfiguracoes.fxml"));
             enderecosTab.setContent(painel);
         } catch (IOException ex) {
+            Logger.getLogger(getClass()).error(ex);
             ex.printStackTrace();
         }
     }
@@ -104,6 +107,7 @@ public class TelaConfiguracoes2Controller extends AnchorPane {
             AnchorPane painel = FXMLLoader.load(getClass().getResource("/view/BackupRestauracaoConfiguracoes.fxml"));
             backupTab.setContent(painel);
         } catch (IOException ex) {
+            Logger.getLogger(getClass()).error(ex);
             ex.printStackTrace();
         }
     }

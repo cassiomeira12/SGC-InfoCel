@@ -6,33 +6,28 @@
 package controller;
 
 import banco.ControleDAO;
-import controller.AdicionarProdutoDescricaoController.Tipo;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
 import javax.swing.SwingWorker;
 import model.CategoriaProduto;
 import model.Marca;
 import model.Produto;
 import model.UnidadeMedida;
+import org.apache.log4j.Logger;
 import util.Formatter;
 import util.alerta.Alerta;
 import util.alerta.Dialogo;
@@ -80,7 +75,7 @@ public class TelaProdutoController extends AnchorPane {
             fxml.setController(this);
             fxml.load();
         } catch (IOException ex) {
-            System.out.println("[ERRO] : Erro na tela Produto");
+            Logger.getLogger(getClass()).error(ex);
             ex.printStackTrace();
         }
     }
@@ -180,6 +175,7 @@ public class TelaProdutoController extends AnchorPane {
                 Alerta.info("Produto editado com sucesso!");
                 cancelarOperacao(); 
             } catch (SQLException ex) {
+                Logger.getLogger(getClass()).error(ex);
                 Alerta.erro("Erro ao editar produto");
                 ex.printStackTrace();
             }
@@ -232,7 +228,9 @@ public class TelaProdutoController extends AnchorPane {
                     ObservableList categoriaProdutos = FXCollections.observableArrayList(listaCategoriaProdutos);
                     categoriaComboBox.setItems(categoriaProdutos);
                 } catch (InterruptedException | ExecutionException ex) {
+                    Logger.getLogger(getClass()).error(ex);
                     chamarAlerta("Erro ao consultar Banco de Dados");
+                    ex.printStackTrace();
                 }
             }
         };
@@ -258,7 +256,9 @@ public class TelaProdutoController extends AnchorPane {
                     marcaComboBox.setItems(categoriasMarcas);
                     
                 } catch (InterruptedException | ExecutionException ex) {
+                    Logger.getLogger(getClass()).error(ex);
                     chamarAlerta("Erro ao consultar Banco de Dados");
+                    ex.printStackTrace();
                 }
             }
         };
@@ -283,7 +283,9 @@ public class TelaProdutoController extends AnchorPane {
                     ObservableList unidadesMedidas = FXCollections.observableArrayList(listaUnidadeMedidas);
                     unidadeMedidaCombo.setItems(unidadesMedidas);
                 } catch (InterruptedException | ExecutionException ex) {
+                    Logger.getLogger(getClass()).error(ex);
                     chamarAlerta("Erro ao consultar Banco de Dados");
+                    ex.printStackTrace();
                 }
             }
         };

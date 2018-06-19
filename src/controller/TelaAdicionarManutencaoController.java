@@ -39,6 +39,7 @@ import model.Cliente;
 import model.Endereco;
 import model.FormaPagamento;
 import model.Manutencao;
+import org.apache.log4j.Logger;
 import relatorio.DescricaoManutencao;
 import util.DateUtils;
 import util.Formatter;
@@ -134,7 +135,7 @@ public class TelaAdicionarManutencaoController extends AnchorPane {
             fxml.setController(this);
             fxml.load();
         } catch (IOException ex) {
-            System.out.println("[ERRO] : Erro na tela Adicionar Manutencao");
+            Logger.getLogger(getClass()).error(ex);
             ex.printStackTrace();
         }
     }
@@ -244,14 +245,16 @@ public class TelaAdicionarManutencaoController extends AnchorPane {
                             this.cliente = cliente;
                             continuar = true;
                         }
-                    } catch (Exception e) {
-                        Alerta.erro("Erro ao cadastrar Novo Usuário: " + e.getMessage());
-                        e.printStackTrace();
+                    } catch (Exception ex) {
+                        Logger.getLogger(getClass()).error(ex);
+                        Alerta.erro("Erro ao cadastrar Novo Usuário: " + ex.getMessage());
+                        ex.printStackTrace();
                     }
                 } else {
                     try {
                         cliente = atualizarCliente(this.cliente);
                     } catch (Exception ex) {
+                        Logger.getLogger(getClass()).error(ex);
                         ex.printStackTrace();
                     }
                     if (editarClienteCheckBox.isSelected()) {//Houve modificacoes
@@ -261,9 +264,10 @@ public class TelaAdicionarManutencaoController extends AnchorPane {
                             } else {
                                 Alerta.erro("Erro ao atualizar informações do Cliente");
                             }
-                        } catch (Exception e) {
-                            Alerta.erro("Erro ao atualizar informações do Cliente: " + e.getMessage());
-                            e.printStackTrace();
+                        } catch (Exception ex) {
+                            Logger.getLogger(getClass()).error(ex);
+                            Alerta.erro("Erro ao atualizar informações do Cliente: " + ex.getMessage());
+                            ex.printStackTrace();
                         }
                     } else {
                         continuar = true;
@@ -345,9 +349,10 @@ public class TelaAdicionarManutencaoController extends AnchorPane {
                             TelaInicialController telaInicial = new TelaInicialController(painelPrincipal);
                             this.adicionarPainelInterno(telaInicial);
                         }
-                    } catch (Exception e) {
-                        Alerta.erro("Erro ao adicionar nova Manutenção: " + e.getMessage());
-                        e.printStackTrace();
+                    } catch (Exception ex) {
+                        Logger.getLogger(getClass()).error(ex);
+                        Alerta.erro("Erro ao adicionar nova Manutenção: " + ex.getMessage());
+                        ex.printStackTrace();
                     }
                 }
             }
@@ -530,6 +535,7 @@ public class TelaAdicionarManutencaoController extends AnchorPane {
                     ObservableList cidades = FXCollections.observableArrayList(listaCidades);
                     cidadeComboBox.setItems(cidades);
                 } catch (InterruptedException | ExecutionException ex) {
+                    Logger.getLogger(getClass()).error(ex);
                     chamarAlerta("Erro ao consultar Banco de Dados");
                     ex.printStackTrace();
                 }
@@ -555,6 +561,7 @@ public class TelaAdicionarManutencaoController extends AnchorPane {
                     ObservableList bairros = FXCollections.observableArrayList(listaBairros);
                     bairroComboBox.setItems(bairros);
                 } catch (InterruptedException | ExecutionException ex) {
+                    Logger.getLogger(getClass()).error(ex);
                     chamarAlerta("Erro ao consultar Banco de Dados");
                     ex.printStackTrace();
                 }
@@ -581,6 +588,7 @@ public class TelaAdicionarManutencaoController extends AnchorPane {
                     ObservableList administradores = FXCollections.observableArrayList(listaAdministrador);
                     vendedorComboBox.setItems(administradores);
                 } catch (InterruptedException | ExecutionException ex) {
+                    Logger.getLogger(getClass()).error(ex);
                     chamarAlerta("Erro ao consultar Banco de Dados");
                     ex.printStackTrace();
                 }
@@ -606,6 +614,7 @@ public class TelaAdicionarManutencaoController extends AnchorPane {
                     ObservableList pagamentos = FXCollections.observableArrayList(listaPagamentos);
                     formaPagamentoComboBox.setItems(pagamentos);
                 } catch (InterruptedException | ExecutionException ex) {
+                    Logger.getLogger(getClass()).error(ex);
                     chamarAlerta("Erro ao consultar Banco de Dados");
                     ex.printStackTrace();
                 }

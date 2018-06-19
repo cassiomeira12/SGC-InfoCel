@@ -3,7 +3,6 @@ package util;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.time.Month;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
@@ -257,7 +256,8 @@ public class DateUtils {
 
             return new int[]{day, month, year};
 
-        } catch (NumberFormatException e) {
+        } catch (NumberFormatException ex) {
+            ex.printStackTrace();
             return null;
         }
     }
@@ -283,8 +283,8 @@ public class DateUtils {
         try {
             SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
             return sdf.format(date);
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
 
         return null;
@@ -380,8 +380,8 @@ public class DateUtils {
             }
 
             return new String[]{sHora, sMinuto};
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
 
         return null;

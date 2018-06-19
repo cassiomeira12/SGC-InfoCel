@@ -10,19 +10,10 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.application.Platform;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextArea;
@@ -30,16 +21,13 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
-import javafx.stage.StageStyle;
-import javax.swing.SwingWorker;
 import model.Administrador;
 import model.Bairro;
 import model.Cidade;
 import model.Cliente;
 import model.Endereco;
 import model.Receita;
+import org.apache.log4j.Logger;
 import util.DateUtils;
 import util.Formatter;
 import util.alerta.Alerta;
@@ -119,8 +107,8 @@ public class TelaReceitaController extends AnchorPane {
             fxml.setController(this);
             fxml.load();
         } catch (IOException ex) {
-            System.out.println("[ERRO] : Erro na tela Adicionar Receita");
-            System.out.println(ex.toString());
+            Logger.getLogger(getClass()).error(ex);
+            ex.printStackTrace();
         }
     }
 
@@ -260,6 +248,7 @@ public class TelaReceitaController extends AnchorPane {
                     Alerta.erro("Erro ao alterar a Receita");
                 }
             } catch (SQLException ex) {
+                Logger.getLogger(getClass()).error(ex);
                 Alerta.erro("Erro ao alterar a Receita");
                 ex.printStackTrace();
             }

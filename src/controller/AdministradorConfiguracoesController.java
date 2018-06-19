@@ -11,8 +11,6 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.concurrent.ExecutionException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -36,6 +34,7 @@ import model.Administrador;
 import model.Bairro;
 import model.Cidade;
 import model.Endereco;
+import org.apache.log4j.Logger;
 import util.Formatter;
 import util.alerta.Alerta;
 import util.alerta.Dialogo;
@@ -256,6 +255,7 @@ public class AdministradorConfiguracoesController implements Initializable {
                 Alerta.info("Administrador desativado com sucesso!");
                 sincronizarBancoDadosAdministradores();
             } catch (SQLException ex) {
+                Logger.getLogger(getClass()).error(ex);
                 Alerta.erro("Erro ao exlucir Administrador");
                 ex.printStackTrace();
             }
@@ -293,6 +293,7 @@ public class AdministradorConfiguracoesController implements Initializable {
                     listaAdministrador = this.get();
                     atualizarTabelaAdministradores();
                 } catch (InterruptedException | ExecutionException ex) {
+                    Logger.getLogger(getClass()).error(ex);
                     chamarAlerta("Erro ao consultar Banco de Dados");
                     ex.printStackTrace();
                 }
@@ -413,6 +414,7 @@ public class AdministradorConfiguracoesController implements Initializable {
                     administradoresTable.getItems().add(novoAdministrador);
                     Alerta.info("Administrador adicionado com sucesso!");
                 } catch (Exception ex) {
+                    Logger.getLogger(getClass()).error(ex);
                     Alerta.erro("Erro ao adicionar um novo Administrador");
                     ex.printStackTrace();
                 } finally {
@@ -443,6 +445,7 @@ public class AdministradorConfiguracoesController implements Initializable {
                         sincronizarBancoDadosAdministradores();
                         cancelar(null);
                     } catch (SQLException ex) {
+                        Logger.getLogger(getClass()).error(ex);
                         Alerta.erro("Erro ao editar informações do Administrador");
                         ex.printStackTrace();
                     }
@@ -465,6 +468,7 @@ public class AdministradorConfiguracoesController implements Initializable {
                             sincronizarBancoDadosAdministradores();
                             cancelar(null);
                         } catch (SQLException ex) {
+                            Logger.getLogger(getClass()).error(ex);
                             Alerta.erro("Erro ao editar informações do Administrador");
                             ex.printStackTrace();
                         }
@@ -493,6 +497,7 @@ public class AdministradorConfiguracoesController implements Initializable {
                     ObservableList cidades = FXCollections.observableArrayList(listaCidades);
                     cidadeComboBox.setItems(cidades);
                 } catch (InterruptedException | ExecutionException ex) {
+                    Logger.getLogger(getClass()).error(ex);
                     chamarAlerta("Erro ao consultar Banco de Dados");
                     ex.printStackTrace();
                 }
@@ -519,6 +524,7 @@ public class AdministradorConfiguracoesController implements Initializable {
                     ObservableList bairros = FXCollections.observableArrayList(listaBairro);
                     bairroComboBox.setItems(bairros);
                 } catch (InterruptedException | ExecutionException ex) {
+                    Logger.getLogger(getClass()).error(ex);
                     chamarAlerta("Erro ao consultar Banco de Dados");
                     ex.printStackTrace();
                 }

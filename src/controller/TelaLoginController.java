@@ -21,6 +21,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 import javax.swing.SwingWorker;
 import model.Administrador;
+import org.apache.log4j.Logger;
 import util.Formatter;
 import util.alerta.Alerta;
 
@@ -55,8 +56,8 @@ public class TelaLoginController extends AnchorPane {
             fxml.setController(this);
             fxml.load();
         } catch (IOException ex) {
-            this.chamarAlerta("Erro - Tela de Login", "Ocorreu um erro ao abrir a tela de Login");
-            System.out.println(ex.toString());
+            Logger.getLogger(getClass()).error(ex);
+            ex.printStackTrace();
         }
     }
 
@@ -127,9 +128,11 @@ public class TelaLoginController extends AnchorPane {
                         usuarioText.setDisable(false);
                         senhaPassword.setDisable(false);
                     }
-                } catch (Exception e) {
+                } catch (Exception ex) {
+                    Logger.getLogger(getClass()).error(ex);
                     chamarAlerta("Erro", "Usuário não encontrado");
-                    System.out.println("[ERRO]: " + e.toString());
+                    ex.printStackTrace();
+                    
                     limparLogin();//Apaga o texto que esta no TextField de Login
                     limparSenha();//Apaga o texto que esta no TextField de Login
 
@@ -174,9 +177,11 @@ public class TelaLoginController extends AnchorPane {
                         usuarioText.setDisable(false);
                         senhaPassword.setDisable(false);
                     }
-                } catch (Exception e) {
+                } catch (Exception ex) {
+                    Logger.getLogger(getClass()).error(ex);
                     chamarAlerta("Erro", "Ocorreu um erro ao realizar o Login");
-                    System.out.println("[ERRO]: " + e);
+                    ex.printStackTrace();
+                    
                     limparSenha();//Apaga o texto que esta no TextField de Login
 
                     entrarButton.setDisable(false);

@@ -3,7 +3,6 @@ package controller;
 import banco.ControleDAO;
 import java.io.IOException;
 import java.text.DecimalFormat;
-import java.time.LocalDate;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 import javafx.application.Platform;
@@ -12,7 +11,6 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
@@ -36,8 +34,8 @@ import model.FormaPagamento;
 import model.Marca;
 import model.Venda;
 import model.VendaProduto;
+import org.apache.log4j.Logger;
 import util.DateUtils;
-import util.Formatter;
 import util.alerta.Alerta;
 
 public class TelaVendaController extends AnchorPane {
@@ -134,7 +132,7 @@ public class TelaVendaController extends AnchorPane {
             fxml.setController(this);
             fxml.load();
         } catch (IOException ex) {
-            System.out.println("[ERRO] : Erro na tela Venda");
+            Logger.getLogger(getClass()).error(ex);
             ex.printStackTrace();
         }
     }
@@ -263,6 +261,7 @@ public class TelaVendaController extends AnchorPane {
                     listaProdutoVenda = this.get();
                     atualizarTabela();
                 } catch (InterruptedException | ExecutionException ex) {
+                    Logger.getLogger(getClass()).error(ex);
                     Alerta.erro("Erro ao consultar Banco de Dados");
                     ex.printStackTrace();
                 }

@@ -10,8 +10,6 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -31,6 +29,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javax.swing.SwingWorker;
 import model.Cliente;
+import org.apache.log4j.Logger;
 import util.Formatter;
 import util.alerta.Alerta;
 import util.alerta.Dialogo;
@@ -70,8 +69,8 @@ public class TelaConsultarClientesController extends AnchorPane {
             fxml.setController(this);
             fxml.load();
         } catch (IOException ex) {
-            System.out.println("[ERRO] : Erro na tela Consultar Clientes");
-            System.out.println(ex.toString());
+            Logger.getLogger(getClass()).error(ex);
+            ex.printStackTrace();
         }
     }
     
@@ -131,6 +130,7 @@ public class TelaConsultarClientesController extends AnchorPane {
             try {
                 ControleDAO.getBanco().getClienteDAO().excluir(cliente.getId().intValue());
             } catch (SQLException ex) {
+                Logger.getLogger(getClass()).error(ex);
                 ex.printStackTrace();
                 Alerta.erro("Erro ao excluir Cliente");
             }
@@ -189,6 +189,7 @@ public class TelaConsultarClientesController extends AnchorPane {
                     listaClientes = this.get();
                     atualizarTabela();
                 } catch (InterruptedException | ExecutionException ex) {
+                    Logger.getLogger(getClass()).error(ex);
                     chamarAlerta("Erro ao consultar Banco de Dados");
                 }
             }

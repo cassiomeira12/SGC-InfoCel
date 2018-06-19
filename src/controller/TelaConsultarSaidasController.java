@@ -26,8 +26,8 @@ import javafx.scene.layout.BorderPane;
 import javax.swing.SwingWorker;
 import model.Administrador;
 import model.CategoriaSaida;
-import model.Cliente;
 import model.Saida;
+import org.apache.log4j.Logger;
 import util.DateUtils;
 import util.Formatter;
 import util.alerta.Alerta;
@@ -76,7 +76,7 @@ public class TelaConsultarSaidasController extends AnchorPane {
             fxml.setController(this);
             fxml.load();
         } catch (IOException ex) {
-            System.out.println("[ERRO] : Erro na tela Consultar Receitas    ");
+            Logger.getLogger(getClass()).error(ex);
             ex.printStackTrace();
         }
     }
@@ -177,6 +177,7 @@ public class TelaConsultarSaidasController extends AnchorPane {
             try {
                 ControleDAO.getBanco().getSaidaDAO().excluir(saida.getId().intValue());
             } catch (SQLException ex) {
+                Logger.getLogger(getClass()).error(ex);
                 Alerta.erro("Erro ao excluir Saida");
                 ex.printStackTrace();
             }
@@ -226,6 +227,7 @@ public class TelaConsultarSaidasController extends AnchorPane {
                     Collections.sort(listaSaidas);//Ordenando as Operacoes
                     atualizarTabela();
                 } catch (InterruptedException | ExecutionException ex) {
+                    Logger.getLogger(getClass()).error(ex);
                     chamarAlerta("Erro ao consultar Banco de Dados");
                     ex.printStackTrace();
                 }

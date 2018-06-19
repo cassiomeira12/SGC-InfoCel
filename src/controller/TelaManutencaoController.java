@@ -20,9 +20,9 @@ import model.Administrador;
 import model.Bairro;
 import model.Cidade;
 import model.Cliente;
-import model.Endereco;
 import model.FormaPagamento;
 import model.Manutencao;
+import org.apache.log4j.Logger;
 import util.DateUtils;
 
 public class TelaManutencaoController extends AnchorPane {
@@ -106,7 +106,7 @@ public class TelaManutencaoController extends AnchorPane {
             fxml.setController(this);
             fxml.load();
         } catch (IOException ex) {
-            System.out.println("[ERRO] : Erro na tela Adicionar Manutencao");
+            Logger.getLogger(getClass()).error(ex);
             ex.printStackTrace();
         }
     }

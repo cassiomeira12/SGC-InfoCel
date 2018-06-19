@@ -26,7 +26,7 @@ import util.alerta.Dialogo;
 import controller.AdicionarProdutoDescricaoController.Tipo;
 import javafx.scene.Scene;
 import javafx.stage.Modality;
-import javafx.stage.StageStyle;
+import org.apache.log4j.Logger;
 
 public class ProdutosConfiguracoes implements Initializable {
     
@@ -96,6 +96,7 @@ public class ProdutosConfiguracoes implements Initializable {
             try {
                 id = ControleDAO.getBanco().getCategoriaProdutoDAO().inserir(novaCategoria);
             } catch (Exception ex) {
+                Logger.getLogger(getClass()).error(ex);
                 ex.printStackTrace();
             }
 
@@ -128,6 +129,7 @@ public class ProdutosConfiguracoes implements Initializable {
             try {
                 id = ControleDAO.getBanco().getMarcaDAO().inserir(novaMarca);
             } catch (Exception ex) {
+                Logger.getLogger(getClass()).error(ex);
                 ex.printStackTrace();
             }
 
@@ -159,6 +161,7 @@ public class ProdutosConfiguracoes implements Initializable {
             try {
                 id = ControleDAO.getBanco().getUnidadeMedidaDAO().inserir(novaUnidade);
             } catch (Exception ex) {
+                Logger.getLogger(getClass()).error(ex);
                 ex.printStackTrace();
             }
 
@@ -197,6 +200,7 @@ public class ProdutosConfiguracoes implements Initializable {
                     Alerta.erro("Erro ao elterar dados!");
                 }
             } catch (Exception ex) {
+                Logger.getLogger(getClass()).error(ex);
                 ex.printStackTrace();
             }
         }
@@ -227,6 +231,7 @@ public class ProdutosConfiguracoes implements Initializable {
                     Alerta.erro("Erro ao elterar dados!");
                 }
             } catch (Exception ex) {
+                Logger.getLogger(getClass()).error(ex);
                 ex.printStackTrace();
             }
         }
@@ -257,6 +262,7 @@ public class ProdutosConfiguracoes implements Initializable {
                     Alerta.erro("Erro ao elterar dados!");
                 }
             } catch (Exception ex) {
+                Logger.getLogger(getClass()).error(ex);
                 ex.printStackTrace();
             }
         }
@@ -278,6 +284,7 @@ public class ProdutosConfiguracoes implements Initializable {
                     Alerta.erro("Erro ao remover Categoria de Produto");
                 }
             } catch (SQLException ex) {
+                Logger.getLogger(getClass()).error(ex);
                 ex.printStackTrace();
             }
             this.sincronizarBancoDadosCategoria();
@@ -303,6 +310,7 @@ public class ProdutosConfiguracoes implements Initializable {
                     Alerta.erro("Erro ao remover Marca");
                 }
             } catch (SQLException ex) {
+                Logger.getLogger(getClass()).error(ex);
                 ex.printStackTrace();
             }
             this.sincronizarBancoDadosMarca();
@@ -328,6 +336,7 @@ public class ProdutosConfiguracoes implements Initializable {
                     Alerta.erro("Erro ao remover Unidade de Medida");
                 }
             } catch (SQLException ex) {
+                Logger.getLogger(getClass()).error(ex);
                 ex.printStackTrace();
             }
             this.sincronizarBancoDadosUnidade();
@@ -353,7 +362,9 @@ public class ProdutosConfiguracoes implements Initializable {
                     listaCategoriaProdutos = this.get();
                     atualizarTabelaCategoria();
                 } catch (InterruptedException | ExecutionException ex) {
+                    Logger.getLogger(getClass()).error(ex);
                     chamarAlerta("Erro ao consultar Banco de Dados");
+                    ex.printStackTrace();
                 }
             }
         };
@@ -385,7 +396,9 @@ public class ProdutosConfiguracoes implements Initializable {
                     listaMarcas = this.get();
                     atualizarTabelaMarca();
                 } catch (InterruptedException | ExecutionException ex) {
+                    Logger.getLogger(getClass()).error(ex);
                     chamarAlerta("Erro ao consultar Banco de Dados");
+                    ex.printStackTrace();
                 }
             }
         };
@@ -417,7 +430,9 @@ public class ProdutosConfiguracoes implements Initializable {
                     listaUnidadeMedidas = this.get();
                     atualizarTabelaUnidade();
                 } catch (InterruptedException | ExecutionException ex) {
+                    Logger.getLogger(getClass()).error(ex);
                     chamarAlerta("Erro ao consultar Banco de Dados");
+                    ex.printStackTrace();
                 }
             }
         };
