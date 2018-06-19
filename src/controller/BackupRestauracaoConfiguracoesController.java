@@ -23,6 +23,7 @@ import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javax.swing.SwingWorker;
 import org.apache.log4j.Logger;
@@ -51,9 +52,12 @@ public class BackupRestauracaoConfiguracoesController implements Initializable {
     @FXML
     private Label proximoBackupLabel;
     @FXML
-    private Button btnImportar, btnBackup, btnAlterar;
+    private Button btnImportar, btnBackup;
     @FXML
     private TextField caminhoComprovantesText;
+    
+    @FXML
+    private VBox backupBox, comprovantesBox;
     
     @FXML
     private StackPane stackPane;
@@ -158,10 +162,10 @@ public class BackupRestauracaoConfiguracoesController implements Initializable {
 
     @FXML
     private void realizarBackup(ActionEvent event) {
-        btnAlterar.setDisable(true);
-        //btnBackup.setDisable(true);
-        btnImportar.setDisable(true);
-        caminhoBackupText.setDisable(true);
+        backupBox.setVisible(false);
+        comprovantesBox.setVisible(false);
+        btnBackup.setVisible(false);
+        btnImportar.setVisible(false);
         indicator.setVisible(true);
 
         //Metodo executado numa Thread separada
@@ -189,10 +193,10 @@ public class BackupRestauracaoConfiguracoesController implements Initializable {
             //Metodo chamado apos terminar a execucao numa Thread separada
             @Override
             protected void done() {
-                btnAlterar.setDisable(false);
-                //btnBackup.setDisable(false);
-                btnImportar.setDisable(false);
-                caminhoBackupText.setDisable(false);
+                backupBox.setVisible(true);
+                comprovantesBox.setVisible(true);
+                btnBackup.setVisible(true);
+                btnImportar.setVisible(true);
                 indicator.setVisible(false);
                 
                 String nome = "Backup " + DateUtils.getDataHoraPonto(System.currentTimeMillis());
@@ -255,7 +259,7 @@ public class BackupRestauracaoConfiguracoesController implements Initializable {
             //Metodo chamado apos terminar a execucao numa Thread separada
             @Override
             protected void done() {
-                btnAlterar.setDisable(false);
+                //btnAlterar.setDisable(false);
                 btnBackup.setDisable(false);
                 btnImportar.setDisable(false);
                 caminhoBackupText.setDisable(false);
@@ -325,7 +329,6 @@ public class BackupRestauracaoConfiguracoesController implements Initializable {
             String nome = arquivo.getName();
             String caminho = arquivo.getAbsolutePath();
             String diretorio = caminho.substring(0, caminho.length() - nome.length());
-            System.out.println(diretorio);
 
             caminhoComprovantesText.setText(diretorio);
             config.DIRETORIO_RELATORIOS = diretorio;

@@ -10,7 +10,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
-import org.apache.log4j.Logger;
 import util.Arquivo;
 import util.Config;
 import util.SoftwareSpecifications;
@@ -46,11 +45,13 @@ public class Painel extends Application {
         
         try {
             config = (Config) Arquivo.importar(diretorio);
-            if (config == null) {
-                config = new Config(diretorio);
-            }
+            System.out.println("Arquivo de Configurações encontrado!");
         } catch (Exception ex) {
-            //Logger.getLogger(getClass()).error(ex);
+            System.err.println("Arquivo de Configurações não encontrado!");
+        }
+        
+        if (config == null) {
+            config = new Config(diretorio);
         }
         
     }
