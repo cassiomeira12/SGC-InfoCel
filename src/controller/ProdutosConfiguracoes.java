@@ -26,6 +26,7 @@ import util.alerta.Dialogo;
 import controller.AdicionarProdutoDescricaoController.Tipo;
 import javafx.scene.Scene;
 import javafx.stage.Modality;
+import javafx.stage.StageStyle;
 import org.apache.log4j.Logger;
 
 public class ProdutosConfiguracoes implements Initializable {
@@ -83,6 +84,7 @@ public class ProdutosConfiguracoes implements Initializable {
         Stage palco = new Stage();
         palco.initModality(Modality.APPLICATION_MODAL);//Impede de clicar na tela em plano de fundo
         palco.centerOnScreen();
+        palco.initStyle(StageStyle.UNDECORATED);//Remove a barra de menu
         
         AdicionarProdutoDescricaoController tela = new AdicionarProdutoDescricaoController(palco, Tipo.CATEGORIA, true);
         tela.setTitulo("Adicionar Categoria");
@@ -116,6 +118,7 @@ public class ProdutosConfiguracoes implements Initializable {
         Stage palco = new Stage();
         palco.initModality(Modality.APPLICATION_MODAL);//Impede de clicar na tela em plano de fundo
         palco.centerOnScreen();
+        palco.initStyle(StageStyle.UNDECORATED);//Remove a barra de menu
         
         AdicionarProdutoDescricaoController tela = new AdicionarProdutoDescricaoController(palco, Tipo.MARCA, true);
         tela.setTitulo("Adicionar Marca");
@@ -148,6 +151,7 @@ public class ProdutosConfiguracoes implements Initializable {
         Stage palco = new Stage();
         palco.initModality(Modality.APPLICATION_MODAL);//Impede de clicar na tela em plano de fundo
         palco.centerOnScreen();
+        palco.initStyle(StageStyle.UNDECORATED);//Remove a barra de menu
         
         AdicionarProdutoDescricaoController tela = new AdicionarProdutoDescricaoController(palco, Tipo.UNIDADE, true);
         tela.setTitulo("Adicionar Unidade de Medida");
@@ -182,6 +186,7 @@ public class ProdutosConfiguracoes implements Initializable {
         Stage palco = new Stage();
         palco.initModality(Modality.APPLICATION_MODAL);//Impede de clicar na tela em plano de fundo
         palco.centerOnScreen();
+        palco.initStyle(StageStyle.UNDECORATED);//Remove a barra de menu
         
         AdicionarProdutoDescricaoController editarCategoria = new AdicionarProdutoDescricaoController(palco, Tipo.CATEGORIA, false);
         editarCategoria.setCategoriaProduto(categoria);
@@ -213,6 +218,7 @@ public class ProdutosConfiguracoes implements Initializable {
         Stage palco = new Stage();
         palco.initModality(Modality.APPLICATION_MODAL);//Impede de clicar na tela em plano de fundo
         palco.centerOnScreen();
+        palco.initStyle(StageStyle.UNDECORATED);//Remove a barra de menu
         
         AdicionarProdutoDescricaoController editarMarca = new AdicionarProdutoDescricaoController(palco, Tipo.MARCA, false);
         editarMarca.setMarca(marca);
@@ -244,6 +250,7 @@ public class ProdutosConfiguracoes implements Initializable {
         Stage palco = new Stage();
         palco.initModality(Modality.APPLICATION_MODAL);//Impede de clicar na tela em plano de fundo
         palco.centerOnScreen();
+        palco.initStyle(StageStyle.UNDECORATED);//Remove a barra de menu
         
         AdicionarProdutoDescricaoController editarUnidade = new AdicionarProdutoDescricaoController(palco, Tipo.UNIDADE, false);
         editarUnidade.setUnidadeMedida(unidade);

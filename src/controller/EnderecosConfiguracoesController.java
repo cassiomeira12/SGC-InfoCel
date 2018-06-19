@@ -25,6 +25,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import javax.swing.SwingWorker;
 import model.Bairro;
 import model.Cidade;
@@ -89,6 +90,7 @@ public class EnderecosConfiguracoesController implements Initializable {
         Stage palco = new Stage();
         palco.initModality(Modality.APPLICATION_MODAL);//Impede de clicar na tela em plano de fundo
         palco.centerOnScreen();
+        palco.initStyle(StageStyle.UNDECORATED);//Remove a barra de menu
         
         AdicionarCidadeBairroController adicionarCidadeBairro = new AdicionarCidadeBairroController(palco, Tipo.CIDADE, true);
         adicionarCidadeBairro.setTitulo("Adicionar Cidade");
@@ -123,6 +125,7 @@ public class EnderecosConfiguracoesController implements Initializable {
         Stage palco = new Stage();
         palco.initModality(Modality.APPLICATION_MODAL);//Impede de clicar na tela em plano de fundo
         palco.centerOnScreen();
+        palco.initStyle(StageStyle.UNDECORATED);//Remove a barra de menu
         
         AdicionarCidadeBairroController editarCidade = new AdicionarCidadeBairroController(palco, Tipo.CIDADE, false);
         editarCidade.setTitulo("Editar Cidade");
@@ -174,6 +177,7 @@ public class EnderecosConfiguracoesController implements Initializable {
         Stage palco = new Stage();
         palco.initModality(Modality.APPLICATION_MODAL);//Impede de clicar na tela em plano de fundo
         palco.centerOnScreen();
+        palco.initStyle(StageStyle.UNDECORATED);//Remove a barra de menu
         
         AdicionarCidadeBairroController adicionarCidadeBairro = new AdicionarCidadeBairroController(palco, Tipo.BAIRRO, true);
         adicionarCidadeBairro.setTitulo("Adicionar Bairro");
@@ -209,6 +213,7 @@ public class EnderecosConfiguracoesController implements Initializable {
         Stage palco = new Stage();
         palco.initModality(Modality.APPLICATION_MODAL);//Impede de clicar na tela em plano de fundo
         palco.centerOnScreen();
+        palco.initStyle(StageStyle.UNDECORATED);//Remove a barra de menu
         
         AdicionarCidadeBairroController editarBairro = new AdicionarCidadeBairroController(palco, Tipo.BAIRRO, false);
         editarBairro.setTitulo("Editar Bairro");
