@@ -31,7 +31,7 @@
             <Label text="Diretório dos Backup" />
             <HBox alignment="CENTER" prefWidth="600.0" spacing="5.0">
                <children>
-                  <TextField fx:id="caminhoBackupText" maxWidth="1.7976931348623157E308" promptText="Selecione o diretório para salvar os backups" HBox.hgrow="ALWAYS" />
+                  <TextField fx:id="caminhoBackupText" editable="false" maxWidth="1.7976931348623157E308" promptText="Selecione o diretório para salvar os backups" HBox.hgrow="ALWAYS" />
                   <Button fx:id="btnAlterar" mnemonicParsing="false" onAction="#alterarBackup" text="Alterar" />
                </children>
             </HBox>
@@ -59,7 +59,7 @@
             <Label text="Diretório dos Comprovantes" />
             <HBox alignment="CENTER" prefWidth="600.0" spacing="5.0">
                <children>
-                  <TextField fx:id="caminhoComprovantesText" maxWidth="1.7976931348623157E308" promptText="Selecione o diretório para salvar os comprovantes de venda e manutenção" HBox.hgrow="ALWAYS" />
+                  <TextField fx:id="caminhoComprovantesText" editable="false" maxWidth="1.7976931348623157E308" promptText="Selecione o diretório para salvar os comprovantes de venda e manutenção" HBox.hgrow="ALWAYS" />
                   <Button mnemonicParsing="false" onAction="#alterarComprovantes" text="Alterar" />
                </children>
             </HBox>

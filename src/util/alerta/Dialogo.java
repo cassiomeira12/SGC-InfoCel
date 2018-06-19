@@ -24,8 +24,6 @@ public class Dialogo {
     static Dialog dialogo;
     private static Resposta resposta = Resposta.CANCEL;
     
-    static Stage palco;
-
     private Dialogo() {
         
     }
@@ -84,14 +82,12 @@ public class Dialogo {
 
         Button ok = new Button("OK");
         ok.setOnAction((ActionEvent e) -> {
-            //dialogo.close();
-            palco.close();
+            dialogo.close();
         });
         
         ok.setOnKeyReleased((KeyEvent key) -> {
             if (key.getCode() == KeyCode.ENTER) {
-                //dialogo.close();
-                palco.close();
+                dialogo.close();
             }
         });
 
@@ -166,21 +162,9 @@ public class Dialogo {
         Scene scene = new Scene(pane);
         scene.getStylesheets().add("util/alerta/dialog.css");
         scene.setFill(Color.TRANSPARENT);
-        
-        palco = new Stage();
-        palco.initStyle(StageStyle.TRANSPARENT);
-        palco.initModality(Modality.APPLICATION_MODAL);
-        //palco.initOwner(stage);
-        palco.setX(windows.getMinX());
-        palco.setY(windows.getMinY());
-        palco.setWidth(windows.getWidth());
-        palco.setHeight(windows.getHeight());
-        
-        palco.setScene(scene);
-        palco.showAndWait();
 
-        //dialogo =  new Dialog(new Stage(), scene);
-        //dialogo.exibir();
+        dialogo =  new Dialog(new Stage(), scene);
+        dialogo.exibir();
     }
 
     public enum Resposta {

@@ -76,8 +76,8 @@ public class BackupRestauracaoConfiguracoesController implements Initializable {
         
         
         backupAutomaticoCheckBox.setSelected(config.BACKUP_AUTOMATICO);
-        caminhoBackupText.setText(config.DIRETORIO_BACKUP);
-        caminhoComprovantesText.setText(config.DIRETORIO_RELATORIOS);
+        caminhoBackupText.appendText(config.DIRETORIO_BACKUP);
+        caminhoComprovantesText.appendText(config.DIRETORIO_RELATORIOS);
         
         if (config.ULTIMO_BACKUP != null) {
             ultimoBackupLabel.setText(config.getUltimoBackup());
@@ -268,15 +268,17 @@ public class BackupRestauracaoConfiguracoesController implements Initializable {
 
         worker.execute();
     }
-
+    
     @FXML
     private void alterarBackup(ActionEvent event) {
         FileChooser chooser = new FileChooser();
         chooser.setTitle("Escolha o diretório para backup");
         
-        if (!config.DIRETORIO_BACKUP.isEmpty()) {
-            chooser.setInitialDirectory(new File(config.DIRETORIO_BACKUP));
+        File pasta = new File(config.DIRETORIO_BACKUP);
+        if (pasta.exists() == false) {
+            pasta.mkdirs();
         }
+        chooser.setInitialDirectory(new File(config.DIRETORIO_BACKUP));
         
         File arquivo = chooser.showSaveDialog(Painel.palco);
         
@@ -297,9 +299,11 @@ public class BackupRestauracaoConfiguracoesController implements Initializable {
         FileChooser chooser = new FileChooser();
         chooser.setTitle("Escolha o diretória para backup");
         
-        if (!config.DIRETORIO_RELATORIOS.isEmpty()) {
-            chooser.setInitialDirectory(new File(config.DIRETORIO_RELATORIOS));
+        File pasta = new File(config.DIRETORIO_RELATORIOS);
+        if (pasta.exists() == false) {
+            pasta.mkdirs();
         }
+        chooser.setInitialDirectory(new File(config.DIRETORIO_RELATORIOS));
         
         File arquivo = chooser.showSaveDialog(Painel.palco);
 

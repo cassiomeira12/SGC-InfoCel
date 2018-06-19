@@ -101,7 +101,7 @@ public class DescricaoVenda extends Thread {
             resourceAsStream = this.getClass().getResourceAsStream("descricaoVenda.jasper");
             // caminho
             //srcSalvarRelatorio = new File("relatorios/vendas/" + DateUtils.formatDate2(ControleDAO.getBanco().getVendaDAO().buscarPorId(id).getData())).getCanonicalPath();
-            srcSalvarRelatorio = new File(Painel.config.DIRETORIO_RELATORIOS + "vendas/" + DateUtils.formatDate2(ControleDAO.getBanco().getVendaDAO().buscarPorId(id).getData())).getCanonicalPath();
+            srcSalvarRelatorio = new File(Painel.config.DIRETORIO_RELATORIOS + "Vendas/" + DateUtils.formatDate2(ControleDAO.getBanco().getVendaDAO().buscarPorId(id).getData())).getCanonicalPath();
             File file = new File(srcSalvarRelatorio);
             // verificar se um caminho  existe
             if (file.exists() == false) {

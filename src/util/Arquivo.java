@@ -6,16 +6,15 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import javax.swing.SwingWorker;
 
 public class Arquivo {
     
     private static String arquivo = "config";
     
-    public static boolean gravar(Object object) {
+    public static boolean gravar(Object object, String diretorio) {
         boolean finalizado = false;
         try {
-            FileOutputStream dataBase = new FileOutputStream(arquivo);
+            FileOutputStream dataBase = new FileOutputStream(diretorio + arquivo);
             ObjectOutputStream objectOutput = new ObjectOutputStream(dataBase);
             objectOutput.writeObject(object);
             objectOutput.close();
@@ -30,9 +29,9 @@ public class Arquivo {
         }
     }
 
-    public static Object importar() {
+    public static Object importar(String diretorio) {
         try {
-            FileInputStream dataBase = new FileInputStream(arquivo);
+            FileInputStream dataBase = new FileInputStream(diretorio + arquivo);
             ObjectInputStream objectInput = new ObjectInputStream(dataBase);
             Object object = objectInput.readObject();
             objectInput.close();

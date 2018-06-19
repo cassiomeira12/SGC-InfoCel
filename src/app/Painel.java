@@ -13,6 +13,7 @@ import javafx.stage.Stage;
 import util.Arquivo;
 import util.Config;
 import util.SoftwareSpecifications;
+import util.alerta.Alerta;
 
 /**
  *
@@ -40,11 +41,11 @@ public class Painel extends Application {
         palco.setTitle(SoftwareSpecifications.TITULO);
         palco.show();
         
-        
-        config = (Config) Arquivo.importar();
-        
+        String diretorio = System.getProperty("java.class.path");
+        diretorio = diretorio.replaceAll("SGC-InfoCel.jar", "");
+        config = (Config) Arquivo.importar(diretorio);
         if (config == null) {
-            config = new Config();
+            config = new Config(diretorio);
         }
         
     }
