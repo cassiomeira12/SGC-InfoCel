@@ -11,6 +11,7 @@ import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.io.PrintStream;
 import java.sql.SQLException;
+import org.apache.log4j.Logger;
 
 public class Backup extends DAO {
 
@@ -49,7 +50,8 @@ public class Backup extends DAO {
             while ((ch = err.read()) != -1) {
                 System.out.write(ch);
             }
-        } catch (Exception exc) {
+        } catch (Exception ex) {
+            Logger.getLogger(Backup.class).error(ex);
             return false;
         }
 

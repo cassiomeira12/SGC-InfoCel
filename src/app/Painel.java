@@ -10,10 +10,10 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
+import org.apache.log4j.Logger;
 import util.Arquivo;
 import util.Config;
 import util.SoftwareSpecifications;
-import util.alerta.Alerta;
 
 /**
  *
@@ -43,9 +43,14 @@ public class Painel extends Application {
         
         String diretorio = System.getProperty("java.class.path");
         diretorio = diretorio.replaceAll("SGC-InfoCel.jar", "");
-        config = (Config) Arquivo.importar(diretorio);
-        if (config == null) {
-            config = new Config(diretorio);
+        
+        try {
+            config = (Config) Arquivo.importar(diretorio);
+            if (config == null) {
+                config = new Config(diretorio);
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(getClass()).error(ex);
         }
         
     }

@@ -9,6 +9,7 @@ import javafx.application.Application;
 import javafx.stage.Stage;
 import javafx.event.EventHandler;
 import javafx.stage.WindowEvent;
+import org.apache.log4j.Logger;
 
 public class Principal extends Application {
     
@@ -18,9 +19,9 @@ public class Principal extends Application {
         try {
             Painel painel = new Painel();
             painel.start(palco);
-        } catch (Exception e) {
-            System.out.println("Erro ao iniciar Painel");
-            e.printStackTrace();
+        } catch (Exception ex) {
+            Logger.getLogger(getClass()).error(ex);
+            ex.printStackTrace();
         }
 
         /*********************************************

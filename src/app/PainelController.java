@@ -6,7 +6,7 @@
 package app;
 
 import controller.*;
-import java.io.BufferedInputStream;
+import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -15,15 +15,6 @@ import javafx.scene.control.MenuBar;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
-
-
-
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLConnection;
 
 /**
  * FXML Controller class
@@ -157,48 +148,6 @@ public class PainelController implements Initializable {
     private void chamarTelaConsultarSaida(ActionEvent event) {
         TelaConsultarSaidasController tela = new TelaConsultarSaidasController(painelPrincipal);
         this.adicionarPainelInterno(tela);
-    }
-    
-    private static boolean downloadArquivoExcel() {
-        InputStream is = null;
-        BufferedInputStream buf = null;
-        FileOutputStream out = null;
-        boolean ok = false;
-        try {
-            URL url = new URL("ftp://User_Name:password@host_ftp/Nome_do_arquivo.xls");
-            url.getHost();
-            url.getFile();
-            url.getPort();
-            url.getUserInfo();
-            URLConnection con = url.openConnection();
-            buf = new BufferedInputStream(con.getInputStream());
-            out = new FileOutputStream("c:\\excelDown.xls");
-            int i = 0;
-            byte[] bytesIn = new byte[1024];
-            while ((i = buf.read(bytesIn)) >= 0) {
-                out.write(bytesIn, 0, i);
-            }
-            ok = true;
-        } catch (MalformedURLException ex) {
-            //Logger.getLogger(TesteDownloadArqExcel.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ioe) {
-            //Logger.getLogger(TesteDownloadArqExcel.class.getName()).log(Level.SEVERE, null, ioe);
-        } finally {
-            try {
-                if (buf != null) {
-                    buf.close();
-                }
-                if (out != null) {
-                    out.close();
-                }
-            } catch (IOException ex) {
-                //Logger.getLogger(TesteDownloadArqExcel.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-        if (ok) {
-            return ok;
-        }
-        return false;
     }
 
 }

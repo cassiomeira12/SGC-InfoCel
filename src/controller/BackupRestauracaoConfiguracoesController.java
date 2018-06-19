@@ -15,7 +15,6 @@ import java.net.URL;
 import java.time.LocalDate;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -31,6 +30,7 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javax.swing.JFileChooser;
 import javax.swing.SwingWorker;
+import org.apache.log4j.Logger;
 import util.Config;
 import util.DateUtils;
 import util.alerta.Alerta;
@@ -101,7 +101,11 @@ public class BackupRestauracaoConfiguracoesController implements Initializable {
             LocalDate proximoBackup = ultimoBackup.plusDays(dias);
             config.PROXIMO_BACKUP = DateUtils.getLong(proximoBackup);
             proximoBackupLabel.setText(config.getProximoBackup());
-            config.salvarArquivo();
+            try {
+                config.salvarArquivo();
+            } catch (Exception ex) {
+                Logger.getLogger(BackupRestauracaoConfiguracoesController.class.getName()).error(ex);
+            }
         });
         
         backupAutomaticoCheckBox.setOnAction((e) -> {
@@ -131,7 +135,11 @@ public class BackupRestauracaoConfiguracoesController implements Initializable {
                 proximoBackupLabel.setText(config.getProximoBackup());
                 ultimoBackupLabel.setText(config.getUltimoBackup());
             }
-            config.salvarArquivo();
+            try {
+                config.salvarArquivo();
+            } catch (Exception ex) {
+                Logger.getLogger(BackupRestauracaoConfiguracoesController.class.getName()).error(ex);
+            }
         });
     }
     
@@ -146,7 +154,7 @@ public class BackupRestauracaoConfiguracoesController implements Initializable {
         proximoBackupLabel.setText(config.getProximoBackup());
         ultimoBackupLabel.setText(config.getUltimoBackup());
         
-        config.salvarArquivo();
+        //config.salvarArquivo();
     }
 
     @FXML
@@ -290,7 +298,7 @@ public class BackupRestauracaoConfiguracoesController implements Initializable {
 
             caminhoBackupText.setText(diretorio);
             config.DIRETORIO_BACKUP = diretorio;
-            config.salvarArquivo();
+            //config.salvarArquivo();
         }
     }
 
@@ -315,7 +323,7 @@ public class BackupRestauracaoConfiguracoesController implements Initializable {
 
             caminhoComprovantesText.setText(diretorio);
             config.DIRETORIO_RELATORIOS = diretorio;
-            config.salvarArquivo();
+            //config.salvarArquivo();
         }
     }
 }
