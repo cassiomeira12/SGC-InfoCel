@@ -11,7 +11,6 @@ import java.io.File;
 import java.net.URL;
 import java.time.LocalDate;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -104,6 +103,7 @@ public class BackupRestauracaoConfiguracoesController implements Initializable {
                 config.salvarArquivo();
             } catch (Exception ex) {
                 Logger.getLogger(getClass()).error(ex);
+                ex.printStackTrace();
             }
         });
         
@@ -138,25 +138,29 @@ public class BackupRestauracaoConfiguracoesController implements Initializable {
                 config.salvarArquivo();
             } catch (Exception ex) {
                 Logger.getLogger(getClass()).error(ex);
+                ex.printStackTrace();
             }
         });
     }
     
     private void atualizarDatas(Long data) {
-        int dias = diasSpinner.getValue();
-        config.ULTIMO_BACKUP = data;
-        
-        LocalDate ultimoBackup = DateUtils.createLocalDate(data);
-        LocalDate proximoBackup = ultimoBackup.plusDays(dias);
-        config.PROXIMO_BACKUP = DateUtils.getLong(proximoBackup);
-        
-        proximoBackupLabel.setText(config.getProximoBackup());
-        ultimoBackupLabel.setText(config.getUltimoBackup());
-        
-        try {
-            config.salvarArquivo();
-        } catch (Exception ex) {
-            Logger.getLogger(getClass()).error(ex);
+        if (config.BACKUP_AUTOMATICO) {
+            int dias = diasSpinner.getValue();
+            config.ULTIMO_BACKUP = data;
+
+            LocalDate ultimoBackup = DateUtils.createLocalDate(data);
+            LocalDate proximoBackup = ultimoBackup.plusDays(dias);
+            config.PROXIMO_BACKUP = DateUtils.getLong(proximoBackup);
+
+            proximoBackupLabel.setText(config.getProximoBackup());
+            ultimoBackupLabel.setText(config.getUltimoBackup());
+
+            try {
+                config.salvarArquivo();
+            } catch (Exception ex) {
+                Logger.getLogger(getClass()).error(ex);
+                ex.printStackTrace();
+            }
         }
     }
 
@@ -181,8 +185,6 @@ public class BackupRestauracaoConfiguracoesController implements Initializable {
                 }
                 diretorio += nome + ".sql";
                 
-                System.out.println(diretorio);
-     
                 if (Backup.exportar(diretorio)) {
                     return true;
                 } else {
@@ -308,6 +310,7 @@ public class BackupRestauracaoConfiguracoesController implements Initializable {
                 config.salvarArquivo();
             } catch (Exception ex) {
                 Logger.getLogger(getClass()).error(ex);
+                ex.printStackTrace();
             }
         }
     }
@@ -332,10 +335,12 @@ public class BackupRestauracaoConfiguracoesController implements Initializable {
 
             caminhoComprovantesText.setText(diretorio);
             config.DIRETORIO_RELATORIOS = diretorio;
+            
             try {
                 config.salvarArquivo();
             } catch (Exception ex) {
                 Logger.getLogger(getClass()).error(ex);
+                ex.printStackTrace();
             }
         }
     }

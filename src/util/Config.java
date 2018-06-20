@@ -13,13 +13,14 @@ public class Config implements Serializable {
     public String DIRETORIO_RELATORIOS;
     
     public Config(String diretorio) {
+        String barra = System.getProperty("file.separator");
         DIRETORIO = diretorio;
-        DIRETORIO_BACKUP = DIRETORIO + "Backup SGC/";
+        DIRETORIO_BACKUP = DIRETORIO + "Backup SGC" + barra;
         BACKUP_AUTOMATICO = false;
         BACKUP_A_CADA_DIA = 1;
         ULTIMO_BACKUP = null;
         PROXIMO_BACKUP = null;
-        DIRETORIO_RELATORIOS = DIRETORIO + "Relatórios/";
+        DIRETORIO_RELATORIOS = DIRETORIO + "Relatórios" + barra;
     }
     
     public String getUltimoBackup() {
