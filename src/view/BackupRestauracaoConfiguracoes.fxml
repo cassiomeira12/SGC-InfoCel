@@ -14,7 +14,7 @@
    <children>
       <VBox layoutX="765.0" layoutY="23.0" spacing="5.0">
          <children>
-            <CheckBox fx:id="backupAutomaticoCheckBox" mnemonicParsing="false" text="Backup Automático" />
+            <CheckBox fx:id="backupAutomaticoCheckBox" disable="true" mnemonicParsing="false" text="Backup Automático" />
             <HBox alignment="CENTER" spacing="5.0">
                <children>
                   <Label text="Realizar Backup automático a cada" />
@@ -24,8 +24,8 @@
             </HBox>
          </children>
       </VBox>
-      <Button fx:id="btnBackup" layoutX="245.0" layoutY="130.0" mnemonicParsing="false" onAction="#realizarBackup" text="Realizar Backup" />
-      <Button fx:id="btnImportar" layoutX="43.0" layoutY="130.0" mnemonicParsing="false" onAction="#importar" text="Importar Backup" />
+      <Button fx:id="btnBackup" disable="true" layoutX="245.0" layoutY="130.0" mnemonicParsing="false" onAction="#realizarBackup" text="Realizar Backup" />
+      <Button fx:id="btnImportar" disable="true" layoutX="43.0" layoutY="130.0" mnemonicParsing="false" onAction="#importar" text="Importar Backup" />
       <VBox fx:id="backupBox" layoutX="43.0" layoutY="45.0" spacing="5.0">
          <children>
             <Label text="Diretório dos Backup" />

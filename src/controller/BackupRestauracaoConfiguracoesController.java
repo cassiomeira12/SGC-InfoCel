@@ -87,7 +87,7 @@ public class BackupRestauracaoConfiguracoesController implements Initializable {
         diasSpinner.disableProperty().bind(backupAutomaticoCheckBox.selectedProperty().not());
         ultimoBackupLabel.disableProperty().bind(backupAutomaticoCheckBox.selectedProperty().not());
         proximoBackupLabel.disableProperty().bind(backupAutomaticoCheckBox.selectedProperty().not());
-        btnBackup.disableProperty().bind(caminhoBackupText.textProperty().isEmpty());
+        //btnBackup.disableProperty().bind(caminhoBackupText.textProperty().isEmpty());
         
         SpinnerValueFactory<Integer> valores = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 5, config.BACKUP_A_CADA_DIA);
         diasSpinner.setValueFactory(valores);
