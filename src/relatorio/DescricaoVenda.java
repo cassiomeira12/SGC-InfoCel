@@ -67,7 +67,7 @@ public class DescricaoVenda extends Thread {
             // fazendo conexao com o banco
             this.stm = conn.getConnection().createStatement();
             // consulta passada para o arquivo jasper
-            query = "select nome_cliente, cpf_cliente, rg_cliente, telefone_cliente, nome_cidade_cliente, nome_bairro_cliente, rua_cliente, numero_cliente, "
+            query = "select nome_cliente, cpf_cliente, rg_cliente, telefone_cliente, "
                     + "nome_administrador, descricao_forma_pagamento, quantidade_parcela, preco_total "
                     + "from view_venda "
                     + "where id = " + id.toString();
@@ -89,6 +89,8 @@ public class DescricaoVenda extends Thread {
         parameters.put("cep_empresa", SoftwareSpecifications.CEP);
 
         try {
+            // passando endereço do cliente
+            parameters.put("endereco_cliente", ControleDAO.getBanco().getVendaDAO().buscarPorId(id).getEnderecoCliente());
             // passando data como parametros por cauda da formatacao
             parameters.put("data_venda", ControleDAO.getBanco().getVendaDAO().buscarPorId(id).getDataEditada());
             // passando a conexao com o banco para o sub_report 

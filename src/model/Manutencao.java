@@ -181,4 +181,8 @@ public class Manutencao implements Comparable<Manutencao> {
         return  comparador - this.getDataCadastro().intValue();
     }
 
+     public String getEnderecoCliente() {
+        return cliente.getEndereco().toString();
+    }
+
 }

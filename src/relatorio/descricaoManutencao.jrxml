@@ -78,6 +78,7 @@ where id =   $P{id_manutencao}]]>
 	<parameter name="id_manutencao" class="java.lang.String">
 		<defaultValueExpression><![CDATA[7]]></defaultValueExpression>
 	</parameter>
+	<parameter name="endereco_cliente" class="java.lang.String"/>
 	<queryString language="SQL">
 		<![CDATA[]]>
 	</queryString>
@@ -95,22 +96,6 @@ where id =   $P{id_manutencao}]]>
 	</field>
 	<field name="telefone_cliente" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.label" value="telefone_cliente"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="view_manutencao"/>
-	</field>
-	<field name="nome_cidade_cliente" class="java.lang.String">
-		<property name="com.jaspersoft.studio.field.label" value="nome_cidade_cliente"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="view_manutencao"/>
-	</field>
-	<field name="nome_bairro_cliente" class="java.lang.String">
-		<property name="com.jaspersoft.studio.field.label" value="nome_bairro_cliente"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="view_manutencao"/>
-	</field>
-	<field name="rua_cliente" class="java.lang.String">
-		<property name="com.jaspersoft.studio.field.label" value="rua_cliente"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="view_manutencao"/>
-	</field>
-	<field name="numero_cliente" class="java.lang.String">
-		<property name="com.jaspersoft.studio.field.label" value="numero_cliente"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="view_manutencao"/>
 	</field>
 	<field name="nome_administrador" class="java.lang.String">
@@ -271,24 +256,18 @@ where id =   $P{id_manutencao}]]>
 				<textFieldExpression><![CDATA[$F{telefone_cliente}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="104" y="194" width="100" height="20" uuid="04b9d3ce-41c3-4b60-a246-8c5d67df4cbb"/>
-				<textFieldExpression><![CDATA[$F{nome_cidade_cliente}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="233" y="194" width="100" height="20" uuid="756ed26e-24b2-4817-a99a-3d8b998e3862"/>
-				<textFieldExpression><![CDATA[$F{nome_bairro_cliente}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="343" y="194" width="100" height="20" uuid="7a6320c4-04da-4dfb-833e-38f5eee589d2"/>
-				<textFieldExpression><![CDATA[$F{rua_cliente}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="449" y="194" width="86" height="20" uuid="71b1f0b9-ea19-454b-a573-a8cdd1980900"/>
-				<textFieldExpression><![CDATA[$F{numero_cliente}]]></textFieldExpression>
-			</textField>
-			<textField>
 				<reportElement x="104" y="215" width="348" height="18" uuid="f894fba0-9033-4638-9f1e-1e0d42ba1661"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
 				<textFieldExpression><![CDATA[$F{nome_administrador}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="108" y="190" width="436" height="20" uuid="4fbafc4e-5d41-4447-a2e7-9a647363264c"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{endereco_cliente}]]></textFieldExpression>
 			</textField>
 		</band>
 	</title>
