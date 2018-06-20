@@ -133,7 +133,7 @@ where id =   $P{id_manutencao}]]>
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="253" splitType="Stretch">
+		<band height="237" splitType="Stretch">
 			<textField pattern="EEEEE dd MMMMM yyyy">
 				<reportElement x="406" y="115" width="144" height="20" forecolor="#080404" uuid="7656e083-c295-4295-8df1-18ccd94305dc"/>
 				<textElement textAlignment="Right">
@@ -151,10 +151,10 @@ where id =   $P{id_manutencao}]]>
 				<text><![CDATA[DADOS ]]></text>
 			</staticText>
 			<rectangle>
-				<reportElement x="10" y="141" width="541" height="103" uuid="9766e429-1fce-43b6-8166-589d17ad0ea3"/>
+				<reportElement x="10" y="141" width="541" height="93" uuid="9766e429-1fce-43b6-8166-589d17ad0ea3"/>
 			</rectangle>
 			<staticText>
-				<reportElement x="29" y="147" width="58" height="19" uuid="0642595e-4717-4e2f-b8e1-2a6ca7d1c2f4">
+				<reportElement x="29" y="147" width="44" height="19" uuid="0642595e-4717-4e2f-b8e1-2a6ca7d1c2f4">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="a3f547f1-2f89-48c3-90cb-ccbe5a8c25c9"/>
 				</reportElement>
 				<textElement>
@@ -163,7 +163,7 @@ where id =   $P{id_manutencao}]]>
 				<text><![CDATA[NOME:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="29" y="171" width="44" height="22" uuid="99d5065d-eb76-45d4-b571-7625fec661dc">
+				<reportElement x="29" y="171" width="30" height="22" uuid="99d5065d-eb76-45d4-b571-7625fec661dc">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="a3f547f1-2f89-48c3-90cb-ccbe5a8c25c9"/>
 				</reportElement>
 				<textElement>
@@ -172,7 +172,7 @@ where id =   $P{id_manutencao}]]>
 				<text><![CDATA[CPF:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="198" y="171" width="32" height="22" uuid="f16af1a8-6d05-46f9-a185-b371216b4551">
+				<reportElement x="198" y="171" width="22" height="22" uuid="f16af1a8-6d05-46f9-a185-b371216b4551">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="a3f547f1-2f89-48c3-90cb-ccbe5a8c25c9"/>
 				</reportElement>
 				<textElement>
@@ -190,7 +190,7 @@ where id =   $P{id_manutencao}]]>
 				<text><![CDATA[TELEFONE:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="30" y="193" width="85" height="20" uuid="f0307be9-5bc5-4b26-82bf-6209b9337e27">
+				<reportElement x="30" y="193" width="81" height="20" uuid="f0307be9-5bc5-4b26-82bf-6209b9337e27">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="a3f547f1-2f89-48c3-90cb-ccbe5a8c25c9"/>
 				</reportElement>
 				<textElement>
@@ -202,7 +202,7 @@ where id =   $P{id_manutencao}]]>
 				<reportElement x="10" y="-9" width="541" height="119" uuid="5d8af4b7-cb45-4541-b1c1-f1cbae52c9e7"/>
 			</rectangle>
 			<staticText>
-				<reportElement x="29" y="215" width="85" height="20" uuid="c7b2a8eb-7509-48e8-add7-c7beddd906d1">
+				<reportElement x="29" y="215" width="82" height="20" uuid="c7b2a8eb-7509-48e8-add7-c7beddd906d1">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="a3f547f1-2f89-48c3-90cb-ccbe5a8c25c9"/>
 				</reportElement>
 				<textElement>
@@ -253,39 +253,41 @@ where id =   $P{id_manutencao}]]>
 				<imageExpression><![CDATA[$P{src_logo}]]></imageExpression>
 			</image>
 			<textField>
-				<reportElement x="100" y="147" width="306" height="19" uuid="da05f6d9-64a5-407b-90b6-4bfe3198c802"/>
+				<reportElement x="73" y="148" width="306" height="19" uuid="da05f6d9-64a5-407b-90b6-4bfe3198c802"/>
+				<textElement textAlignment="Left"/>
 				<textFieldExpression><![CDATA[$F{nome_cliente}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="80" y="170" width="100" height="23" uuid="b30fff79-6a32-445e-8906-97718c05254e"/>
+				<reportElement x="59" y="171" width="100" height="23" uuid="b30fff79-6a32-445e-8906-97718c05254e"/>
+				<textElement textAlignment="Left"/>
 				<textFieldExpression><![CDATA[$F{cpf_cliente}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="233" y="171" width="97" height="22" uuid="ccd34216-d2e6-43a0-aae2-27e5637e35a9"/>
+				<reportElement x="222" y="172" width="97" height="22" uuid="ccd34216-d2e6-43a0-aae2-27e5637e35a9"/>
 				<textFieldExpression><![CDATA[$F{rg_cliente}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="420" y="171" width="100" height="22" uuid="a69cd935-3f16-49fb-b881-818f5e01bb2d"/>
+				<reportElement x="414" y="172" width="100" height="22" uuid="a69cd935-3f16-49fb-b881-818f5e01bb2d"/>
 				<textFieldExpression><![CDATA[$F{telefone_cliente}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="111" y="193" width="100" height="20" uuid="04b9d3ce-41c3-4b60-a246-8c5d67df4cbb"/>
+				<reportElement x="104" y="194" width="100" height="20" uuid="04b9d3ce-41c3-4b60-a246-8c5d67df4cbb"/>
 				<textFieldExpression><![CDATA[$F{nome_cidade_cliente}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="233" y="193" width="100" height="20" uuid="756ed26e-24b2-4817-a99a-3d8b998e3862"/>
+				<reportElement x="233" y="194" width="100" height="20" uuid="756ed26e-24b2-4817-a99a-3d8b998e3862"/>
 				<textFieldExpression><![CDATA[$F{nome_bairro_cliente}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="343" y="193" width="100" height="20" uuid="7a6320c4-04da-4dfb-833e-38f5eee589d2"/>
+				<reportElement x="343" y="194" width="100" height="20" uuid="7a6320c4-04da-4dfb-833e-38f5eee589d2"/>
 				<textFieldExpression><![CDATA[$F{rua_cliente}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="449" y="193" width="86" height="20" uuid="71b1f0b9-ea19-454b-a573-a8cdd1980900"/>
+				<reportElement x="449" y="194" width="86" height="20" uuid="71b1f0b9-ea19-454b-a573-a8cdd1980900"/>
 				<textFieldExpression><![CDATA[$F{numero_cliente}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="111" y="215" width="348" height="20" uuid="f894fba0-9033-4638-9f1e-1e0d42ba1661"/>
+				<reportElement x="104" y="215" width="348" height="18" uuid="f894fba0-9033-4638-9f1e-1e0d42ba1661"/>
 				<textFieldExpression><![CDATA[$F{nome_administrador}]]></textFieldExpression>
 			</textField>
 		</band>
@@ -320,9 +322,9 @@ where id =   $P{id_manutencao}]]>
 		</band>
 	</columnHeader>
 	<detail>
-		<band height="75" splitType="Stretch">
+		<band height="68" splitType="Stretch">
 			<componentElement>
-				<reportElement x="2" y="3" width="550" height="60" uuid="6879ab71-8381-459c-bf88-c60a3fc3a128">
+				<reportElement x="10" y="3" width="540" height="60" uuid="6879ab71-8381-459c-bf88-c60a3fc3a128">
 					<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.VerticalRowLayout"/>
 					<property name="com.jaspersoft.studio.table.style.table_header" value="Table_TH"/>
 					<property name="com.jaspersoft.studio.table.style.column_header" value="Table_CH"/>
@@ -430,11 +432,11 @@ where id =   $P{id_manutencao}]]>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
-					<jr:column width="61" uuid="e23c1a42-89d8-4597-ad00-6e812117aef1">
+					<jr:column width="50" uuid="e23c1a42-89d8-4597-ad00-6e812117aef1">
 						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column6"/>
 						<jr:columnHeader style="Table_CH" height="30" rowSpan="1">
 							<staticText>
-								<reportElement x="0" y="0" width="61" height="30" uuid="94c27848-f58c-431f-8f03-0a23c480cdfe"/>
+								<reportElement x="0" y="0" width="50" height="30" uuid="94c27848-f58c-431f-8f03-0a23c480cdfe"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
 									<font isBold="true"/>
 								</textElement>
@@ -443,7 +445,7 @@ where id =   $P{id_manutencao}]]>
 						</jr:columnHeader>
 						<jr:detailCell style="Table_TD" height="30">
 							<textField>
-								<reportElement x="0" y="0" width="61" height="30" uuid="4b105095-b73e-477e-96d3-f3d97bc3c664"/>
+								<reportElement x="0" y="0" width="50" height="30" uuid="4b105095-b73e-477e-96d3-f3d97bc3c664"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle"/>
 								<textFieldExpression><![CDATA[$F{preco}]]></textFieldExpression>
 							</textField>
@@ -452,7 +454,7 @@ where id =   $P{id_manutencao}]]>
 				</jr:table>
 			</componentElement>
 		</band>
-		<band height="159">
+		<band height="135">
 			<rectangle>
 				<reportElement x="10" y="30" width="330" height="45" uuid="9e900a85-eb8b-4925-982a-b8937ea76992"/>
 			</rectangle>
@@ -536,50 +538,50 @@ where id =   $P{id_manutencao}]]>
 				<textFieldExpression><![CDATA[$F{quantidade_parcelas}]]></textFieldExpression>
 			</textField>
 			<rectangle>
-				<reportElement x="11" y="80" width="540" height="74" uuid="c28b303e-2016-4694-847a-147237bd75d2"/>
+				<reportElement x="11" y="80" width="540" height="50" uuid="c28b303e-2016-4694-847a-147237bd75d2"/>
 			</rectangle>
 			<staticText>
-				<reportElement x="21" y="81" width="516" height="39" uuid="0f34e2f7-27ed-4655-90cc-0819fea14079">
+				<reportElement x="23" y="81" width="516" height="29" uuid="0f34e2f7-27ed-4655-90cc-0819fea14079">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="a3f547f1-2f89-48c3-90cb-ccbe5a8c25c9"/>
 				</reportElement>
-				<textElement>
-					<font size="12" isBold="true"/>
+				<textElement textAlignment="Left">
+					<font size="8" isBold="false"/>
 				</textElement>
 				<text><![CDATA[Comprovante de prestação de serviço. Responsabilidade sobre Aparelho no período de 90 dias. Não fazendo a retirada o mesmo será vendido para cobrir os custos do conserto.]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="23" y="134" width="236" height="20" uuid="27bc3367-0ec6-4707-9fde-01582333a996">
+				<reportElement x="23" y="115" width="236" height="20" uuid="27bc3367-0ec6-4707-9fde-01582333a996">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="a3f547f1-2f89-48c3-90cb-ccbe5a8c25c9"/>
 				</reportElement>
 				<textElement textAlignment="Center">
-					<font size="12" isBold="true"/>
+					<font size="10" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Técnico Responsável]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="306" y="135" width="232" height="20" uuid="06fe57c4-36d1-4a33-ac24-3c2035bc7f55">
+				<reportElement x="306" y="115" width="232" height="20" uuid="06fe57c4-36d1-4a33-ac24-3c2035bc7f55">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="a3f547f1-2f89-48c3-90cb-ccbe5a8c25c9"/>
 				</reportElement>
 				<textElement textAlignment="Center">
-					<font size="12" isBold="true"/>
+					<font size="10" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Assinatura do Cliente]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="25" y="116" width="234" height="20" uuid="dde60172-1d9f-4063-8802-28b7f063c0be">
+				<reportElement x="25" y="102" width="234" height="20" uuid="dde60172-1d9f-4063-8802-28b7f063c0be">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="a3f547f1-2f89-48c3-90cb-ccbe5a8c25c9"/>
 				</reportElement>
 				<textElement textAlignment="Center">
-					<font size="12" isBold="false"/>
+					<font size="10" isBold="false"/>
 				</textElement>
 				<text><![CDATA[__________________________________]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="306" y="116" width="234" height="20" uuid="ff265337-998d-4826-954f-d14e882694d1">
+				<reportElement x="306" y="102" width="234" height="20" uuid="ff265337-998d-4826-954f-d14e882694d1">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="a3f547f1-2f89-48c3-90cb-ccbe5a8c25c9"/>
 				</reportElement>
 				<textElement textAlignment="Center">
-					<font size="12" isBold="false"/>
+					<font size="10" isBold="false"/>
 				</textElement>
 				<text><![CDATA[__________________________________]]></text>
 			</staticText>
