@@ -84,7 +84,7 @@ public class TelaRelatorioDiarioController extends AnchorPane {
             fxml.setController(this);
             fxml.load();
         } catch (IOException ex) {
-            Logger.getLogger(getClass()).error(ex);
+            //Logger.getLogger(getClass()).error(ex);
             ex.printStackTrace();
         }
     }
@@ -103,37 +103,37 @@ public class TelaRelatorioDiarioController extends AnchorPane {
         //graficoPie.setTitle("Relatório do dia " + DateUtils.formatDate(data));
         graficoPie.setLabelLineLength(50);
         
-        vendaSlice.getNode().addEventHandler(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-                TelaConsultarVendasController tela = new TelaConsultarVendasController(painelPrincipal);
-                adicionarPainelInterno(tela);
-            }
-        });
-        
-        manutencaoSlice.getNode().addEventHandler(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-                TelaConsultarManutencoesController tela = new TelaConsultarManutencoesController(painelPrincipal);
-                adicionarPainelInterno(tela);
-            }
-        });
-        
-        receitaSlice.getNode().addEventHandler(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-                TelaReceitaController tela = new TelaReceitaController(painelPrincipal);
-                adicionarPainelInterno(tela);
-            }
-        });
-        
-        saidaSlice.getNode().addEventHandler(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-                TelaSaidaController tela = new TelaSaidaController(painelPrincipal);
-                adicionarPainelInterno(tela);
-            }
-        });
+//        vendaSlice.getNode().addEventHandler(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>() {
+//            @Override
+//            public void handle(MouseEvent event) {
+//                TelaConsultarVendasController tela = new TelaConsultarVendasController(painelPrincipal);
+//                adicionarPainelInterno(tela);
+//            }
+//        });
+//        
+//        manutencaoSlice.getNode().addEventHandler(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>() {
+//            @Override
+//            public void handle(MouseEvent event) {
+//                TelaConsultarManutencoesController tela = new TelaConsultarManutencoesController(painelPrincipal);
+//                adicionarPainelInterno(tela);
+//            }
+//        });
+//        
+//        receitaSlice.getNode().addEventHandler(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>() {
+//            @Override
+//            public void handle(MouseEvent event) {
+//                TelaReceitaController tela = new TelaReceitaController(painelPrincipal);
+//                adicionarPainelInterno(tela);
+//            }
+//        });
+//        
+//        saidaSlice.getNode().addEventHandler(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>() {
+//            @Override
+//            public void handle(MouseEvent event) {
+//                TelaSaidaController tela = new TelaSaidaController(painelPrincipal);
+//                adicionarPainelInterno(tela);
+//            }
+//        });
         
         indicator.setMaxSize(200, 200);
         stackPane.getChildren().add(indicator);

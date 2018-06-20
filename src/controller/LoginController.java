@@ -56,8 +56,7 @@ public class LoginController extends AnchorPane {
             fxml.setController(this);
             fxml.load();
         } catch (IOException ex) {
-            Logger.getLogger(getClass()).error(ex);
-            chamarAlerta("Erro - Tela de Login", "Ocorreu um erro ao abrir a tela de Login");
+            //Logger.getLogger(getClass()).error(ex);
             ex.printStackTrace();
         }
     }

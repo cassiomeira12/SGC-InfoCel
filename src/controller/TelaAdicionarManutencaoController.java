@@ -135,7 +135,7 @@ public class TelaAdicionarManutencaoController extends AnchorPane {
             fxml.setController(this);
             fxml.load();
         } catch (IOException ex) {
-            Logger.getLogger(getClass()).error(ex);
+            //Logger.getLogger(getClass()).error(ex);
             ex.printStackTrace();
         }
     }
@@ -380,29 +380,6 @@ public class TelaAdicionarManutencaoController extends AnchorPane {
         }
     }
 
-//    @FXML
-//    private void adicionarNovaFormaPagamento() {
-//        this.formaPagamentoComboBox.setVisible(false);
-//        //this.novaFormaPagamentoButton.setVisible(false);
-//
-//        //this.novaFormaPagamentoText.setVisible(true);
-//        //this.salvarFormaPagamentoButton.setVisible(true);
-//    }
-//    @FXML
-//    private void salvarNovaFormaPagamento() {
-//        try {
-//            //ControleDAO.getBanco().getFormaPagamentoDAO().inserir(new FormaPagamento(null, novaFormaPagamentoText.getText(), 12));
-//
-//            this.formaPagamentoComboBox.getItems().addAll(ControleDAO.getBanco().getFormaPagamentoDAO().listar());
-//        } catch (SQLException ex) {
-//            Logger.getLogger(TelaAdicionarManutencaoController.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-//        this.formaPagamentoComboBox.setVisible(true);
-//        //this.novaFormaPagamentoButton.setVisible(true);
-//
-//        //this.novaFormaPagamentoText.setVisible(false);
-//        //this.salvarFormaPagamentoButton.setVisible(false);
-//    }
     private Cliente criarCliente() {
         String nome = nomeText.getText();
         String telefone = telefoneText.getText();

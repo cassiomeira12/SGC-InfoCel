@@ -17,7 +17,6 @@ import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.view.JasperViewer;
-import org.apache.log4j.Logger;
 import util.DateUtils;
 import util.SoftwareSpecifications;
 
@@ -58,7 +57,6 @@ public class DescricaoManutencao extends Thread {
                 mostrarDescricaoManutencao();
             }
         } catch (IOException ex) {
-            Logger.getLogger(getClass()).error(ex);
             ex.printStackTrace();
         }
 
@@ -76,7 +74,6 @@ public class DescricaoManutencao extends Thread {
             // execute a query		
             rs = stm.executeQuery(query);
         } catch (SQLException ex) {
-            Logger.getLogger(getClass()).error(ex);
             ex.printStackTrace();
         }
         
@@ -114,7 +111,6 @@ public class DescricaoManutencao extends Thread {
             // pega nome do cliente
             nomeClienteManutencao = ControleDAO.getBanco().getManutencaoDAO().buscarPorId(id).getCliente().getNome();
         } catch (SQLException ex) {
-            Logger.getLogger(getClass()).error(ex);
             ex.printStackTrace();
         }
 
@@ -124,7 +120,6 @@ public class DescricaoManutencao extends Thread {
             //impressao
             JasperExportManager.exportReportToPdfFile(jp, srcSalvarRelatorio + "/" + id.toString() + "_" + nomeClienteManutencao + ".pdf");
         } catch (JRException ex) {
-            Logger.getLogger(getClass()).error(ex);
             ex.printStackTrace();
         }
 
