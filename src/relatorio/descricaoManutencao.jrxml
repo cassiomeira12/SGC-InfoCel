@@ -452,7 +452,7 @@ where id =   $P{id_manutencao}]]>
 				</jr:table>
 			</componentElement>
 		</band>
-		<band height="90">
+		<band height="159">
 			<rectangle>
 				<reportElement x="10" y="30" width="330" height="45" uuid="9e900a85-eb8b-4925-982a-b8937ea76992"/>
 			</rectangle>
@@ -535,6 +535,54 @@ where id =   $P{id_manutencao}]]>
 				<textElement textAlignment="Center"/>
 				<textFieldExpression><![CDATA[$F{quantidade_parcelas}]]></textFieldExpression>
 			</textField>
+			<rectangle>
+				<reportElement x="11" y="80" width="540" height="74" uuid="c28b303e-2016-4694-847a-147237bd75d2"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="21" y="81" width="516" height="39" uuid="0f34e2f7-27ed-4655-90cc-0819fea14079">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="a3f547f1-2f89-48c3-90cb-ccbe5a8c25c9"/>
+				</reportElement>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Comprovante de prestação de serviço. Responsabilidade sobre Aparelho no período de 90 dias. Não fazendo a retirada o mesmo será vendido para cobrir os custos do conserto.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="23" y="134" width="236" height="20" uuid="27bc3367-0ec6-4707-9fde-01582333a996">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="a3f547f1-2f89-48c3-90cb-ccbe5a8c25c9"/>
+				</reportElement>
+				<textElement textAlignment="Center">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Técnico Responsável]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="306" y="135" width="232" height="20" uuid="06fe57c4-36d1-4a33-ac24-3c2035bc7f55">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="a3f547f1-2f89-48c3-90cb-ccbe5a8c25c9"/>
+				</reportElement>
+				<textElement textAlignment="Center">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Assinatura do Cliente]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="25" y="116" width="234" height="20" uuid="dde60172-1d9f-4063-8802-28b7f063c0be">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="a3f547f1-2f89-48c3-90cb-ccbe5a8c25c9"/>
+				</reportElement>
+				<textElement textAlignment="Center">
+					<font size="12" isBold="false"/>
+				</textElement>
+				<text><![CDATA[__________________________________]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="306" y="116" width="234" height="20" uuid="ff265337-998d-4826-954f-d14e882694d1">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="a3f547f1-2f89-48c3-90cb-ccbe5a8c25c9"/>
+				</reportElement>
+				<textElement textAlignment="Center">
+					<font size="12" isBold="false"/>
+				</textElement>
+				<text><![CDATA[__________________________________]]></text>
+			</staticText>
 		</band>
 	</detail>
 </jasperReport>
