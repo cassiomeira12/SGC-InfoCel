@@ -16,13 +16,20 @@ import org.apache.log4j.Logger;
  * @author Angelica Leite/ Editado por Pedro Cordeiro / Editado por Cassio Meira
  */
 public class ConexaoBanco {
-
+    
+    //BANCO DE DADOS NA REDE
     public static final String URL = "jdbc:mysql://neolig.com:3306/";
-   // private static final String URL = "jdbc:mysql://localhost:3306/";
     public static final String DATABASE = "neoli831_teste";
     public static final String DRIVER = "com.mysql.jdbc.Driver";
     public static final String USERNAME = "neoli831_teste";
     public static final String PASSWORD = "teste";
+
+    //BANCO DE DADOS LOCAL
+//    private static final String URL = "jdbc:mysql://localhost:3306/";
+//    public static final String DATABASE = "sgc_infocel";
+//    public static final String DRIVER = "com.mysql.jdbc.Driver";
+//    public static final String USERNAME = "root";
+//    public static final String PASSWORD = "root";
 
     public static ConexaoBanco instancia = new ConexaoBanco();
     private static Connection connection;
