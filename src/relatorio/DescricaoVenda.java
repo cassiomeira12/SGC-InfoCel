@@ -53,7 +53,6 @@ public class DescricaoVenda extends Thread {
             // metodo que gerar o arquivo e salva como pdf
             gerarDescricaoVenda(idVenda);
         } catch (IOException ex) {
-            Logger.getLogger(getClass()).error(ex);
             ex.printStackTrace();
         }
         if (mostrar) {
@@ -74,7 +73,6 @@ public class DescricaoVenda extends Thread {
             // execute a query		
             rs = stm.executeQuery(query);
         } catch (SQLException ex) {
-            Logger.getLogger(getClass()).error(ex);
             ex.printStackTrace();
         }
         
@@ -114,7 +112,6 @@ public class DescricaoVenda extends Thread {
             // pega nome do cliente
             nomeClienteVenda = ControleDAO.getBanco().getVendaDAO().buscarPorId(id).getCliente().getNome();
         } catch (SQLException ex) {
-            Logger.getLogger(getClass()).error(ex);
             ex.printStackTrace();
         }
         try {
@@ -123,7 +120,6 @@ public class DescricaoVenda extends Thread {
             //impressao
             JasperExportManager.exportReportToPdfFile(jp, srcSalvarRelatorio + "/" + id.toString() + "_" + nomeClienteVenda + ".pdf");
         } catch (JRException ex) {
-            Logger.getLogger(getClass()).error(ex);
             ex.printStackTrace();
         }
 

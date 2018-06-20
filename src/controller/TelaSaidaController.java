@@ -79,7 +79,7 @@ public class TelaSaidaController extends AnchorPane {
             fxml.setController(this);
             fxml.load();
         } catch (IOException ex) {
-            Logger.getLogger(getClass()).error(ex);
+            //Logger.getLogger(getClass()).error(ex);
             ex.printStackTrace();
         }
     }

@@ -20,7 +20,6 @@ public class Principal extends Application {
             Painel painel = new Painel();
             painel.start(palco);
         } catch (Exception ex) {
-            Logger.getLogger(getClass()).error(ex);
             ex.printStackTrace();
         }
 

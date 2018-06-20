@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name[pt_BR]=SGC-Infocel
+Comment=Sistema de Gerenciamento Comercial
+Exec=/home/cassio/Desenvolvimento-Software/NetBeansProjects/SGC-InfoCel/SGC-InfoCel
+Icon=/home/cassio/Desenvolvimento-Software/NetBeansProjects/SGC-InfoCel/icone.png
+NoDisplay=false
+Terminal=false
+Type=Application
+Categories=Development;

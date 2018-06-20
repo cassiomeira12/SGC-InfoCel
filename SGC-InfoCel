@@ -1,0 +1,38 @@
+#!/bin/sh
+
+ASTAH_HOME=$(dirname $(readlink -f $0))
+CLASSPATH="$ASTAH_HOME"/dist/SGC-InfoCel.jar
+
+JAVA_OPTS="-Xms16m -Xmx384m"
+#JAVA_OPTS="$JAVA_OPTS -Duser.language=en"
+#JAVA_OPTS="$JAVA_OPTS -Duser.language=ja"
+#JAVA_OPTS="$JAVA_OPTS -DrootLevel=DEBUG"
+
+IsNumeric() {
+     if [ $# -ne 1 ]; then
+          return 1
+     fi
+
+     expr "$1" + 1 >/dev/null 2>&1
+     if [ $? -ge 2 ]; then
+          return 1
+     fi
+
+     return 0
+}
+
+REV=`java -version 2>&1 | grep "java version" | sed -e "s/.*1\.6\.0_\([0-9]*\)\"/\1/g"`
+if IsNumeric $REV
+then
+  if [ $REV -ge 23 ]
+  then
+    echo "1"
+    java -splash:"$ASTAH_HOME"/icone.png -jar $CLASSPATH "$1" "$2" "$3"
+  else
+    echo "2"
+    java -jar $CLASSPATH "$1" "$2" "$3"
+  fi
+else
+  java -splash:"$ASTAH_HOME"/icone.png -jar $CLASSPATH "$1" "$2" "$3"
+fi
+
