@@ -304,6 +304,7 @@ public class TelaAdicionarManutencaoController extends AnchorPane {
                     if (entregaDatePicker.getValue() != null) {
                         dataPrevisao = DateUtils.getLong(entregaDatePicker.getValue());
                     }
+                    System.out.println(dataPrevisao);
 
                     String marca = marcaText.getText();
                     String cor = corColorPicker.getValue().toString();

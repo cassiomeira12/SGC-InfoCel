@@ -1,6 +1,10 @@
 package controller;
 
+import banco.ControleDAO;
 import java.io.IOException;
+import java.sql.SQLException;
+import java.time.LocalDate;
+import java.util.logging.Level;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -24,7 +28,11 @@ import model.Endereco;
 import model.FormaPagamento;
 import model.Manutencao;
 import org.apache.log4j.Logger;
+import relatorio.DescricaoManutencao;
 import util.DateUtils;
+import util.Formatter;
+import util.alerta.Alerta;
+import util.alerta.Dialogo;
 
 public class TelaManutencaoController extends AnchorPane {
     
@@ -116,6 +124,14 @@ public class TelaManutencaoController extends AnchorPane {
     public void initialize() {
         boolean desabilitar = true;
         
+        Formatter.toUpperCase(nomeText, adicionarCidadeText, adicionarBairroText, marcaText, modeloText, descricaoArea, ruaText, numeroText);
+        Formatter.mascaraCPF(cpfText);//Formatador para CPF
+        Formatter.mascaraRG(rgText);//Formatador para Rg
+        Formatter.mascaraTelefone(telefoneText);//Formatador para Telefone
+        Formatter.decimal(precoText);//Formatador para Dinheiro
+        this.imeiText.setTextFormatter(Formatter.NUMERICO());//Formatador Numerico
+        Formatter.maxField(imeiText, 15);
+        
         this.nomeText.setDisable(desabilitar);
         this.telefoneText.setDisable(desabilitar);
         this.cpfText.setDisable(desabilitar);
@@ -160,7 +176,72 @@ public class TelaManutencaoController extends AnchorPane {
 
     @FXML
     private void finalizar() {
-        
+        Dialogo.Resposta resposta = Alerta.confirmar("Deseja editar esta Manutenção ?");
+        // se quer cadastrar uma nova manutencao
+        if (resposta == Dialogo.Resposta.YES) {
+            //Administrador vendedor = vendedorComboBox.getValue();
+            boolean finalizado = false;
+            // olha os estado do aparelho, aberto ou finalizado
+            switch (estadoComboBox.getValue()) {
+                case "ABERTO":
+                   finalizado = false;
+                    break;
+                case "FINALIZADO":
+                    finalizado = true;
+                     break;
+            }
+
+            String descricao = descricaoArea.getText();
+            float preco = Float.parseFloat(precoText.getText());
+                    
+            LocalDate date = entregaDatePicker.getValue();
+            Long dataPrevisao = DateUtils.getLong(entregaDatePicker.getValue());
+            LocalDate hoje = LocalDate.now();
+            if (date.isEqual(hoje)) {
+                dataPrevisao = System.currentTimeMillis();
+            }
+
+            String marca = marcaText.getText();
+            String cor = corColorPicker.getValue().toString();
+            String modelo = modeloText.getText();
+            String imei = imeiText.getText();
+            FormaPagamento pagamento = formaPagamentoComboBox.getValue();
+            int parcelas = parcelasSpinner.getValue();
+            
+            manutencao.setPreco(preco);
+            manutencao.setFormaPagamento(pagamento);
+            manutencao.setQuantidadeParcelas(parcelas);
+            manutencao.setDataPrevisaoEntrega(dataPrevisao);
+            manutencao.setDataEntrega(dataPrevisao);
+            manutencao.setDescricao(descricao);
+            manutencao.setMarca(marca);
+            manutencao.setModelo(modelo);
+            manutencao.setImei(imei);
+            manutencao.setCor(cor);
+            manutencao.setFinalizado(finalizado);
+            
+            try {
+                if(ControleDAO.getBanco().getManutencaoDAO().editar(manutencao)) {
+                    Dialogo.Resposta abrirPDF = Alerta.confirmar("Manutenção editada com sucesso!\n"
+                                                                        + "Deseja abrir o Comprovante da Manutenção ?");
+                    
+                    // gerar descricao manutencao pdf
+                    DescricaoManutencao relatorio = new DescricaoManutencao(manutencao.getId());
+                    if (abrirPDF == Dialogo.Resposta.YES) {
+                        relatorio.setMostrar(true);
+                    }
+                    relatorio.start();
+                    
+                    cancelarOperacao();
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(getClass()).error(ex);
+                ex.printStackTrace();
+                Alerta.erro("Erro ao editar Manutenção !");
+            }
+            
+                
+        }
     }
     
     public void setManutencao(Manutencao manutencao) {
@@ -198,9 +279,11 @@ public class TelaManutencaoController extends AnchorPane {
         FormaPagamento formaPagamento = manutencao.getFormaPagamento();
         
         int parcelas = manutencao.getQuantidadeParcelas();
-        
+        System.out.println(dataEntrega);
         this.dataDatePicker.setValue(DateUtils.createLocalDate(dataCadastro));
-        this.entregaDatePicker.setValue(DateUtils.createLocalDate(dataEntrega));
+        if (dataEntrega != 0) {
+            this.entregaDatePicker.setValue(DateUtils.createLocalDate(dataEntrega));
+        }
         this.vendedorComboBox.setValue(vendedor);
         this.formaPagamentoComboBox.setValue(formaPagamento);
         this.precoText.setText(String.valueOf(manutencao.getPreco()));
