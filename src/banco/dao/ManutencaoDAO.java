@@ -311,13 +311,23 @@ public class ManutencaoDAO extends DAO {
         String sql = "SELECT * FROM view_manutencao"
                 + "\nWHERE view_manutencao.data_cadastro >= " + inicio + " AND view_manutencao.data_cadastro < " + finall;
 
-        System.out.println(sql);
         stm = getConector().prepareStatement(sql);
         rs = stm.executeQuery(sql);
 
         while (rs.next()) {
-            Administrador adm = new Administrador(rs.getLong("id_administrador"), rs.getString("nome_administrador"), null, null, null, null, null, null, null, true);
-            Cliente cliente = new Cliente(rs.getLong("id_cliente"), rs.getString("nome_cliente"), null, null, null, null, null, true);
+            Cidade cidadeAdm = new Cidade(rs.getLong("id_cidade_administrador"), rs.getString("nome_cidade_administrador"));
+            Bairro bairroAdm = new Bairro(rs.getLong("id_bairro_administrador"), rs.getString("nome_bairro_administrador"), cidadeAdm);
+            Endereco enderecoAdm = new Endereco(rs.getLong("id_endereco_administrador"), bairroAdm, rs.getString("rua_administrador"), rs.getString("numero_administrador"));
+
+            Administrador adm = new Administrador(rs.getLong("id_administrador"), rs.getString("nome_administrador"),
+                    null, null, enderecoAdm, null, rs.getString("cpf_administrador"), null, null, true);
+
+            Cidade cidadeC = new Cidade(rs.getLong("id_cidade_cliente"), rs.getString("nome_cidade_cliente"));
+            Bairro bairroC = new Bairro(rs.getLong("id_bairro_cliente"), rs.getString("nome_bairro_cliente"), cidadeAdm);
+            Endereco enderecoC = new Endereco(rs.getLong("id_endereco_cliente"), bairroAdm, rs.getString("rua_cliente"), rs.getString("numero_cliente"));
+
+            Cliente cliente = new Cliente(rs.getLong("id_cliente"), rs.getString("nome_cliente"), enderecoC,
+                    rs.getString("cpf_cliente"), rs.getString("rg_cliente"), rs.getString("telefone_cliente"), null, true);
 
             FormaPagamento formaPagamento = new FormaPagamento(rs.getLong("id_forma_pagamento"), rs.getString("descricao_forma_pagamento"), 1);
 

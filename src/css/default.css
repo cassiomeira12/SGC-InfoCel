@@ -37,9 +37,13 @@ and open the template in the editor.
     font-family: 'Les Mousquetaires';
     src: url('../font/Les-Mousquetaires.ttf');
 }
-@font-face {
+/*@font-face {
     font-family: 'Caviar Dreams';
     src: url('../font/CaviarDreams.ttf');
+}*/
+@font-face {
+    font-family: 'Caviar Dreams';
+    src: url('../font/CaviarDreams_BoldItalic.ttf');
 }
 
 

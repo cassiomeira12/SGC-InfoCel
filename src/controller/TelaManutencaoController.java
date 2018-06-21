@@ -20,6 +20,7 @@ import model.Administrador;
 import model.Bairro;
 import model.Cidade;
 import model.Cliente;
+import model.Endereco;
 import model.FormaPagamento;
 import model.Manutencao;
 import org.apache.log4j.Logger;
@@ -175,24 +176,19 @@ public class TelaManutencaoController extends AnchorPane {
         this.cpfText.setText(cliente.getCpf());
         this.rgText.setText(cliente.getRg());
         
-        System.out.println(cliente.getNome());
-        System.out.println(cliente.getRg());
-        System.out.println(cliente.getCpf());
-        System.out.println(cliente.getEndereco());
+        Endereco endereco = cliente.getEndereco();
+        Bairro bairro = endereco.getBairro();
+        Cidade cidade = bairro.getCidade();
 
-//        Endereco endereco = cliente.getEndereco();
-//        Bairro bairro = endereco.getBairro();
-//        Cidade cidade = bairro.getCidade();
-//
-//        //this.selecionarCidade();
-//        this.cidadeComboBox.setValue(cidade);
-//        //this.cidadeComboBox.getSelectionModel().select(cidade);
-//
-//        //sincronizarBancoDadosBairro(cidade);
-//        bairroComboBox.setValue(bairro);
-//
-//        this.ruaText.setText(endereco.getRua());
-//        this.numeroText.setText(endereco.getNumero());
+        //this.selecionarCidade();
+        this.cidadeComboBox.setValue(cidade);
+        //this.cidadeComboBox.getSelectionModel().select(cidade);
+
+        //sincronizarBancoDadosBairro(cidade);
+        bairroComboBox.setValue(bairro);
+
+        this.ruaText.setText(endereco.getRua());
+        this.numeroText.setText(endereco.getNumero());
     }
 
     private void adicionarDadosManutencao(Manutencao manutencao) {

@@ -2,14 +2,14 @@
 
 .mensagem-dialogs {
     -fx-text-fill: #7e7e7e;
-    -fx-font-size: 12px;
+    -fx-font-size: 15px;
     -fx-font-family: "Open Sans", sans-serif;
     -fx-wrap-text: true;
 }
 
 .titulo-dialogs {
     -fx-text-fill: #575757;
-    -fx-font-size: 14px;
+    -fx-font-size: 17px;
     -fx-font-family: "Open Sans Semibold", sans-serif;
 }
 
@@ -19,7 +19,7 @@
 }
 
 .caixa-mensagem {
-    -fx-spacing: 5px;
+    -fx-spacing: 8px;
 }
 
 .box-grid {
@@ -44,6 +44,7 @@
     -fx-text-fill: #fff;
     -fx-pref-height: 27;
     -fx-pref-width: 80;
+    -fx-font-size: 14px;
 }
 
 .bt-ok:hover,

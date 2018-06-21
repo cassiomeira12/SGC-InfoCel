@@ -41,7 +41,7 @@
                                     <children>
                                         <HBox alignment="CENTER_LEFT" prefWidth="600.0">
                                             <children>
-                                                <Label text="Relatório Diário">
+                                                <Label styleClass="label-data" text="Relatório Diário">
                                                     <font>
                                                         <Font size="20.0" />
                                                     </font>
