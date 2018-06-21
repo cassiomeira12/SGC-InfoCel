@@ -25,6 +25,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import javax.swing.SwingWorker;
 import model.CategoriaProduto;
 import model.Marca;
@@ -158,6 +159,7 @@ public class TelaAdicionarProdutoController extends AnchorPane {
         Stage palco = new Stage();
         palco.initModality(Modality.APPLICATION_MODAL);//Impede de clicar na tela em plano de fundo
         palco.centerOnScreen();
+        palco.initStyle(StageStyle.UNDECORATED);//Remove a barra de menu
         
         AdicionarProdutoDescricaoController tela = new AdicionarProdutoDescricaoController(palco, Tipo.CATEGORIA, true);
         tela.setTitulo("Adicionar Categoria");
@@ -191,6 +193,7 @@ public class TelaAdicionarProdutoController extends AnchorPane {
         Stage palco = new Stage();
         palco.initModality(Modality.APPLICATION_MODAL);//Impede de clicar na tela em plano de fundo
         palco.centerOnScreen();
+        palco.initStyle(StageStyle.UNDECORATED);//Remove a barra de menu
         
         AdicionarProdutoDescricaoController tela = new AdicionarProdutoDescricaoController(palco, Tipo.MARCA, true);
         tela.setTitulo("Adicionar Marca");
@@ -224,6 +227,7 @@ public class TelaAdicionarProdutoController extends AnchorPane {
         Stage palco = new Stage();
         palco.initModality(Modality.APPLICATION_MODAL);//Impede de clicar na tela em plano de fundo
         palco.centerOnScreen();
+        palco.initStyle(StageStyle.UNDECORATED);//Remove a barra de menu
         
         AdicionarProdutoDescricaoController tela = new AdicionarProdutoDescricaoController(palco, Tipo.UNIDADE, true);
         tela.setTitulo("Adicionar Unidade de Medida");

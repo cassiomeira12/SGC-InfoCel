@@ -20,7 +20,7 @@ public class Config implements Serializable {
         BACKUP_A_CADA_DIA = 1;
         ULTIMO_BACKUP = null;
         PROXIMO_BACKUP = null;
-        DIRETORIO_RELATORIOS = DIRETORIO + "Relatórios" + barra;
+        DIRETORIO_RELATORIOS = DIRETORIO + "Relatorios" + barra;
     }
     
     public String getUltimoBackup() {

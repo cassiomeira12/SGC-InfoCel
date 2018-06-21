@@ -63,6 +63,7 @@ public class DescricaoVenda extends Thread {
     }
 
     public void gerarDescricaoVenda(Long id) throws IOException {
+        String barra = System.getProperty("file.separator");
         try {
             // fazendo conexao com o banco
             this.stm = conn.getConnection().createStatement();
@@ -98,13 +99,13 @@ public class DescricaoVenda extends Thread {
             // caminho logo da empresa
             String diretorio = SoftwareSpecifications.CAMINHO_LOGO;
             String resource = getClass().getResource(diretorio).toString();
-            //setando o icone
+            //setando o icones
             parameters.put("src_logo", resource);
             // caminho arquivo jasper
             resourceAsStream = this.getClass().getResourceAsStream("descricaoVenda.jasper");
             // caminho
             //srcSalvarRelatorio = new File("relatorios/vendas/" + DateUtils.formatDate2(ControleDAO.getBanco().getVendaDAO().buscarPorId(id).getData())).getCanonicalPath();
-            srcSalvarRelatorio = new File(Painel.config.DIRETORIO_RELATORIOS + "Vendas/" + DateUtils.formatDate2(ControleDAO.getBanco().getVendaDAO().buscarPorId(id).getData())).getCanonicalPath();
+            srcSalvarRelatorio = new File(Painel.config.DIRETORIO_RELATORIOS + "Vendas" + barra + DateUtils.formatDate2(ControleDAO.getBanco().getVendaDAO().buscarPorId(id).getData())).getCanonicalPath();
             File file = new File(srcSalvarRelatorio);
             // verificar se um caminho  existe
             if (file.exists() == false) {
@@ -121,7 +122,7 @@ public class DescricaoVenda extends Thread {
             // cria arquivo jasper
             jp = JasperFillManager.fillReport(resourceAsStream, parameters, jrRS);
             //impressao
-            JasperExportManager.exportReportToPdfFile(jp, srcSalvarRelatorio + "/" + id.toString() + "_" + nomeClienteVenda + ".pdf");
+            JasperExportManager.exportReportToPdfFile(jp, srcSalvarRelatorio + barra + id.toString() + "_" + nomeClienteVenda + ".pdf");
         } catch (JRException ex) {
             Logger.getLogger(getClass()).error(ex);
             ex.printStackTrace();

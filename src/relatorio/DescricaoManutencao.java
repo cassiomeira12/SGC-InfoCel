@@ -11,6 +11,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.HashMap;
 import java.util.Map;
+import javafx.application.Platform;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRResultSetDataSource;
 import net.sf.jasperreports.engine.JasperExportManager;
@@ -58,13 +59,14 @@ public class DescricaoManutencao extends Thread {
                 mostrarDescricaoManutencao();
             }
         } catch (IOException ex) {
-            Logger.getLogger(getClass()).error(ex);
+            Platform.runLater(() -> Logger.getLogger(getClass()).error(ex));
             ex.printStackTrace();
         }
 
     }
 
     public void gerarDescricaoManutencao(Long id) throws IOException {
+        String barra = System.getProperty("file.separator");
         try {
             // fazendo conexao com o banco
             this.stm = conn.getConnection().createStatement();
@@ -76,7 +78,7 @@ public class DescricaoManutencao extends Thread {
             // execute a query		
             rs = stm.executeQuery(query);
         } catch (SQLException ex) {
-            Logger.getLogger(getClass()).error(ex);
+            Platform.runLater(() -> Logger.getLogger(getClass()).error(ex));
             ex.printStackTrace();
         }
         
@@ -106,7 +108,8 @@ public class DescricaoManutencao extends Thread {
             resourceAsStream = this.getClass().getResourceAsStream("descricaoManutencao.jasper");
             // caminho
             //srcSalvarRelatorio = new File("relatorios/manutencoes/" + DateUtils.formatDate2(ControleDAO.getBanco().getManutencaoDAO().buscarPorId(id).getDataCadastro())).getCanonicalPath();
-            srcSalvarRelatorio = new File(Painel.config.DIRETORIO_RELATORIOS + "Manutencões/" + DateUtils.formatDate2(ControleDAO.getBanco().getManutencaoDAO().buscarPorId(id).getDataCadastro())).getCanonicalPath();
+            srcSalvarRelatorio = new File(Painel.config.DIRETORIO_RELATORIOS + "Manutencoes" + barra + DateUtils.formatDate2(ControleDAO.getBanco().getManutencaoDAO().buscarPorId(id).getDataCadastro())).getCanonicalPath();
+            System.out.println(srcSalvarRelatorio);
             File file = new File(srcSalvarRelatorio);
             // verificar se um caminho  existe
             if (file.exists() == false) {
@@ -116,7 +119,7 @@ public class DescricaoManutencao extends Thread {
             // pega nome do cliente
             nomeClienteManutencao = ControleDAO.getBanco().getManutencaoDAO().buscarPorId(id).getCliente().getNome();
         } catch (SQLException ex) {
-            Logger.getLogger(getClass()).error(ex);
+            Platform.runLater(() -> Logger.getLogger(getClass()).error(ex));
             ex.printStackTrace();
         }
 
@@ -124,9 +127,9 @@ public class DescricaoManutencao extends Thread {
             // cria arquivo jasper
             jp = JasperFillManager.fillReport(resourceAsStream, parameters, jrRS);
             //impressao
-            JasperExportManager.exportReportToPdfFile(jp, srcSalvarRelatorio + "/" + id.toString() + "_" + nomeClienteManutencao + ".pdf");
+            JasperExportManager.exportReportToPdfFile(jp, srcSalvarRelatorio + barra + id.toString() + "_" + nomeClienteManutencao + ".pdf");
         } catch (JRException ex) {
-            Logger.getLogger(getClass()).error(ex);
+            Platform.runLater(() -> Logger.getLogger(getClass()).error(ex));
             ex.printStackTrace();
         }
 
