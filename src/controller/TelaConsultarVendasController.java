@@ -2,6 +2,7 @@ package controller;
 
 import banco.ControleDAO;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.Collections;
 import java.util.List;
@@ -30,6 +31,7 @@ import org.apache.log4j.Logger;
 import util.DateUtils;
 import util.Formatter;
 import util.alerta.Alerta;
+import util.alerta.Dialogo;
 
 public class TelaConsultarVendasController extends AnchorPane {
 
@@ -62,6 +64,8 @@ public class TelaConsultarVendasController extends AnchorPane {
     private TableColumn<Venda, String> totalColumn;
     @FXML
     private Button visualizarButton;
+    @FXML
+    private Button excluirButton;
     
 
     public TelaConsultarVendasController(BorderPane painelPrincipal) {
@@ -87,6 +91,7 @@ public class TelaConsultarVendasController extends AnchorPane {
         
         //Desativa os Botoes de Editar e Excluir quando nenhum item na tabela esta selecionado
         visualizarButton.disableProperty().bind(vendasTable.getSelectionModel().selectedItemProperty().isNull());
+        excluirButton.disableProperty().bind(vendasTable.getSelectionModel().selectedItemProperty().isNull());
         
         vendasTable.setOnMouseClicked((event) -> {
             if (event.getButton().equals(MouseButton.PRIMARY)) {
@@ -170,6 +175,30 @@ public class TelaConsultarVendasController extends AnchorPane {
         telaVenda.setVenda(venda);
         
         this.adicionarPainelInterno(telaVenda);
+    }
+    
+    @FXML
+    private void excluir() {
+        Venda venda = vendasTable.getSelectionModel().getSelectedItem();
+        
+        Dialogo.Resposta resposta = Alerta.confirmar("Excluir a Venda selecionada ?");
+
+        if (resposta == Dialogo.Resposta.YES) {
+            try {
+                if (ControleDAO.getBanco().getVendaDAO().excluir(venda.getId())) {
+                    Alerta.info("Venda excluída com sucesso !");
+                    sincronizarBancoDados(DateUtils.formatDate(dataInicio), DateUtils.formatDate(dataFim));
+                } else {
+                    Alerta.erro("Erro ao excluir Venda !");
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(getClass()).error(ex);
+                Alerta.erro("Erro ao excluir Venda !");
+                ex.printStackTrace();
+            }
+        }
+        
+        vendasTable.getSelectionModel().clearSelection();
     }
 
     private void atualizarTabela() {

@@ -325,11 +325,31 @@ and open the template in the editor.
 
 
 
+/**************************** TextArea ****************************/
+.text-area {
+    -fx-font-size: 15px;
+    -fx-background-color: #fff;
+    -fx-border-color: #eaeaea;
+/*    -fx-text-fill: #7a7a7a;*/
+    -fx-font-family: "Roboto Medium";
+    -fx-background-radius: 4;
+    -fx-border-radius: 4;
+    -fx-highlight-fill: #ebebcc;
+    -fx-highlight-text-fill: #000000;
+    -fx-min-height: 35px;
+}
+
+.text-area:focused {
+    -fx-border-color: #7acff5;
+    -fx-background-radius: 4;
+    -fx-border-radius: 4;
+}
+
 
 
 /**************************** TextField ****************************/
 .text-field {
-    -fx-font-size: 14px;
+    -fx-font-size: 15px;
     -fx-background-color: #fff;
     -fx-border-color: #eaeaea;
 /*    -fx-text-fill: #7a7a7a;*/

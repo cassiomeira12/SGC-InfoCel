@@ -109,7 +109,6 @@ public class DescricaoManutencao extends Thread {
             // caminho
             //srcSalvarRelatorio = new File("relatorios/manutencoes/" + DateUtils.formatDate2(ControleDAO.getBanco().getManutencaoDAO().buscarPorId(id).getDataCadastro())).getCanonicalPath();
             srcSalvarRelatorio = new File(Painel.config.DIRETORIO_RELATORIOS + "Manutencoes" + barra + DateUtils.formatDate2(ControleDAO.getBanco().getManutencaoDAO().buscarPorId(id).getDataCadastro())).getCanonicalPath();
-            System.out.println(srcSalvarRelatorio);
             File file = new File(srcSalvarRelatorio);
             // verificar se um caminho  existe
             if (file.exists() == false) {

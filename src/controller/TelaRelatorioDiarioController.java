@@ -197,7 +197,9 @@ public class TelaRelatorioDiarioController extends AnchorPane {
                 if (listaManutencoes != null) {
                     total = 0f;
                     for (Manutencao m : listaManutencoes) {
-                        total += m.getPreco();
+                        if (m.isFinalizado()) {
+                            total += m.getPreco();
+                        }
                     }
                     totalReceitas += total;
                     manutencaoSlice.setPieValue(total.doubleValue());

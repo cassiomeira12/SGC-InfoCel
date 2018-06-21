@@ -47,7 +47,7 @@
                         <Insets />
                      </HBox.margin>
                      <children>
-                        <Button mnemonicParsing="false" styleClass="button-excluir" text="Excluir" visible="false" />
+                        <Button fx:id="excluirButton" mnemonicParsing="false" onAction="#excluir" styleClass="button-excluir" text="Excluir" />
                      </children>
                   </HBox>
                </children>

@@ -87,6 +87,8 @@ public class VendaDAO extends DAO {
     public boolean excluir(Long id) throws SQLException {
         ResultSet rs;
         PreparedStatement stm;
+        
+        excluirVendasProdutosDaVenda(id);
 
         String sql = "DELETE FROM venda WHERE id=?";
 
@@ -96,9 +98,7 @@ public class VendaDAO extends DAO {
         stm.execute();
 
         stm.close();
-
-        excluirVendasProdutosDaVenda(id);
-
+        
         return true;
     }
 
