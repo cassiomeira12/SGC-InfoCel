@@ -13,7 +13,7 @@ import java.io.PrintStream;
 import java.sql.SQLException;
 import org.apache.log4j.Logger;
 
-public class Backup extends DAO {
+public class BackupRestauracao extends DAO {
 
     /* private static String url = "jdbc:mysql://neolig.com:3306/";
     //private static String url = "jdbc:mysql://localhost:3306/";
@@ -51,7 +51,7 @@ public class Backup extends DAO {
                 System.out.write(ch);
             }
         } catch (Exception ex) {
-            Logger.getLogger(Backup.class).error(ex);
+            Logger.getLogger(BackupRestauracao.class).error(ex);
             return false;
         }
 

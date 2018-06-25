@@ -6,7 +6,7 @@
 package controller;
 
 import app.Painel;
-import backup.Backup;
+import backup.BackupRestauracao;
 import java.io.File;
 import java.net.URL;
 import java.time.LocalDate;
@@ -23,6 +23,7 @@ import javafx.scene.control.SpinnerValueFactory;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javax.swing.SwingWorker;
 import org.apache.log4j.Logger;
@@ -37,7 +38,7 @@ import util.alerta.Dialogo;
  * @author cassio
  */
 public class BackupRestauracaoConfiguracoesController implements Initializable {
-    
+
     private Config config;
 
     @FXML
@@ -54,44 +55,45 @@ public class BackupRestauracaoConfiguracoesController implements Initializable {
     private Button btnImportar, btnBackup;
     @FXML
     private TextField caminhoComprovantesText;
-    
+
     @FXML
     private VBox backupBox, comprovantesBox;
-    
+
     @FXML
     private StackPane stackPane;
     private ProgressIndicator indicator = new ProgressIndicator();
-    
 
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        btnBackup.setDisable(false);
+        btnImportar.setDisable(false);
+
         config = Painel.config;
         stackPane.getChildren().add(indicator);
         indicator.setVisible(false);
-        
-        
+
         backupAutomaticoCheckBox.setSelected(config.BACKUP_AUTOMATICO);
         caminhoBackupText.appendText(config.DIRETORIO_BACKUP);
         caminhoComprovantesText.appendText(config.DIRETORIO_RELATORIOS);
-        
+
         if (config.ULTIMO_BACKUP != null) {
             ultimoBackupLabel.setText(config.getUltimoBackup());
         }
         if (config.PROXIMO_BACKUP != null) {
             proximoBackupLabel.setText(config.getProximoBackup());
         }
-        
+
         diasSpinner.disableProperty().bind(backupAutomaticoCheckBox.selectedProperty().not());
         ultimoBackupLabel.disableProperty().bind(backupAutomaticoCheckBox.selectedProperty().not());
         proximoBackupLabel.disableProperty().bind(backupAutomaticoCheckBox.selectedProperty().not());
         //btnBackup.disableProperty().bind(caminhoBackupText.textProperty().isEmpty());
-        
+
         SpinnerValueFactory<Integer> valores = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 5, config.BACKUP_A_CADA_DIA);
         diasSpinner.setValueFactory(valores);
-        
+
         diasSpinner.setOnMouseClicked((e) -> {
             int dias = diasSpinner.getValue();
             config.BACKUP_A_CADA_DIA = dias;
@@ -106,22 +108,22 @@ public class BackupRestauracaoConfiguracoesController implements Initializable {
                 ex.printStackTrace();
             }
         });
-        
+
         backupAutomaticoCheckBox.setOnAction((e) -> {
             boolean selecionado = backupAutomaticoCheckBox.isSelected();
             config.BACKUP_AUTOMATICO = selecionado;
             if (selecionado) {
-                
+
                 if (config.ULTIMO_BACKUP == null) {
                     Long hoje = System.currentTimeMillis();
                     config.ULTIMO_BACKUP = hoje;
                 }
-                
+
                 int dias = diasSpinner.getValue();
                 LocalDate ultimoBackup = DateUtils.createLocalDate(config.ULTIMO_BACKUP);
                 LocalDate proximoBackup = ultimoBackup.plusDays(dias);
                 config.PROXIMO_BACKUP = DateUtils.getLong(proximoBackup);
-                
+
                 Long hoje = System.currentTimeMillis();
                 if (DateUtils.getLong(proximoBackup) < hoje) {
                     hoje = System.currentTimeMillis();
@@ -130,7 +132,7 @@ public class BackupRestauracaoConfiguracoesController implements Initializable {
                     proximoBackup = ultimoBackup.plusDays(dias);
                     config.PROXIMO_BACKUP = DateUtils.getLong(proximoBackup);
                 }
-                
+
                 proximoBackupLabel.setText(config.getProximoBackup());
                 ultimoBackupLabel.setText(config.getUltimoBackup());
             }
@@ -142,7 +144,7 @@ public class BackupRestauracaoConfiguracoesController implements Initializable {
             }
         });
     }
-    
+
     private void atualizarDatas(Long data) {
         if (config.BACKUP_AUTOMATICO) {
             int dias = diasSpinner.getValue();
@@ -171,25 +173,21 @@ public class BackupRestauracaoConfiguracoesController implements Initializable {
         btnBackup.setVisible(false);
         btnImportar.setVisible(false);
         indicator.setVisible(true);
+        
+        String nome = "Backup " + DateUtils.getDataHoraPonto(System.currentTimeMillis());
+        String path = caminhoBackupText.getText()+Config.getBarra() + nome + ".sql";
+
 
         //Metodo executado numa Thread separada
         SwingWorker<Boolean, Boolean> worker = new SwingWorker<Boolean, Boolean>() {
             @Override
             protected Boolean doInBackground() throws Exception {
-                String diretorio = caminhoBackupText.getText();
-                String nome = "Backup " + DateUtils.getDataHoraPonto(System.currentTimeMillis());
-                
-                File pasta = new File(diretorio);
+                File pasta = new File(path);
                 if (pasta.exists() == false) {
                     pasta.mkdirs();
                 }
-                diretorio += nome + ".sql";
-                
-                if (Backup.exportar(diretorio)) {
-                    return true;
-                } else {
-                    return false;
-                }
+               
+                return BackupRestauracao.exportar(path);
             }
 
             //Metodo chamado apos terminar a execucao numa Thread separada
@@ -200,15 +198,12 @@ public class BackupRestauracaoConfiguracoesController implements Initializable {
                 btnBackup.setVisible(true);
                 btnImportar.setVisible(true);
                 indicator.setVisible(false);
-                
-                String nome = "Backup " + DateUtils.getDataHoraPonto(System.currentTimeMillis());
-                String diretorio = caminhoBackupText.getText() + nome + ".sql";
-                
+
                 super.done(); //To change body of generated methods, choose Tools | Templates.
 
                 try {
                     if (get()) {
-                        Alerta.info("Nome do arquivo: " + (new File(diretorio)).getName(), "Backup realizado com sucesso!");
+                        Alerta.info("Nome do arquivo: " + (new File(path)).getName(), "Backup realizado com sucesso!");
                         atualizarDatas(System.currentTimeMillis());
                     } else {
                         Alerta.erro("Erro ao realizar backup");
@@ -232,26 +227,26 @@ public class BackupRestauracaoConfiguracoesController implements Initializable {
         chooser.getExtensionFilters().add(extFilter);
 
         File arquivo = chooser.showOpenDialog(Painel.palco);
-        
+
         String path = arquivo.getAbsolutePath();
-        
+
         caminhoBackupText.setText(path);
-        
+
         Dialogo.Resposta resposta = Alerta.confirmar("Deseja realmente importar o Banco de Dados " + arquivo.getName());
         if (resposta == Dialogo.Resposta.YES) {
-            
+
         }
-        
+
     }
-    
+
     private void importarBancoDados() {
-        
+
         indicator.setVisible(true);
         //Metodo executado numa Thread separada
         SwingWorker<Boolean, Boolean> worker = new SwingWorker<Boolean, Boolean>() {
             @Override
             protected Boolean doInBackground() throws Exception {
-                if (Backup.importar(caminhoBackupText.getText())) {
+                if (BackupRestauracao.importar(caminhoBackupText.getText())) {
                     return true;
                 } else {
                     return false;
@@ -284,24 +279,22 @@ public class BackupRestauracaoConfiguracoesController implements Initializable {
 
         worker.execute();
     }
-    
+
     @FXML
     private void alterarBackup(ActionEvent event) {
-        FileChooser chooser = new FileChooser();
+        DirectoryChooser chooser = new DirectoryChooser();
         chooser.setTitle("Escolha o diretório para backup");
-        
+
         File pasta = new File(config.DIRETORIO_BACKUP);
         if (pasta.exists() == false) {
             pasta.mkdirs();
         }
         chooser.setInitialDirectory(new File(config.DIRETORIO_BACKUP));
-        
-        File arquivo = chooser.showSaveDialog(Painel.palco);
-        
+
+        File arquivo = chooser.showDialog(Painel.palco);
+
         if (arquivo != null) {
-            String nome = arquivo.getName();
-            String caminho = arquivo.getAbsolutePath();
-            String diretorio = caminho.substring(0, caminho.length() - nome.length());
+            String diretorio = arquivo.getAbsolutePath();
             System.out.println(diretorio);
 
             caminhoBackupText.setText(diretorio);
@@ -317,25 +310,23 @@ public class BackupRestauracaoConfiguracoesController implements Initializable {
 
     @FXML
     private void alterarComprovantes(ActionEvent event) {
-        FileChooser chooser = new FileChooser();
+        DirectoryChooser chooser = new DirectoryChooser();
         chooser.setTitle("Escolha o diretória para backup");
-        
+
         File pasta = new File(config.DIRETORIO_RELATORIOS);
         if (pasta.exists() == false) {
             pasta.mkdirs();
         }
         chooser.setInitialDirectory(new File(config.DIRETORIO_RELATORIOS));
-        
-        File arquivo = chooser.showSaveDialog(Painel.palco);
+
+        File arquivo = chooser.showDialog(Painel.palco);
 
         if (arquivo != null) {
-            String nome = arquivo.getName();
-            String caminho = arquivo.getAbsolutePath();
-            String diretorio = caminho.substring(0, caminho.length() - nome.length());
+            String diretorio = arquivo.getAbsolutePath();
 
             caminhoComprovantesText.setText(diretorio);
             config.DIRETORIO_RELATORIOS = diretorio;
-            
+
             try {
                 config.salvarArquivo();
             } catch (Exception ex) {
