@@ -193,12 +193,16 @@ public class TelaManutencaoController extends AnchorPane {
 
             String descricao = descricaoArea.getText();
             float preco = Float.parseFloat(precoText.getText());
-                    
+
             LocalDate date = entregaDatePicker.getValue();
-            Long dataPrevisao = DateUtils.getLong(entregaDatePicker.getValue());
             LocalDate hoje = LocalDate.now();
-            if (date.isEqual(hoje)) {
-                dataPrevisao = System.currentTimeMillis();
+            Long dataPrevisao = null;
+            if (entregaDatePicker.getValue() != null) {
+                dataPrevisao = DateUtils.getLong(entregaDatePicker.getValue());
+            
+                if (date.isEqual(hoje)) {
+                    dataPrevisao = System.currentTimeMillis();
+                }
             }
 
             String marca = marcaText.getText();

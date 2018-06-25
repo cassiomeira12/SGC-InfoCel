@@ -124,6 +124,8 @@ public class TelaAdicionarVendaController extends AnchorPane {
     private TableColumn<Float, String> quantidadeColumn;
     @FXML
     private TableColumn<Float, String> totalColumn;
+    @FXML
+    private  TextField descontoText;
     
     @FXML
     private HBox valorParcelaBox;
@@ -151,6 +153,7 @@ public class TelaAdicionarVendaController extends AnchorPane {
         Formatter.mascaraCPF(cpfText);//Formatador para CPF
         Formatter.mascaraRG(rgText);//Formatador para Rg
         Formatter.mascaraTelefone(telefoneText);//Formatador para Telefone
+        Formatter.decimal(descontoText);
 
         Formatter.toUpperCase(nomeText, adicionarCidadeText, ruaText, adicionarBairroText, numeroText);
 

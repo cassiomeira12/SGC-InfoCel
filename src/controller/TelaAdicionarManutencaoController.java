@@ -198,6 +198,9 @@ public class TelaAdicionarManutencaoController extends AnchorPane {
         sincronizarBancoDadosAdministrador();
         sincronizarBancoDadosCidade();
         sincronizarBancoDadosPagamento();
+        
+        Formatter.teste(precoText);
+        
     }
 
     private void adicionarPainelInterno(AnchorPane novaTela) {
@@ -304,7 +307,6 @@ public class TelaAdicionarManutencaoController extends AnchorPane {
                     if (entregaDatePicker.getValue() != null) {
                         dataPrevisao = DateUtils.getLong(entregaDatePicker.getValue());
                     }
-                    System.out.println(dataPrevisao);
 
                     String marca = marcaText.getText();
                     String cor = corColorPicker.getValue().toString();

@@ -566,4 +566,19 @@ public class Formatter {
     public static String dinheiroFormatado(Number num) {
         return new DecimalFormat("#,###.00").format(num.doubleValue());
     }
+    
+    public static void teste(TextField textField) {
+
+        textField.setOnKeyTyped(event -> {
+            String typedCharacter = event.getCharacter();
+            event.consume();
+
+            if (typedCharacter.matches("\\d*")) {
+                String currentText = textField.getText().replaceAll("\\.", "").replace(",", "");
+                long longVal = Long.parseLong(currentText.concat(typedCharacter));
+                textField.setText(new DecimalFormat("#,###").format(longVal));
+            }
+        });
+
+    }
 }
