@@ -115,6 +115,14 @@ public class Manutencao implements Comparable<Manutencao> {
         return dataPrevisaoEntrega;
     }
 
+    public String getDataPrevisaoEntregaFormatado() {
+
+        if (dataPrevisaoEntrega != null) {
+            return DateUtils.formatDate(dataPrevisaoEntrega);
+        }
+        return "00/00/00";
+    }
+
     public void setDataPrevisaoEntrega(Long dataPrevisaoEntrega) {
         this.dataPrevisaoEntrega = dataPrevisaoEntrega;
     }
@@ -138,7 +146,7 @@ public class Manutencao implements Comparable<Manutencao> {
     public void setPreco(float preco) {
         this.preco = preco;
     }
-    
+
     public String getPrecoFormatado() {
         return Formatter.dinheiroFormatado(preco);
     }
@@ -170,7 +178,7 @@ public class Manutencao implements Comparable<Manutencao> {
     public void setQuantidadeParcelas(int quantidadeParcelas) {
         this.quantidadeParcelas = quantidadeParcelas;
     }
-    
+
     @Override
     public int compareTo(Manutencao manutencao) {
         int comparador = manutencao.getDataCadastro().intValue();
@@ -178,10 +186,10 @@ public class Manutencao implements Comparable<Manutencao> {
         //return this.getData().intValue() - comparador;
 
         /* Do menor para o Maior */
-        return  comparador - this.getDataCadastro().intValue();
+        return comparador - this.getDataCadastro().intValue();
     }
 
-     public String getEnderecoCliente() {
+    public String getEnderecoCliente() {
         return cliente.getEndereco().toString();
     }
 

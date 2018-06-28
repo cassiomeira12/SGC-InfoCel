@@ -188,7 +188,7 @@ from venda V,  venda_produto VP, produto P, marca M
 where V.id = VP.id_venda and
 			VP.id_produto = P.id and
 			M.id = P.id_marca and
-			V.id =   $P{id_venda} ]]>
+			V.id =   $P{id_venda}]]>
 		</queryString>
 		<field name="codigo" class="java.lang.Integer">
 			<property name="com.jaspersoft.studio.field.label" value="codigo"/>
@@ -328,7 +328,7 @@ where V.id = VP.id_venda and
 				<textElement>
 					<font size="12" isBold="true"/>
 				</textElement>
-				<text><![CDATA[ENREDEÇO:]]></text>
+				<text><![CDATA[ENDEREÇO:]]></text>
 			</staticText>
 			<rectangle>
 				<reportElement x="10" y="-9" width="541" height="119" uuid="24ad2ca4-0b6d-4c31-8ab0-09ecd1fbe724"/>
@@ -471,7 +471,7 @@ where V.id = VP.id_venda and
 						<datasetParameter name="id_venda">
 							<datasetParameterExpression><![CDATA[$P{id_venda}]]></datasetParameterExpression>
 						</datasetParameter>
-						<connectionExpression><![CDATA[$P{REPORT_CONNECTION} ]]></connectionExpression>
+						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
 					</datasetRun>
 					<jr:column width="50" uuid="75964692-7f60-4602-be18-da0e97a5ac62">
 						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column1"/>

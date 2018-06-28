@@ -79,8 +79,12 @@ where id =   $P{id_manutencao}]]>
 		<defaultValueExpression><![CDATA[7]]></defaultValueExpression>
 	</parameter>
 	<parameter name="endereco_cliente" class="java.lang.String"/>
+	<parameter name="data_previsao_entrega" class="java.lang.String"/>
 	<queryString language="SQL">
-		<![CDATA[]]>
+		<![CDATA[select nome_cliente, cpf_cliente, rg_cliente, telefone_cliente, nome_administrador,
+ quantidade_parcelas, preco, descricao_forma_pagamento, descricao, marca, modelo, imei
+from view_manutencao
+where id =  $P{id_manutencao} ]]>
 	</queryString>
 	<field name="nome_cliente" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.label" value="nome_cliente"/>
@@ -112,6 +116,22 @@ where id =   $P{id_manutencao}]]>
 	</field>
 	<field name="descricao_forma_pagamento" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.label" value="descricao_forma_pagamento"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="view_manutencao"/>
+	</field>
+	<field name="descricao" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="descricao"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="view_manutencao"/>
+	</field>
+	<field name="marca" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="marca"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="view_manutencao"/>
+	</field>
+	<field name="modelo" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="modelo"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="view_manutencao"/>
+	</field>
+	<field name="imei" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="imei"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="view_manutencao"/>
 	</field>
 	<background>
@@ -181,7 +201,7 @@ where id =   $P{id_manutencao}]]>
 				<textElement>
 					<font size="12" isBold="true"/>
 				</textElement>
-				<text><![CDATA[ENREDEÇO:]]></text>
+				<text><![CDATA[ENDEREÇO:]]></text>
 			</staticText>
 			<rectangle>
 				<reportElement x="10" y="-9" width="541" height="119" uuid="5d8af4b7-cb45-4541-b1c1-f1cbae52c9e7"/>
@@ -433,7 +453,7 @@ where id =   $P{id_manutencao}]]>
 				</jr:table>
 			</componentElement>
 		</band>
-		<band height="135">
+		<band height="321">
 			<rectangle>
 				<reportElement x="10" y="30" width="330" height="45" uuid="9e900a85-eb8b-4925-982a-b8937ea76992"/>
 			</rectangle>
@@ -520,15 +540,6 @@ where id =   $P{id_manutencao}]]>
 				<reportElement x="11" y="80" width="540" height="50" uuid="c28b303e-2016-4694-847a-147237bd75d2"/>
 			</rectangle>
 			<staticText>
-				<reportElement x="23" y="81" width="516" height="29" uuid="0f34e2f7-27ed-4655-90cc-0819fea14079">
-					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="a3f547f1-2f89-48c3-90cb-ccbe5a8c25c9"/>
-				</reportElement>
-				<textElement textAlignment="Left">
-					<font size="8" isBold="false"/>
-				</textElement>
-				<text><![CDATA[Comprovante de prestação de serviço. Responsabilidade sobre Aparelho no período de 90 dias. Não fazendo a retirada o mesmo será vendido para cobrir os custos do conserto.]]></text>
-			</staticText>
-			<staticText>
 				<reportElement x="23" y="115" width="236" height="20" uuid="27bc3367-0ec6-4707-9fde-01582333a996">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="a3f547f1-2f89-48c3-90cb-ccbe5a8c25c9"/>
 				</reportElement>
@@ -564,6 +575,169 @@ where id =   $P{id_manutencao}]]>
 				</textElement>
 				<text><![CDATA[__________________________________]]></text>
 			</staticText>
+			<rectangle>
+				<reportElement x="10" y="158" width="540" height="132" uuid="07e74b40-ad1d-4eb6-83e4-3a1dd81a5230"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="21" y="134" width="523" height="20" uuid="0fe4633e-eb1c-42c2-9070-e0586bb7617d">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="a3f547f1-2f89-48c3-90cb-ccbe5a8c25c9"/>
+				</reportElement>
+				<textElement>
+					<font fontName="Serif" size="14" isBold="false"/>
+					<paragraph lineSpacing="Single" lineSpacingSize="1.0"/>
+				</textElement>
+				<text><![CDATA[- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="23" y="81" width="516" height="29" uuid="a0ddc037-9eea-4831-8b59-d938db3a5b45">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="a3f547f1-2f89-48c3-90cb-ccbe5a8c25c9"/>
+				</reportElement>
+				<textElement textAlignment="Left">
+					<font size="8" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Comprovante de prestação de serviço. Responsabilidade sobre Aparelho no período de 90 dias. Não fazendo a retirada o mesmo será vendido para cobrir os custos do conserto.]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="73" y="165" width="256" height="19" uuid="22bbf518-356c-4dc4-8feb-9bdefa4e0de3"/>
+				<textElement textAlignment="Left"/>
+				<textFieldExpression><![CDATA[$F{nome_cliente}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="29" y="164" width="44" height="19" uuid="cf30b766-b13a-4a14-b015-d512bf78d55f">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="a3f547f1-2f89-48c3-90cb-ccbe5a8c25c9"/>
+				</reportElement>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[NOME:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="343" y="163" width="70" height="22" uuid="17f495fd-7a06-4a1b-8138-efd5496abb6f">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="a3f547f1-2f89-48c3-90cb-ccbe5a8c25c9"/>
+				</reportElement>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[TELEFONE:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="414" y="164" width="100" height="22" uuid="4797278f-5e6f-491b-abaa-b589dcb88891"/>
+				<textFieldExpression><![CDATA[$F{telefone_cliente}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="211" y="241" width="54" height="22" uuid="a6e59a3f-8b95-4812-8446-23bf9f9ad435">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="a3f547f1-2f89-48c3-90cb-ccbe5a8c25c9"/>
+				</reportElement>
+				<textElement>
+					<font size="14" isBold="true" isUnderline="false"/>
+				</textElement>
+				<text><![CDATA[DATA:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="257" y="241" width="79" height="22" uuid="9bef7615-1afc-42f0-bafb-a5f45ffcaff8"/>
+				<textElement textAlignment="Right">
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{data_manutencao}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="373" y="241" width="80" height="22" uuid="11455b0a-d16d-43db-bb0b-539b8cc36ef7">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="a3f547f1-2f89-48c3-90cb-ccbe5a8c25c9"/>
+				</reportElement>
+				<textElement>
+					<font size="14" isBold="true" isUnderline="false"/>
+				</textElement>
+				<text><![CDATA[ENTREGA:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="28" y="221" width="85" height="20" uuid="19175794-586b-4c2c-af14-e932c6126e3a">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="a3f547f1-2f89-48c3-90cb-ccbe5a8c25c9"/>
+				</reportElement>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[DESCRIÇÃO:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="475" y="261" width="60" height="26" uuid="9ef9f6d9-df51-44c2-9258-fb4f82fa8573">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="0729ec2c-d070-45f5-b527-e22570c0a7b5"/>
+				</reportElement>
+				<textElement textAlignment="Right">
+					<font size="16"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new DecimalFormat("#,##0.00").format($F{preco}.doubleValue())]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="368" y="261" width="110" height="26" uuid="0d8a6633-78ff-47db-a0d1-f3a5a3443820">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="2ada3b33-4636-41ef-9786-fb28e4a37aa0"/>
+				</reportElement>
+				<textElement>
+					<font size="18"/>
+				</textElement>
+				<text><![CDATA[Valor Total:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="108" y="220" width="427" height="18" uuid="20a7ea51-1a0e-4f14-af13-f09339358140">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="78e86ddb-b0d9-4165-917f-0038978b5279"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{descricao}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="74" y="196" width="135" height="20" uuid="8a38ed12-ebbe-4a4b-9305-acecd4bf566b">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="f68f4dac-c136-41c2-b8c8-671df6666f18"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{marca}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="213" y="196" width="135" height="20" uuid="1ee53538-6a1d-40e0-b77b-dc2a2b7eb597">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="00cad817-0fcb-4874-b747-fae60b9b9fe9"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{modelo}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="352" y="196" width="135" height="20" uuid="5eebce03-b729-478a-abcc-1c71065d9e41">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="c82285c9-c958-4018-bd6a-05408ba008cc"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{imei}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="76" y="182" width="133" height="20" uuid="ee8d3151-2dff-4337-9155-cab95e10810a">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="a3f547f1-2f89-48c3-90cb-ccbe5a8c25c9"/>
+				</reportElement>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[MARCA:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="215" y="182" width="133" height="20" uuid="a56bc788-eedc-49da-9de5-109d328ea228">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="a3f547f1-2f89-48c3-90cb-ccbe5a8c25c9"/>
+				</reportElement>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[MODELO:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="354" y="183" width="133" height="20" uuid="358f02c2-b169-4e34-a5f8-2198968fbee8">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="a3f547f1-2f89-48c3-90cb-ccbe5a8c25c9"/>
+				</reportElement>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[IMEI:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="452" y="240" width="82" height="20" uuid="22263585-711e-42ee-ad5b-154d3d1fa1ba"/>
+				<textElement textAlignment="Right">
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{data_previsao_entrega}]]></textFieldExpression>
+			</textField>
 		</band>
 	</detail>
 </jasperReport>

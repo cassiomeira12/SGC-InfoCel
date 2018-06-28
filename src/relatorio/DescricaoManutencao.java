@@ -72,7 +72,7 @@ public class DescricaoManutencao extends Thread {
             this.stm = conn.getConnection().createStatement();
             // consulta passada para o arquivo jasper
             query = "select nome_cliente, cpf_cliente, rg_cliente, telefone_cliente, nome_administrador, "
-                    + "quantidade_parcelas, preco, descricao_forma_pagamento "
+                    + "quantidade_parcelas, preco, descricao_forma_pagamento, descricao, marca, modelo, imei "
                     + "from view_manutencao "
                     + "where id = " + id.toString();
             // execute a query		
@@ -81,7 +81,7 @@ public class DescricaoManutencao extends Thread {
             Platform.runLater(() -> Logger.getLogger(getClass()).error(ex));
             ex.printStackTrace();
         }
-        
+
         jrRS = new JRResultSetDataSource(rs);
         // passagem de parametros para o jasper
         parameters = new HashMap();
@@ -93,10 +93,12 @@ public class DescricaoManutencao extends Thread {
         parameters.put("cep_empresa", SoftwareSpecifications.CEP);
 
         try {
-             // passando endereço do cliente
+            // passando endereço do cliente
             parameters.put("endereco_cliente", ControleDAO.getBanco().getManutencaoDAO().buscarPorId(id).getEnderecoCliente());
             // passando data como parametros por cauda da formatacao
             parameters.put("data_manutencao", DateUtils.formatDate(ControleDAO.getBanco().getManutencaoDAO().buscarPorId(id).getDataCadastro()));
+            // passando data previsao de entraga por causa da formatacao
+            parameters.put("data_previsao_entrega", ControleDAO.getBanco().getManutencaoDAO().buscarPorId(id).getDataPrevisaoEntregaFormatado());
             // passando a conexao com o banco para o sub_report 
             parameters.put("REPORT_CONNECTION", conn.getConnection());
             // caminho logo da empresa

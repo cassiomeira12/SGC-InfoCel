@@ -306,6 +306,7 @@ public class TelaAdicionarManutencaoController extends AnchorPane {
                     Long dataPrevisao = null;
                     if (entregaDatePicker.getValue() != null) {
                         dataPrevisao = DateUtils.getLong(entregaDatePicker.getValue());
+                        System.out.println("pegou valor da data piker: " + dataPrevisao);
                     }
 
                     String marca = marcaText.getText();
